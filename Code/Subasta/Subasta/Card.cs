@@ -1,15 +1,18 @@
-﻿using System;
+using System;
+using Subasta.Deck;
 
-namespace Subasta
+namespace Subasta.Subasta
 {
-	public class Card
+	class Card : Deck.Card
 	{
-		internal Card(Suit suit, int number)
+		public Card(Suit suit, int number)
+			: base(suit,number)
 		{
-			Suit = suit;
-			Number = number;
 			Value = GetValue(Number);
 		}
+
+		public int Value { get; private set; }
+
 
 		private int GetValue(int number)
 		{
@@ -31,7 +34,7 @@ namespace Subasta
 				case 12:
 					result = 4;
 					break;
-				
+
 				case 2:
 				case 4:
 				case 5:
@@ -46,8 +49,5 @@ namespace Subasta
 			return result;
 		}
 
-		public Suit Suit { get;  private set; }
-		public int Number { get; private set; }
-		public int Value { get; private set; }
 	}
 }
