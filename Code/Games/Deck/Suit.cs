@@ -1,6 +1,6 @@
 ﻿namespace Games.Deck
 {
-	public class Suit
+	internal class Suit : ISuit
 	{
 		public Suit(string name,int value)
 		{
