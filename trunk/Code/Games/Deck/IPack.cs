@@ -2,8 +2,5 @@
 {
 	public interface IPack
 	{
-		void Shuffle();
 	}
-
-
 }

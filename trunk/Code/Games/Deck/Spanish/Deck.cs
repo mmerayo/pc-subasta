@@ -8,9 +8,9 @@ namespace Games.Deck.Spanish
 		{
 		}
 
-		private static IEnumerable<ICard> CreateCards()
+		private static IPack CreateCards()
 		{
-			var result = new List<ICard>();
+			var result = new Pack();
 			var suits= CreateSuits();
 			foreach (var suit in suits)
 			{

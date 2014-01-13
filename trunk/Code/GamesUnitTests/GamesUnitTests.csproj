@@ -43,10 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deck\Spanish\DeckTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Deck\Spanish\" />
+    <ProjectReference Include="..\Games\Games.csproj">
+      <Project>{64D19F3D-8E22-4C9A-9CCD-868AEB45D5C6}</Project>
+      <Name>Games</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
