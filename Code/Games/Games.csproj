@@ -41,16 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Deck\Card.cs" />
+    <Compile Include="Deck\Deck.cs" />
+    <Compile Include="Deck\ICard.cs" />
     <Compile Include="Deck\IDeck.cs" />
     <Compile Include="Deck\IPack.cs" />
     <Compile Include="Deck\ISuit.cs" />
+    <Compile Include="Deck\Spanish\Deck.cs" />
     <Compile Include="Subasta\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Deck\Suit.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Deck\Spanish\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
