@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForms", "WinForms\WinForms.csproj", "{43431974-4EEC-4C34-8192-9EFD9810EBF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta", "Subasta\Subasta.csproj", "{64D19F3D-8E22-4C9A-9CCD-868AEB45D5C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Games", "Subasta\Games.csproj", "{64D19F3D-8E22-4C9A-9CCD-868AEB45D5C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}"
 EndProject
