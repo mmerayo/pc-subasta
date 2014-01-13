@@ -46,6 +46,7 @@
     <Compile Include="Deck\IDeck.cs" />
     <Compile Include="Deck\IPack.cs" />
     <Compile Include="Deck\ISuit.cs" />
+    <Compile Include="Deck\Pack.cs" />
     <Compile Include="Deck\Spanish\Deck.cs" />
     <Compile Include="Subasta\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
