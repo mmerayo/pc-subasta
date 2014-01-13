@@ -5,7 +5,7 @@ namespace Games.Subasta
 {
 	class Card : Deck.Card
 	{
-		public Card(Suit suit, int number)
+		public Card(ISuit suit, int number)
 			: base(suit,number)
 		{
 			Value = GetValue(Number);

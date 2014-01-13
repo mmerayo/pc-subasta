@@ -2,7 +2,7 @@
 {
 	public abstract class Card : ICard
 	{
-		internal Card(Suit suit, int number)
+		internal Card(ISuit suit, int number)
 		{
 			Suit = suit;
 			Number = number;
