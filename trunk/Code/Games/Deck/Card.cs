@@ -1,4 +1,4 @@
-﻿namespace Subasta.Deck
+﻿namespace Games.Deck
 {
 	public abstract class Card
 	{
