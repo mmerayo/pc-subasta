@@ -1,4 +1,4 @@
-﻿namespace Subasta.Deck
+﻿namespace Games.Deck
 {
 	public interface IDeck
 	{
