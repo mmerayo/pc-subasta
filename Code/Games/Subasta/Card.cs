@@ -1,7 +1,7 @@
 using System;
-using Subasta.Deck;
+using Games.Deck;
 
-namespace Subasta.Subasta
+namespace Games.Subasta
 {
 	class Card : Deck.Card
 	{
