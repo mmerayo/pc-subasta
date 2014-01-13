@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Games.Deck;
 using NUnit.Framework;
 
 namespace GamesUnitTests.Deck.Spanish
@@ -41,13 +38,16 @@ namespace GamesUnitTests.Deck.Spanish
 
 			public void AssertIsComplete()
 			{
-				var actual = _sut.Cards;
-
+				var actual = _sut.Cards.ToList();
+				Assert.AreEqual(40,actual.Count());
 				for (var i = 1; i < 13; i++)
 				{
 					if (i != 8 && i != 9)
 					{
-						_sut.Cards.
+						Assert.IsTrue(1==actual.Count(x=>x.Number==i && x.Suit.Name.Equals("oros",StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("copas", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("espadas", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("bastos", StringComparison.InvariantCultureIgnoreCase)));
 					}
 				}
 				
