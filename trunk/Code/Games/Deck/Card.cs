@@ -1,6 +1,6 @@
 ﻿namespace Games.Deck
 {
-	public abstract class Card
+	public abstract class Card : ICard
 	{
 		internal Card(Suit suit, int number)
 		{
@@ -10,7 +10,7 @@
 		}
 
 		
-		public Suit Suit { get;  private set; }
+		public ISuit Suit { get;  private set; }
 		public int Number { get; private set; }
 	}
 }
