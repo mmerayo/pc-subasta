@@ -3,7 +3,7 @@ using Games.Deck;
 
 namespace Games.Subasta
 {
-	class Card : Deck.Card
+	class Card : Games.Deck.Card
 	{
 		public Card(ISuit suit, int number)
 			: base(suit,number)

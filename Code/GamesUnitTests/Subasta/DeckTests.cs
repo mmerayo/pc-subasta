@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace GamesUnitTests.Deck.Spanish
+namespace GamesUnitTests.Subasta
 {
 	[TestFixture]
 	class DeckTests
@@ -44,13 +44,21 @@ namespace GamesUnitTests.Deck.Spanish
 				{
 					if (i != 8 && i != 9)
 					{
-						Assert.IsTrue(1==actual.Count(x=>x.Number==i && x.Suit.Name.Equals("oros",StringComparison.InvariantCultureIgnoreCase)));
-						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("copas", StringComparison.InvariantCultureIgnoreCase)));
-						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("espadas", StringComparison.InvariantCultureIgnoreCase)));
-						Assert.IsTrue(1 == actual.Count(x => x.Number == i && x.Suit.Name.Equals("bastos", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 ==
+						              actual.Count(
+							              x => x.Number == i && x.Suit.Name.Equals("oros", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 ==
+						              actual.Count(
+							              x => x.Number == i && x.Suit.Name.Equals("copas", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 ==
+						              actual.Count(
+							              x => x.Number == i && x.Suit.Name.Equals("espadas", StringComparison.InvariantCultureIgnoreCase)));
+						Assert.IsTrue(1 ==
+						              actual.Count(
+							              x => x.Number == i && x.Suit.Name.Equals("bastos", StringComparison.InvariantCultureIgnoreCase)));
 					}
 				}
-				
+
 			}
 		}
 	}
