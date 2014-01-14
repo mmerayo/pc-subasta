@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Subasta\DeckTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subasta\GameUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Games\Games.csproj">

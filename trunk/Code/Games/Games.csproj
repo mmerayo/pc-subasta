@@ -51,6 +51,7 @@
     <Compile Include="Subasta\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Deck\Suit.cs" />
+    <Compile Include="Subasta\Game.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
