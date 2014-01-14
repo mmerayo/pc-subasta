@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Subasta\AI\StaticMinimax.cs" />
+    <Compile Include="Subasta\AI\StaticMinimaxUnitTests.cs" />
     <Compile Include="Subasta\DeckTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subasta\GameUnitTests.cs" />
