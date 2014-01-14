@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Subasta\AI\StaticMinimax.cs" />
+    <Compile Include="Subasta\AI\Minimax.cs" />
     <Compile Include="Deck\Card.cs" />
     <Compile Include="Deck\Deck.cs" />
     <Compile Include="Deck\ICard.cs" />
