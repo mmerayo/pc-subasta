@@ -1,16 +1,9 @@
-﻿namespace ArtificialIntelligence.Algorithms
-{
-	//Static minimax, all calculation happens once
-	public class StaticMinimax<TStatus,TResult>
-	{
-		public StaticMinimax()
-		{
-			
-		} 
+﻿using NUnit.Framework;
 
-		public TResult GenerateTree(TStatus initialStatus)
-		{
-			
-		}
+namespace GamesUnitTests.Subasta.AI
+{
+	[TestFixture]
+	public class StaticMinimaxUnitTests
+	{
 	}
 }
