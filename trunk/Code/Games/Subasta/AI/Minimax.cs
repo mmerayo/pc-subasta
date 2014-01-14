@@ -1,6 +1,6 @@
 ﻿namespace Games.Subasta.AI
 {
-	class StaticMinimax
+	class Minimax
 	{
 	}
 }
