@@ -8,7 +8,7 @@ namespace Games.Deck.Spanish
 		{
 		}
 
-		private static IPack CreateCards()
+		protected static IPack CreateCards()
 		{
 			var result = new Pack();
 			var suits= CreateSuits();
@@ -31,8 +31,6 @@ namespace Games.Deck.Spanish
 					new Subasta.Card(suit, 5),
 					new Subasta.Card(suit, 6),
 					new Subasta.Card(suit, 7),
-					new Subasta.Card(suit, 8),
-					new Subasta.Card(suit, 9),
 					new Subasta.Card(suit, 10),
 					new Subasta.Card(suit, 11),
 					new Subasta.Card(suit, 12),
