@@ -1,4 +1,6 @@
-﻿namespace ArtificialIntelligence.UnitTests.Minimax
+﻿using NUnit.Framework;
+
+namespace ArtificialIntelligence.UnitTests.Minimax
 {
 	[TestFixture]
 	public class MinimaxAlgorithmTests
