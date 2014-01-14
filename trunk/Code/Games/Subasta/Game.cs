@@ -7,9 +7,14 @@ namespace Games.Subasta
 {
 	class Game
 	{
-		public void Start()
+		public void StartNew(GameConfiguration configuration)
 		{
 			throw new NotImplementedException();
 		}
+	}
+
+	class GameConfiguration
+	{
+		
 	}
 }
