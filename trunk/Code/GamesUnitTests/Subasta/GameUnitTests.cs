@@ -39,7 +39,11 @@ namespace GamesUnitTests.Subasta
 
 			public Game Sut
 			{
-				get { return new Game(); }
+				get
+				{
+					var result = new Game();
+					return result;
+				}
 			}
 
 			public GameConfiguration GameConfiguration
