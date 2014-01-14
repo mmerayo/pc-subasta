@@ -21,10 +21,13 @@ namespace GamesUnitTests.Subasta
 		[Test]
 		public void Can_CreateGame()
 		{
+			_context.WithPlayers();
+
 			var sut = _context.Sut;
 
-			_context.AssertGameIsWellFormed();
-			_context.AssertHandsToPlay();
+			_context.AssertHasPlayers();
+			_context.AssertCreatesFirstSet();
+			
 		}
 		
 		private class TestContext
@@ -33,16 +36,22 @@ namespace GamesUnitTests.Subasta
 			{
 				get { throw new NotImplementedException(); }
 			}
-
-			public void AssertGameIsWellFormed()
+			
+			public void WithPlayers()
 			{
 				throw new NotImplementedException();
 			}
 
-			public void AssertHandsToPlay()
+			public void AssertHasPlayers()
 			{
 				throw new NotImplementedException();
 			}
+
+			public void AssertCreatesFirstSet()
+			{
+				throw new NotImplementedException();
+			}
+
 		}
 	}
 }
