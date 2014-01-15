@@ -29,7 +29,9 @@ namespace GamesUnitTests.Subasta
 		[Test]
 		public void Can_StartGame()
 		{
-			_context.WithPlayers().WithInitialSet();
+			_context
+				.WithPlayers()
+				.WithInitialSet();
 
 			var sut = _context.Sut;
 			
@@ -75,33 +77,33 @@ namespace GamesUnitTests.Subasta
 
 			public TestContext WithInitialSet()
 			{
-				_initialSet= _fixture.Create<Mock<ISet>>();
+				_initialSet= new Mock<ISet>();
+				_initialSet.Setup(x=>x.Start()).AtMostOnce();
 				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object);
 				return this;
 			}
 
 			private IPlayer CreatePlayer(bool isHuman)
 			{
-				var result = _fixture.Create<Mock<IPlayer>>();
+				var result = new Mock<IPlayer>();
 				result.SetupGet(x => x.IsHuman).Returns(isHuman);
 				return result.Object;
 			}
 
 			public void AssertHasPlayers()
 			{
-				for(int i=1;i<=4;i++)
+				for(int i=0;i<4;i++)
 					Assert.IsNotNull(Sut.Players[i]);
 			}
 
 			public void AssertCreatesFirstSet()
 			{
 				Assert.That(Sut.Sets.Count,Is.EqualTo(1));
-				Assert.That(Sut.Sets[0],Is.SameAs(_initialSet));
 			}
 
 			public void AssertStartsFirstSet()
 			{
-				_initialSet.Verify(x=>x.Start(),Times.Once());
+				_initialSet.VerifyAll();
 			}
 
 			
