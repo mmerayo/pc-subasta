@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Games.Deck;
 
-namespace Games.Deck.Spanish
+namespace Games.Subasta
 {
 	class Deck : Games.Deck.Deck
 	{
