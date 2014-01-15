@@ -20,8 +20,13 @@ namespace Games.Subasta.Sets
 
 			_suffler.Suffle(ref deck);
 
-			//REPARTIR
+			Deal(deck);
 
+		}
+
+		private void Deal(IDeck deck)
+		{
+			throw new NotImplementedException();
 		}
 
 		public event SetEventHandler OnCompleted;
@@ -29,6 +34,7 @@ namespace Games.Subasta.Sets
 		{
 			if (OnCompleted != null)
 			{
+				//provide the deck after getting the hand to the suscriber 
 				OnCompleted(this);
 			}
 		}
