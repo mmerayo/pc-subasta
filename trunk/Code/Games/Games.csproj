@@ -55,6 +55,7 @@
     <Compile Include="Subasta\Game.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Subasta\GameConfiguration.cs" />
+    <Compile Include="Subasta\ISuffleStrategy.cs" />
     <Compile Include="Subasta\Sets\ISet.cs" />
     <Compile Include="Subasta\Sets\ISetFactory.cs" />
     <Compile Include="Subasta\Player.cs" />

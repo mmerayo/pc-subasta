@@ -8,5 +8,6 @@ namespace Games.Subasta
 	class Player:IPlayer
 	{
 		public bool IsHuman { get; private set; }
+		public string Name { get; private set; }
 	}
 }
