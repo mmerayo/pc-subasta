@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Games.Subasta;
 using NUnit.Framework;
 
 namespace GamesUnitTests.Subasta
@@ -18,20 +19,20 @@ namespace GamesUnitTests.Subasta
 		[Test]
 		public void Can_CreateDeck()
 		{
-			Games.Deck.Spanish.Deck actual = _context.Sut;
+			Deck actual = _context.Sut;
 
 			_context.AssertIsComplete();
 		}
 
 		private class TestContext
 		{
-			private Games.Deck.Spanish.Deck _sut;
+			private Deck _sut;
 
-			public Games.Deck.Spanish.Deck Sut
+			public Deck Sut
 			{
 				get
 				{
-					_sut = new Games.Deck.Spanish.Deck();
+					_sut = new Deck();
 					return _sut;
 				}
 			}

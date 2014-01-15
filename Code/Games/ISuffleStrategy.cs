@@ -1,4 +1,4 @@
-﻿namespace Games.Subasta
+﻿namespace Games
 {
 	internal interface ISuffleStrategy
 	{
