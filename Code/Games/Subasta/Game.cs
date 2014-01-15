@@ -21,8 +21,11 @@ namespace Games.Subasta
 		{
 			if(!configuration.IsValid())
 				throw new InvalidOperationException("configuration is not valid");
+			
+			
+			_players=new IPlayer[4];
 			Array.Copy(configuration.Players,_players,4);
-
+			_sets=new List<ISet>();
 			CreateNewSet();
 		}
 
