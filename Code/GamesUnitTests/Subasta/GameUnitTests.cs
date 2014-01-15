@@ -45,10 +45,12 @@ namespace GamesUnitTests.Subasta
 			_context.AssertCurrentDealer(dealerPosition);
 		}
 
-		[Test]
-		public void IncrementsCurrentDealerAfterSetIsCompleted()
+		[TestCase(1, Result = 2)]
+		[TestCase(2, Result = 3)]
+		[TestCase(3, Result = 4)]
+		[TestCase(4, Result = 1)]
+		public int IncrementsCurrentDealerAfterSetIsCompleted(int dealerPosition)
 		{
-			const int dealerPosition = 2;
 			_context
 				.WithPlayers()
 				.WithInitialSet()
@@ -59,7 +61,7 @@ namespace GamesUnitTests.Subasta
 
 			_context.TriggerEndSet();
 
-			_context.AssertCurrentDealer(3);
+			return int.Parse(_context.Sut.CurrentDealer.Name.Substring(1, 1));
 		}
 
 		private class TestContext
@@ -110,6 +112,8 @@ namespace GamesUnitTests.Subasta
 			{
 				_initialSet = _fixture.CreateAnonymous<Mock<ISet>>();
 				_initialSet.Setup(x => x.Start()).Verifiable();
+
+
 				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object).Verifiable();
 				return this;
 			}
@@ -151,7 +155,7 @@ namespace GamesUnitTests.Subasta
 
 			public void TriggerEndSet()
 			{
-				throw new NotImplementedException();
+				_initialSet.Raise(x=>x.OnCompleted+=null,_initialSet.Object);
 			}
 		}
 	}

@@ -6,5 +6,14 @@
 		{
 			throw new System.NotImplementedException();
 		}
+
+		public event SetEventHandler OnCompleted;
+		protected virtual void FireCompleted()
+		{
+			if (OnCompleted != null)
+			{
+				OnCompleted(this);
+			}
+		}
 	}
 }
