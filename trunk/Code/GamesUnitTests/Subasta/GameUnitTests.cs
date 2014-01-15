@@ -48,17 +48,17 @@ namespace GamesUnitTests.Subasta
 			private readonly GameConfiguration _gameConfiguration;
 			private Game _sut;
 			private Mock<ISet> _initialSet;
-			private Mock<ISetFactory> _setFactory;
+			private readonly Mock<ISetFactory> _setFactory;
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new AutoMoqCustomization());
 				_gameConfiguration=new GameConfiguration();
-				_setFactory = _fixture.Create<Mock<ISetFactory>>();
+				_setFactory = _fixture.Freeze<Mock<ISetFactory>>();
 			}
 
 			public Game Sut
 			{
-				get { return _sut ?? (_sut = _fixture.Create<Game>()); }
+				get { return _sut ?? (_sut = _fixture.CreateAnonymous<Game>()); }
 			}
 
 			public GameConfiguration GameConfiguration
@@ -77,15 +77,15 @@ namespace GamesUnitTests.Subasta
 
 			public TestContext WithInitialSet()
 			{
-				_initialSet= new Mock<ISet>();
-				_initialSet.Setup(x=>x.Start()).AtMostOnce();
-				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object);
+				_initialSet = _fixture.CreateAnonymous<Mock<ISet>>();
+				_initialSet.Setup(x => x.Start()).Verifiable();
+				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object).Verifiable();
 				return this;
 			}
 
 			private IPlayer CreatePlayer(bool isHuman)
 			{
-				var result = new Mock<IPlayer>();
+				var result = _fixture.CreateAnonymous < Mock<IPlayer>>();
 				result.SetupGet(x => x.IsHuman).Returns(isHuman);
 				return result.Object;
 			}
@@ -103,7 +103,7 @@ namespace GamesUnitTests.Subasta
 
 			public void AssertStartsFirstSet()
 			{
-				_initialSet.VerifyAll();
+				_initialSet.Verify(x=>x.Start(),Times.Once());
 			}
 
 			

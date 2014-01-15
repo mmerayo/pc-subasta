@@ -1,6 +1,6 @@
 ﻿namespace Games.Subasta.Sets
 {
-	internal interface ISetFactory
+	public interface ISetFactory
 	{
 		ISet CreateNew();
 	}
