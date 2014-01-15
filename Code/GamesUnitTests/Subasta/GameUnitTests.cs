@@ -71,14 +71,11 @@ namespace GamesUnitTests.Subasta
 			private Game _sut;
 			private Mock<ISet> _initialSet;
 			private readonly Mock<ISetFactory> _setFactory;
-			private readonly Mock<ISuffleStrategy> _suffleStrategy;
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new AutoMoqCustomization());
 				_gameConfiguration=new GameConfiguration();
 				_setFactory = _fixture.Freeze<Mock<ISetFactory>>();
-				_suffleStrategy = _fixture.Freeze<Mock<ISuffleStrategy>>();
-				_suffleStrategy.Setup(x=>x.Suffle()).Verifiable();
 			}
 
 			public Game Sut
@@ -111,7 +108,7 @@ namespace GamesUnitTests.Subasta
 			public TestContext WithInitialSet()
 			{
 				_initialSet = _fixture.CreateAnonymous<Mock<ISet>>();
-				_initialSet.Setup(x => x.Start()).Verifiable();
+				_initialSet.Setup(x => x.Run()).Verifiable();
 
 
 				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object).Verifiable();
@@ -143,8 +140,7 @@ namespace GamesUnitTests.Subasta
 
 			public void AssertStartsFirstSet()
 			{
-				_suffleStrategy.Verify(x=>x.Suffle(),Times.Once());
-				_initialSet.Verify(x=>x.Start(),Times.Once());
+				_initialSet.Verify(x=>x.Run(),Times.Once());
 			}
 
 

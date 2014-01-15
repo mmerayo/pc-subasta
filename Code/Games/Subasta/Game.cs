@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Games.Subasta.Sets;
 
 namespace Games.Subasta
@@ -9,15 +7,13 @@ namespace Games.Subasta
 	class Game
 	{
 		private readonly ISetFactory _setFactory;
-		private readonly ISuffleStrategy _suffler;
 		private IPlayer[] _players;
 		private List<ISet> _sets;
 		private int _dealerPosition;
 
-		public Game(ISetFactory setFactory,ISuffleStrategy suffler)
+		public Game(ISetFactory setFactory)
 		{
 			_setFactory = setFactory;
-			_suffler = suffler;
 		}
 
 		public void StartNew(GameConfiguration configuration)
@@ -37,8 +33,7 @@ namespace Games.Subasta
 			var set = _setFactory.CreateNew();
 			set.OnCompleted += new SetEventHandler(set_OnCompleted);
 			_sets.Add(set);
-			_suffler.Suffle();
-			set.Start();
+			set.Run();
 		}
 
 		void set_OnCompleted(ISet set)
