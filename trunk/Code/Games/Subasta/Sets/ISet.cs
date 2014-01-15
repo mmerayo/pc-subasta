@@ -1,9 +1,11 @@
-﻿namespace Games.Subasta.Sets
+﻿using Games.Deck;
+
+namespace Games.Subasta.Sets
 {
 	public delegate void SetEventHandler(ISet set);
 	public interface ISet
 	{
-		void Start();
+		void Run(IDeck deck, IPlayer[] players, int dealerPosition);
 
 		event SetEventHandler OnCompleted;
 	}

@@ -1,10 +1,27 @@
-﻿namespace Games.Subasta.Sets
+﻿using System;
+using Games.Deck;
+
+namespace Games.Subasta.Sets
 {
 	class Set:ISet
 	{
-		public void Start()
+		private readonly ISuffleStrategy _suffler;
+		private IPlayer[] _players;
+		public Set(ISuffleStrategy suffler)
 		{
-			throw new System.NotImplementedException();
+			_suffler = suffler;
+		}
+
+		public void Run(IDeck deck,IPlayer[] players,int dealerPosition)
+		{
+			if(dealerPosition<1 || dealerPosition>4)
+				throw new ArgumentOutOfRangeException("dealerPosition");
+			_players = players;
+
+			_suffler.Suffle(ref deck);
+
+			//REPARTIR
+
 		}
 
 		public event SetEventHandler OnCompleted;
