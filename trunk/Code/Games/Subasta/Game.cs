@@ -29,16 +29,26 @@ namespace Games.Subasta
 			Array.Copy(configuration.Players,_players,4);
 			_sets=new List<ISet>();
 			_dealerPosition = configuration.InitialDealer-1;
-
 			CreateNewSet();
 		}
 
 		private void CreateNewSet()
 		{
 			var set = _setFactory.CreateNew();
+			set.OnCompleted += new SetEventHandler(set_OnCompleted);
 			_sets.Add(set);
 			_suffler.Suffle();
 			set.Start();
+		}
+
+		void set_OnCompleted(ISet set)
+		{
+			SetNextDealer();
+		}
+
+		private void SetNextDealer()
+		{
+			if (++_dealerPosition == 4) _dealerPosition = 0;
 		}
 
 		public IPlayer[] Players
