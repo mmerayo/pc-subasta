@@ -54,7 +54,12 @@
     <Compile Include="Deck\Suit.cs" />
     <Compile Include="Subasta\Game.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="Subasta\GameConfiguration.cs" />
+    <Compile Include="Subasta\Sets\ISet.cs" />
+    <Compile Include="Subasta\Sets\ISetFactory.cs" />
     <Compile Include="Subasta\Player.cs" />
+    <Compile Include="Subasta\Sets\Set.cs" />
+    <Compile Include="Subasta\Sets\SetFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

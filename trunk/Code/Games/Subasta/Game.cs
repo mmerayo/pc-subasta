@@ -2,34 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Games.Subasta.Sets;
 
 namespace Games.Subasta
 {
 	class Game
 	{
+		private readonly ISetFactory _setFactory;
+		private IPlayer[] _players;
+		private List<ISet> _sets;
+
+		public Game(ISetFactory setFactory)
+		{
+			_setFactory = setFactory;
+		}
+
 		public void StartNew(GameConfiguration configuration)
 		{
-			throw new NotImplementedException();
+			if(!configuration.IsValid())
+				throw new InvalidOperationException("configuration is not valid");
+			Array.Copy(configuration.Players,_players,4);
+
+			CreateNewSet();
+		}
+
+		private void CreateNewSet()
+		{
+			var set = _setFactory.CreateNew();
+			_sets.Add(set);
+			set.Start();
 		}
 
 		public IPlayer[] Players
 		{
-			get { throw new NotImplementedException(); }
-		}
-	}
-
-	class GameConfiguration
-	{
-		public bool IsValid()
-		{
-			throw new NotImplementedException();
+			get { return _players; }
 		}
 
-		public void AddPlayer(int position, IPlayer player)
+		public List<ISet> Sets
 		{
-			if(position<1 || position >4)
-				throw new ArgumentOutOfRangeException("position");
-			throw new NotImplementedException();
+			get { return _sets; }
 		}
 	}
 }
