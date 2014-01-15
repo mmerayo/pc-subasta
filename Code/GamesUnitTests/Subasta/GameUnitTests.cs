@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Games;
 using Games.Subasta;
+using Games.Subasta.Sets;
 using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
@@ -28,7 +29,7 @@ namespace GamesUnitTests.Subasta
 		[Test]
 		public void Can_StartGame()
 		{
-			_context.WithPlayers();
+			_context.WithPlayers().WithInitialSet();
 
 			var sut = _context.Sut;
 			
@@ -36,6 +37,7 @@ namespace GamesUnitTests.Subasta
 
 			_context.AssertHasPlayers();
 			_context.AssertCreatesFirstSet();
+			_context.AssertStartsFirstSet();
 		}
 		
 		private class TestContext
@@ -43,10 +45,13 @@ namespace GamesUnitTests.Subasta
 			private readonly IFixture _fixture;
 			private readonly GameConfiguration _gameConfiguration;
 			private Game _sut;
+			private Mock<ISet> _initialSet;
+			private Mock<ISetFactory> _setFactory;
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new AutoMoqCustomization());
 				_gameConfiguration=new GameConfiguration();
+				_setFactory = _fixture.Create<Mock<ISetFactory>>();
 			}
 
 			public Game Sut
@@ -59,12 +64,20 @@ namespace GamesUnitTests.Subasta
 				get { return _gameConfiguration; }
 			}
 
-			public void WithPlayers()
+			public TestContext WithPlayers()
 			{
 				GameConfiguration.AddPlayer(1,CreatePlayer(false));
 				GameConfiguration.AddPlayer(2, CreatePlayer(false));
 				GameConfiguration.AddPlayer(3, CreatePlayer(false));
 				GameConfiguration.AddPlayer(4, CreatePlayer(false));
+				return this;
+			}
+
+			public TestContext WithInitialSet()
+			{
+				_initialSet= _fixture.Create<Mock<ISet>>();
+				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object);
+				return this;
 			}
 
 			private IPlayer CreatePlayer(bool isHuman)
@@ -82,9 +95,16 @@ namespace GamesUnitTests.Subasta
 
 			public void AssertCreatesFirstSet()
 			{
-				throw new NotImplementedException();
+				Assert.That(Sut.Sets.Count,Is.EqualTo(1));
+				Assert.That(Sut.Sets[0],Is.SameAs(_initialSet));
 			}
 
+			public void AssertStartsFirstSet()
+			{
+				_initialSet.Verify(x=>x.Start(),Times.Once());
+			}
+
+			
 		}
 	}
 }

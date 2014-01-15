@@ -1,6 +1,6 @@
 ﻿namespace Games
 {
-	internal interface IPlayer
+	public interface IPlayer
 	{
 		bool IsHuman { get; }
 	}
