@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Games.Deck;
 using Games.Subasta.Sets;
 
 namespace Games.Subasta
@@ -25,15 +26,15 @@ namespace Games.Subasta
 			Array.Copy(configuration.Players,_players,4);
 			_sets=new List<ISet>();
 			_dealerPosition = configuration.InitialDealer-1;
-			CreateNewSet();
+			CreateNewSet(new Deck());
 		}
 
-		private void CreateNewSet()
+		private void CreateNewSet(IDeck deck)
 		{
 			var set = _setFactory.CreateNew();
 			set.OnCompleted += new SetEventHandler(set_OnCompleted);
 			_sets.Add(set);
-			set.Run();
+			set.Run(deck,_players,_dealerPosition);
 		}
 
 		void set_OnCompleted(ISet set)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Games;
+using Games.Deck;
 using Games.Subasta;
 using Games.Subasta.Sets;
 using Moq;
@@ -108,7 +109,7 @@ namespace GamesUnitTests.Subasta
 			public TestContext WithInitialSet()
 			{
 				_initialSet = _fixture.CreateAnonymous<Mock<ISet>>();
-				_initialSet.Setup(x => x.Run()).Verifiable();
+				_initialSet.Setup(x => x.Run(It.IsAny<IDeck>(),It.IsAny<IPlayer[]>(),It.IsAny<int>())).Verifiable();
 
 
 				_setFactory.Setup(x => x.CreateNew()).Returns(_initialSet.Object).Verifiable();
@@ -140,7 +141,7 @@ namespace GamesUnitTests.Subasta
 
 			public void AssertStartsFirstSet()
 			{
-				_initialSet.Verify(x=>x.Run(),Times.Once());
+				_initialSet.Verify(x => x.Run(It.IsAny<IDeck>(), It.IsAny<IPlayer[]>(), It.IsAny<int>()), Times.Once());
 			}
 
 
