@@ -37,10 +37,12 @@ namespace GamesUnitTests.Subasta.AI
 			_context=new TestContext();
 		}
 
-		[Test, TestCaseSource(typeof(TestCasesFactory),"BasicBestMoveTestCases")]
-		public void CanConfigureBestMoves(Status status)
+		[Test]
+		public void CanCreateMovesTree()
 		{
-			throw new NotImplementedException();
+			_context.WithTwoHands();
+
+			MaxN maxN = _context.Sut;
 		}
 
 		
@@ -48,21 +50,14 @@ namespace GamesUnitTests.Subasta.AI
 		{
 			private Fixture _fixture;
 
-
-		}
-
-		private static class TestCasesFactory
-		{
-
-			public static IEnumerable BasicBestMoveTestCases
+			public TestContext WithTwoHands()
 			{
-				get
-				{
-					yield return new TestCaseData(
-						new Status(
-							));
-				}
+				throw new NotImplementedException();
 			}
+
+			public MaxN Sut{get{throw new NotImplementedException();}}
+
 		}
+
 	}
 }
