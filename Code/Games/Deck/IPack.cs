@@ -4,6 +4,6 @@ namespace Games.Deck
 {
 	public interface IPack
 	{
-		IEnumerable<ICard> ToList();
+		List<ICard> ToList();
 	}
 }

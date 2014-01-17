@@ -62,6 +62,7 @@
     <Compile Include="Subasta\Player.cs" />
     <Compile Include="Subasta\Sets\Set.cs" />
     <Compile Include="Subasta\Sets\SetFactory.cs" />
+    <Compile Include="Subasta\SuffleStrategy.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

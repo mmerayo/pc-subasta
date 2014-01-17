@@ -20,9 +20,9 @@ namespace Games.Deck
 			_cards.AddRange(items);
 		}
 
-		public IEnumerable<ICard> ToList()
+		public List<ICard> ToList()
 		{
-			return _cards;
+			return new List<ICard>(_cards);
 		}
 	}
 }
