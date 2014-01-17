@@ -42,7 +42,11 @@ namespace GamesUnitTests.Subasta.AI
 		{
 			_context.WithTwoHands();
 
-			MaxN maxN = _context.Sut;
+			var target = _context.Sut;
+
+			target.CreateTree();
+
+			_context.VerifyGameTreeWasCreated();
 		}
 
 		
@@ -57,6 +61,10 @@ namespace GamesUnitTests.Subasta.AI
 
 			public MaxN Sut{get{throw new NotImplementedException();}}
 
+			public void VerifyGameTreeWasCreated()
+			{
+				throw new NotImplementedException();
+			}
 		}
 
 	}

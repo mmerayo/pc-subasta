@@ -2,5 +2,9 @@
 {
 	class MaxN
 	{
+		public void CreateTree()
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }
