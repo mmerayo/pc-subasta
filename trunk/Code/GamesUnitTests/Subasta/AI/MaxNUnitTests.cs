@@ -3,7 +3,7 @@
 namespace GamesUnitTests.Subasta.AI
 {
 	[TestFixture]
-	public class MinimaxUnitTests
+	public class MaxNUnitTests
 	{
 	}
 }
