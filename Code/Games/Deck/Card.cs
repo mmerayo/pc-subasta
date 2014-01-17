@@ -6,9 +6,7 @@
 		{
 			Suit = suit;
 			Number = number;
-			
 		}
-
 		
 		public ISuit Suit { get;  private set; }
 		public int Number { get; private set; }

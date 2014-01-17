@@ -25,16 +25,16 @@ namespace Games.Subasta
 		{
 			var result = new List<ICard>
 				{
-					new Subasta.Card(suit, 1),
-					new Subasta.Card(suit, 2),
-					new Subasta.Card(suit, 3),
-					new Subasta.Card(suit, 4),
-					new Subasta.Card(suit, 5),
-					new Subasta.Card(suit, 6),
-					new Subasta.Card(suit, 7),
-					new Subasta.Card(suit, 10),
-					new Subasta.Card(suit, 11),
-					new Subasta.Card(suit, 12),
+					new Card(suit, 1),
+					new Card(suit, 2),
+					new Card(suit, 3),
+					new Card(suit, 4),
+					new Card(suit, 5),
+					new Card(suit, 6),
+					new Card(suit, 7),
+					new Card(suit, 10),
+					new Card(suit, 11),
+					new Card(suit, 12),
 				};
 			return result;
 		}
