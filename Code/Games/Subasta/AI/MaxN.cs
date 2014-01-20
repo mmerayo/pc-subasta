@@ -7,7 +7,7 @@ namespace Games.Subasta.AI
 {
 	class MaxN
 	{
-		private IValidCardsRule _validCardsRule;
+		private IValidCardsRule _validMoveRule;
 
 		public NodeResult Execute(Status currentStatus, int playerPosition)
 		{
@@ -60,7 +60,7 @@ namespace Games.Subasta.AI
 		
 		private ICard[] GetCandidates(Status currentStatus, int playerPosition)
 		{
-			var currentHand = currentStatus.CurrentHand;
+			return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
 		}
 
 		private bool IsTerminalNode(Status currentStatus, int playerPosition)
@@ -74,7 +74,7 @@ namespace Games.Subasta.AI
 
 			public NodeResult(Status status)
 			{
-				_status = status;
+				_status = status; //contar y sumar player 1 y 3 y player 2 y 4
 				throw new NotImplementedException();
 			}
 
