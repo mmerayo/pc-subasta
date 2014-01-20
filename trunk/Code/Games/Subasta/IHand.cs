@@ -1,6 +1,6 @@
 ﻿using Games.Deck;
 
-namespace Games.Subasta.AI
+namespace Games.Subasta
 {
 	public interface IHand
 	{
