@@ -6,5 +6,6 @@ namespace Games.Deck
 	{
 		IPack Cards { get; }
 		void SetCards(IEnumerable<ICard> cards);
+		ICard Get(int number, string suitName);
 	}
 }

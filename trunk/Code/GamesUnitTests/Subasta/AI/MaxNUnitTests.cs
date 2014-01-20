@@ -5,6 +5,7 @@ using Games.Deck;
 using Games.Subasta.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
 
 namespace GamesUnitTests.Subasta.AI
 {
@@ -38,34 +39,77 @@ namespace GamesUnitTests.Subasta.AI
 		}
 
 		[Test]
-		public void CanCreateMovesTree()
+		public void CanResolveForLastHandAndFirstPlayer()
 		{
-			_context.WithTwoHands();
+			int firstPlayer = 1;//TODO: make it dynamic
+			_context
+				.WithOneHand()
+				.WithFirstPlayer(firstPlayer);
 
 			var target = _context.Sut;
 
-			target.CreateTree();
+			target.Execute(_context.InitialStatus, firstPlayer);
 
-			_context.VerifyGameTreeWasCreated();
+			for (int i = 1; i < 4;i++ )
+				_context.VerifyCanGetBestMoveForPlayer(i);
+
+			//TODO: GET THE STATUS??
 		}
 
-		
+
 		private class TestContext
 		{
-			private Fixture _fixture;
+			private MaxN _sut;
+			private IFixture _fixture;
+			private Status _initialStatus;
+			private Games.Subasta.Deck _deck;
+
+			public TestContext()
+			{
+				_fixture = new Fixture().Customize(new AutoMoqCustomization());
+				_deck = _fixture.CreateAnonymous<Games.Subasta.Deck>();
+				_initialStatus = new Status();
+			}
+
+			public TestContext WithFirstPlayer(int firstPlayer)
+			{
+				_initialStatus.SetTurn(firstPlayer);
+
+				return this;
+			}
+
+			public TestContext WithOneHand()
+			{
+				_initialStatus.SetCards(1, new[] {_deck.Get(1, "Oros")});
+
+				_initialStatus.SetCards(1, new[] {_deck.Get(2, "Oros")});
+
+				_initialStatus.SetCards(1, new[] {_deck.Get(3, "Oros")});
+
+				_initialStatus.SetCards(1, new[] {_deck.Get(4, "Oros")});
+
+				return this;
+			}
 
 			public TestContext WithTwoHands()
 			{
 				throw new NotImplementedException();
 			}
 
-			public MaxN Sut{get{throw new NotImplementedException();}}
+			public MaxN Sut
+			{
+				get { return _sut ?? (_sut = new MaxN()); }
+			}
 
-			public void VerifyGameTreeWasCreated()
+			public Status InitialStatus
+			{
+				get { throw new NotImplementedException(); }
+			}
+
+			public void VerifyCanGetBestMoveForPlayer(int player)
 			{
 				throw new NotImplementedException();
 			}
 		}
-
 	}
 }

@@ -2,7 +2,7 @@
 {
 	class MaxN
 	{
-		public void CreateTree()
+		public void Execute(Status currentStatus, int player)
 		{
 			throw new System.NotImplementedException();
 		}
