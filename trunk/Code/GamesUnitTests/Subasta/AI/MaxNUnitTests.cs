@@ -39,7 +39,7 @@ namespace GamesUnitTests.Subasta.AI
 		}
 
 		[Test]
-		public void CanResolveForLastHandAndFirstPlayer()
+		public void CanResolveForFinalHand()
 		{
 			int firstPlayer = 1;//TODO: make it dynamic
 			_context
@@ -48,10 +48,9 @@ namespace GamesUnitTests.Subasta.AI
 
 			var target = _context.Sut;
 
-			target.Execute(_context.InitialStatus, firstPlayer);
+			target.Execute(_context.Status, firstPlayer);
 
-			for (int i = 1; i < 4;i++ )
-				_context.VerifyCanGetBestMoveForPlayer(i);
+			_context.VerifyCanGetBestMoveForPlayer(firstPlayer);
 
 			//TODO: GET THE STATUS??
 		}
@@ -61,32 +60,32 @@ namespace GamesUnitTests.Subasta.AI
 		{
 			private MaxN _sut;
 			private IFixture _fixture;
-			private Status _initialStatus;
+			private Status _status;
 			private Games.Subasta.Deck _deck;
 
 			public TestContext()
 			{
 				_fixture = new Fixture().Customize(new AutoMoqCustomization());
 				_deck = _fixture.CreateAnonymous<Games.Subasta.Deck>();
-				_initialStatus = new Status();
+				_status = new Status();
 			}
 
 			public TestContext WithFirstPlayer(int firstPlayer)
 			{
-				_initialStatus.SetTurn(firstPlayer);
+				_status.SetTurn(firstPlayer);
 
 				return this;
 			}
 
 			public TestContext WithOneHand()
 			{
-				_initialStatus.SetCards(1, new[] {_deck.Get(1, "Oros")});
+				_status.SetCards(1, new[] {_deck.Get(1, "Oros")});
 
-				_initialStatus.SetCards(1, new[] {_deck.Get(2, "Oros")});
+				_status.SetCards(1, new[] {_deck.Get(2, "Oros")});
 
-				_initialStatus.SetCards(1, new[] {_deck.Get(3, "Oros")});
+				_status.SetCards(1, new[] {_deck.Get(3, "Oros")});
 
-				_initialStatus.SetCards(1, new[] {_deck.Get(4, "Oros")});
+				_status.SetCards(1, new[] {_deck.Get(4, "Oros")});
 
 				return this;
 			}
@@ -101,9 +100,9 @@ namespace GamesUnitTests.Subasta.AI
 				get { return _sut ?? (_sut = new MaxN()); }
 			}
 
-			public Status InitialStatus
+			public Status Status
 			{
-				get { throw new NotImplementedException(); }
+				get { return _status; }
 			}
 
 			public void VerifyCanGetBestMoveForPlayer(int player)
