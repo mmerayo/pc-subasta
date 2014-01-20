@@ -15,14 +15,16 @@ namespace Games.Deck
 			_cards = cards.ToList();
 		}
 
-		public void AddRange(IEnumerable<ICard> items)
+		public List<ICard> Cards
 		{
-			_cards.AddRange(items);
+			get { return _cards; }
 		}
 
-		public List<ICard> ToList()
+		public void AddRange(IEnumerable<ICard> items)
 		{
-			return new List<ICard>(_cards);
+			Cards.AddRange(items);
 		}
+
+		
 	}
 }
