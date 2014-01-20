@@ -72,7 +72,7 @@ namespace GamesUnitTests.Subasta.AI
 
 			public TestContext WithFirstPlayer(int firstPlayer)
 			{
-				_status.SetTurn(firstPlayer);
+				_status.Turn=firstPlayer;
 
 				return this;
 			}
@@ -81,18 +81,13 @@ namespace GamesUnitTests.Subasta.AI
 			{
 				_status.SetCards(1, new[] {_deck.Get(1, "Oros")});
 
-				_status.SetCards(1, new[] {_deck.Get(2, "Oros")});
+				_status.SetCards(2, new[] {_deck.Get(2, "Oros")});
 
-				_status.SetCards(1, new[] {_deck.Get(3, "Oros")});
+				_status.SetCards(3, new[] {_deck.Get(3, "Oros")});
 
-				_status.SetCards(1, new[] {_deck.Get(4, "Oros")});
+				_status.SetCards(4, new[] {_deck.Get(4, "Oros")});
 
 				return this;
-			}
-
-			public TestContext WithTwoHands()
-			{
-				throw new NotImplementedException();
 			}
 
 			public MaxN Sut

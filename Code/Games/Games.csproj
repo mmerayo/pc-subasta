@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Subasta\AI\IHand.cs" />
+    <Compile Include="Subasta\IValidCardsRule.cs" />
     <Compile Include="Subasta\AI\MaxN.cs" />
     <Compile Include="Deck\Card.cs" />
     <Compile Include="Deck\Deck.cs" />
