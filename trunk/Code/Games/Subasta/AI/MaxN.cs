@@ -5,7 +5,7 @@ using Games.Deck;
 
 namespace Games.Subasta.AI
 {
-	class MaxN
+	internal class MaxN
 	{
 		private IValidCardsRule _validMoveRule;
 
@@ -16,7 +16,7 @@ namespace Games.Subasta.AI
 
 			var candidates = GetCandidates(currentStatus, playerPosition);
 
-			Status updatedStatus= PlayCandidate(currentStatus, playerPosition,candidates[0]);
+			Status updatedStatus = PlayCandidate(currentStatus, playerPosition, candidates[0]);
 			var best = Execute(updatedStatus, updatedStatus.Turn);
 			var length = candidates.Length;
 			for (int i = 1; i < length; i++)
@@ -47,17 +47,17 @@ namespace Games.Subasta.AI
 			Status result = currentStatus.Clone();
 			var playerCards = result.PlayerCards(playerPosition).ToList();
 			int removed = playerCards.RemoveAll(x => x == candidate);
-			Debug.Assert(removed==1);
+			Debug.Assert(removed == 1);
 
-		    result.SetCards(playerPosition,playerCards.ToArray());
+			result.SetCards(playerPosition, playerCards.ToArray());
 
 			var hand = result.CurrentHand;
 
-			hand.Add(playerPosition,candidate);
+			hand.Add(playerPosition, candidate);
 			result.Turn = hand.IsCompleted ? hand.PlayerWinner : NextPlayer(result.Turn);
 			return result;
 		}
-		
+
 		private ICard[] GetCandidates(Status currentStatus, int playerPosition)
 		{
 			return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
@@ -72,15 +72,20 @@ namespace Games.Subasta.AI
 		{
 			private readonly Status _status;
 
+			public int Points1And3 { get; private set; }
+			public int Points2And4 { get; private set; }
+
 			public NodeResult(Status status)
 			{
-				_status = status; //contar y sumar player 1 y 3 y player 2 y 4
-				throw new NotImplementedException();
+				_status = status;
+
+				Points1And3 = _status.SumTotal(1) + _status.SumTotal(3);
+				Points2And4 = _status.SumTotal(2) + _status.SumTotal(4);
 			}
 
 			public int this[int playerPosition]
 			{
-				get { throw new System.NotImplementedException(); }
+				get { return playerPosition == 1 || playerPosition == 3 ? Points1And3 : Points2And4; }
 			}
 		}
 	}
