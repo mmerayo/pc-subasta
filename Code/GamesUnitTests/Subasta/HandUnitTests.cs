@@ -78,12 +78,28 @@ namespace GamesUnitTests.Subasta
 			throw new NotImplementedException();
 		}
 
-		[Test]
-		public void Can_GetPoints()
+		[Test,TestCaseSource("Can_GetPoints_TestCases")]
+		public int Can_GetPoints(ICard[] cards, int i)
 		{
-			throw new NotImplementedException();
+			var target = _context.Sut;
+
+			_context.WithExistingCards(cards, 1);
+			return _context.Sut.Points;
 		}
 
+		public static IEnumerable Can_GetPoints_TestCases()
+		{
+			yield return new TestCaseData(new Card[0], 1).Returns(0);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 1) }, 2).Returns(22);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 2), new Card("Oros", 1) }, 3).Returns(22);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 2), new Card("Oros", 3), new Card("Oros", 1) }, 4).Returns(32);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 10), }, 5).Returns(13);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 11), }, 6).Returns(14);
+			yield return new TestCaseData(new[] { new Card("Copas", 1), new Card("Oros", 12), }, 7).Returns(15);
+
+			yield return new TestCaseData(new[] { new Card("Copas", 4), new Card("Oros", 5), new Card("Oros", 6), new Card("Oros", 7) }, 8).Returns(0);
+
+		}
 
 		private class TestContext
 		{
