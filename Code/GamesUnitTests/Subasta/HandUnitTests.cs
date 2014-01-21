@@ -54,10 +54,22 @@ namespace GamesUnitTests.Subasta
 			Assert.Throws<InvalidOperationException>(() => { var a = target.PlayerWinner; });
 		}
 
-		[Test]
-		public void Can_GetIsCompleted()
+		[Test,TestCaseSource("Can_GetIsCompleted_TestCases")]
+		public bool Can_GetIsCompleted(ICard[] cards,int i)
 		{
-			throw new NotImplementedException();
+			var target = _context.Sut;
+
+			_context.WithExistingCards(cards, 1);
+			return _context.Sut.IsCompleted;
+		}
+
+		public static IEnumerable Can_GetIsCompleted_TestCases()
+		{
+			yield return new TestCaseData(new Card[0],1).Returns(false);
+			yield return new TestCaseData(new [] { new Card("Copas", 1), new Card("Oros", 1) },1).Returns(false);
+			yield return new TestCaseData(new [] { new Card("Copas", 1), new Card("Oros", 2), new Card("Oros", 1) },1).Returns(false);
+			yield return new TestCaseData(new [] { new Card("Copas", 1), new Card("Oros", 2), new Card("Oros", 3), new Card("Oros", 1) },1).Returns(true);
+
 		}
 
 		[Test]
