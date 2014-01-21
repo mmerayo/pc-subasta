@@ -15,6 +15,8 @@ namespace Games.Subasta
 		public Card(string suitName, int number)
 			: this(SubastaSuit.FromName(suitName), number)
 		{
+			if(number==7 || number==8)
+				throw new ArgumentOutOfRangeException("number");
 		}
 
 		public int Value { get; private set; }
@@ -54,6 +56,5 @@ namespace Games.Subasta
 
 			return result;
 		}
-
 	}
 }

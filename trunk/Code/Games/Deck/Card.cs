@@ -29,7 +29,7 @@ namespace Games.Deck
 
 		}
 
-		public bool Equals(Card other)
+		public virtual bool Equals(Card other)
 		{
 			if ((object)other == null)
 			{

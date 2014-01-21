@@ -15,16 +15,4 @@ namespace Games.Subasta
 		int PlayerWinner { get; }
 		int Points { get; }
 	}
-
-	class Hand : IHand
-	{
-		public int Add(int playerPlays, ICard card)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public bool IsCompleted { get; private set; }
-		public int PlayerWinner { get; private set; }
-		public int Points { get; private set; }
-	}
 }

@@ -16,7 +16,7 @@ namespace Games.Subasta
 
 		public static ISuit FromName(string suitName)
 		{
-			return _suits.Single(x => string.Compare(x.Name, suitName, StringComparison.InvariantCultureIgnoreCase) == 0);
+			return Suits.Single(x => string.Compare(x.Name, suitName, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 
 		public static IEnumerable<ISuit> Suits
