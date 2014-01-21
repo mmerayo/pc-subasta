@@ -24,7 +24,11 @@ namespace Games.Subasta
 			return playerPlays;
 		}
 
-		public bool IsCompleted { get; private set; }
+		public bool IsCompleted
+		{
+			get { return _hand.All(x => x != null); }
+		}
+
 		public int PlayerWinner
 		{
 			get
@@ -34,8 +38,6 @@ namespace Games.Subasta
 			}
 			private set { _playerWinner = value; }
 		}
-
-		
 
 		public int Points { get; private set; }
 
