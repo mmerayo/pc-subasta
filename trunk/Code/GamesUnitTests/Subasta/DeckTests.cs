@@ -56,7 +56,7 @@ namespace GamesUnitTests.Subasta
 
 			public void AssertIsComplete()
 			{
-				var actual = _sut.Cards.ToList();
+				var actual = _sut.Cards.Cards;
 				Assert.AreEqual(40,actual.Count());
 				for (var i = 1; i < 13; i++)
 				{

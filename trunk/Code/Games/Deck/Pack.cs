@@ -24,7 +24,5 @@ namespace Games.Deck
 		{
 			Cards.AddRange(items);
 		}
-
-		
 	}
 }

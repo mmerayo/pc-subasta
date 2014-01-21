@@ -36,7 +36,7 @@ namespace GamesUnitTests.Subasta
 
 		public static IEnumerable Can_AddCard_TestCases()
 		{
-			yield return new TestCaseData(new[]{new Card("Oros",1) }, 1).Returns(1);
+			yield return new TestCaseData(new Card[0], new Card("Oros",1)).Returns(1);
 		}
 
 		[Test]

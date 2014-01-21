@@ -15,7 +15,7 @@ namespace Games.Deck
 		public ICard Get(int number, string suitName)
 		{
 			return
-				Cards.ToList()
+				Cards.Cards
 				     .SingleOrDefault(
 					     x =>
 					     x.Number == number && string.Compare(x.Suit.Name, suitName, StringComparison.InvariantCultureIgnoreCase) == 0);

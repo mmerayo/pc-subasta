@@ -1,5 +1,6 @@
 using System;
 using Games.Deck;
+using SubastaSuit = Games.Subasta.Suit;
 
 namespace Games.Subasta
 {
@@ -9,6 +10,11 @@ namespace Games.Subasta
 			: base(suit,number)
 		{
 			Value = GetValue(Number);
+		}
+
+		public Card(string suitName, int number)
+			: this(SubastaSuit.FromName(suitName), number)
+		{
 		}
 
 		public int Value { get; private set; }
