@@ -4,5 +4,6 @@
 	{
 		ISuit Suit { get; }
 		int Number { get; }
+		int Value { get; }
 	}
 }

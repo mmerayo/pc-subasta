@@ -15,14 +15,12 @@ namespace Games.Subasta
 		public Card(string suitName, int number)
 			: this(SubastaSuit.FromName(suitName), number)
 		{
-			if(number==7 || number==8)
+			if(number==8 || number==9)
 				throw new ArgumentOutOfRangeException("number");
 		}
 
-		public int Value { get; private set; }
 
-
-		private int GetValue(int number)
+		private  int GetValue(int number)
 		{
 			int result;
 			switch (number)

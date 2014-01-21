@@ -39,7 +39,11 @@ namespace Games.Subasta
 			private set { _playerWinner = value; }
 		}
 
-		public int Points { get; private set; }
+		public int Points
+		{
+			get { return _hand.Where(x=>x!=null).Sum(x => x.Value); }
+		
+		}
 
 		private void ThrowIfNotcompleted()
 		{
