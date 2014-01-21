@@ -12,7 +12,7 @@ namespace Games.Subasta
 		protected static IPack CreateCards()
 		{
 			var result = new Pack();
-			var suits= Suit.GetSuits();
+			var suits= Suit.Suits;
 			foreach (var suit in suits)
 			{
 				result.AddRange(GetSuitCards(suit));
@@ -35,18 +35,6 @@ namespace Games.Subasta
 					new Card(suit, 10),
 					new Card(suit, 11),
 					new Card(suit, 12),
-				};
-			return result;
-		}
-
-		private static IEnumerable<ISuit> CreateSuits()
-		{
-			var result = new List<ISuit>
-				{
-					new Suit("Oros", 1),
-					new Suit("Copas", 2),
-					new Suit("Espadas", 3),
-					new Suit("Bastos", 4)
 				};
 			return result;
 		}

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Games.Deck;
 
@@ -9,7 +8,7 @@ namespace Games.Subasta
 	{
 		public void Suffle(ref IDeck deck)
 		{
-			var cards = deck.Cards.ToList();
+			var cards = deck.Cards.Cards;
 
 			var numExchanges= GetRandomInt(10,40);
 			var count = cards.Count();
