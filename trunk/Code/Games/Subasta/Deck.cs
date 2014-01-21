@@ -12,7 +12,7 @@ namespace Games.Subasta
 		protected static IPack CreateCards()
 		{
 			var result = new Pack();
-			var suits= CreateSuits();
+			var suits= Suit.GetSuits();
 			foreach (var suit in suits)
 			{
 				result.AddRange(GetSuitCards(suit));
@@ -50,7 +50,5 @@ namespace Games.Subasta
 				};
 			return result;
 		}
-
-		
 	}
 }
