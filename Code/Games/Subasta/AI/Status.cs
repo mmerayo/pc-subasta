@@ -77,8 +77,5 @@ namespace Games.Subasta.AI
 			if (playerPosition < 1 || playerPosition > 4)
 				throw new ArgumentOutOfRangeException(argName);
 		}
-
-
-		
 	}
 }
