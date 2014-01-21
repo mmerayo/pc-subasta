@@ -59,12 +59,26 @@ namespace Games.Subasta.AI
 			_playerHands[playerPosition - 1] = cards;
 		}
 
+
+		/// <summary>
+		/// Sum by player
+		/// </summary>
+		/// <param name="playerPosition"></param>
+		/// <returns></returns>
+		public int SumTotal(int playerPosition)
+		{
+			ThrowIfNotValidPlayerPosition(playerPosition);
+
+			return Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
+		}
+
 		private static void ThrowIfNotValidPlayerPosition(int playerPosition,string argName="playerPosition")
 		{
 			if (playerPosition < 1 || playerPosition > 4)
 				throw new ArgumentOutOfRangeException(argName);
 		}
 
-	
+
+		
 	}
 }
