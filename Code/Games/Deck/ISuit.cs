@@ -4,6 +4,6 @@
 	{
 		string Name { get; }
 		int Value { get; }
-		bool Leads(ISuit leadSuit);
+		bool Leads(ISuit Trump);
 	}
 }
