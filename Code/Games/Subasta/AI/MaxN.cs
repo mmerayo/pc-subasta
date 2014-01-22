@@ -7,7 +7,13 @@ namespace Games.Subasta.AI
 {
 	internal class MaxN
 	{
-		private IValidCardsRule _validMoveRule;
+		private readonly IValidCardsRule _validMoveRule;
+
+		public MaxN(IValidCardsRule validMoveRule)
+		{
+			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
+			_validMoveRule = validMoveRule;
+		}
 
 		public NodeResult Execute(Status currentStatus, int playerPosition)
 		{
