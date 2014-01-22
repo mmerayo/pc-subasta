@@ -6,16 +6,26 @@ using Games.Deck;
 
 namespace Games.Subasta.AI
 {
-	public class Status
+	class Status
 	{
+		private readonly ICardComparer _cardsComparer;
 		private int _turn=int.MinValue;
-		private readonly List<ICard[]> _playerHands=new List<ICard[]>(4);
+		private readonly List<ICard[]> _playerCards=new List<ICard[]>(4);
 		private readonly List<IHand> _hands=new List<IHand>(10); 
+
+		public Status(ICardComparer cardsComparer)
+		{
+			_cardsComparer = cardsComparer;
+			for(int i=0;i<4;i++)
+				_playerCards.Add(null);
+
+			_hands.Add(new Hand(cardsComparer));
+		}
 
 		public Status Clone()
 		{
-			var status = new Status {_turn = _turn};
-			status._playerHands.AddRange(_playerHands);
+			var status = new Status(_cardsComparer) {_turn = _turn};
+			status._playerCards.AddRange(_playerCards);
 			status._hands.AddRange(_hands);
 			return status;
 		}
@@ -49,14 +59,14 @@ namespace Games.Subasta.AI
 		public ICard[] PlayerCards(int playerPosition)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
-			return _playerHands[playerPosition];
+			return _playerCards[playerPosition-1];
 		}
 
 		public void SetCards(int playerPosition, ICard[] cards)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
-			_playerHands[playerPosition - 1] = cards;
+			_playerCards[playerPosition - 1] = cards;
 		}
 
 

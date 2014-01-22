@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Games.Deck;
+using Games.Subasta;
 using Games.Subasta.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
@@ -41,8 +42,9 @@ namespace GamesUnitTests.Subasta.AI
 		[Test]
 		public void CanResolveForFinalHand()
 		{
-			int firstPlayer = 1;//TODO: make it dynamic
+			const int firstPlayer = 1; //TODO: make it dynamic
 			_context
+				.WithLeadSuit("oros")
 				.WithOneHand()
 				.WithFirstPlayer(firstPlayer);
 
@@ -62,12 +64,20 @@ namespace GamesUnitTests.Subasta.AI
 			private IFixture _fixture;
 			private Status _status;
 			private Games.Subasta.Deck _deck;
-
+			
 			public TestContext()
 			{
 				_fixture = new Fixture().Customize(new AutoMoqCustomization());
+				_fixture.Register<IValidCardsRule>(()=>new ValidCardsRule());
 				_deck = _fixture.CreateAnonymous<Games.Subasta.Deck>();
-				_status = new Status();
+				
+			}
+
+			public TestContext WithLeadSuit(string leadSuit)
+			{
+				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(leadSuit)));
+				_status = _fixture.Freeze<Status>();
+				return this;
 			}
 
 			public TestContext WithFirstPlayer(int firstPlayer)
@@ -92,7 +102,7 @@ namespace GamesUnitTests.Subasta.AI
 
 			public MaxN Sut
 			{
-				get { return _sut ?? (_sut = new MaxN()); }
+				get { return _sut ?? (_sut = _fixture.CreateAnonymous<MaxN>()); }
 			}
 
 			public Status Status
