@@ -14,6 +14,11 @@ namespace Games.Deck
 		public int Number { get; private set; }
 		public int Value { get; protected set; }
 
+		public override string ToString()
+		{
+			return string.Format("{0} - {1}", Number, Suit.Name);
+		}
+
 		public override bool Equals(Object obj)
 		{
 			if (obj == null)
@@ -62,6 +67,5 @@ namespace Games.Deck
 			return !(a == b);
 		}
 
-		
 	}
 }
