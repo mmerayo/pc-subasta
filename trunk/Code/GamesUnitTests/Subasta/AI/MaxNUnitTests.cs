@@ -44,7 +44,7 @@ namespace GamesUnitTests.Subasta.AI
 		{
 			const int firstPlayer = 1; //TODO: make it dynamic
 			_context
-				.WithLeadSuit("oros")
+				.WithTrump("oros")
 				.WithOneHand()
 				.WithFirstPlayer(firstPlayer);
 
@@ -73,9 +73,9 @@ namespace GamesUnitTests.Subasta.AI
 				
 			}
 
-			public TestContext WithLeadSuit(string leadSuit)
+			public TestContext WithTrump(string Trump)
 			{
-				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(leadSuit)));
+				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(Trump)));
 				_status = _fixture.Freeze<Status>();
 				return this;
 			}

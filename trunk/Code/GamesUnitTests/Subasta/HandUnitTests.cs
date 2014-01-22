@@ -32,7 +32,7 @@ namespace GamesUnitTests.Subasta
 		public int Can_AddCard(ICard[] existingCards, ICard newCard)
 		{
 
-			_context.WithLeadSuit(Oros).WithExistingCards(existingCards, 1);
+			_context.WithTrump(Oros).WithExistingCards(existingCards, 1);
 
 			int playerPlays = 1 + existingCards.Length;
 
@@ -54,7 +54,7 @@ namespace GamesUnitTests.Subasta
 		[Test,TestCaseSource("Can_GetIsCompleted_TestCases")]
 		public bool Can_GetIsCompleted(ICard[] cards,int i)
 		{
-			_context.WithLeadSuit(Oros).WithExistingCards(cards, 1);
+			_context.WithTrump(Oros).WithExistingCards(cards, 1);
 			return _context.Sut.IsCompleted;
 		}
 
@@ -67,9 +67,9 @@ namespace GamesUnitTests.Subasta
 		}
 
 		[Test, TestCaseSource("Can_GetPlayerWinner_TestCases")]
-		public int Can_GetWinner(ICard[] cards, int firstPlayer, string leadSuit)
+		public int Can_GetWinner(ICard[] cards, int firstPlayer, string Trump)
 		{
-			_context.WithLeadSuit(leadSuit).WithExistingCards(cards, 1);
+			_context.WithTrump(Trump).WithExistingCards(cards, 1);
 			return _context.Sut.PlayerWinner;
 		}
 
@@ -116,7 +116,7 @@ namespace GamesUnitTests.Subasta
 		[Test,TestCaseSource("Can_GetPoints_TestCases")]
 		public int Can_GetPoints(ICard[] cards, int i)
 		{
-			_context.WithLeadSuit(Oros).WithExistingCards(cards, 1);
+			_context.WithTrump(Oros).WithExistingCards(cards, 1);
 			return _context.Sut.Points;
 		}
 
@@ -137,7 +137,7 @@ namespace GamesUnitTests.Subasta
 		{
 			private readonly Fixture _fixture;
 			private Hand _sut;
-			private ISuit _leadSuit=null;
+			private ISuit _Trump=null;
 
 			public TestContext()
 			{
@@ -166,11 +166,11 @@ namespace GamesUnitTests.Subasta
 					playerPlays = 1;
 			}
 
-			public TestContext WithLeadSuit(string leadSuitName)
+			public TestContext WithTrump(string TrumpName)
 			{
-				_leadSuit = Games.Subasta.Suit.FromName(leadSuitName);
-				_fixture.Register<ISuit>(() => _leadSuit);
-				_fixture.Register<ICardComparer>(() => new CardComparer(_leadSuit));
+				_Trump = Games.Subasta.Suit.FromName(TrumpName);
+				_fixture.Register<ISuit>(() => _Trump);
+				_fixture.Register<ICardComparer>(() => new CardComparer(_Trump));
 
 				return this;
 			}

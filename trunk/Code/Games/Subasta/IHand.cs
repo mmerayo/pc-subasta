@@ -14,5 +14,16 @@ namespace Games.Subasta
 		bool IsCompleted { get; }
 		int PlayerWinner { get; }
 		int Points { get; }
+		bool IsStartedByTrump { get; }
+		ISuit StartedBySuit { get; }
+		ICard CardWinner { get; }
+		bool IsEmpty { get; }
+		/// <summary>
+		/// fallada
+		/// </summary>
+		bool BrokeToTrump { get; }
+
+		ISuit Trump { get; }
+	;
 	}
 }
