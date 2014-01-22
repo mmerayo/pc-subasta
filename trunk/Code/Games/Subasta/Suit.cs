@@ -32,5 +32,10 @@ namespace Games.Subasta
 					});
 			}
 		}
+
+		public override bool Leads(ISuit leadSuit)
+		{
+			return Value == leadSuit.Value;
+		}
 	}
 }

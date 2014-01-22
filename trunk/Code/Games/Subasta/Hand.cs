@@ -4,21 +4,32 @@ using Games.Deck;
 
 namespace Games.Subasta
 {
-	class Hand : IHand
+	internal class Hand : IHand
 	{
-		private readonly ICard[] _hand=new ICard[4];
-		private int _playerWinner;
+		private readonly ICard[] _hand = new ICard[4];
+		private int _playerWinner = int.MinValue;
+		private int _firstPlayer = int.MinValue;
+		private readonly ICardComparer _cardsComparer;
+
+		public Hand(ICardComparer cardsComparer)
+		{
+			if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
+			_cardsComparer = cardsComparer;
+		}
 
 		public int Add(int playerPlays, ICard card)
 		{
-			ThrowIfNotValidPlayerPosition(playerPlays,"playerPlays");
-			
+			ThrowIfNotValidPlayerPosition(playerPlays, "playerPlays");
+
+			if (_firstPlayer == int.MinValue)
+				_firstPlayer = playerPlays;
+
 			var index = playerPlays - 1;
-			
-			if(_hand[index]!=null)
+
+			if (_hand[index] != null)
 				throw new InvalidOperationException("There is already one card in that position");
 
-			if(_hand.Any(x=>x!=null && x.Equals(card)))
+			if (_hand.Any(x => x != null && x.Equals(card)))
 				throw new InvalidOperationException("Cannot add the same card twice");
 			_hand[index] = card;
 			return playerPlays;
@@ -34,6 +45,9 @@ namespace Games.Subasta
 			get
 			{
 				ThrowIfNotcompleted();
+				if (_playerWinner == int.MinValue)
+					_playerWinner = GetWinner();
+
 				return _playerWinner;
 			}
 			private set { _playerWinner = value; }
@@ -41,8 +55,8 @@ namespace Games.Subasta
 
 		public int Points
 		{
-			get { return _hand.Where(x=>x!=null).Sum(x => x.Value); }
-		
+			get { return _hand.Where(x => x != null).Sum(x => x.Value); }
+
 		}
 
 		private void ThrowIfNotcompleted()
@@ -57,5 +71,30 @@ namespace Games.Subasta
 				throw new ArgumentOutOfRangeException(argName);
 		}
 
+
+		private int GetWinner()
+		{
+			var currentPlayer = _firstPlayer;
+
+			var currentWin = _hand[currentPlayer - 1];
+
+			do
+			{
+				currentPlayer = NextPlayer(currentPlayer);
+				var card = _hand[currentPlayer - 1];
+
+				currentWin = _cardsComparer.Best(currentWin, card);
+
+			} while (currentPlayer != _firstPlayer);
+
+			return Array.IndexOf(_hand, currentWin) + 1;
+		}
+
+		private static int NextPlayer(int currentPlayer)
+		{
+			if (++currentPlayer > 4)
+				currentPlayer = 1;
+			return currentPlayer;
+		}
 	}
 }

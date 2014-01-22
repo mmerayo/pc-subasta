@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Subasta\CardComparer.cs" />
     <Compile Include="Subasta\Hand.cs" />
+    <Compile Include="Subasta\ICardComparer.cs" />
     <Compile Include="Subasta\IHand.cs" />
     <Compile Include="Subasta\IValidCardsRule.cs" />
     <Compile Include="Subasta\AI\MaxN.cs" />

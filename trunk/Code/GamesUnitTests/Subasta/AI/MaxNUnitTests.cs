@@ -6,7 +6,7 @@ using Games.Subasta.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
-
+using Suit = Games.Subasta.Suit;
 namespace GamesUnitTests.Subasta.AI
 {
 	[TestFixture]
