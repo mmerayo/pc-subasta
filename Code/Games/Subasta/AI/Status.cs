@@ -13,22 +13,26 @@ namespace Games.Subasta.AI
 		private readonly List<ICard[]> _playerCards=new List<ICard[]>(4);
 		private readonly List<IHand> _hands=new List<IHand>(10); 
 
-		public Status(ICardComparer cardsComparer)
+		public Status(ICardComparer cardsComparer,ISuit trump)
 		{
+			Trump = trump;
 			_cardsComparer = cardsComparer;
 			for(int i=0;i<4;i++)
 				_playerCards.Add(null);
 
-			_hands.Add(new Hand(cardsComparer));
+			_hands.Add(new Hand(cardsComparer,trump));
 		}
 
 		public Status Clone()
 		{
-			var status = new Status(_cardsComparer) {_turn = _turn};
+			var status = new Status(_cardsComparer,Trump) {_turn = _turn};
 			status._playerCards.AddRange(_playerCards);
 			status._hands.AddRange(_hands);
 			return status;
 		}
+
+		public ISuit Trump { get; private set; }
+
 
 		public int Turn
 		{
