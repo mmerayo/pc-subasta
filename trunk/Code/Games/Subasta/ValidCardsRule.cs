@@ -18,7 +18,7 @@ namespace Games.Subasta
 			//es triunfo 
 			if (currentHand.IsStartedByTrump)
 			{
-				Func<ICard, bool> raiseSuit = x => x.Suit.Equals(currentHand.StartedBySuit) && x.Value > currentHand.CardWinner.Value;
+				Func<ICard, bool> raiseSuit = x => x.Suit.Equals(currentHand.StartedBySuit) && Compare(x,currentHand.CardWinner)==-1;
 
 				//las del palo que suben 
 				if (playerCards.Any(raiseSuit)) return playerCards.Where(raiseSuit).ToArray();
@@ -35,8 +35,10 @@ namespace Games.Subasta
 			//no esta fallada
 			if (!currentHand.BrokeToTrump)
 			{
-				
-				Func<ICard, bool> raiseSuit = x => x.Suit.Equals(currentHand.StartedBySuit) && x.Value > currentHand.CardWinner.Value;
+
+				Func<ICard, bool> raiseSuit =
+					x => x.Suit.Equals(currentHand.StartedBySuit) && Compare(x, currentHand.CardWinner) == -1;
+				;
 				
 				//las del palo que suben 
 				if (playerCards.Any(raiseSuit)) return playerCards.Where(raiseSuit).ToArray();
@@ -59,11 +61,24 @@ namespace Games.Subasta
 			if (playerCards.Any(currentSuit)) return playerCards.Where(currentSuit).ToArray();
 
 			//subir fallo
-			Func<ICard, bool> raiseTrump = x => x.Suit.Equals(currentHand.Trump) && x.Value > currentHand.CardWinner.Value;
+			Func<ICard, bool> raiseTrump = x => x.Suit.Equals(currentHand.Trump) &&  Compare(x,currentHand.CardWinner)==-1;
 			if (playerCards.Any(raiseTrump)) return playerCards.Where(raiseTrump).ToArray();
 			
 			//todas valen
 			return playerCards;
+		}
+
+		private int Compare(ICard a, ICard b)
+		{
+			if(a.Suit!=b.Suit)
+				throw new InvalidOperationException();
+			if (a.Value > b.Value)
+				return -1;
+			if (b.Value > a.Value)
+				return 1;
+			if (a.Number > b.Number)
+				return -1;
+			return 1;
 		}
 	}
 }

@@ -37,16 +37,43 @@ namespace GamesUnitTests.Subasta
 		}
 
 		public static IEnumerable CanGetValidMoves_TestCases()
-		{aqui
-			yield return new TestCaseData(new Card[0], 1).Returns(0);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 1) }, 2).Returns(22);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 1) }, 3).Returns(22);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 1) }, 4).Returns(32);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 10), }, 5).Returns(13);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 11), }, 6).Returns(14);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 12), }, 7).Returns(15);
-			yield return new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, 8).Returns(0);
+		{
+			//primero
+			yield return
+			    new TestCaseData(Oros, new Card[0], new[] { new Card(Copas, 1), new Card(Oros, 2) }).Returns(new[] { new Card(Copas, 1), new Card(Oros, 2) });
 
+			//tiene para asistir y fallo
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Copas, 7) }, new[] { new Card(Copas, 6), new Card(Oros, 2) }).Returns(new[] { new Card(Copas, 6) });
+
+			//tiene para asistir y fallo y subir
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Copas, 6) }, new[] { new Card(Copas, 4), new Card(Copas, 7), new Card(Oros, 2) })
+			        .Returns(new[] { new Card(Copas, 7) });
+
+			//Debe fallar
+			yield return
+				new TestCaseData(Oros, new[] { new Card(Copas, 6) },
+								 new[] { new Card(Espadas, 4), new Card(Espadas, 7), new Card(Oros, 2) }).Returns(new[] { new Card(Oros, 2) });
+
+			//DeArrastre
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Oros, 6) },
+			                     new[] { new Card(Espadas, 4), new Card(Espadas, 7), new Card(Oros, 2) }).Returns(new[] { new Card(Oros, 2) });
+
+			//DeArrastre y no tiene
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Oros, 6) }, new[] { new Card(Espadas, 4), new Card(Bastos, 2) }).Returns(new[] { new Card(Espadas, 4), new Card(Bastos, 2) });
+
+			//Fallada y puede subir
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Bastos, 6), new Card(Oros, 2) },
+			                     new[] { new Card(Espadas, 4), new Card(Oros, 4) }).Returns(new[] { new Card(Oros, 4) });
+
+			//achique
+			yield return
+			    new TestCaseData(Oros, new[] { new Card(Bastos, 6), new Card(Oros, 4) },
+			                     new[] { new Card(Espadas, 4), new Card(Oros, 2) }).Returns(new[] { new Card(Espadas, 4), new Card(Oros, 2) });
 		}
 
 		private class TestContext
@@ -60,7 +87,7 @@ namespace GamesUnitTests.Subasta
 			public TestContext()
 			{
 				_fixture=new Fixture();
-				_hand = _fixture.Freeze<Hand>();
+				
 			}
 
 			private ValidCardsRule Sut
@@ -72,7 +99,8 @@ namespace GamesUnitTests.Subasta
 			{
 				_trump = Games.Subasta.Suit.FromName(trumpName);
 				_fixture.Register<ISuit>(() => _trump);
-
+				_fixture.Register<ICardComparer>(() => _fixture.Freeze<CardComparer>());
+				_hand = _fixture.Freeze<Hand>();
 				return this;
 			}
 
