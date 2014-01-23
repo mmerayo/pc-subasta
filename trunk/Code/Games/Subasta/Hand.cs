@@ -11,10 +11,11 @@ namespace Games.Subasta
 		private int _firstPlayer = int.MinValue;
 		private readonly ICardComparer _cardsComparer;
 
-		public Hand(ICardComparer cardsComparer)
+		public Hand(ICardComparer cardsComparer, ISuit trump)
 		{
 			if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
 			_cardsComparer = cardsComparer;
+			Trump = trump;
 		}
 
 		public int Add(int playerPlays, ICard card)
@@ -58,6 +59,54 @@ namespace Games.Subasta
 			get { return _hand.Where(x => x != null).Sum(x => x.Value); }
 
 		}
+
+		public bool IsStartedByTrump
+		{
+			get
+			{
+				ThrowIfEmpty();
+				return _hand[_firstPlayer - 1] != null;
+			}
+		}
+
+		private void ThrowIfEmpty()
+		{
+			if (IsEmpty)
+				throw new InvalidOperationException("Start before this call");
+
+		}
+
+		public ISuit StartedBySuit
+		{
+			get
+			{
+				ThrowIfEmpty();
+				return _hand[_firstPlayer - 1].Suit;
+			}
+		}
+
+		public ICard CardWinner
+		{
+			get { return _hand[GetWinner() - 1]; }
+		}
+
+		public bool IsEmpty
+		{
+			get { return _firstPlayer == int.MinValue; }
+		}
+
+		public bool BrokeToTrump
+		{
+			get
+			{
+				ThrowIfEmpty();
+				if (_hand[_firstPlayer - 1].Suit == Trump)
+					return false;
+				return _hand.Any(x => x.Suit == Trump);
+			}
+		}
+
+		public ISuit Trump { get; private set; }
 
 		private void ThrowIfNotcompleted()
 		{

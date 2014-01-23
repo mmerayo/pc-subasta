@@ -18,12 +18,14 @@ namespace Games.Subasta
 		ISuit StartedBySuit { get; }
 		ICard CardWinner { get; }
 		bool IsEmpty { get; }
+		
+		
 		/// <summary>
 		/// fallada
 		/// </summary>
 		bool BrokeToTrump { get; }
 
 		ISuit Trump { get; }
-	;
+	
 	}
 }
