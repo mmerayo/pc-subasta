@@ -33,6 +33,7 @@ namespace Games.Subasta
 			if (_hand.Any(x => x != null && x.Equals(card)))
 				throw new InvalidOperationException("Cannot add the same card twice");
 			_hand[index] = card;
+
 			return playerPlays;
 		}
 
@@ -107,6 +108,22 @@ namespace Games.Subasta
 		}
 
 		public ISuit Trump { get; private set; }
+		public ICard PlayerCard(int playerPosition)
+		{
+			return _hand[playerPosition - 1];
+		}
+
+		public IHand Clone()
+		{
+			var result=new Hand(_cardsComparer,Trump)
+				{
+					_playerWinner=this._playerWinner,
+					_firstPlayer = this._firstPlayer,
+				};
+			Array.Copy(_hand,result._hand,4);
+			return result;
+		}
+
 
 		private void ThrowIfNotcompleted()
 		{
@@ -147,5 +164,19 @@ namespace Games.Subasta
 				currentPlayer = 1;
 			return currentPlayer;
 		}
+
+		public override string ToString()
+		{
+			return string.Format("1-{0} - 2-{1} - 3-{2} - 4-{3}", GetCardString(0), GetCardString(1), GetCardString(2),
+			                     GetCardString(3));
+		}
+
+		private string GetCardString(int index)
+		{
+			if (_hand[index] == null) return "null";
+			return _hand[index].ToString();
+		}
+
+		
 	}
 }

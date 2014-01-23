@@ -10,24 +10,22 @@ namespace Games.Subasta.AI
 	{
 		private readonly ICardComparer _cardsComparer;
 		private int _turn=int.MinValue;
-		private readonly List<ICard[]> _playerCards=new List<ICard[]>(4);
-		private readonly List<IHand> _hands=new List<IHand>(10); 
+		private readonly ICard[][] _playerCards=new ICard[4][];
+		private List<IHand> _hands; 
 
 		public Status(ICardComparer cardsComparer,ISuit trump)
 		{
 			Trump = trump;
 			_cardsComparer = cardsComparer;
-			for(int i=0;i<4;i++)
-				_playerCards.Add(null);
-
-			_hands.Add(new Hand(cardsComparer,trump));
 		}
 
 		public Status Clone()
 		{
 			var status = new Status(_cardsComparer,Trump) {_turn = _turn};
-			status._playerCards.AddRange(_playerCards);
-			status._hands.AddRange(_hands);
+			Array.Copy(_playerCards, status._playerCards, 4);
+			
+			status._hands=new List<IHand>();
+			_hands.ForEach(x => status._hands.Add(x.Clone()));
 			return status;
 		}
 
@@ -51,14 +49,29 @@ namespace Games.Subasta.AI
 
 		public IHand CurrentHand
 		{
-			get { return _hands.Last(); }
+			get { return Hands.Last(); }
 		}
 
 		public List<IHand> Hands
 		{
-			get { return _hands; }
+			get
+			{
+				if (_hands == null)
+				{
+					_hands = new List<IHand>(10);
+					AddHand();
+				}
+				return _hands;
+			}
 		}
 
+		public void AddHand()
+		{
+			if (_hands.Count == 10 || _playerCards.All(x=>x.Length==0))
+				return;
+			var item = new Hand(_cardsComparer, Trump);
+			_hands.Add(item);
+		}
 
 		public ICard[] PlayerCards(int playerPosition)
 		{
