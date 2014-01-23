@@ -65,7 +65,7 @@ namespace Games.Subasta
 			get
 			{
 				ThrowIfEmpty();
-				return _hand[_firstPlayer - 1] != null;
+				return _hand[_firstPlayer - 1].Suit==Trump;
 			}
 		}
 
@@ -102,7 +102,7 @@ namespace Games.Subasta
 				ThrowIfEmpty();
 				if (_hand[_firstPlayer - 1].Suit == Trump)
 					return false;
-				return _hand.Any(x => x.Suit == Trump);
+				return _hand.Any(x => x!=null &&  x.Suit == Trump);
 			}
 		}
 
@@ -131,7 +131,9 @@ namespace Games.Subasta
 			{
 				currentPlayer = NextPlayer(currentPlayer);
 				var card = _hand[currentPlayer - 1];
-
+				
+				if (card == null) break;
+				
 				currentWin = _cardsComparer.Best(currentWin, card);
 
 			} while (currentPlayer != _firstPlayer);
