@@ -52,15 +52,22 @@ namespace Games.Subasta.AI
 		{
 			Status result = currentStatus.Clone();
 			var playerCards = result.PlayerCards(playerPosition).ToList();
-			int removed = playerCards.RemoveAll(x => x == candidate);
-			Debug.Assert(removed == 1);
+			playerCards.RemoveAt(playerCards.IndexOf(candidate));
 
 			result.SetCards(playerPosition, playerCards.ToArray());
 
 			var hand = result.CurrentHand;
 
 			hand.Add(playerPosition, candidate);
-			result.Turn = hand.IsCompleted ? hand.PlayerWinner : NextPlayer(result.Turn);
+
+
+			if (hand.IsCompleted)
+			{
+				result.Turn = hand.PlayerWinner;
+				result.AddHand();
+			}
+			else 
+				result.Turn = NextPlayer(result.Turn);
 			return result;
 		}
 
@@ -80,6 +87,11 @@ namespace Games.Subasta.AI
 
 			public int Points1And3 { get; private set; }
 			public int Points2And4 { get; private set; }
+
+			public ICard CardAtMove(int playerPosition,int moveNumber)
+			{
+				return _status.Hands[moveNumber-1].PlayerCard(playerPosition);
+			}
 
 			public NodeResult(Status status)
 			{

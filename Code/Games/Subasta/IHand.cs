@@ -2,7 +2,8 @@
 
 namespace Games.Subasta
 {
-	public interface IHand
+
+	internal interface IHand
 	{
 		/// <summary>
 		/// Adds a card
@@ -26,6 +27,8 @@ namespace Games.Subasta
 		bool BrokeToTrump { get; }
 
 		ISuit Trump { get; }
-	
+		ICard PlayerCard(int playerPosition);
+
+		IHand Clone();
 	}
 }

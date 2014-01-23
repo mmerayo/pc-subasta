@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using Suit = Games.Subasta.Suit;
+using Card = Games.Subasta.Card;
 namespace GamesUnitTests.Subasta.AI
 {
 	[TestFixture]
@@ -18,20 +19,7 @@ namespace GamesUnitTests.Subasta.AI
 		private const string Espadas = "Espadas";
 		private const string Bastos = "Bastos";
 
-		private Dictionary<string, ISuit> _suits;
 		private TestContext _context;
-
-		[TestFixtureSetUp]
-		public void OnFixtureSetUp()
-		{
-			_suits = new Dictionary<string, ISuit>
-				{
-					{Oros, new Suit(Oros, 1)},
-					{Copas, new Suit(Copas, 1)},
-					{Espadas, new Suit(Espadas, 1)},
-					{Bastos, new Suit(Bastos, 1)},
-				};
-		}
 
 		[SetUp]
 		public void OnSetUp()
@@ -39,22 +27,41 @@ namespace GamesUnitTests.Subasta.AI
 			_context=new TestContext();
 		}
 
-		[Test]
-		public void CanResolveForFinalHand()
+		[Test,TestCaseSource("CanResolveForFinalHand_TestCases")]
+		public ICard CanResolveForFinalHand(string trump, 
+			ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
+		                                   int firstPlayer,int playerEvaluated, int moveNumber)
 		{
-			const int firstPlayer = 1; //TODO: make it dynamic
 			_context
-				.WithTrump("oros")
-				.WithOneHand()
+				.WithTrump(trump)
+				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
 				.WithFirstPlayer(firstPlayer);
+				
 
-			var target = _context.Sut;
+			var nodeResult = _context.Sut.Execute(_context.Status, firstPlayer);
 
-			target.Execute(_context.Status, firstPlayer);
+			return nodeResult.CardAtMove(playerEvaluated, moveNumber);
+		}
 
-			_context.VerifyCanGetBestMoveForPlayer(firstPlayer);
-
-			//TODO: GET THE STATUS??
+		private static IEnumerable CanResolveForFinalHand_TestCases()
+		{
+			//ultimo
+			yield return
+				new TestCaseData(Oros,
+				                 new[] {new Card(Oros, 1)},
+				                 new[] {new Card(Copas, 1)},
+				                 new[] {new Card(Espadas, 1)},
+				                 new[] {new Card(Bastos, 1)}, 
+								 1, 1, 1).Returns(new Card(Oros, 1));
+			//necesita arrastrar
+			yield return
+				new TestCaseData(Oros,
+								 new[] { new Card(Oros, 1), new Card(Oros, 7) },
+								 new[] { new Card(Copas, 1), new Card(Oros, 10) },
+								 new[] { new Card(Espadas, 1),new Card(Oros, 11) },
+								 new[] { new Card(Bastos, 1) ,new Card(Oros, 3)},
+								 1, 1, 1).Returns(new Card(Oros, 1));
+			//..
 		}
 
 
@@ -63,19 +70,17 @@ namespace GamesUnitTests.Subasta.AI
 			private MaxN _sut;
 			private IFixture _fixture;
 			private Status _status;
-			private Games.Subasta.Deck _deck;
 			
 			public TestContext()
 			{
 				_fixture = new Fixture().Customize(new AutoMoqCustomization());
 				_fixture.Register<IValidCardsRule>(()=>new ValidCardsRule());
-				_deck = _fixture.CreateAnonymous<Games.Subasta.Deck>();
 				
 			}
 
-			public TestContext WithTrump(string Trump)
+			public TestContext WithTrump(string trump)
 			{
-				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(Trump)));
+				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(trump)));
 				_status = _fixture.Freeze<Status>();
 				return this;
 			}
@@ -87,18 +92,6 @@ namespace GamesUnitTests.Subasta.AI
 				return this;
 			}
 
-			public TestContext WithOneHand()
-			{
-				_status.SetCards(1, new[] {_deck.Get(1, "Oros")});
-
-				_status.SetCards(2, new[] {_deck.Get(2, "Oros")});
-
-				_status.SetCards(3, new[] {_deck.Get(3, "Oros")});
-
-				_status.SetCards(4, new[] {_deck.Get(4, "Oros")});
-
-				return this;
-			}
 
 			public MaxN Sut
 			{
@@ -110,9 +103,13 @@ namespace GamesUnitTests.Subasta.AI
 				get { return _status; }
 			}
 
-			public void VerifyCanGetBestMoveForPlayer(int player)
+			public TestContext WithCards(ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4)
 			{
-				throw new NotImplementedException();
+				Status.SetCards(1,cardsP1);
+				Status.SetCards(2, cardsP2);
+				Status.SetCards(3, cardsP3);
+				Status.SetCards(4, cardsP4);
+				return this;
 			}
 		}
 	}
