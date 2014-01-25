@@ -48,21 +48,60 @@ namespace GamesUnitTests.Subasta.AI
 			//ultimo
 			yield return
 				new TestCaseData(Oros,
-				                 new[] {new Card(Oros, 1)},
-				                 new[] {new Card(Copas, 1)},
-				                 new[] {new Card(Espadas, 1)},
-				                 new[] {new Card(Bastos, 1)}, 
+								 new[] { new Card(Oros, 1) },
+								 new[] { new Card(Copas, 1) },
+								 new[] { new Card(Espadas, 1) },
+								 new[] { new Card(Bastos, 1) },
 								 1, 1, 1).Returns(new Card(Oros, 1));
 			//necesita arrastrar
 			yield return
 				new TestCaseData(Oros,
-								 new[] { new Card(Oros, 1), new Card(Oros, 7) },
+								 new[] { new Card(Oros, 7), new Card(Oros, 1) },
 								 new[] { new Card(Copas, 1), new Card(Oros, 10) },
-								 new[] { new Card(Espadas, 1),new Card(Oros, 11) },
-								 new[] { new Card(Bastos, 1) ,new Card(Oros, 3)},
+								 new[] { new Card(Espadas, 1), new Card(Oros, 11) },
+								 new[] { new Card(Bastos, 1), new Card(Oros, 3) },
 								 1, 1, 1).Returns(new Card(Oros, 1));
-			//..
+
 		}
+
+		[Test, TestCaseSource("CanResolvePoints_TestCases")]
+		public int[] CanResolvePoints(string trump,
+			ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
+										   int firstPlayer, int playerEvaluated, int moveNumber)
+		{
+			Console.WriteLine("Hands#:{0}",cardsP1.Length);
+			_context
+				.WithTrump(trump)
+				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
+				.WithFirstPlayer(firstPlayer);
+
+
+			var nodeResult = _context.Sut.Execute(_context.Status, firstPlayer);
+			
+			return new[] {nodeResult.Points1And3,nodeResult.Points2And4};
+		}
+
+		private static IEnumerable CanResolvePoints_TestCases()
+		{
+			//ultimo
+			yield return
+				new TestCaseData(Oros,
+								 new[] { new Card(Oros, 1) },
+								 new[] { new Card(Copas, 1) },
+								 new[] { new Card(Espadas, 1) },
+								 new[] { new Card(Bastos, 1) },
+								 1, 1, 1).Returns(new []{54,0});
+			//necesita arrastrar
+			yield return
+				new TestCaseData(Oros,
+								 new[] { new Card(Oros, 7), new Card(Oros, 1) },
+								 new[] { new Card(Copas, 1), new Card(Oros, 10) },
+								 new[] { new Card(Espadas, 1), new Card(Oros, 11) },
+								 new[] { new Card(Bastos, 1), new Card(Oros, 3) },
+								 1, 1, 1).Returns(new[]{69,0});
+
+		}
+		
 
 
 		private class TestContext
