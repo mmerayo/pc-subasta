@@ -33,9 +33,11 @@ namespace Games.Subasta
 			}
 		}
 
-		public override bool Leads(ISuit Trump)
+		public override bool IsTrump(ISuit Trump)
 		{
 			return Value == Trump.Value;
 		}
+
+		
 	}
 }

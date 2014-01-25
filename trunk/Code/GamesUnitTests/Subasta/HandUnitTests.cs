@@ -67,9 +67,10 @@ namespace GamesUnitTests.Subasta
 		}
 
 		[Test, TestCaseSource("Can_GetPlayerWinner_TestCases")]
-		public int Can_GetWinner(ICard[] cards, int firstPlayer, string Trump)
+		public int Can_GetWinner(ICard[] cards, int firstPlayer, string trump)
 		{
-			_context.WithTrump(Trump).WithExistingCards(cards, 1);
+			_context.WithTrump(trump).WithExistingCards(cards, 1);
+			Console.WriteLine("Cards:{0}", _context.Sut);
 			return _context.Sut.PlayerWinner;
 		}
 
@@ -110,8 +111,57 @@ namespace GamesUnitTests.Subasta
 			yield return
 				new TestCaseData(new[] { new Card(Oros, 11), new Card(Oros, 10), new Card(Oros, 7), new Card(Oros, 6) }, 1, Oros)
 					.Returns(1);
+		}
+
+		[Test, TestCaseSource("Can_GetCardWinner_TestCases")]
+		public ICard Can_GetCardWinner(ICard[] cards, int firstPlayer, string trump)
+		{
+			_context.WithTrump(trump).WithExistingCards(cards, 1);
+			Console.WriteLine("Cards: {0}",_context.Sut);
+			return _context.Sut.CardWinner;
+		}
+
+		public static IEnumerable Can_GetCardWinner_TestCases()
+		{
+			yield return new TestCaseData(new Card[0], 1, Oros).Throws(typeof(InvalidOperationException));
+			yield return
+				new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 1) }, 1, Oros).Returns(new Card(Oros,1));
+
+			for (int i = 1; i <= 4; i++)
+				yield return
+					new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, i, Oros)
+						.Returns(new Card(Oros,7));
+
+			for (int i = 1; i <= 4; i++)
+				yield return
+					new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, i, Copas)
+						.Returns(new Card(Copas,4));
+
+			for (int i = 1; i <= 4; i++)
+				yield return
+					new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Espadas, 6), new Card(Oros, 7) }, i, Copas)
+						.Returns(new Card(Copas,4));
+
+			yield return
+				new TestCaseData(new[] { new Card(Oros, 1), new Card(Oros, 3), new Card(Oros, 12), new Card(Oros, 11) }, 1, Oros)
+					.Returns(new Card(Oros,1));
+			yield return
+				new TestCaseData(new[] { new Card(Oros, 3), new Card(Oros, 12), new Card(Oros, 11), new Card(Oros, 10) }, 1, Oros)
+					.Returns(new Card(Oros, 3));
+			yield return
+				new TestCaseData(new[] { new Card(Oros, 12), new Card(Oros, 11), new Card(Oros, 10), new Card(Oros, 7) }, 1, Oros)
+					.Returns(new Card(Oros, 12));
+			yield return
+				new TestCaseData(new[] { new Card(Oros, 11), new Card(Oros, 10), new Card(Oros, 7), new Card(Oros, 6) }, 1, Oros)
+					.Returns(new Card(Oros, 11));
+
+			//IMPORTANTE
+			yield return
+				new TestCaseData(new[] { new Card(Copas, 4), new Card(Bastos, 3), new Card(Espadas, 10) }, 1, Oros)
+				.Returns(new Card(Copas, 4));
 
 		}
+
 
 		[Test,TestCaseSource("Can_GetPoints_TestCases")]
 		public int Can_GetPoints(ICard[] cards, int i)

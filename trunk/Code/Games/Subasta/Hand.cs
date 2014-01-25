@@ -88,7 +88,7 @@ namespace Games.Subasta
 
 		public ICard CardWinner
 		{
-			get { return _hand[GetWinner() - 1]; }
+			get { return GetCurrentCardWinner(); }
 		}
 
 		public bool IsEmpty
@@ -140,6 +140,15 @@ namespace Games.Subasta
 
 		private int GetWinner()
 		{
+			var currentWin = GetCurrentCardWinner();
+
+			return Array.IndexOf(_hand, currentWin) + 1;
+		}
+
+		private ICard GetCurrentCardWinner()
+		{
+			ThrowIfEmpty();
+
 			var currentPlayer = _firstPlayer;
 
 			var currentWin = _hand[currentPlayer - 1];
@@ -148,15 +157,14 @@ namespace Games.Subasta
 			{
 				currentPlayer = NextPlayer(currentPlayer);
 				var card = _hand[currentPlayer - 1];
-				
+
 				if (card == null) break;
-				
+
 				currentWin = _cardsComparer.Best(currentWin, card);
-
 			} while (currentPlayer != _firstPlayer);
-
-			return Array.IndexOf(_hand, currentWin) + 1;
+			return currentWin;
 		}
+
 
 		private static int NextPlayer(int currentPlayer)
 		{
@@ -167,7 +175,7 @@ namespace Games.Subasta
 
 		public override string ToString()
 		{
-			return string.Format("1-{0} - 2-{1} - 3-{2} - 4-{3}", GetCardString(0), GetCardString(1), GetCardString(2),
+			return string.Format("a-{0} - b-{1} - c-{2} - d-{3}", GetCardString(0), GetCardString(1), GetCardString(2),
 			                     GetCardString(3));
 		}
 
