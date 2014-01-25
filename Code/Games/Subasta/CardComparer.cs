@@ -11,23 +11,23 @@ namespace Games.Subasta
 			_trump = trump;
 		}
 
-		public ICard Best(ICard a, ICard b)
+		public ICard Best(ICard current, ICard candidate)
 		{
-			if (b.Suit.Leads(_trump))
+			if (candidate.Suit.IsTrump(_trump))
 			{
-				if (!a.Suit.Leads(_trump))
-					return b;
-				if (a.Value > b.Value)
-					return a;
-				return b;
+				if (!current.Suit.IsTrump(_trump))
+					return candidate;
+				if (current.Value > candidate.Value)
+					return current;
+				return candidate;
 			}
 
-			if (a.Suit.Leads(_trump))
-				return a;
+			if (current.Suit.IsTrump(_trump))
+				return current;
 
-			if (a.Value > b.Value)
-				return a;
-			return b;
+			if (!candidate.Suit.IsTrump(_trump) || current.Value > candidate.Value)
+				return current;
+			return candidate;
 		}
 	}
 }

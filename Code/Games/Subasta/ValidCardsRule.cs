@@ -32,6 +32,18 @@ namespace Games.Subasta
 
 			//no es triunfo
 
+			//esta fallada
+			if (currentHand.BrokeToTrump)
+			{
+				//las del palo
+				if (playerCards.Any(currentSuit)) return playerCards.Where(currentSuit).ToArray();
+
+				//subir fallo
+				Func<ICard, bool> raiseTrump = x => x.Suit.Equals(currentHand.Trump) && Compare(x, currentHand.CardWinner) == -1;
+				if (playerCards.Any(raiseTrump)) return playerCards.Where(raiseTrump).ToArray();
+
+			}
+
 			//no esta fallada
 			if (!currentHand.BrokeToTrump)
 			{
@@ -54,15 +66,6 @@ namespace Games.Subasta
 				return playerCards;
 
 			}
-			
-			//esta fallada
-
-			//las del palo
-			if (playerCards.Any(currentSuit)) return playerCards.Where(currentSuit).ToArray();
-
-			//subir fallo
-			Func<ICard, bool> raiseTrump = x => x.Suit.Equals(currentHand.Trump) &&  Compare(x,currentHand.CardWinner)==-1;
-			if (playerCards.Any(raiseTrump)) return playerCards.Where(raiseTrump).ToArray();
 			
 			//todas valen
 			return playerCards;

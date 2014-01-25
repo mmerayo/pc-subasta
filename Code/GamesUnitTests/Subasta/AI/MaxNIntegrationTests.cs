@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Games.Deck;
 using Games.Subasta;
 using Games.Subasta.AI;
+using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
@@ -67,7 +68,7 @@ namespace GamesUnitTests.Subasta.AI
 		[Test, TestCaseSource("CanResolvePoints_TestCases")]
 		public int[] CanResolvePoints(string trump,
 			ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
-										   int firstPlayer, int playerEvaluated, int moveNumber)
+										   int firstPlayer, int moveNumber)
 		{
 			Console.WriteLine("Hands#:{0}",cardsP1.Length);
 			_context
@@ -90,7 +91,7 @@ namespace GamesUnitTests.Subasta.AI
 								 new[] { new Card(Copas, 1) },
 								 new[] { new Card(Espadas, 1) },
 								 new[] { new Card(Bastos, 1) },
-								 1, 1, 1).Returns(new []{54,0});
+								 1, 1).Returns(new[] { 54, 0 });
 			//necesita arrastrar
 			yield return
 				new TestCaseData(Oros,
@@ -98,8 +99,16 @@ namespace GamesUnitTests.Subasta.AI
 								 new[] { new Card(Copas, 1), new Card(Oros, 10) },
 								 new[] { new Card(Espadas, 1), new Card(Oros, 11) },
 								 new[] { new Card(Bastos, 1), new Card(Oros, 3) },
-								 1, 1, 1).Returns(new[]{69,0});
+								 1, 1).Returns(new[] { 69, 0 });
 
+			//Asegura monte
+			yield return
+				new TestCaseData(Oros,
+								 new[] { new Card(Bastos, 3), new Card(Oros, 2) },
+								 new[] { new Card(Espadas, 12), new Card(Espadas, 10) },
+								 new[] { new Card(Copas, 5), new Card(Copas, 11) },
+								 new[] { new Card(Copas, 4), new Card(Oros, 12) },
+								 1, 1).Returns(new[] { 15, 18 });
 		}
 		
 
@@ -119,8 +128,11 @@ namespace GamesUnitTests.Subasta.AI
 
 			public TestContext WithTrump(string trump)
 			{
-				_fixture.Register<ICardComparer>(() => new CardComparer(Suit.FromName(trump)));
+				 _fixture.Register<ISuit>(()=>Suit.FromName(trump));
+				
+				_fixture.Register<ICardComparer>(()=>_fixture.CreateAnonymous<CardComparer>());
 				_status = _fixture.Freeze<Status>();
+				
 				return this;
 			}
 

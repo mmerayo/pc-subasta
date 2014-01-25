@@ -8,6 +8,6 @@ namespace Games.Subasta
 {
 	interface ICardComparer
 	{
-		ICard Best(ICard a, ICard b);
+		ICard Best(ICard current, ICard candidate);
 	}
 }
