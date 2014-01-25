@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Games.Deck;
 
-namespace Games.Subasta.AI
+namespace Games.Subasta.GameGeneration.AI
 {
 	class Status
 	{

@@ -2,7 +2,7 @@
 using System.Linq;
 using Games.Deck;
 
-namespace Games.Subasta.AI
+namespace Games.Subasta.GameGeneration.AI
 {
 	internal class MaxN
 	{

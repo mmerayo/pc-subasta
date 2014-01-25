@@ -1,0 +1,3 @@
+﻿-GAME GENERATION INTERFACES AND SEPARATE TO ANOTHER ASSEMBLY
+-Query interfaces
+-store game and leafs/status in db
