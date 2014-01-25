@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Games.Deck;
 using Games.Subasta;
-using Games.Subasta.AI;
-using Moq;
+using Games.Subasta.GameGeneration.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
-using Suit = Games.Subasta.Suit;
 using Card = Games.Subasta.Card;
-namespace GamesUnitTests.Subasta.AI
+using Suit = Games.Subasta.Suit;
+
+namespace GamesUnitTests.Subasta.GameGeneration.AI
 {
 	[TestFixture]
 	public class MaxNIntegrationTests

@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Subasta\AI\MaxNIntegrationTests.cs" />
+    <Compile Include="Subasta\GameGeneration\AI\MaxNIntegrationTests.cs" />
     <Compile Include="Subasta\DeckTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subasta\GameUnitTests.cs" />

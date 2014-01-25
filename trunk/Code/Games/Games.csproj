@@ -45,7 +45,7 @@
     <Compile Include="Subasta\ICardComparer.cs" />
     <Compile Include="Subasta\IHand.cs" />
     <Compile Include="Subasta\IValidCardsRule.cs" />
-    <Compile Include="Subasta\AI\MaxN.cs" />
+    <Compile Include="Subasta\GameGeneration\AI\MaxN.cs" />
     <Compile Include="Deck\Card.cs" />
     <Compile Include="Deck\Deck.cs" />
     <Compile Include="Deck\ICard.cs" />
@@ -53,7 +53,7 @@
     <Compile Include="Deck\IPack.cs" />
     <Compile Include="Deck\ISuit.cs" />
     <Compile Include="Deck\Pack.cs" />
-    <Compile Include="Subasta\AI\Status.cs" />
+    <Compile Include="Subasta\GameGeneration\AI\Status.cs" />
     <Compile Include="Subasta\Deck.cs" />
     <Compile Include="Subasta\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,7 +71,9 @@
     <Compile Include="Subasta\Suit.cs" />
     <Compile Include="Subasta\ValidCardsRule.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Subasta\GameGeneration\TODO.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
