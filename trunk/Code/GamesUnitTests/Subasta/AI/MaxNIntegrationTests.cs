@@ -12,7 +12,7 @@ using Card = Games.Subasta.Card;
 namespace GamesUnitTests.Subasta.AI
 {
 	[TestFixture]
-	public class MaxNUnitTests
+	public class MaxNIntegrationTests
 	{
 		private const string Oros = "Oros";
 		private const string Copas = "Copas";
