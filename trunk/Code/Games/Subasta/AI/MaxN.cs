@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Games.Deck;
 
@@ -85,20 +84,29 @@ namespace Games.Subasta.AI
 		{
 			private readonly Status _status;
 
-			public int Points1And3 { get; private set; }
-			public int Points2And4 { get; private set; }
+			public int Points1And3 { get; set; }
 
-			public ICard CardAtMove(int playerPosition,int moveNumber)
+			public int Points2And4 { get; set; }
+
+			private int GetPoints(int playerNum1, int playerNum2)
 			{
-				return _status.Hands[moveNumber-1].PlayerCard(playerPosition);
+				int result = _status.SumTotal(playerNum1) + _status.SumTotal(playerNum2);
+				if (_status.CurrentHand.PlayerWinner == playerNum1 || _status.CurrentHand.PlayerWinner == playerNum2)
+					result += 10;
+				return result;
+			}
+
+
+			public ICard CardAtMove(int playerPosition, int moveNumber)
+			{
+				return _status.Hands[moveNumber - 1].PlayerCard(playerPosition);
 			}
 
 			public NodeResult(Status status)
 			{
 				_status = status;
-
-				Points1And3 = _status.SumTotal(1) + _status.SumTotal(3);
-				Points2And4 = _status.SumTotal(2) + _status.SumTotal(4);
+				Points1And3 = GetPoints(1, 3);
+				Points2And4 = GetPoints(2, 4);
 			}
 
 			public int this[int playerPosition]
