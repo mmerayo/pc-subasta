@@ -1,3 +1,4 @@
-﻿-GAME GENERATION INTERFACES AND SEPARATE TO ANOTHER ASSEMBLY
+﻿-split assemblies and simplify types
+-GAME GENERATION INTERFACES AND SEPARATE TO ANOTHER ASSEMBLY
 -Query interfaces
 -store game and leafs/status in db
