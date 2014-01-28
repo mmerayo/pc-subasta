@@ -16,11 +16,12 @@ namespace Games.Subasta.GameGeneration.AI
 		{
 			Trump = trump;
 			_cardsComparer = cardsComparer;
+			PlayerBets = int.MinValue;
 		}
 
 		public Status Clone()
 		{
-			var status = new Status(_cardsComparer,Trump) {_turn = _turn};
+			var status = new Status(_cardsComparer, Trump) {_turn = _turn, PlayerBets = PlayerBets};
 			Array.Copy(_playerCards, status._playerCards, 4);
 			
 			status._hands=new List<IHand>();
@@ -29,7 +30,9 @@ namespace Games.Subasta.GameGeneration.AI
 		}
 
 		public ISuit Trump { get; private set; }
-
+		
+		//el jugador que la pone
+		public int PlayerBets { get; private set; }
 
 		public int Turn
 		{
@@ -64,12 +67,35 @@ namespace Games.Subasta.GameGeneration.AI
 			}
 		}
 
+		public Declaration[] Declarables
+		{
+			get
+			{
+				//TODO
+				return new Declaration[0];
+			}
+		}
+
+		public IHand LastCompletedHand
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+
 		public void AddHand()
 		{
+			ThrowIfNotPlayerBetSet();
+
 			if (_hands.Count == 10 || _playerCards.All(x=>x.Length==0))
 				return;
 			var item = new Hand(_cardsComparer, Trump);
 			_hands.Add(item);
+		}
+
+		private void ThrowIfNotPlayerBetSet()
+		{
+			if (PlayerBets == int.MinValue)
+				throw new InvalidOperationException("Player bets need to be set");
 		}
 
 		public ICard[] PlayerCards(int playerPosition)
@@ -103,5 +129,12 @@ namespace Games.Subasta.GameGeneration.AI
 			if (playerPosition < 1 || playerPosition > 4)
 				throw new ArgumentOutOfRangeException(argName);
 		}
+
+		public void SetPlayerBet(int playerPosition)
+		{
+			ThrowIfNotValidPlayerPosition(playerPosition);
+			PlayerBets = playerPosition;
+		}
+		
 	}
 }

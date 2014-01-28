@@ -1,4 +1,5 @@
 ﻿using Games.Deck;
+using Games.Subasta.GameGeneration.AI;
 
 namespace Games.Subasta
 {
@@ -30,5 +31,6 @@ namespace Games.Subasta
 		ICard PlayerCard(int playerPosition);
 
 		IHand Clone();
+		void Add(Declaration declaration);
 	}
 }
