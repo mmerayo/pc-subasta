@@ -41,10 +41,10 @@ namespace Games.Subasta.GameGeneration.AI
 			updatedStatus = PlayCandidate(currentStatus, playerPosition, candidate);
 			
 			var declarables = updatedStatus.Declarables;
-			
-			Status newStatus = updatedStatus.Clone();
-			if(declarables.Length>0)
+			var newStatus = updatedStatus.Clone();
+			if (declarables.Length > 0)
 				newStatus.LastCompletedHand.Add(declarables[0]);
+			
 			var best = Execute(newStatus, newStatus.Turn);
 
 			int length = declarables.Length;

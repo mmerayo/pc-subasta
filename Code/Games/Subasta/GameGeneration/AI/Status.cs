@@ -71,14 +71,23 @@ namespace Games.Subasta.GameGeneration.AI
 		{
 			get
 			{
-				//TODO
+				//TODO: havent been applied yet 
+				//and havent been used in the latest completed hand 
+				//and in the lates completed hand no se ha cantado 
+				//eliminar reyyes etc..
 				return new Declaration[0];
 			}
 		}
 
 		public IHand LastCompletedHand
 		{
-			get { throw new NotImplementedException(); }
+			get
+			{
+				if (!Hands[0].IsCompleted)
+					return null;
+				return Hands.Last(x => x.IsCompleted);
+
+			}
 		}
 
 
