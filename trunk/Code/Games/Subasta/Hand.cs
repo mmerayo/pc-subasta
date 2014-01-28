@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Games.Deck;
+using Games.Subasta.GameGeneration.AI;
 
 namespace Games.Subasta
 {
@@ -122,6 +123,11 @@ namespace Games.Subasta
 				};
 			Array.Copy(_hand,result._hand,4);
 			return result;
+		}
+
+		public void Add(Declaration declaration)
+		{
+			throw new NotImplementedException();
 		}
 
 

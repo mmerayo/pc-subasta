@@ -35,7 +35,8 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			_context
 				.WithTrump(trump)
 				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
-				.WithFirstPlayer(firstPlayer);
+				.WithFirstPlayer(firstPlayer)
+				.WithPlayerBet(firstPlayer);
 				
 
 			var nodeResult = _context.Sut.Execute(_context.Status, firstPlayer);
@@ -73,7 +74,8 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			_context
 				.WithTrump(trump)
 				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
-				.WithFirstPlayer(firstPlayer);
+				.WithFirstPlayer(firstPlayer)
+				.WithPlayerBet(firstPlayer);
 
 
 			var nodeResult = _context.Sut.Execute(_context.Status, firstPlayer);
@@ -159,6 +161,13 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 				Status.SetCards(2, cardsP2);
 				Status.SetCards(3, cardsP3);
 				Status.SetCards(4, cardsP4);
+				return this;
+			}
+
+			public TestContext WithPlayerBet(int player)
+			{
+				Status.SetPlayerBet(player);
+
 				return this;
 			}
 		}

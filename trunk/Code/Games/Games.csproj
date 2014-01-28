@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Subasta\CardComparer.cs" />
+    <Compile Include="Subasta\GameGeneration\AI\Declaration.cs" />
     <Compile Include="Subasta\Hand.cs" />
     <Compile Include="Subasta\ICardComparer.cs" />
     <Compile Include="Subasta\IHand.cs" />

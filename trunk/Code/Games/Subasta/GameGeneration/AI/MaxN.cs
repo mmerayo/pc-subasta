@@ -21,16 +21,44 @@ namespace Games.Subasta.GameGeneration.AI
 
 			var candidates = GetCandidates(currentStatus, playerPosition);
 
-			Status updatedStatus = PlayCandidate(currentStatus, playerPosition, candidates[0]);
-			var best = Execute(updatedStatus, updatedStatus.Turn);
+			Status updatedStatus;
+			var best = Explore(currentStatus, playerPosition, candidates[0], out updatedStatus);
 			var length = candidates.Length;
 			for (int i = 1; i < length; i++)
 			{
-				updatedStatus = PlayCandidate(currentStatus, playerPosition, candidates[i]);
-				var current = Execute(updatedStatus, updatedStatus.Turn);
+				var current = Explore(currentStatus, playerPosition, candidates[i], out updatedStatus);
 
 				if (current[playerPosition] > best[playerPosition])
 					best = current;
+			}
+
+			return best;
+		}
+
+		//explora los cantes tambien
+		private NodeResult Explore( Status currentStatus, int playerPosition, ICard candidate, out Status updatedStatus)
+		{
+			updatedStatus = PlayCandidate(currentStatus, playerPosition, candidate);
+			
+			var declarables = updatedStatus.Declarables;
+			
+			Status newStatus = updatedStatus.Clone();
+			if(declarables.Length>0)
+				newStatus.LastCompletedHand.Add(declarables[0]);
+			var best = Execute(newStatus, newStatus.Turn);
+
+			int length = declarables.Length;
+			for (int index = 1; index < length; index++)
+			{
+				var declaration = declarables[index];
+				newStatus = updatedStatus.Clone();
+				newStatus.LastCompletedHand.Add(declaration);
+				
+				var current = Execute(newStatus, newStatus.Turn);
+
+				if (current[playerPosition] > best[playerPosition])
+					best = current;
+				
 			}
 
 			return best;
@@ -58,8 +86,7 @@ namespace Games.Subasta.GameGeneration.AI
 			var hand = result.CurrentHand;
 
 			hand.Add(playerPosition, candidate);
-
-
+			
 			if (hand.IsCompleted)
 			{
 				result.Turn = hand.PlayerWinner;
