@@ -26,6 +26,7 @@ namespace Games.Subasta.GameGeneration.AI
 			
 			status._hands=new List<IHand>();
 			_hands.ForEach(x => status._hands.Add(x.Clone()));
+			//CALCULATE DECLARABLES
 			return status;
 		}
 
@@ -71,9 +72,10 @@ namespace Games.Subasta.GameGeneration.AI
 		{
 			get
 			{
+
 				//TODO: havent been applied yet 
 				//and havent been used in the latest completed hand 
-				//and in the lates completed hand no se ha cantado 
+				//and in the latest completed hand no se ha cantado 
 				//eliminar reyyes etc..
 				return new Declaration[0];
 			}
@@ -118,6 +120,8 @@ namespace Games.Subasta.GameGeneration.AI
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
 			_playerCards[playerPosition - 1] = cards;
+
+			//TODO:CALCULATE DECLARABLES
 		}
 
 
