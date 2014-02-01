@@ -58,8 +58,38 @@ namespace Games.Subasta
 
 		public int Points
 		{
-			get { return _hand.Where(x => x != null).Sum(x => x.Value); }
+			get
+			{
+				return _hand.Where(x => x != null).Sum(x => x.Value)+DeclarationValue();
+			}
+		}
 
+		private int DeclarationValue()
+		{
+			int result = 0;
+			if (Declaration.HasValue)
+				switch (Declaration.Value)
+				{
+					case GameGeneration.AI.Declaration.Reyes:
+						result = 120;
+						break;
+					case GameGeneration.AI.Declaration.Caballos:
+						result = 60;
+						break;
+					case GameGeneration.AI.Declaration.ParejaOros:
+					case GameGeneration.AI.Declaration.ParejaCopas:
+					case GameGeneration.AI.Declaration.ParejaEspadas:
+					case GameGeneration.AI.Declaration.ParejaBastos:
+						result= 20;
+						break;
+					case GameGeneration.AI.Declaration.Cuarenta:
+						result = 40;
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+
+			return result;
 		}
 
 		public bool IsStartedByTrump
@@ -109,6 +139,9 @@ namespace Games.Subasta
 		}
 
 		public ISuit Trump { get; private set; }
+
+		public Declaration? Declaration { get; private set; }
+
 		public ICard PlayerCard(int playerPosition)
 		{
 			return _hand[playerPosition - 1];
@@ -127,7 +160,8 @@ namespace Games.Subasta
 
 		public void Add(Declaration declaration)
 		{
-			throw new NotImplementedException();
+			ThrowIfNotcompleted();
+			Declaration = declaration;
 		}
 
 

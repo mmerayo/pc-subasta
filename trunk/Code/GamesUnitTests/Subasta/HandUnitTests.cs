@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Games.Deck;
 using Games.Subasta;
+using Games.Subasta.GameGeneration.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Card = Games.Subasta.Card;
@@ -50,6 +51,27 @@ namespace GamesUnitTests.Subasta
 			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 5) }, new Card(Oros, 1)).Throws(typeof(InvalidOperationException));
 
 		}
+
+		[Test, TestCaseSource("Can_AddDeclaration_TestCases")]
+		public Declaration? Can_AddDeclaration(ICard[] existingCards, Declaration declaration)
+		{
+
+			_context.WithTrump(Oros).WithExistingCards(existingCards, 1);
+
+			_context.Sut.Add(declaration);
+
+			return _context.Sut.Declaration;
+		}
+
+		public static IEnumerable Can_AddDeclaration_TestCases()
+		{
+			yield return new TestCaseData(new Card[0], Declaration.ParejaBastos).Throws(typeof(InvalidOperationException));
+			yield return
+				new TestCaseData(new[] {new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 5)},
+				                 Declaration.ParejaBastos).Returns(Declaration.ParejaBastos);
+
+		}
+
 
 		[Test,TestCaseSource("Can_GetIsCompleted_TestCases")]
 		public bool Can_GetIsCompleted(ICard[] cards,int i)
@@ -164,23 +186,50 @@ namespace GamesUnitTests.Subasta
 
 
 		[Test,TestCaseSource("Can_GetPoints_TestCases")]
-		public int Can_GetPoints(ICard[] cards, int i)
+		public int Can_GetPoints(ICard[] cards, int i,Declaration? declaration=null)
 		{
-			_context.WithTrump(Oros).WithExistingCards(cards, 1);
+			_context
+				.WithTrump(Oros)
+				.WithExistingCards(cards, 1)
+				.WithDeclaration(declaration);
 			return _context.Sut.Points;
 		}
 
 		public static IEnumerable Can_GetPoints_TestCases()
 		{
-			yield return new TestCaseData(new Card[0], 1).Returns(0);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 1) }, 2).Returns(22);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 1) }, 3).Returns(22);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 1) }, 4).Returns(32);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 10), }, 5).Returns(13);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 11), }, 6).Returns(14);
-			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 12), }, 7).Returns(15);
-			yield return new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, 8).Returns(0);
+			yield return new TestCaseData(new Card[0], 1, null).Returns(0);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 1) }, 2,null).Returns(22);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 1) }, 3, null).Returns(22);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 1) }, 4, null).Returns(32);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 10), }, 5, null).Returns(13);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 11), }, 6, null).Returns(14);
+			yield return new TestCaseData(new[] { new Card(Copas, 1), new Card(Oros, 12), }, 7, null).Returns(15);
+			yield return new TestCaseData(new[] { new Card(Copas, 4), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, 8, null).Returns(0);
 
+			var declarations = Enum.GetValues(typeof(Declaration)).Cast<Declaration>();
+			foreach (var declaration in declarations)
+				yield return new TestCaseData(new[] { new Card(Copas, 3), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 7) }, 8,declaration).Returns(10+ GetDeclarationValue(declaration));
+				
+		}
+
+		private static int GetDeclarationValue(Declaration declaration)
+		{
+			switch(declaration)
+			{
+				case Declaration.Reyes:
+					return 120;
+				case Declaration.Caballos:
+					return 60;
+				case Declaration.ParejaOros:
+				case Declaration.ParejaCopas:
+				case Declaration.ParejaEspadas:
+				case Declaration.ParejaBastos:
+					return 20;
+				case Declaration.Cuarenta:
+					return 40;
+				default:
+					throw new ArgumentOutOfRangeException("declaration");
+			}
 		}
 
 		private class TestContext
@@ -188,6 +237,7 @@ namespace GamesUnitTests.Subasta
 			private readonly Fixture _fixture;
 			private Hand _sut;
 			private ISuit _Trump=null;
+			
 
 			public TestContext()
 			{
@@ -222,6 +272,13 @@ namespace GamesUnitTests.Subasta
 				_fixture.Register<ISuit>(() => _Trump);
 				_fixture.Register<ICardComparer>(() => new CardComparer(_Trump));
 
+				return this;
+			}
+
+			public TestContext WithDeclaration(Declaration? declaration)
+			{
+				if(declaration.HasValue)
+					Sut.Add(declaration.Value);
 				return this;
 			}
 		}

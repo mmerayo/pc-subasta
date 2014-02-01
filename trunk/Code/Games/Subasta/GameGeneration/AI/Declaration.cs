@@ -7,6 +7,7 @@
 		ParejaOros,
 		ParejaCopas,
 		ParejaEspadas,
-		ParejaBastos
+		ParejaBastos,
+		Cuarenta
 	}
 }
