@@ -28,6 +28,7 @@ namespace Games.Subasta
 		bool BrokeToTrump { get; }
 
 		ISuit Trump { get; }
+		Declaration? Declaration { get; }
 		ICard PlayerCard(int playerPosition);
 
 		IHand Clone();

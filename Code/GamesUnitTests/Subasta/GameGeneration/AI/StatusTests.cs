@@ -38,7 +38,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			_context
 				.WithTrump(trump)
 				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
-				.WithHands(new[]{hand}) anyadir cante existente ala informacion dela mano
+				//.WithHands(new[]{hand}) anyadir cante existente ala informacion dela mano
 				.WithPlayerBet(playerBet);
 
 			return _context.Sut.Declarables;
@@ -128,7 +128,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 
 			public TestContext WithHands(ICard[][] hands)
 			{
-				_hands = hands;
+				//_hands = hands;
 				return this;
 			}
 
