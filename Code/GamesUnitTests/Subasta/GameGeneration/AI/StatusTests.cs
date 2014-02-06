@@ -30,10 +30,11 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 		}
 
 		[Test,TestCaseSource("CanResolveDeclarables_TestCases")]
-		public Declaration[] CanResolveDeclarables(string trump, ICard[] hand, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, int playerBet)
+		public Declaration[] CanResolveDeclarables(int id,string trump, ICard[] hand, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, int playerBet)
 		{
-			Assert.IsTrue(hand.Length==4);
-			CollectionAssert.AllItemsAreNotNull(hand);
+			Console.WriteLine("Id: {0}", id);
+			//Assert.IsTrue(hand.Length==4);
+			//CollectionAssert.AllItemsAreNotNull(hand);
 
 			_context
 				.WithTrump(trump)
@@ -47,7 +48,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 		private static IEnumerable CanResolveDeclarables_TestCases()
 		{
 			//No possible declarations
-			yield return new TestCaseData(Oros,
+			yield return new TestCaseData(1,Oros,
 			                              null,
 			                              new[] {new Card(Oros, 11)},
 			                              new[] {new Card(Copas, 11)},
@@ -56,7 +57,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			                              1).Returns(new Declaration[0]);
 			
 			//no team player bet= no declarable
-			yield return new TestCaseData(Oros,
+			yield return new TestCaseData(2,Oros,
 										  null,
 										  new[] { new Card(Oros, 11), new Card(Oros, 12) },
 										  new[] { new Card(Copas, 11),new Card(Copas,12) },
@@ -66,7 +67,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 
 
 			//declared= no declarable
-			yield return new TestCaseData(Oros,
+			yield return new TestCaseData(3,Oros,
 										  new[] { new Card(Espadas, 1), new Card(Espadas, 2), new Card(Espadas, 3), new Card(Espadas, 4) },
 										  new[] { new Card(Oros, 11), new Card(Oros, 12) },
 										  new[] { new Card(Copas, 11), new Card(Copas, 12) },

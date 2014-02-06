@@ -68,17 +68,48 @@ namespace Games.Subasta.GameGeneration.AI
 			}
 		}
 
+		//expects the last hand to be completed before this request
 		public Declaration[] Declarables
 		{
 			get
 			{
+				//in the latest completed hand no se ha cantado 
+				IHand last = Hands.LastOrDefault();
+				if(last==null || last.IsCompleted)
+					throw new InvalidOperationException("There must be at least one completed hand");
+				if(last.Declaration.HasValue)
+					return new Declaration[0];
 
-				//TODO: havent been applied yet 
-				//and havent been used in the latest completed hand 
-				//and in the latest completed hand no se ha cantado 
-				//eliminar reyyes etc..
-				return new Declaration[0];
+				var candidates = GetDeclarationCandidates();
+				//havent been applied yet 
+				candidates.RemoveAll(y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
+
+				return candidates.ToArray();
 			}
+		}
+
+		private List<Declaration> GetDeclarationCandidates()
+		{
+
+			var last = Hands.Last(x => x.IsCompleted);
+			var teamPlayers=new int[2];
+			if (last.PlayerWinner == 1 && last.PlayerWinner == 3)
+			{
+				teamPlayers[0] = 1;
+				teamPlayers[1] = 3;
+			}
+			else
+			{
+				teamPlayers[0] = 2;
+				teamPlayers[1] = 4;
+			}
+
+			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
+			var result=new List<Declaration>();
+			for (int i = 0; i < 2;i++ )
+				result.AddRange(declarables.Where(declarable => PlayerDeclarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
+
+			return result;
 		}
 
 		public IHand LastCompletedHand
@@ -142,6 +173,7 @@ namespace Games.Subasta.GameGeneration.AI
 			if (playerPosition < 1 || playerPosition > 4)
 				throw new ArgumentOutOfRangeException(argName);
 		}
+
 
 		public void SetPlayerBet(int playerPosition)
 		{
