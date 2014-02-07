@@ -69,12 +69,6 @@
     <Compile Include="Subasta\ValidCardsRuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Games\Games.csproj">
-      <Project>{64D19F3D-8E22-4C9A-9CCD-868AEB45D5C6}</Project>
-      <Name>Games</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

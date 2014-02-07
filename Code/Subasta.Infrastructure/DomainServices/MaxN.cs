@@ -4,7 +4,7 @@ using Games.Deck;
 
 namespace Games.Subasta.GameGeneration.AI
 {
-	internal class MaxN
+	internal class MaxN : IGameExplorationAlgorithm
 	{
 		private readonly IValidCardsRule _validMoveRule;
 

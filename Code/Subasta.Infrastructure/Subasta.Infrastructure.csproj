@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServices\CardComparer.cs" />
+    <Compile Include="DomainServices\MaxN.cs" />
+    <Compile Include="DomainServices\PlayerDeclarationsChecker.cs" />
     <Compile Include="DomainServices\ValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
