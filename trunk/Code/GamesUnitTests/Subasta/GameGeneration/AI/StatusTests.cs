@@ -53,7 +53,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			                              new[] {new Card(Copas, 11)},
 			                              new[] {new Card(Espadas, 11)},
 			                              new[] {new Card(Bastos, 11)},
-			                              1).Throws(typeof (InvalidOperationException));
+			                              1).Returns(new Declaration[0]);
 
 
 			//No possible declarations
