@@ -1,4 +1,4 @@
-﻿namespace Subasta.DomainServices.Impl
+﻿namespace Subasta.Infrastructure.DomainServices
 {
 	class CardComparer : ICardComparer
 	{

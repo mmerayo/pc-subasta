@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Subasta.DomainServices.Impl")]
+[assembly: AssemblyTitle("Subasta.Infrastructure")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Subasta.DomainServices.Impl")]
+[assembly: AssemblyProduct("Subasta.Infrastructure")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ad692da0-77f6-4afa-9ded-8e91d7896dcd")]
+[assembly: Guid("a9dcb9c0-a273-4a8b-b1ca-359a53e21f98")]
 
 // Version information for an assembly consists of the following four values:
 //
