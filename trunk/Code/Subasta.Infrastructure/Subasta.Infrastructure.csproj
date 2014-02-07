@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CE718DC4-E48E-4305-839E-5FEE25F01510}</ProjectGuid>
+    <ProjectGuid>{9115547E-2CB4-457D-9D09-678EB35D9A93}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Subasta.DomainServices.Impl</RootNamespace>
-    <AssemblyName>Subasta.DomainServices.Impl</AssemblyName>
+    <RootNamespace>Subasta.Infrastructure</RootNamespace>
+    <AssemblyName>Subasta.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardComparer.cs" />
+    <Compile Include="DomainServices\CardComparer.cs" />
+    <Compile Include="DomainServices\ValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidCardsRule.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

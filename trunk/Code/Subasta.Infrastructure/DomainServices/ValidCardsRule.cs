@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Subasta.DomainServices.Impl
+namespace Subasta.Infrastructure.DomainServices
 {
 	class ValidCardsRule : IValidCardsRule
 	{
