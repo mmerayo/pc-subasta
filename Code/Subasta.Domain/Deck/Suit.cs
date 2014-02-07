@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Games.Deck;
 
-namespace Games.Subasta
+namespace Subasta.Domain.Deck
 {
-	internal class Suit : Games.Deck.Suit
+	internal sealed class Suit : ISuit
 	{
+		public Suit(string name,int value)
+		{
+			Name = name;
+			Value = value;
+		}
+
+		public string Name { get; private set; }
+
+		public int Value { get; private set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
+
 		private static ISuit[] _suits;
 
-		public Suit(string name, int value)
-			: base(name, value)
-		{
-		}
 
 		public static ISuit FromName(string suitName)
 		{
@@ -33,11 +43,9 @@ namespace Games.Subasta
 			}
 		}
 
-		public override bool IsTrump(ISuit Trump)
+		public  bool IsTrump(ISuit trump)
 		{
-			return Value == Trump.Value;
+			return Value == trump.Value;
 		}
-
-		
 	}
 }

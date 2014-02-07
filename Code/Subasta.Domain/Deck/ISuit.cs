@@ -1,9 +1,9 @@
-﻿namespace Games.Deck
+﻿namespace Subasta.Domain.Deck
 {
 	public interface ISuit
 	{
 		string Name { get; }
 		int Value { get; }
-		bool IsTrump(ISuit Trump);
+		bool IsTrump(ISuit trump);
 	}
 }

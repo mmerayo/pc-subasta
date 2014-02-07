@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{64D19F3D-8E22-4C9A-9CCD-868AEB45D5C6}</ProjectGuid>
+    <ProjectGuid>{CE718DC4-E48E-4305-839E-5FEE25F01510}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Games</RootNamespace>
-    <AssemblyName>Games</AssemblyName>
+    <RootNamespace>Subasta.DomainServices.Impl</RootNamespace>
+    <AssemblyName>Subasta.DomainServices.Impl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,25 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Subasta\PlayerDeclarationsChecker.cs" />
-    <Compile Include="Subasta\GameGeneration\AI\Declaration.cs" />
-    <Compile Include="Subasta\GameGeneration\AI\MaxN.cs" />
-    <Compile Include="Subasta\GameGeneration\AI\Status.cs" />
-    <Compile Include="Subasta\Deck.cs" />
+    <Compile Include="CardComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subasta\Game.cs" />
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="Subasta\GameConfiguration.cs" />
-    <Compile Include="ISuffleStrategy.cs" />
-    <Compile Include="Subasta\Sets\ISet.cs" />
-    <Compile Include="Subasta\Sets\ISetFactory.cs" />
-    <Compile Include="Subasta\Player.cs" />
-    <Compile Include="Subasta\Sets\Set.cs" />
-    <Compile Include="Subasta\Sets\SetFactory.cs" />
-    <Compile Include="Subasta\SuffleStrategy.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Subasta\GameGeneration\TODO.txt" />
+    <Compile Include="ValidCardsRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
