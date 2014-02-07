@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Games.Deck
+namespace Subasta.Domain.Deck
 {
 	class Pack : IPack
 	{

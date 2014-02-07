@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Games.Deck
+namespace Subasta.Domain.Deck
 {
 	public interface IDeck
 	{

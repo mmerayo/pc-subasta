@@ -1,4 +1,4 @@
-﻿namespace Games.Deck
+﻿namespace Subasta.Domain.Deck
 {
 	public interface ICard
 	{

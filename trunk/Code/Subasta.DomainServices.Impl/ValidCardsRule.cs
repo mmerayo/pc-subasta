@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Games.Deck;
 
-namespace Games.Subasta
+namespace Subasta.DomainServices.Impl
 {
 	class ValidCardsRule : IValidCardsRule
 	{

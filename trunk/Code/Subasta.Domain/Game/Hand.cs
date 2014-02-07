@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Games.Deck;
-using Games.Subasta.GameGeneration.AI;
+using Subasta.Domain.Deck;
 
-namespace Games.Subasta
+namespace Subasta.Domain.Game
 {
 	internal class Hand : IHand
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Games.Deck
+namespace Subasta.Domain.Deck
 {
 	abstract class Deck : IDeck
 	{

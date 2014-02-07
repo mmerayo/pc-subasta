@@ -1,6 +1,4 @@
-﻿using Games.Deck;
-
-namespace Games.Subasta
+﻿namespace Subasta.DomainServices
 {
 	internal interface IValidCardsRule
 	{
