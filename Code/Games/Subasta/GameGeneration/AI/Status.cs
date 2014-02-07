@@ -76,9 +76,7 @@ namespace Games.Subasta.GameGeneration.AI
 			{
 				//in the latest completed hand no se ha cantado 
 				IHand last = Hands.LastOrDefault();
-				if(last==null || !last.IsCompleted)
-					throw new InvalidOperationException("There must be at least one completed hand");
-				if(last.Declaration.HasValue)
+				if (last == null || !last.IsCompleted || last.Declaration.HasValue)
 					return new Declaration[0];
 
 				var candidates = GetDeclarationCandidates();

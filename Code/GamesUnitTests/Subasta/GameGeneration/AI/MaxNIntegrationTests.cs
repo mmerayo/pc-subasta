@@ -66,11 +66,11 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 		}
 
 		[Test, TestCaseSource("CanResolvePoints_TestCases")]
-		public int[] CanResolvePoints(string trump,
+		public int[] CanResolvePoints(int id,string trump,
 			ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
 										   int firstPlayer, int moveNumber)
 		{
-			Console.WriteLine("Hands#:{0}",cardsP1.Length);
+			Console.WriteLine("Id#:{0}",id);
 			_context
 				.WithTrump(trump)
 				.WithCards(cardsP1, cardsP2, cardsP3, cardsP4)
@@ -87,7 +87,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 		{
 			//ultimo
 			yield return
-				new TestCaseData(Oros,
+				new TestCaseData(100,Oros,
 								 new[] { new Card(Oros, 1) },
 								 new[] { new Card(Copas, 1) },
 								 new[] { new Card(Espadas, 1) },
@@ -95,7 +95,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 								 1, 1).Returns(new[] { 54, 0 });
 			//necesita arrastrar
 			yield return
-				new TestCaseData(Oros,
+				new TestCaseData(200,Oros,
 								 new[] { new Card(Oros, 7), new Card(Oros, 1) },
 								 new[] { new Card(Copas, 1), new Card(Oros, 10) },
 								 new[] { new Card(Espadas, 1), new Card(Oros, 11) },
@@ -104,12 +104,12 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 
 			//Asegura monte
 			yield return
-				new TestCaseData(Oros,
+				new TestCaseData(300,Oros,
 								 new[] { new Card(Bastos, 3), new Card(Oros, 2) },
 								 new[] { new Card(Espadas, 12), new Card(Espadas, 10) },
 								 new[] { new Card(Copas, 5), new Card(Copas, 11) },
 								 new[] { new Card(Copas, 4), new Card(Oros, 12) },
-								 1, 1).Returns(new[] { 15, 18 });
+								 1, 1).Returns(new[] { 25, 8 });
 		}
 		
 
