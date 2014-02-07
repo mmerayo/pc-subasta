@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Games.Deck;
 using Games.Subasta.GameGeneration.AI;
 
 namespace Games.Subasta
 {
-	internal static class PlayerDeclarationsChecker
+	internal sealed class PlayerDeclarationsChecker : IPlayerDeclarationsChecker
 	{
-		public static bool HasDeclarable(Declaration declarable, ISuit trump, ICard[] playerCards)
+		public bool HasDeclarable(Declaration declarable, ISuit trump, ICard[] playerCards)
 		{
 			bool result=false;
 			switch (declarable)
