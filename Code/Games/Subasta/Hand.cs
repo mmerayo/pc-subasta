@@ -192,16 +192,16 @@ namespace Games.Subasta
 			var currentPlayer = _firstPlayer;
 
 			var currentWin = _hand[currentPlayer - 1];
+			currentPlayer = NextPlayer(currentPlayer);
 
 			do
 			{
-				currentPlayer = NextPlayer(currentPlayer);
 				var card = _hand[currentPlayer - 1];
 
 				if (card == null) break;
 
 				currentWin = _cardsComparer.Best(currentWin, card);
-			} while (currentPlayer != _firstPlayer);
+			} while ((currentPlayer = NextPlayer(currentPlayer)) != _firstPlayer);
 			return currentWin;
 		}
 

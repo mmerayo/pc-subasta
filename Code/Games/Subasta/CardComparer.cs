@@ -13,21 +13,27 @@ namespace Games.Subasta
 
 		public ICard Best(ICard current, ICard candidate)
 		{
+			//candidato es triunfo
 			if (candidate.Suit.IsTrump(_trump))
 			{
+				//el existente no es triunfo
 				if (!current.Suit.IsTrump(_trump))
 					return candidate;
-				if (current.Value > candidate.Value)
+				//son triunfos los 2
+				if (current.Value > candidate.Value || (current.Value==candidate.Value && current.Number>candidate.Number))
 					return current;
 				return candidate;
 			}
-
+			//candidato no es triunfo y el current lo es
 			if (current.Suit.IsTrump(_trump))
 				return current;
 
-			if (!candidate.Suit.IsTrump(_trump) || current.Value > candidate.Value)
-				return current;
-			return candidate;
+			//son del mismo palo
+			if (candidate.Suit==current.Suit &&
+				( candidate.Value > current.Value
+				|| (current.Value == candidate.Value && candidate.Number > current.Number)))
+				return candidate;
+			return current;
 		}
 	}
 }

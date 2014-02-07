@@ -68,14 +68,15 @@ namespace Games.Subasta.GameGeneration.AI
 			}
 		}
 
-		//expects the last hand to be completed before this request
+		//expects the last hand to be completed before this request as 
+		//its expected to be invoked on completed hand
 		public Declaration[] Declarables
 		{
 			get
 			{
 				//in the latest completed hand no se ha cantado 
 				IHand last = Hands.LastOrDefault();
-				if(last==null || last.IsCompleted)
+				if(last==null || !last.IsCompleted)
 					throw new InvalidOperationException("There must be at least one completed hand");
 				if(last.Declaration.HasValue)
 					return new Declaration[0];
@@ -93,7 +94,7 @@ namespace Games.Subasta.GameGeneration.AI
 
 			var last = Hands.Last(x => x.IsCompleted);
 			var teamPlayers=new int[2];
-			if (last.PlayerWinner == 1 && last.PlayerWinner == 3)
+			if (last.PlayerWinner == 1 || last.PlayerWinner == 3)
 			{
 				teamPlayers[0] = 1;
 				teamPlayers[1] = 3;
