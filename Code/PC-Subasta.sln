@@ -16,6 +16,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1A8411
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "The Onion Architecture", "The Onion Architecture", "{CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.Domain", "Subasta.Domain\Subasta.Domain.csproj", "{520BE732-4321-4BC1-8182-FF44B5215C5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.DomainServices", "Subasta.DomainServices\Subasta.DomainServices.csproj", "{B492A802-DD38-4F46-8911-7DF5509EE240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.ApplicationServices", "Subasta.ApplicationServices\Subasta.ApplicationServices.csproj", "{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,11 +64,44 @@ Global
 		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Release|x86.ActiveCfg = Release|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B492A802-DD38-4F46-8911-7DF5509EE240}.Release|x86.ActiveCfg = Release|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
+		{520BE732-4321-4BC1-8182-FF44B5215C5C} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
+		{B492A802-DD38-4F46-8911-7DF5509EE240} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
+		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 	EndGlobalSection
 EndGlobal
