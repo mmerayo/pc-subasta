@@ -5,7 +5,7 @@ using Subasta.Domain.Deck;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 
-namespace GamesUnitTests.Subasta
+namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
 	[TestFixture]
 	class CardComparerTests

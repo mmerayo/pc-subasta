@@ -1,6 +1,6 @@
 ﻿using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices
+namespace Subasta.ApplicationServices
 {
 	public interface IGameExplorer
 	{

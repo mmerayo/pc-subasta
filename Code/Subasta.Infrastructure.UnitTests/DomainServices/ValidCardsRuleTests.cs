@@ -7,7 +7,7 @@ using Subasta.DomainServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 
-namespace GamesUnitTests.Subasta
+namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
 	[TestFixture]
 	class ValidCardsRuleTests

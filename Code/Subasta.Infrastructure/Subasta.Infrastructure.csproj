@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServices\CardComparer.cs" />
-    <Compile Include="DomainServices\MaxN.cs" />
+    <Compile Include="ApplicationServices\GameExplorer.cs" />
     <Compile Include="DomainServices\PlayerDeclarationsChecker.cs" />
     <Compile Include="DomainServices\ValidCardsRule.cs" />
     <Compile Include="Domain\Card.cs" />
@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Subasta.ApplicationServices\Subasta.ApplicationServices.csproj">
+      <Project>{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}</Project>
+      <Name>Subasta.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
       <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
       <Name>Subasta.DomainServices</Name>

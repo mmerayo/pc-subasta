@@ -5,13 +5,14 @@ using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices;
+using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 
-namespace GamesUnitTests.Subasta.GameGeneration.AI
+namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 {
 	[TestFixture]
-	public class MaxNIntegrationTests
+	public class GameExplorerIntegrationTests
 	{
 		private const string Oros = "Oros";
 		private const string Copas = "Copas";

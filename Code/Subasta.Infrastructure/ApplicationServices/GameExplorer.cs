@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Subasta.ApplicationServices;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices;
 
-namespace Subasta.Infrastructure.DomainServices
+namespace Subasta.Infrastructure.ApplicationServices
 {
 
     
@@ -111,6 +112,5 @@ namespace Subasta.Infrastructure.DomainServices
 			return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
 
-		
 	}
 }
