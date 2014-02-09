@@ -10,7 +10,7 @@ using Subasta.DomainServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 
-namespace GamesUnitTests.Subasta
+namespace Subasta.Infrastructure.UnitTests.Domain
 {
 	[TestFixture]
 	class HandUnitTests
@@ -266,9 +266,9 @@ namespace GamesUnitTests.Subasta
 					playerPlays = 1;
 			}
 
-			public TestContext WithTrump(string TrumpName)
+			public TestContext WithTrump(string trumpName)
 			{
-				_Trump = Suit.FromName(TrumpName);
+				_Trump = Suit.FromName(trumpName);
 				_fixture.Register<ISuit>(() => _Trump);
 				_fixture.Register<ICardComparer>(() => new CardComparer(_Trump));
 

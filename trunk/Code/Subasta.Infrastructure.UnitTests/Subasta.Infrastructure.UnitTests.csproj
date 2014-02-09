@@ -12,6 +12,8 @@
     <AssemblyName>Subasta.Infrastructure.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.3.1.416.3\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture">
+      <HintPath>..\packages\AutoFixture.2.16.2\lib\net35\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.AutoMoq">
+      <HintPath>..\packages\AutoFixture.AutoMoq.2.16.2\lib\net35\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.SemanticComparison">
+      <HintPath>..\packages\AutoFixture.2.16.2\lib\net35\Ploeh.SemanticComparison.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,10 +57,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ApplicationServices\GameExplorerIntegrationTests.cs" />
+    <Compile Include="DomainServices\CardComparerTests.cs" />
+    <Compile Include="DomainServices\ValidCardsRuleTests.cs" />
+    <Compile Include="Domain\ExplorationStatusTests.cs" />
+    <Compile Include="Domain\HandUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subasta.ApplicationServices\Subasta.ApplicationServices.csproj">
+      <Project>{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}</Project>
+      <Name>Subasta.ApplicationServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
+      <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
+      <Name>Subasta.DomainServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
+      <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
+      <Name>Subasta.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
+      <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
+      <Name>Subasta.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -9,10 +9,10 @@ using Subasta.DomainServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 
-namespace GamesUnitTests.Subasta.GameGeneration.AI
+namespace Subasta.Infrastructure.UnitTests.Domain
 {
 	[TestFixture]
-	 class StatusTests
+	 class ExplorationStatusTests
 	{
 		private const string Oros = "Oros";
 		private const string Copas = "Copas";

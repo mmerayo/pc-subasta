@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesUnitTests", "GamesUnitTests\GamesUnitTests.csproj", "{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1A84111D-9799-4593-B339-125AC2A04FEF}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -34,16 +32,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{520BE732-4321-4BC1-8182-FF44B5215C5C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -99,7 +87,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2C9D5D23-1A5B-4FE6-96BB-284506F429CB} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
 		{92958A65-1F65-4B36-83C3-6FCA4F984B1F} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
 		{520BE732-4321-4BC1-8182-FF44B5215C5C} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{B492A802-DD38-4F46-8911-7DF5509EE240} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
