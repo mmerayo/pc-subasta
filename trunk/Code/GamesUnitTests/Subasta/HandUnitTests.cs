@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Games.Deck;
-using Games.Subasta;
-using Games.Subasta.GameGeneration.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Card = Games.Subasta.Card;
+using Subasta.Domain;
+using Subasta.Domain.Deck;
+using Subasta.DomainServices;
+using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.DomainServices;
 
 namespace GamesUnitTests.Subasta
 {
@@ -268,7 +268,7 @@ namespace GamesUnitTests.Subasta
 
 			public TestContext WithTrump(string TrumpName)
 			{
-				_Trump = Games.Subasta.Suit.FromName(TrumpName);
+				_Trump = Suit.FromName(TrumpName);
 				_fixture.Register<ISuit>(() => _Trump);
 				_fixture.Register<ICardComparer>(() => new CardComparer(_Trump));
 

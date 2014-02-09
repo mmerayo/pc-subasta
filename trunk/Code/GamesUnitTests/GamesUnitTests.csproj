@@ -69,7 +69,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
+      <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
+      <Name>Subasta.DomainServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
+      <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
+      <Name>Subasta.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
+      <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
+      <Name>Subasta.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
