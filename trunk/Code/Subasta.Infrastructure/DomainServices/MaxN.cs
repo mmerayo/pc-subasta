@@ -6,6 +6,8 @@ using Subasta.DomainServices;
 
 namespace Subasta.Infrastructure.DomainServices
 {
+
+    //TODO> REFACTOR STORING THE NODERESULT adding id to the whole process
 	internal class MaxN : IGameExplorationAlgorithm
 	{
 		private readonly IValidCardsRule _validMoveRule;
