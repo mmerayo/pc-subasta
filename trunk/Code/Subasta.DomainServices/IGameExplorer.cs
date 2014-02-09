@@ -2,7 +2,7 @@
 
 namespace Subasta.DomainServices
 {
-	public interface IGameExplorationAlgorithm
+	public interface IGameExplorer
 	{
 		NodeResult Execute(IExplorationStatus currentStatus, int playerPosition);
 	}

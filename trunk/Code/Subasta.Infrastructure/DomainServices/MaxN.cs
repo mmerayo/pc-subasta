@@ -7,12 +7,12 @@ using Subasta.DomainServices;
 namespace Subasta.Infrastructure.DomainServices
 {
 
-    //TODO> REFACTOR STORING THE NODERESULT adding id to the whole process
-	internal class MaxN : IGameExplorationAlgorithm
+    
+	internal class GameExplorer : IGameExplorer
 	{
 		private readonly IValidCardsRule _validMoveRule;
 
-		public MaxN(IValidCardsRule validMoveRule)
+		public GameExplorer(IValidCardsRule validMoveRule)
 		{
 			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
 			_validMoveRule = validMoveRule;
@@ -94,7 +94,7 @@ namespace Subasta.Infrastructure.DomainServices
 			if (hand.IsCompleted)
 			{
 				result.Turn = hand.PlayerWinner;
-				result.AddHand();
+				result.AddNewHand();
 			}
 			else 
 				result.Turn = NextPlayer(result.Turn);

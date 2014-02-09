@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.Game
@@ -10,10 +11,10 @@ namespace Subasta.Domain.Game
         int PlayerBets { get; }
         int Turn { set; get; }
         IHand CurrentHand { get; }
-        List<IHand> Hands { get; }
+        ReadOnlyCollection<IHand> Hands { get; }
         Declaration[] Declarables { get; }
         IHand LastCompletedHand { get; }
-        void AddHand();
+        void AddNewHand();
         ICard[] PlayerCards(int playerPosition);
         void SetCards(int playerPosition, ICard[] cards);
 
@@ -25,5 +26,6 @@ namespace Subasta.Domain.Game
         int SumTotal(int playerPosition);
 
         void SetPlayerBet(int playerPosition);
+    	void AddHand(IHand hand);
     }
 }

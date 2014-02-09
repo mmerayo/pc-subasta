@@ -190,7 +190,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 						var hand = _fixture.CreateAnonymous<Hand>();
 						for (int i = 1; i <= 4; i++)
 							hand.Add(i, handArray[i - 1]);
-						_sut.Hands.Add(hand);
+						_sut.AddHand(hand);
 					}
 					
 				}

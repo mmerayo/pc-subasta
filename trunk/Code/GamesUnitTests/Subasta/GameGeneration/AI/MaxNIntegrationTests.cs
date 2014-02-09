@@ -115,7 +115,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 
 		private class TestContext
 		{
-			private MaxN _sut;
+			private GameExplorer _sut;
 			private IFixture _fixture;
 			private Status _status;
 			
@@ -144,9 +144,9 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			}
 
 
-			public MaxN Sut
+			public GameExplorer Sut
 			{
-				get { return _sut ?? (_sut = _fixture.CreateAnonymous<MaxN>()); }
+				get { return _sut ?? (_sut = _fixture.CreateAnonymous<GameExplorer>()); }
 			}
 
 			public Status Status

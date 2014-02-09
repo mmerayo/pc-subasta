@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICardComparer.cs" />
-    <Compile Include="IGameExplorationAlgorithm.cs" />
+    <Compile Include="IGameExplorer.cs" />
     <Compile Include="IPlayerDeclarationsChecker.cs" />
     <Compile Include="IValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
