@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Games.Deck;
-using Games.Subasta;
 using NUnit.Framework;
-using Suit = Games.Subasta.Suit;
-using Card = Games.Subasta.Card;
+using Subasta.Domain.Deck;
+using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.DomainServices;
 
 namespace GamesUnitTests.Subasta
 {

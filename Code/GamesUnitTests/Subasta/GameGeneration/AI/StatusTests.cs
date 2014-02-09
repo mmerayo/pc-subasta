@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
-using Games.Deck;
-using Games.Subasta;
-using Games.Subasta.GameGeneration.AI;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
-using Card = Games.Subasta.Card;
-using Suit = Games.Subasta.Suit;
+using Subasta.Domain;
+using Subasta.Domain.Deck;
+using Subasta.DomainServices;
+using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.DomainServices;
 
 namespace GamesUnitTests.Subasta.GameGeneration.AI
 {
