@@ -1,6 +1,9 @@
-﻿namespace Subasta.DomainServices
+﻿using Subasta.Domain.Deck;
+using Subasta.Domain.Game;
+
+namespace Subasta.DomainServices
 {
-	internal interface IValidCardsRule
+    public interface IValidCardsRule
 	{
 		ICard[] GetValidMoves(ICard[] playerCards, IHand currentHand);
 	}

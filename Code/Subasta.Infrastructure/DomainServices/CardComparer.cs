@@ -1,4 +1,7 @@
-﻿namespace Subasta.Infrastructure.DomainServices
+﻿using Subasta.Domain.Deck;
+using Subasta.DomainServices;
+
+namespace Subasta.Infrastructure.DomainServices
 {
 	class CardComparer : ICardComparer
 	{

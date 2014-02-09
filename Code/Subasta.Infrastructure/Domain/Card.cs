@@ -1,8 +1,9 @@
 ﻿using System;
+using Subasta.Domain.Deck;
 
-namespace Subasta.Domain.Deck
+namespace Subasta.Infrastructure.Domain
 {
-	public abstract class Card : ICard
+	public sealed class Card : ICard
 	{
 		internal Card(ISuit suit, int number)
 		{
@@ -12,7 +13,7 @@ namespace Subasta.Domain.Deck
 		}
 
 		public Card(string suitName, int number)
-			: this(SubastaSuit.FromName(suitName), number)
+            : this(Domain.Suit.FromName(suitName), number)
 		{
 			if (number == 8 || number == 9)
 				throw new ArgumentOutOfRangeException("number");
@@ -79,7 +80,7 @@ namespace Subasta.Domain.Deck
 
 		}
 
-		public virtual bool Equals(Card other)
+		public bool Equals(Card other)
 		{
 			if ((object)other == null)
 			{

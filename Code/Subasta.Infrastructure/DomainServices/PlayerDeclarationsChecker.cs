@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Games.Subasta.GameGeneration.AI;
+using Subasta.Domain;
+using Subasta.Domain.Deck;
+using Subasta.DomainServices;
+using Subasta.Infrastructure.Domain;
 
-namespace Games.Subasta
+namespace Subasta.Infrastructure.DomainServices
 {
 	internal sealed class PlayerDeclarationsChecker : IPlayerDeclarationsChecker
 	{

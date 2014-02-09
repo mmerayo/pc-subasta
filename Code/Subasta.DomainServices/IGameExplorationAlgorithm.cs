@@ -1,7 +1,9 @@
-﻿namespace Games.Subasta.GameGeneration.AI
+﻿using Subasta.Domain.Game;
+
+namespace Subasta.DomainServices
 {
-	internal interface IGameExplorationAlgorithm
+	public interface IGameExplorationAlgorithm
 	{
-		MaxN.NodeResult Execute(Status currentStatus, int playerPosition);
+		NodeResult Execute(IExplorationStatus currentStatus, int playerPosition);
 	}
 }

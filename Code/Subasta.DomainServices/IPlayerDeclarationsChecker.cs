@@ -1,8 +1,9 @@
-﻿using Games.Subasta.GameGeneration.AI;
+﻿using Subasta.Domain;
+using Subasta.Domain.Deck;
 
-namespace Games.Subasta
+namespace Subasta.DomainServices
 {
-	internal interface IPlayerDeclarationsChecker
+    public interface IPlayerDeclarationsChecker
 	{
 		bool HasDeclarable(Declaration declarable, ISuit trump, ICard[] playerCards);
 	}
