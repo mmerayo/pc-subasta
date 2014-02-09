@@ -12,7 +12,7 @@ using Subasta.Infrastructure.DomainServices;
 namespace GamesUnitTests.Subasta.GameGeneration.AI
 {
 	[TestFixture]
-	internal class StatusTests
+	 class StatusTests
 	{
 		private const string Oros = "Oros";
 		private const string Copas = "Copas";
@@ -172,6 +172,7 @@ namespace GamesUnitTests.Subasta.GameGeneration.AI
 			private Status CreateSut()
 			{
 				_fixture.Register<ICardComparer>(() => _fixture.CreateAnonymous<CardComparer>());
+                _fixture.Register<IPlayerDeclarationsChecker>(()=>_fixture.CreateAnonymous<PlayerDeclarationsChecker>());
 
 				_sut = _fixture.CreateAnonymous<Status>();
 				_sut.SetCards(1, _p1);
