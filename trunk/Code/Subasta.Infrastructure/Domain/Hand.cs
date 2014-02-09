@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
+using Subasta.Domain.Game;
+using Subasta.DomainServices;
 
-namespace Subasta.Domain.Game
+namespace Subasta.Infrastructure.Domain
 {
 	internal class Hand : IHand
 	{
@@ -69,19 +72,19 @@ namespace Subasta.Domain.Game
 			if (Declaration.HasValue)
 				switch (Declaration.Value)
 				{
-					case GameGeneration.AI.Declaration.Reyes:
+                    case Subasta.Domain.Declaration.Reyes:
 						result = 120;
 						break;
-					case GameGeneration.AI.Declaration.Caballos:
+                    case Subasta.Domain.Declaration.Caballos:
 						result = 60;
 						break;
-					case GameGeneration.AI.Declaration.ParejaOros:
-					case GameGeneration.AI.Declaration.ParejaCopas:
-					case GameGeneration.AI.Declaration.ParejaEspadas:
-					case GameGeneration.AI.Declaration.ParejaBastos:
+					case Subasta.Domain.Declaration.ParejaOros:
+					case Subasta.Domain.Declaration.ParejaCopas:
+					case Subasta.Domain.Declaration.ParejaEspadas:
+					case Subasta.Domain.Declaration.ParejaBastos:
 						result= 20;
 						break;
-					case GameGeneration.AI.Declaration.Cuarenta:
+					case Subasta.Domain.Declaration.Cuarenta:
 						result = 40;
 						break;
 					default:

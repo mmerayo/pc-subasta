@@ -46,6 +46,12 @@
     <Compile Include="IValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
+      <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
+      <Name>Subasta.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

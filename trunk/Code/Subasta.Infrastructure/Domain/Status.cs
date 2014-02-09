@@ -1,31 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Games.Deck;
+using Subasta.Domain;
+using Subasta.Domain.Deck;
+using Subasta.Domain.Game;
+using Subasta.DomainServices;
+using Subasta.Infrastructure.DomainServices;
 
-namespace Games.Subasta.GameGeneration.AI
+namespace Subasta.Infrastructure.Domain
 {
-	class Status
-	{
+    class Status : IExplorationStatus
+    {
 		private readonly ICardComparer _cardsComparer;
-		private int _turn=int.MinValue;
+        private readonly IPlayerDeclarationsChecker _declarationsChecker;
+        private int _turn=int.MinValue;
 		private readonly ICard[][] _playerCards=new ICard[4][];
 		private List<IHand> _hands; 
 
-		public Status(ICardComparer cardsComparer,ISuit trump)
+		public Status(ICardComparer cardsComparer,ISuit trump,IPlayerDeclarationsChecker declarationsChecker)
 		{
 			Trump = trump;
 			_cardsComparer = cardsComparer;
-			PlayerBets = int.MinValue;
+		    _declarationsChecker = declarationsChecker;
+		    PlayerBets = int.MinValue;
 		}
 
-		public Status Clone()
+		public IExplorationStatus Clone()
 		{
-			var status = new Status(_cardsComparer, Trump) {_turn = _turn, PlayerBets = PlayerBets};
+			var status = new Status(_cardsComparer, Trump,_declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
 			Array.Copy(_playerCards, status._playerCards, 4);
 			
 			status._hands=new List<IHand>();
 			_hands.ForEach(x => status._hands.Add(x.Clone()));
+
 			//CALCULATE DECLARABLES
 			return status;
 		}
@@ -106,7 +113,7 @@ namespace Games.Subasta.GameGeneration.AI
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
 			var result=new List<Declaration>();
 			for (int i = 0; i < 2;i++ )
-				result.AddRange(declarables.Where(declarable => PlayerDeclarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
+				result.AddRange(declarables.Where(declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
 
 			return result;
 		}

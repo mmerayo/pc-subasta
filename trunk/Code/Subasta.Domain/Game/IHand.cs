@@ -2,8 +2,7 @@
 
 namespace Subasta.Domain.Game
 {
-
-	internal interface IHand
+    public interface IHand
 	{
 		/// <summary>
 		/// Adds a card

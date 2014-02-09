@@ -1,4 +1,4 @@
-﻿namespace Games.Subasta.GameGeneration.AI
+﻿namespace Subasta.Domain
 {
 	public enum Declaration
 	{

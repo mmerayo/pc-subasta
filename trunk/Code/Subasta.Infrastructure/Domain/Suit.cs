@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Subasta.Domain.Deck;
 
-namespace Subasta.Domain.Deck
+namespace Subasta.Infrastructure.Domain
 {
 	internal sealed class Suit : ISuit
 	{
