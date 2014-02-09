@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
@@ -9,28 +10,28 @@ using Subasta.Infrastructure.DomainServices;
 
 namespace Subasta.Infrastructure.Domain
 {
-    class Status : IExplorationStatus
-    {
+	internal class Status : IExplorationStatus
+	{
 		private readonly ICardComparer _cardsComparer;
-        private readonly IPlayerDeclarationsChecker _declarationsChecker;
-        private int _turn=int.MinValue;
-		private readonly ICard[][] _playerCards=new ICard[4][];
-		private List<IHand> _hands; 
+		private readonly IPlayerDeclarationsChecker _declarationsChecker;
+		private int _turn = int.MinValue;
+		private readonly ICard[][] _playerCards = new ICard[4][];
+		private List<IHand> _hands;
 
-		public Status(ICardComparer cardsComparer,ISuit trump,IPlayerDeclarationsChecker declarationsChecker)
+		public Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
 		{
 			Trump = trump;
 			_cardsComparer = cardsComparer;
-		    _declarationsChecker = declarationsChecker;
-		    PlayerBets = int.MinValue;
+			_declarationsChecker = declarationsChecker;
+			PlayerBets = int.MinValue;
 		}
 
 		public IExplorationStatus Clone()
 		{
-			var status = new Status(_cardsComparer, Trump,_declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
+			var status = new Status(_cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
 			Array.Copy(_playerCards, status._playerCards, 4);
-			
-			status._hands=new List<IHand>();
+
+			status._hands = new List<IHand>();
 			_hands.ForEach(x => status._hands.Add(x.Clone()));
 
 			//CALCULATE DECLARABLES
@@ -38,7 +39,7 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 		public ISuit Trump { get; private set; }
-		
+
 		//el jugador que la pone
 		public int PlayerBets { get; private set; }
 
@@ -62,16 +63,22 @@ namespace Subasta.Infrastructure.Domain
 			get { return Hands.Last(); }
 		}
 
-		public List<IHand> Hands
+		public ReadOnlyCollection<IHand> Hands
 		{
 			get
 			{
-				if (_hands == null)
-				{
-					_hands = new List<IHand>(10);
-					AddHand();
-				}
-				return _hands;
+				EnsureHands();
+				if(_hands.Count==0)
+					AddNewHand();
+				return _hands.AsReadOnly();
+			}
+		}
+
+		private void EnsureHands()
+		{
+			if (_hands == null)
+			{
+				_hands = new List<IHand>(10);
 			}
 		}
 
@@ -98,7 +105,7 @@ namespace Subasta.Infrastructure.Domain
 		{
 
 			var last = Hands.Last(x => x.IsCompleted);
-			var teamPlayers=new int[2];
+			var teamPlayers = new int[2];
 			if (last.PlayerWinner == 1 || last.PlayerWinner == 3)
 			{
 				teamPlayers[0] = 1;
@@ -111,9 +118,11 @@ namespace Subasta.Infrastructure.Domain
 			}
 
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
-			var result=new List<Declaration>();
-			for (int i = 0; i < 2;i++ )
-				result.AddRange(declarables.Where(declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
+			var result = new List<Declaration>();
+			for (int i = 0; i < 2; i++)
+				result.AddRange(
+					declarables.Where(
+						declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
 
 			return result;
 		}
@@ -130,11 +139,11 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 
-		public void AddHand()
+		public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();
 
-			if (_hands.Count == 10 || _playerCards.All(x=>x.Length==0))
+			if (_hands.Count == 10 || _playerCards.All(x => x.Length == 0))
 				return;
 			var item = new Hand(_cardsComparer, Trump);
 			_hands.Add(item);
@@ -149,7 +158,7 @@ namespace Subasta.Infrastructure.Domain
 		public ICard[] PlayerCards(int playerPosition)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
-			return _playerCards[playerPosition-1];
+			return _playerCards[playerPosition - 1];
 		}
 
 		public void SetCards(int playerPosition, ICard[] cards)
@@ -174,7 +183,7 @@ namespace Subasta.Infrastructure.Domain
 			return Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
 		}
 
-		private static void ThrowIfNotValidPlayerPosition(int playerPosition,string argName="playerPosition")
+		private static void ThrowIfNotValidPlayerPosition(int playerPosition, string argName = "playerPosition")
 		{
 			if (playerPosition < 1 || playerPosition > 4)
 				throw new ArgumentOutOfRangeException(argName);
@@ -186,6 +195,11 @@ namespace Subasta.Infrastructure.Domain
 			ThrowIfNotValidPlayerPosition(playerPosition);
 			PlayerBets = playerPosition;
 		}
-		
+
+		public void AddHand(IHand hand)
+		{
+			EnsureHands();
+			_hands.Add(hand);
+		}
 	}
 }
