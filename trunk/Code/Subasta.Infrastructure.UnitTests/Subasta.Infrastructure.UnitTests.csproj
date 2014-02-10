@@ -57,7 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationServices\GameExplorerIntegrationTests.cs" />
+    <Compile Include="ApplicationServices\GameGeneratorTests.cs" />
+    <Compile Include="DomainServices\GameExplorerIntegrationTests.cs" />
     <Compile Include="DomainServices\CardComparerTests.cs" />
     <Compile Include="DomainServices\ValidCardsRuleTests.cs" />
     <Compile Include="Domain\ExplorationStatusTests.cs" />
