@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICardComparer.cs" />
-    <Compile Include="IPlayerDeclarationsChecker.cs" />
-    <Compile Include="IValidCardsRule.cs" />
+    <Compile Include="Game\ICardComparer.cs" />
+    <Compile Include="Game\IGameExplorer.cs" />
+    <Compile Include="Game\IPlayerDeclarationsChecker.cs" />
+    <Compile Include="Store\IResultStoreWritter.cs" />
+    <Compile Include="Game\IValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

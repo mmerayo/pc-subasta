@@ -1,7 +1,7 @@
 ﻿using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices
+namespace Subasta.DomainServices.Game
 {
     public interface IValidCardsRule
 	{

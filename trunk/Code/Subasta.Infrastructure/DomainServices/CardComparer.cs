@@ -1,5 +1,6 @@
 ﻿using Subasta.Domain.Deck;
 using Subasta.DomainServices;
+using Subasta.DomainServices.Game;
 
 namespace Subasta.Infrastructure.DomainServices
 {
