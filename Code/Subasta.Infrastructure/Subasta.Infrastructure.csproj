@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServices\CardComparer.cs" />
-    <Compile Include="ApplicationServices\GameExplorer.cs" />
+    <Compile Include="DomainServices\GameExplorer.cs" />
     <Compile Include="DomainServices\PlayerDeclarationsChecker.cs" />
     <Compile Include="DomainServices\ValidCardsRule.cs" />
     <Compile Include="Domain\Card.cs" />
@@ -63,6 +63,9 @@
       <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
       <Name>Subasta.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationServices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

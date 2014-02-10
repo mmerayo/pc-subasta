@@ -7,6 +7,7 @@ using Ploeh.AutoFixture;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices;
+using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices;
+using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.DomainServices

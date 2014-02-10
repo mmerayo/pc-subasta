@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Linq;
-using Subasta.ApplicationServices;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.DomainServices;
+using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Store;
 
-namespace Subasta.Infrastructure.ApplicationServices
+namespace Subasta.Infrastructure.DomainServices
 {
-
-    
 	internal class GameExplorer : IGameExplorer
 	{
 		private readonly IValidCardsRule _validMoveRule;
+		private readonly IResultStoreWritter _resultsWritter;
 
-		public GameExplorer(IValidCardsRule validMoveRule)
+		public GameExplorer(IValidCardsRule validMoveRule,IResultStoreWritter resultsWritter)
 		{
 			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
+			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
 			_validMoveRule = validMoveRule;
+			_resultsWritter = resultsWritter;
 		}
 
         public NodeResult Execute(IExplorationStatus currentStatus, int playerPosition)
 		{
 			if (IsTerminalNode(currentStatus, playerPosition))
-				return new NodeResult(currentStatus);
+			{
+				var nodeResult = new NodeResult(currentStatus);
+				StoreResult(nodeResult);
+				
+				return nodeResult;
+			}
 
 			var candidates = GetCandidates(currentStatus, playerPosition);
 
@@ -38,6 +44,11 @@ namespace Subasta.Infrastructure.ApplicationServices
 			}
 
 			return best;
+		}
+
+		private void StoreResult(NodeResult result)
+		{
+			_resultsWritter.Add(result);
 		}
 
 		//explora los cantes tambien
