@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
 using Subasta.ApplicationServices;
+using Subasta.ApplicationServices.DataSourcing;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
 
@@ -37,13 +40,15 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 		private class TestContext
 		{
 			private readonly IFixture _fixture;
-			private IGameExplorer _gameExplorer;
-			private IDeckSuffler _suffler;
+			private Mock<IGameExplorer> _gameExplorer;
+			private Mock<IDeckSuffler> _suffler;
+			private Mock<IGameDataAllocator> _dataAllocator;
 			public TestContext()
 			{
-				_fixture=new Fixture();
-				_gameExplorer = _fixture.Freeze<IGameExplorer>();
-				_suffler = _fixture.Freeze<IDeckSuffler>();
+				_fixture=new Fixture().Customize(new AutoMoqCustomization());
+				_gameExplorer = _fixture.Freeze<Mock<IGameExplorer>>();
+				_suffler = _fixture.Freeze < Mock<IDeckSuffler>>();
+				_dataAllocator = _fixture.Freeze < Mock<IGameDataAllocator>>();
 			}
 
 			public GameGenerator Sut
@@ -68,7 +73,9 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 
 			public TestContext WithGenerateNewGameExpectations()
 			{
-				throw new NotImplementedException();
+				_gameExplorer.Expect(x=>x.Execute())
+
+				return this;
 			}
 		}
 	}
