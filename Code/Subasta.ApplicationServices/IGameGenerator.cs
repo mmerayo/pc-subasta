@@ -7,6 +7,6 @@ namespace Subasta.ApplicationServices
 {
 	public interface IGameGenerator
 	{
-		
+		Guid GenerateNewGame();
 	}
 }
