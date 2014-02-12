@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
@@ -12,30 +13,38 @@ namespace Subasta.Infrastructure.Domain
 {
 	internal class Status : IExplorationStatus
 	{
+		private Guid _gameId;
 		private readonly ICardComparer _cardsComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private int _turn = int.MinValue;
 		private readonly ICard[][] _playerCards = new ICard[4][];
 		private List<IHand> _hands;
 
-		public Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
+		public Status(Guid gameId, ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
 		{
 			Trump = trump;
+			_gameId = gameId;
 			_cardsComparer = cardsComparer;
 			_declarationsChecker = declarationsChecker;
 			PlayerBets = int.MinValue;
 		}
 
+		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker):this(Guid.Empty,cardsComparer,trump,declarationsChecker)
+		{
+			
+		}
+
 		public IExplorationStatus Clone()
 		{
-			var status = new Status(_cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
-			Array.Copy(_playerCards, status._playerCards, 4);
+			Debug.Assert(_gameId != Guid.Empty);
+			var target = new Status( _cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
+			Array.Copy(_playerCards, target._playerCards, 4);
 
-			status._hands = new List<IHand>();
-			_hands.ForEach(x => status._hands.Add(x.Clone()));
-
+			target._hands = new List<IHand>();
+			_hands.ForEach(x => target._hands.Add(x.Clone()));
+			target._gameId = _gameId;
 			//CALCULATE DECLARABLES
-			return status;
+			return target;
 		}
 
 		public ISuit Trump { get; private set; }
