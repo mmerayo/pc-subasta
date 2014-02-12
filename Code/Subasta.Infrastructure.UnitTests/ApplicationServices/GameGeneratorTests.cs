@@ -35,7 +35,22 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 			_context.VerifySuffleWasCalled();
 			_context.VerifyGameExplorerWasCalled();
 			_context.VerifyGameWasCreated();
-			_context.VerifyGameWasCreationWasFinished();//in case of exception verify is marked somehow as well create etst
+			_context.VerifyGameWasCreationWasFinished();
+		}
+
+		[Test]
+		public void When_GenerateNewGame_Fails_MarksTheGameGenerationResultAsFailed()
+		{
+			_context.WithGenerateNewGameExpectations().ExpectFailureWhileGenerating();
+
+			Guid result = _context.Sut.GenerateNewGame();
+
+			Assert.That(result, Is.Not.Empty);
+			_context.VerifySuffleWasCalled();
+			_context.VerifyGameExplorerWasCalled();
+			_context.VerifyGameWasCreated();
+			_context.VerifyGameWasCreationWasFinished();
+			_context.VerifyGameWasMarkedAsFail();
 		}
 
 		private class TestContext
@@ -77,6 +92,21 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 				_gameExplorer.Expect(x=>x.Execute())
 
 				return this;
+			}
+
+			public void VerifyGameWasCreationWasFinished()
+			{
+				throw new NotImplementedException();
+			}
+
+			public TestContext ExpectFailureWhileGenerating()
+			{
+				throw new NotImplementedException();
+			}
+
+			public void VerifyGameWasMarkedAsFail()
+			{
+				throw new NotImplementedException();
 			}
 		}
 	}
