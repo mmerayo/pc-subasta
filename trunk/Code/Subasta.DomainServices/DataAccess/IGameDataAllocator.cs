@@ -1,6 +1,10 @@
-﻿namespace Subasta.DomainServices.DataAccess
+﻿using System;
+
+namespace Subasta.DomainServices.DataAccess
 {
-	interface IGameDataAllocator
+	public interface IGameDataAllocator
 	{
+		Guid CreateNewGame();
+		void RecordGenerationOutput(bool successful);
 	}
 }

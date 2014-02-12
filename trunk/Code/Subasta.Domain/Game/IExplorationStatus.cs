@@ -27,5 +27,6 @@ namespace Subasta.Domain.Game
 
         void SetPlayerBet(int playerPosition);
     	void AddHand(IHand hand);
+	    void SetTrump(ISuit trump);
     }
 }
