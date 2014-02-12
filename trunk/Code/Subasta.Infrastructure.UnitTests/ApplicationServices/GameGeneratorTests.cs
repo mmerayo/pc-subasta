@@ -34,7 +34,8 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 			Assert.That(result, Is.Not.Empty);
 			_context.VerifySuffleWasCalled();
 			_context.VerifyGameExplorerWasCalled();
-			_context.VerifyDbWasCreated();
+			_context.VerifyGameWasCreated();
+			_context.VerifyGameWasCreationWasFinished();//in case of exception verify is marked somehow as well create etst
 		}
 
 		private class TestContext
@@ -66,7 +67,7 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 				throw new NotImplementedException();
 			}
 
-			public void VerifyDbWasCreated()
+			public void VerifyGameWasCreated()
 			{
 				throw new NotImplementedException();
 			}
