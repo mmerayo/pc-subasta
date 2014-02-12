@@ -7,6 +7,7 @@ using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices.Game;
+using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
@@ -121,7 +122,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			
 			public TestContext()
 			{
-				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+				_fixture = new Fixture().Customize(new SubastaAutoFixtureCustomizations());
 				_fixture.Register<IValidCardsRule>(()=>new ValidCardsRule());
 				
 			}
