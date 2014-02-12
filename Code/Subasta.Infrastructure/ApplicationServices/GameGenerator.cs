@@ -1,5 +1,4 @@
 ﻿using System;
-using Subasta.ApplicationServices;
 using Subasta.DomainServices.Game;
 
 namespace Subasta.Infrastructure.ApplicationServices

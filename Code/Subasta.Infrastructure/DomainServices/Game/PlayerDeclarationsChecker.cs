@@ -2,11 +2,10 @@
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
-using Subasta.DomainServices;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 
-namespace Subasta.Infrastructure.DomainServices
+namespace Subasta.Infrastructure.DomainServices.Game
 {
 	internal sealed class PlayerDeclarationsChecker : IPlayerDeclarationsChecker
 	{

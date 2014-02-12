@@ -40,10 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IGameDataAllocator.cs" />
     <Compile Include="Game\ICardComparer.cs" />
+    <Compile Include="Game\IDeckSuffler.cs" />
     <Compile Include="Game\IGameExplorer.cs" />
+    <Compile Include="Game\IGameGenerator.cs" />
     <Compile Include="Game\IPlayerDeclarationsChecker.cs" />
-    <Compile Include="Store\IResultStoreWritter.cs" />
+    <Compile Include="DataAccess\IResultStoreWritter.cs" />
     <Compile Include="Game\IValidCardsRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
