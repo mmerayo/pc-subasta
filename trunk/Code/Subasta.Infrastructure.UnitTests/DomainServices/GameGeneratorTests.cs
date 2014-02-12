@@ -12,22 +12,22 @@ using Subasta.Infrastructure.DomainServices.Game;
 namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
 	[TestFixture]
-	class GameGeneratorTests
+	internal class GameGeneratorTests
 	{
 		private TestContext _context;
 
 		[SetUp]
 		public void OnSetUp()
 		{
-			_context=new TestContext();
+			_context = new TestContext();
 		}
 
-		[Test,Theory]
+		[Test, Theory]
 		public void Can_GenerateNewGame(bool fail)
 		{
 			_context.WithGenerateNewGameExpectations().ExpectFailureWhileGenerating(fail);
 
-			Guid result=_context.Sut.GenerateNewGame();
+			Guid result = _context.Sut.GenerateNewGame();
 
 			Assert.That(result, Is.Not.Empty);
 			_context.VerifySuffleWasCalled();
@@ -35,7 +35,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			_context.VerifyGameWasCreated();
 		}
 
-		
+
 
 		private class TestContext
 		{
@@ -44,12 +44,13 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			private IDeckSuffler _suffler;
 			private IGameDataAllocator _dataAllocator;
 			private bool _fail;
+
 			public TestContext()
 			{
-				_fixture=new Fixture().Customize(new AutoRhinoMockCustomization());
+				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 				_gameExplorer = _fixture.Freeze<IGameExplorer>();
-				_suffler = _fixture.Freeze < IDeckSuffler>();
-				_dataAllocator = _fixture.Freeze < IGameDataAllocator>();
+				_suffler = _fixture.Freeze<IDeckSuffler>();
+				_dataAllocator = _fixture.Freeze<IGameDataAllocator>();
 			}
 
 			public GameGenerator Sut
@@ -75,21 +76,19 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			public TestContext WithGenerateNewGameExpectations()
 			{
 				_gameExplorer.Expect(x => x.Execute(Arg<Status>.Is.Anything, Arg<int>.Is.Equal(1))).Repeat.Times(4);
-				_suffler.Expect(x => x.Suffle(Arg<IPack>.Is.Anything)).Return(new Pack());
-				_dataAllocator.Expect(x=>x.CreateNewGame()).Return(Guid.NewGuid());
-				
+				_suffler.Expect(x => x.Suffle(Arg<IDeck>.Is.Anything)).Return(Deck.DefaultForSubasta);
+				_dataAllocator.Expect(x => x.CreateNewGame()).Return(Guid.NewGuid());
+
 				return this;
 			}
 
-			
+
 			public TestContext ExpectFailureWhileGenerating(bool fail)
 			{
 				_fail = fail;
-				_dataAllocator.Expect(x => x.RecordGenerationOutput(!fail));
+				_dataAllocator.Expect(x => x.RecordGenerationOutput(Arg<Guid>.Is.Anything, Arg<bool>.Is.Equal(!fail)));
 				return this;
 			}
-
-		
 		}
 	}
 }

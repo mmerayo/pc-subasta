@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
@@ -9,6 +10,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 {
 	sealed class GameGenerator : IGameGenerator
 	{
+		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
 		private readonly IGameExplorer _gameExplorer;
 		private readonly IGameDataAllocator _gameDataAllocator;
@@ -16,13 +18,14 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private readonly IPlayerDeclarationsChecker _playerDeclarationsChecker;
 
 		public GameGenerator(
-			IDeck cards,
+			IDeck deck,
 			IDeckSuffler suffler,
 			IGameExplorer gameExplorer,
 			IGameDataAllocator gameDataAllocator,
 			ICardComparer cardComparer,
 			IPlayerDeclarationsChecker playerDeclarationsChecker)
 		{
+			_deck = deck;
 			_suffler = suffler;
 			_gameExplorer = gameExplorer;
 			_gameDataAllocator = gameDataAllocator;
@@ -37,11 +40,12 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			try
 			{
 				DoGeneration();
+				_gameDataAllocator.RecordGenerationOutput(gameId,true);
 			}
 			catch (Exception ex)
 			{
 				//TODO: log result and exception
-				_gameDataAllocator.RecordGenerationOutput(false);
+				_gameDataAllocator.RecordGenerationOutput(gameId,false);
 			}
 
 			return gameId;
@@ -49,8 +53,6 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 		private void DoGeneration()
 		{
-			
-
 			var currentStatus = (IExplorationStatus) new Status(_cardComparer, Suit.FromName("Oros"), _playerDeclarationsChecker);
 			AssignCards(ref currentStatus);
 			_gameExplorer.Execute(currentStatus, 1);
@@ -64,7 +66,12 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 		private void AssignCards(ref IExplorationStatus currentStatus)
 		{
-			_suffler.Suffle()
+			_deck=_suffler.Suffle(_deck);
+			currentStatus.SetCards(1,_deck.Cards.Cards.GetRange(0,10).ToArray());
+			currentStatus.SetCards(2, _deck.Cards.Cards.GetRange(10, 10).ToArray());
+			currentStatus.SetCards(3, _deck.Cards.Cards.GetRange(20, 10).ToArray());
+			currentStatus.SetCards(4, _deck.Cards.Cards.GetRange(30, 10).ToArray());
+
 		}
 
 		private static IExplorationStatus GetStatusFor(IExplorationStatus currentStatus, ISuit suit)
