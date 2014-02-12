@@ -28,7 +28,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		public void Execute(Guid gameId, int firstPlayer, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
 							ISuit trump)
 		{
-			var status = new Status(_cardComparer, trump, _declarationsChecker);
+			var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
 			status.SetCards(1,cardsP1);
 			status.SetCards(2, cardsP2);
 			status.SetCards(3, cardsP3);
@@ -37,6 +37,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			Execute(status, 1);
 		}
 
+		//TODO: REMOVE COMPARISONS AS EVERYTHING IS STORED
 		public NodeResult Execute(IExplorationStatus currentStatus, int playerPosition)
 		{
 			if (IsTerminalNode(currentStatus, playerPosition))
