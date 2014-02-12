@@ -4,6 +4,6 @@ namespace Subasta.DomainServices.Game
 {
 	public interface IGameGenerator
 	{
-		Guid GenerateNewGame();
+		bool TryGenerateNewGame(out Guid gameId);
 	}
 }

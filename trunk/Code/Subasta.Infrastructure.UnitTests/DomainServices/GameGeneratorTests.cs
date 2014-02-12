@@ -25,11 +25,14 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 		[Test, Theory]
 		public void Can_GenerateNewGame(bool fail)
 		{
-			_context.WithGenerateNewGameExpectations().ExpectFailureWhileGenerating(fail);
+			_context.WithGenerateNewGameExpectations(fail).ExpectFailureWhileGenerating(fail);
 
-			Guid result = _context.Sut.GenerateNewGame();
-
-			Assert.That(result, Is.Not.Empty);
+			Guid result;
+			Assert.That(_context.Sut.TryGenerateNewGame(out result),Is.EqualTo(!fail));
+			if(!fail)
+				Assert.That(result, Is.Not.EqualTo(Guid.Empty));
+			else
+				Assert.That(result, Is.EqualTo(Guid.Empty));
 			_context.VerifySuffleWasCalled();
 			_context.VerifyGameExplorerWasCalled();
 			_context.VerifyGameWasCreated();
@@ -73,11 +76,34 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 				_dataAllocator.VerifyAllExpectations();
 			}
 
-			public TestContext WithGenerateNewGameExpectations()
+			public TestContext WithGenerateNewGameExpectations(bool fail)
 			{
-				_gameExplorer.Expect(x => x.Execute(Arg<Status>.Is.Anything, Arg<int>.Is.Equal(1))).Repeat.Times(4);
-				_suffler.Expect(x => x.Suffle(Arg<IDeck>.Is.Anything)).Return(Deck.DefaultForSubasta);
-				_dataAllocator.Expect(x => x.CreateNewGame()).Return(Guid.NewGuid());
+				if (!fail)
+				{
+					_gameExplorer.Expect(
+						x =>
+						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
+						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Oros"))));
+					_gameExplorer.Expect(
+						x =>
+						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
+						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Copas"))));
+					_gameExplorer.Expect(
+						x =>
+						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
+						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Espadas"))));
+					_gameExplorer.Expect(
+						x =>
+						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
+						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Bastos"))));
+
+					_suffler.Expect(x => x.Suffle(Arg<IDeck>.Is.Anything)).Return(Deck.DefaultForSubasta);
+					_dataAllocator.Expect(x => x.CreateNewGame()).Return(Guid.NewGuid());
+				}
+				else
+				{
+					_dataAllocator.Expect(x => x.CreateNewGame()).Throw(new InvalidOperationException());
+				}
 
 				return this;
 			}
@@ -86,7 +112,8 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			public TestContext ExpectFailureWhileGenerating(bool fail)
 			{
 				_fail = fail;
-				_dataAllocator.Expect(x => x.RecordGenerationOutput(Arg<Guid>.Is.Anything, Arg<bool>.Is.Equal(!fail)));
+				if(!fail)
+					_dataAllocator.Expect(x => x.RecordGenerationOutput(Arg<Guid>.Is.Anything, Arg<bool>.Is.Equal(true)));
 				return this;
 			}
 		}

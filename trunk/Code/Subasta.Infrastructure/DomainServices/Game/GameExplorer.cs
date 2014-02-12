@@ -4,6 +4,7 @@ using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
+using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.DomainServices.Game
 {
@@ -11,16 +12,32 @@ namespace Subasta.Infrastructure.DomainServices.Game
 	{
 		private readonly IValidCardsRule _validMoveRule;
 		private readonly IResultStoreWritter _resultsWritter;
+		private readonly ICardComparer _cardComparer;
+		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 
-		public GameExplorer(IValidCardsRule validMoveRule,IResultStoreWritter resultsWritter)
+		public GameExplorer(IValidCardsRule validMoveRule,IResultStoreWritter resultsWritter,ICardComparer cardComparer,IPlayerDeclarationsChecker declarationsChecker)
 		{
 			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
 			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
 			_validMoveRule = validMoveRule;
 			_resultsWritter = resultsWritter;
+			_cardComparer = cardComparer;
+			_declarationsChecker = declarationsChecker;
 		}
 
-        public NodeResult Execute(IExplorationStatus currentStatus, int playerPosition)
+		public void Execute(Guid gameId, int firstPlayer, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4,
+							ISuit trump)
+		{
+			var status = new Status(_cardComparer, trump, _declarationsChecker);
+			status.SetCards(1,cardsP1);
+			status.SetCards(2, cardsP2);
+			status.SetCards(3, cardsP3);
+			status.SetCards(4, cardsP4);
+
+			Execute(status, 1);
+		}
+
+		public NodeResult Execute(IExplorationStatus currentStatus, int playerPosition)
 		{
 			if (IsTerminalNode(currentStatus, playerPosition))
 			{
@@ -123,5 +140,6 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
 
+		
 	}
 }
