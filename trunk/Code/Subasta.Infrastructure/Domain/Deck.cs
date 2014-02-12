@@ -14,11 +14,10 @@ namespace Subasta.Infrastructure.Domain
 			{
 				var cards = new ICard[40];
 				var idx = 0;
-				for (int i = 1; i <= 12; i++)
+				for (var number = 1; number <= 12; number++)
 				{
 					foreach (var suit in Suit.Suits)
 					{
-						int number = i + 1;
 
 						if(number!=8 && number!=9)
 						{
