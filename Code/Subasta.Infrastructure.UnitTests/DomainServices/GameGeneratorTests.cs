@@ -3,9 +3,11 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Rhino.Mocks;
+using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
-using Subasta.Infrastructure.ApplicationServices;
+using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.DomainServices.Game;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
@@ -20,10 +22,10 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			_context=new TestContext();
 		}
 
-		[Test]
-		public void Can_GenerateNewGame()
+		[Test,Theory]
+		public void Can_GenerateNewGame(bool fail)
 		{
-			_context.WithGenerateNewGameExpectations();
+			_context.WithGenerateNewGameExpectations().ExpectFailureWhileGenerating(fail);
 
 			Guid result=_context.Sut.GenerateNewGame();
 
@@ -31,23 +33,9 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			_context.VerifySuffleWasCalled();
 			_context.VerifyGameExplorerWasCalled();
 			_context.VerifyGameWasCreated();
-			_context.VerifyGameWasCreationWasFinished();
 		}
 
-		[Test]
-		public void When_GenerateNewGame_Fails_MarksTheGameGenerationResultAsFailed()
-		{
-			_context.WithGenerateNewGameExpectations().ExpectFailureWhileGenerating();
-
-			Guid result = _context.Sut.GenerateNewGame();
-
-			Assert.That(result, Is.Not.Empty);
-			_context.VerifySuffleWasCalled();
-			_context.VerifyGameExplorerWasCalled();
-			_context.VerifyGameWasCreated();
-			_context.VerifyGameWasCreationWasFinished();
-			_context.VerifyGameWasMarkedAsFail();
-		}
+		
 
 		private class TestContext
 		{
@@ -55,6 +43,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			private IGameExplorer _gameExplorer;
 			private IDeckSuffler _suffler;
 			private IGameDataAllocator _dataAllocator;
+			private bool _fail;
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new AutoRhinoMockCustomization());
@@ -70,41 +59,37 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 
 			public void VerifySuffleWasCalled()
 			{
-				throw new NotImplementedException();
+				_suffler.VerifyAllExpectations();
 			}
 
 			public void VerifyGameExplorerWasCalled()
 			{
-				throw new NotImplementedException();
+				_gameExplorer.VerifyAllExpectations();
 			}
 
 			public void VerifyGameWasCreated()
 			{
-				throw new NotImplementedException();
+				_dataAllocator.VerifyAllExpectations();
 			}
 
 			public TestContext WithGenerateNewGameExpectations()
 			{
-				//_gameExplorer.Expect(x=>x.Execute())
-				throw new NotImplementedException();
-
+				_gameExplorer.Expect(x => x.Execute(Arg<Status>.Is.Anything, Arg<int>.Is.Equal(1))).Repeat.Times(4);
+				_suffler.Expect(x => x.Suffle(Arg<IPack>.Is.Anything)).Return(new Pack());
+				_dataAllocator.Expect(x=>x.CreateNewGame()).Return(Guid.NewGuid());
+				
 				return this;
 			}
 
-			public void VerifyGameWasCreationWasFinished()
+			
+			public TestContext ExpectFailureWhileGenerating(bool fail)
 			{
-				throw new NotImplementedException();
+				_fail = fail;
+				_dataAllocator.Expect(x => x.RecordGenerationOutput(!fail));
+				return this;
 			}
 
-			public TestContext ExpectFailureWhileGenerating()
-			{
-				throw new NotImplementedException();
-			}
-
-			public void VerifyGameWasMarkedAsFail()
-			{
-				throw new NotImplementedException();
-			}
+		
 		}
 	}
 }

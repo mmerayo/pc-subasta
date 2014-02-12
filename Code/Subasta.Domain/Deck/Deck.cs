@@ -7,9 +7,9 @@ namespace Subasta.Domain.Deck
 	abstract class Deck : IDeck
 	{
 		public IPack Cards { get; private set; }
-		public void SetCards(IEnumerable<ICard> cards)
+		public void SetCards(IPack cards)
 		{
-			Cards=new Pack(cards);
+			Cards=cards;
 		}
 
 		public ICard Get(int number, string suitName)

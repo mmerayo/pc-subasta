@@ -201,5 +201,10 @@ namespace Subasta.Infrastructure.Domain
 			EnsureHands();
 			_hands.Add(hand);
 		}
+
+		public void SetTrump(ISuit trump)
+		{
+			Trump = trump;
+		}
 	}
 }

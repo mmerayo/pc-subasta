@@ -5,7 +5,7 @@ namespace Subasta.Domain.Deck
 	public interface IDeck
 	{
 		IPack Cards { get; }
-		void SetCards(IEnumerable<ICard> cards);
+		void SetCards(IPack cards);
 		ICard Get(int number, string suitName);
 	}
 }

@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationServices\GameGenerator.cs" />
+    <Compile Include="DomainServices\Game\GameGenerator.cs" />
     <Compile Include="DomainServices\Game\CardComparer.cs" />
     <Compile Include="DomainServices\Game\GameExplorer.cs" />
     <Compile Include="DomainServices\Game\PlayerDeclarationsChecker.cs" />
@@ -65,7 +65,9 @@
       <Name>Subasta.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ApplicationServices\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
