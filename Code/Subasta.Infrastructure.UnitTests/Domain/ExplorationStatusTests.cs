@@ -8,6 +8,7 @@ using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices.Game;
+using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.Domain
 {
@@ -132,7 +133,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			public TestContext()
 			{
 
-				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+				_fixture = new Fixture().Customize(new SubastaAutoFixtureCustomizations());
 			}
 
 			public TestContext WithTrump(string trump)
