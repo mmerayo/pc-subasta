@@ -40,9 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSourcing\IGameDataAllocator.cs" />
-    <Compile Include="IDeckSuffler.cs" />
-    <Compile Include="IGameGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

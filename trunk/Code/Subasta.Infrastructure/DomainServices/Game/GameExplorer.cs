@@ -2,10 +2,10 @@
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
-using Subasta.DomainServices.Store;
 
-namespace Subasta.Infrastructure.DomainServices
+namespace Subasta.Infrastructure.DomainServices.Game
 {
 	internal class GameExplorer : IGameExplorer
 	{

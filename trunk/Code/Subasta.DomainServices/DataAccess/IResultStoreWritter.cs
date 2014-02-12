@@ -1,6 +1,6 @@
 ﻿using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices.Store
+namespace Subasta.DomainServices.DataAccess
 {
 	public interface IResultStoreWritter
 	{

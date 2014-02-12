@@ -41,10 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\GameGenerator.cs" />
-    <Compile Include="DomainServices\CardComparer.cs" />
-    <Compile Include="DomainServices\GameExplorer.cs" />
-    <Compile Include="DomainServices\PlayerDeclarationsChecker.cs" />
-    <Compile Include="DomainServices\ValidCardsRule.cs" />
+    <Compile Include="DomainServices\Game\CardComparer.cs" />
+    <Compile Include="DomainServices\Game\GameExplorer.cs" />
+    <Compile Include="DomainServices\Game\PlayerDeclarationsChecker.cs" />
+    <Compile Include="DomainServices\Game\ValidCardsRule.cs" />
     <Compile Include="Domain\Card.cs" />
     <Compile Include="Domain\Hand.cs" />
     <Compile Include="Domain\Status.cs" />

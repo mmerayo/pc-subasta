@@ -2,10 +2,9 @@
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.DomainServices;
 using Subasta.DomainServices.Game;
 
-namespace Subasta.Infrastructure.DomainServices
+namespace Subasta.Infrastructure.DomainServices.Game
 {
 	class ValidCardsRule : IValidCardsRule
 	{

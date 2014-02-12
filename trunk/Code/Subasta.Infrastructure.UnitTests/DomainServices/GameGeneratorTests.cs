@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
-using Subasta.ApplicationServices;
-using Subasta.ApplicationServices.DataSourcing;
+using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
 
-namespace Subasta.Infrastructure.UnitTests.ApplicationServices
+namespace Subasta.Infrastructure.UnitTests.DomainServices
 {
 	[TestFixture]
 	class GameGeneratorTests
@@ -89,7 +85,8 @@ namespace Subasta.Infrastructure.UnitTests.ApplicationServices
 
 			public TestContext WithGenerateNewGameExpectations()
 			{
-				_gameExplorer.Expect(x=>x.Execute())
+				//_gameExplorer.Expect(x=>x.Execute())
+				throw new NotImplementedException();
 
 				return this;
 			}

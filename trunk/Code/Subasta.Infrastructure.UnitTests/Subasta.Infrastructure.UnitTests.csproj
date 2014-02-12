@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationServices\GameGeneratorTests.cs" />
+    <Compile Include="DomainServices\GameGeneratorTests.cs" />
     <Compile Include="DomainServices\GameExplorerIntegrationTests.cs" />
     <Compile Include="DomainServices\CardComparerTests.cs" />
     <Compile Include="DomainServices\ValidCardsRuleTests.cs" />
@@ -85,6 +85,9 @@
       <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
       <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationServices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
