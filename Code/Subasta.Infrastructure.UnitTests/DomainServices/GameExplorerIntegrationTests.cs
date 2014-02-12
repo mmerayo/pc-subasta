@@ -2,11 +2,10 @@
 using System.Collections;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.AutoRhinoMock;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
-using Subasta.Infrastructure.DomainServices;
 using Subasta.Infrastructure.DomainServices.Game;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices
@@ -122,7 +121,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 			
 			public TestContext()
 			{
-				_fixture = new Fixture().Customize(new AutoMoqCustomization());
+				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 				_fixture.Register<IValidCardsRule>(()=>new ValidCardsRule());
 				
 			}

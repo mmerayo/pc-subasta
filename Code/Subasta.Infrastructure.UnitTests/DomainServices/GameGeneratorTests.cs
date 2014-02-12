@@ -1,8 +1,8 @@
 ﻿using System;
-using Moq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.AutoRhinoMock;
+using Rhino.Mocks;
 using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
@@ -52,15 +52,15 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices
 		private class TestContext
 		{
 			private readonly IFixture _fixture;
-			private Mock<IGameExplorer> _gameExplorer;
-			private Mock<IDeckSuffler> _suffler;
-			private Mock<IGameDataAllocator> _dataAllocator;
+			private IGameExplorer _gameExplorer;
+			private IDeckSuffler _suffler;
+			private IGameDataAllocator _dataAllocator;
 			public TestContext()
 			{
-				_fixture=new Fixture().Customize(new AutoMoqCustomization());
-				_gameExplorer = _fixture.Freeze<Mock<IGameExplorer>>();
-				_suffler = _fixture.Freeze < Mock<IDeckSuffler>>();
-				_dataAllocator = _fixture.Freeze < Mock<IGameDataAllocator>>();
+				_fixture=new Fixture().Customize(new AutoRhinoMockCustomization());
+				_gameExplorer = _fixture.Freeze<IGameExplorer>();
+				_suffler = _fixture.Freeze < IDeckSuffler>();
+				_dataAllocator = _fixture.Freeze < IGameDataAllocator>();
 			}
 
 			public GameGenerator Sut

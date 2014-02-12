@@ -2,13 +2,11 @@
 using System.Collections;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.AutoRhinoMock;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
-using Subasta.DomainServices;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
-using Subasta.Infrastructure.DomainServices;
 using Subasta.Infrastructure.DomainServices.Game;
 
 namespace Subasta.Infrastructure.UnitTests.Domain
@@ -134,7 +132,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			public TestContext()
 			{
 
-				_fixture = new Fixture().Customize(new AutoMoqCustomization());
+				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 			}
 
 			public TestContext WithTrump(string trump)
