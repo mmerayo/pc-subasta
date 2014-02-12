@@ -40,12 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Deck\Deck.cs" />
     <Compile Include="Deck\ICard.cs" />
     <Compile Include="Deck\IDeck.cs" />
     <Compile Include="Deck\IPack.cs" />
     <Compile Include="Deck\ISuit.cs" />
-    <Compile Include="Deck\Pack.cs" />
     <Compile Include="Declaration.cs" />
     <Compile Include="Game\IExplorationStatus.cs" />
     <Compile Include="Game\IHand.cs" />

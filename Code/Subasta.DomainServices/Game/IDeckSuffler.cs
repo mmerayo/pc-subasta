@@ -4,6 +4,6 @@ namespace Subasta.DomainServices.Game
 {
 	public interface IDeckSuffler
 	{
-		IPack Suffle(IPack cardsSource);
+		IDeck Suffle(IDeck cardsSource);
 	}
 }
