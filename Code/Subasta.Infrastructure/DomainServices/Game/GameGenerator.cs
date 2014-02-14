@@ -32,7 +32,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			gameId = Guid.Empty;
 			try
 			{
-				gameId = _gameDataAllocator.CreateNewGame();
+				gameId = _gameDataAllocator.CreateNewGameStorage();
 				DoGeneration(gameId);
 				_gameDataAllocator.RecordGenerationOutput(gameId,true);
 				return true;

@@ -55,10 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainServices\GameGeneratorTests.cs" />
-    <Compile Include="DomainServices\GameExplorerIntegrationTests.cs" />
-    <Compile Include="DomainServices\CardComparerTests.cs" />
-    <Compile Include="DomainServices\ValidCardsRuleTests.cs" />
+    <Compile Include="DomainServices\DataAccess\GameDataAllocatorTests.cs" />
+    <Compile Include="DomainServices\Game\GameGeneratorTests.cs" />
+    <Compile Include="DomainServices\Game\GameExplorerIntegrationTests.cs" />
+    <Compile Include="DomainServices\Game\CardComparerTests.cs" />
+    <Compile Include="DomainServices\Game\ValidCardsRuleTests.cs" />
     <Compile Include="Domain\ExplorationStatusTests.cs" />
     <Compile Include="Domain\HandUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
