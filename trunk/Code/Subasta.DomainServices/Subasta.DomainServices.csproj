@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\Db\IDbHelper.cs" />
-    <Compile Include="DataAccess\Db\Sqlite\SqliteDbEngine.cs" />
     <Compile Include="DataAccess\IGameDataAllocator.cs" />
     <Compile Include="Game\ICardComparer.cs" />
     <Compile Include="Game\IDeckSuffler.cs" />
