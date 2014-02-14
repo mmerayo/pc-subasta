@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Subasta.ApplicationServices;
 
 namespace Subasta.Infrastructure.ApplicationServices
@@ -56,17 +53,19 @@ namespace Subasta.Infrastructure.ApplicationServices
 			if (!Directory.Exists(destFolder))
 				Directory.CreateDirectory(destFolder);
 
+			string name;
+			string dest;
 			foreach (string file in files)
 			{
-				string name = Path.GetFileName(file);
-				string dest = Path.Combine(destFolder, name);
+				name = Path.GetFileName(file);
+				dest = Path.Combine(destFolder, name);
 				File.Copy(file, dest);
 			}
 
 			foreach (string folder in folders)
 			{
-				string name = Path.GetFileName(folder);
-				string dest = Path.Combine(destFolder, name);
+				name = Path.GetFileName(folder);
+				dest = Path.Combine(destFolder, name);
 				CopyFolder(folder, dest);
 			}
 		}

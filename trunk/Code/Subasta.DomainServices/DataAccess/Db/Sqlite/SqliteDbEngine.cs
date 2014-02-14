@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Subasta.ApplicationServices;
 
@@ -59,9 +56,16 @@ namespace Subasta.DomainServices.DataAccess.Db.Sqlite
 					Debug.Assert(_inMemoryConnection == null);
 					_inMemoryConnection = new SQLiteConnection(GetConnectionString());
 					_inMemoryConnection.Open();
+
+					CreateSchema();
 				}
 			}
 			Created = true;
+		}
+
+		private void CreateSchema()
+		{
+			throw new NotImplementedException();
 		}
 
 		public void DropDatabase()
