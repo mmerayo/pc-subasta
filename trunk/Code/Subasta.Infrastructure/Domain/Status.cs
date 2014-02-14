@@ -29,7 +29,8 @@ namespace Subasta.Infrastructure.Domain
 			PlayerBets = int.MinValue;
 		}
 
-		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker):this(Guid.Empty,cardsComparer,trump,declarationsChecker)
+		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
+			:this(Guid.Empty,cardsComparer,trump,declarationsChecker)
 		{
 			
 		}

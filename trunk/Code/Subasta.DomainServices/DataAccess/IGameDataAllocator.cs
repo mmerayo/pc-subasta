@@ -4,7 +4,7 @@ namespace Subasta.DomainServices.DataAccess
 {
 	public interface IGameDataAllocator
 	{
-		Guid CreateNewGame();
+		Guid CreateNewGameStorage();
 		void RecordGenerationOutput(Guid gameId, bool successful);
 	}
 }

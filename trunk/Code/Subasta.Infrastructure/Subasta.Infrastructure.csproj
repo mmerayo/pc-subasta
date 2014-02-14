@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\Game\GameGenerator.cs" />
     <Compile Include="DomainServices\Game\CardComparer.cs" />
     <Compile Include="DomainServices\Game\GameExplorer.cs" />
