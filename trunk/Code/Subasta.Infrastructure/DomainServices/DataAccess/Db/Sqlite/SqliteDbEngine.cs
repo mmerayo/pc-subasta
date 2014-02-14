@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Subasta.ApplicationServices;
+using Subasta.DomainServices.DataAccess.Db;
 
-namespace Subasta.DomainServices.DataAccess.Db.Sqlite
+namespace Subasta.Infrastructure.DomainServices.DataAccess.Db.Sqlite
 {
 	internal class SqliteDbEngine : IDbHelper, IDisposable
 	{
