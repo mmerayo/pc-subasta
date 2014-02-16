@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
             _dataHelper = dataHelper;
         }
 
-        public void StoreGameInfo(int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4)
+        public void StoreGameInfo(Guid gameId, int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4)
         {
             var gameInfo = new GameInfo
                                {
@@ -27,7 +27,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
                                    CardsP4 = Mapper.Map<CardInfo[]>(cardsP4)
                                };
            
-               using (var uow= _dataHelper.GetUnitOfWork<ISession>())
+               using (var uow= _dataHelper.GetUnitOfWork<ISession>(gameId))
                {
                    uow.Session.Save(gameInfo);
                }

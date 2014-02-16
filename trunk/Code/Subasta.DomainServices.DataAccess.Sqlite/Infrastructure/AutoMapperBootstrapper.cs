@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Subasta.ApplicationServices;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess.Sqlite.Models;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
 {
-    class AutoMapperBootstrapper
+    class AutoMapperBootstrapper:IBootstrapper
     {
-        
+        private static bool _executed = false;
 
-        public static void Init()
+        public void Execute()
         {
-            
-        }
-       
-
-        static AutoMapperBootstrapper()
-        {
-            RegisterCardsMappings();
-            RegisterHandsMappings();
-            RegisterExplorationMappings();
+            if (!_executed)
+                lock (this)
+                    if (!_executed)
+                    {
+                        RegisterCardsMappings();
+                        RegisterHandsMappings();
+                        RegisterExplorationMappings();
 #if DEBUG
-            Mapper.AssertConfigurationIsValid();
+                        Mapper.AssertConfigurationIsValid();
 #endif
+                        _executed = true;
+                    }
         }
 
         private static void RegisterExplorationMappings()
@@ -102,6 +103,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
                            };
             }
         }
+
+        
     }
 
   

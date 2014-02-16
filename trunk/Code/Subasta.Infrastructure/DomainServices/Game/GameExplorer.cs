@@ -38,7 +38,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
             status.SetCards(2, cardsP2);
             status.SetCards(3, cardsP3);
             status.SetCards(4, cardsP4);
-            _gameSettingsWritter.StoreGameInfo(firstPlayer, trump, cardsP1, cardsP2, cardsP3, cardsP4);
+            _gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, trump, cardsP1, cardsP2, cardsP3, cardsP4);
             Execute(status, firstPlayer);
         }
 

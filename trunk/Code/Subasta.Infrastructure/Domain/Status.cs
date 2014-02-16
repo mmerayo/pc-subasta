@@ -37,13 +37,13 @@ namespace Subasta.Infrastructure.Domain
 
 		public IExplorationStatus Clone()
 		{
-			Debug.Assert(_gameId != Guid.Empty);
+			Debug.Assert(GameId != Guid.Empty);
 			var target = new Status( _cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
 			Array.Copy(_playerCards, target._playerCards, 4);
 
 			target._hands = new List<IHand>();
 			_hands.ForEach(x => target._hands.Add(x.Clone()));
-			target._gameId = _gameId;
+			target._gameId = GameId;
 			//CALCULATE DECLARABLES
 			return target;
 		}
@@ -148,8 +148,13 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
+	    public Guid GameId
+	    {
+	        get { return _gameId; }
+	    }
 
-		public void AddNewHand()
+
+	    public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();
 

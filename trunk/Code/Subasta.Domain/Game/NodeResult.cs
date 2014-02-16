@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Subasta.Domain.Deck;
 
@@ -40,6 +41,11 @@ namespace Subasta.Domain.Game
 	    public IHand[] Hands
 	    {
 	        get { return _status.Hands.ToArray(); }
+	    }
+
+	    public Guid GameId
+	    {
+            get { return _status.GameId; }
 	    }
 	}
 

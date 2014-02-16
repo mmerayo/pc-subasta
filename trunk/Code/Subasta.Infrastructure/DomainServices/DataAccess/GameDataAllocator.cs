@@ -27,6 +27,8 @@ namespace Subasta.Infrastructure.DomainServices.DataAccess
 
 		public void RecordGenerationOutput(Guid gameId, bool successful)
 		{
+            _dbHelper.ReleaseResources(gameId);
+
 			throw new NotImplementedException();
 		}
 
