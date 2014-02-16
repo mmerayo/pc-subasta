@@ -14,10 +14,10 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Models
 
         public virtual string TrumpSuit { get; set; }
 
-        public virtual IEnumerable <GameInfo> CardsP1 { get; set; }
+        public virtual IEnumerable <CardInfo>CardsP1 { get; set; }
 
-        public virtual IEnumerable<GameInfo> CardsP2 { get; set; }
-        public virtual IEnumerable<GameInfo> CardsP3 { get; set; }
-        public virtual IEnumerable<GameInfo> CardsP4 { get; set; }
+        public virtual IEnumerable<CardInfo> CardsP2 { get; set; }
+        public virtual IEnumerable<CardInfo> CardsP3 { get; set; }
+        public virtual IEnumerable<CardInfo> CardsP4 { get; set; }
     }
 }
