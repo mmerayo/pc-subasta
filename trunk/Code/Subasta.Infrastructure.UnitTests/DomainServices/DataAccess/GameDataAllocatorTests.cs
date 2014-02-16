@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Rhino.Mocks;
+using Subasta.DomainServices.DataAccess;
 using Subasta.Infrastructure.DomainServices.DataAccess;
 using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
@@ -36,18 +38,21 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.DataAccess
 		private class TestContext
 		{
 			private readonly IFixture _fixture;
+		    private readonly IDbHelper _dbHelper;
 
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new SubastaAutoFixtureCustomizations());
+			    _dbHelper = _fixture.Freeze<IDbHelper>();
 			}
 
 			public GameDataAllocator Sut { get { return _fixture.CreateAnonymous<GameDataAllocator>(); } }
 
 			public void VerifyGameWasCreated(Guid gameId)
 			{
-				throw new NotImplementedException();
+				_dbHelper.AssertWasCalled(x=>x.CreateDatabase(gameId));
 			}
+
 		}
 	}
 }
