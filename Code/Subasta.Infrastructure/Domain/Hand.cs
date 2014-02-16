@@ -12,12 +12,12 @@ namespace Subasta.Infrastructure.Domain
 	{
 		private readonly ICard[] _hand = new ICard[4];
 		private int _playerWinner = int.MinValue;
-		private int _firstPlayer = int.MinValue;
-		private readonly ICardComparer _cardsComparer;
+	    private readonly ICardComparer _cardsComparer;
 
 		public Hand(ICardComparer cardsComparer, ISuit trump)
 		{
-			if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
+		    FirstPlayer = int.MinValue;
+		    if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
 			_cardsComparer = cardsComparer;
 			Trump = trump;
 		}
@@ -26,8 +26,8 @@ namespace Subasta.Infrastructure.Domain
 		{
 			ThrowIfNotValidPlayerPosition(playerPlays, "playerPlays");
 
-			if (_firstPlayer == int.MinValue)
-				_firstPlayer = playerPlays;
+			if (FirstPlayer == int.MinValue)
+				FirstPlayer = playerPlays;
 
 			var index = playerPlays - 1;
 
@@ -100,7 +100,7 @@ namespace Subasta.Infrastructure.Domain
 			get
 			{
 				ThrowIfEmpty();
-				return _hand[_firstPlayer - 1].Suit==Trump;
+				return _hand[FirstPlayer - 1].Suit==Trump;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Subasta.Infrastructure.Domain
 			get
 			{
 				ThrowIfEmpty();
-				return _hand[_firstPlayer - 1].Suit;
+				return _hand[FirstPlayer - 1].Suit;
 			}
 		}
 
@@ -127,7 +127,7 @@ namespace Subasta.Infrastructure.Domain
 
 		public bool IsEmpty
 		{
-			get { return _firstPlayer == int.MinValue; }
+			get { return FirstPlayer == int.MinValue; }
 		}
 
 		public bool BrokeToTrump
@@ -135,7 +135,7 @@ namespace Subasta.Infrastructure.Domain
 			get
 			{
 				ThrowIfEmpty();
-				if (_hand[_firstPlayer - 1].Suit == Trump)
+				if (_hand[FirstPlayer - 1].Suit == Trump)
 					return false;
 				return _hand.Any(x => x!=null &&  x.Suit == Trump);
 			}
@@ -145,7 +145,9 @@ namespace Subasta.Infrastructure.Domain
 
 		public Declaration? Declaration { get; private set; }
 
-		public ICard PlayerCard(int playerPosition)
+	    public int FirstPlayer { get; private set; }
+
+	    public ICard PlayerCard(int playerPosition)
 		{
 			return _hand[playerPosition - 1];
 		}
@@ -155,7 +157,7 @@ namespace Subasta.Infrastructure.Domain
 			var result=new Hand(_cardsComparer,Trump)
 				{
 					_playerWinner=this._playerWinner,
-					_firstPlayer = this._firstPlayer,
+					FirstPlayer = this.FirstPlayer,
 				};
 			Array.Copy(_hand,result._hand,4);
 			return result;
@@ -192,7 +194,7 @@ namespace Subasta.Infrastructure.Domain
 		{
 			ThrowIfEmpty();
 
-			var currentPlayer = _firstPlayer;
+			var currentPlayer = FirstPlayer;
 
 			var currentWin = _hand[currentPlayer - 1];
 			currentPlayer = NextPlayer(currentPlayer);
@@ -204,7 +206,7 @@ namespace Subasta.Infrastructure.Domain
 				if (card == null) break;
 
 				currentWin = _cardsComparer.Best(currentWin, card);
-			} while ((currentPlayer = NextPlayer(currentPlayer)) != _firstPlayer);
+			} while ((currentPlayer = NextPlayer(currentPlayer)) != FirstPlayer);
 			return currentWin;
 		}
 

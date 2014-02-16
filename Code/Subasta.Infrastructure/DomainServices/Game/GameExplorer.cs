@@ -34,7 +34,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			status.SetCards(3, cardsP3);
 			status.SetCards(4, cardsP4);
 
-			Execute(status, 1);
+			Execute(status, firstPlayer);
 		}
 
 		//TODO: REMOVE COMPARISONS AS EVERYTHING IS STORED
