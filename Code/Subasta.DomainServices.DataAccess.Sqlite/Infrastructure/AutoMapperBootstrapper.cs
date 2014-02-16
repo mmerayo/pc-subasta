@@ -15,9 +15,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
         {
             
         }
-        NHIBERNATE BOOTSTRAPPER
-        DEPENDENCY INJECTION
-        DB CREATION FROM MODELS
+       
 
         static AutoMapperBootstrapper()
         {
@@ -83,10 +81,11 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
 
                 return new HandInfo
                            {
-                               Cards = Mapper.Map<List<CardInfo>>(cards),
+                               Cards = Mapper.Map<CardInfo[]>(cards),
                                Declaration =
                                    sourceValue.Declaration.HasValue ? sourceValue.Declaration.Value.ToString() : null,
-                               FirstPlayer = sourceValue.FirstPlayer
+                               FirstPlayer = sourceValue.FirstPlayer,
+                               Sequence=sourceValue.Sequence
                            };
             }
         }
@@ -97,7 +96,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
             {
                 return new ExplorationInfo
                            {
-                               Hands = Mapper.Map<List<HandInfo>>(sourceValue.Hands),
+                               Hands = Mapper.Map<HandInfo[]>(sourceValue.Hands),
                                PointsTeam1 = sourceValue.Points1And3,
                                PointsTeam2 = sourceValue.Points2And4,
                            };
