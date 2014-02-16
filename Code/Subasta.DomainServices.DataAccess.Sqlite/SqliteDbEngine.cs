@@ -3,11 +3,12 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using NHibernate;
 using Subasta.ApplicationServices;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite
 {
-	internal class SqliteDbEngine : IDbHelper, IDisposable
+	internal class SqliteDbEngine : IGameDataHelper, IDisposable
 	{
 		private readonly IPathHelper _pathHelper;
 		private readonly string _dbFolderPath;
@@ -113,7 +114,14 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 							   : string.Format("FullUri=file:{0}?mode=memory&cache=shared;Version=3;BinaryGuid=False;", DbName);
 		}
 
-		private bool _disposed = false;
+	    public IUnitOfWork<TSession> GetUnitOfWork<TSession>()
+	    {
+            if (!(typeof(TSession) is ISession))
+                throw new NotSupportedException();
+	        return (IUnitOfWork<TSession>) new NHibernateUnitOfWork();
+	    }
+
+	    private bool _disposed = false;
 
 		public void Dispose()
 		{

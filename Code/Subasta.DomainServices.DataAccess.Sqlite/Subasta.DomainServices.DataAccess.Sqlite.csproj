@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -68,7 +74,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\GameInfo.cs" />
+    <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Writters\GameSettingsWritter.cs" />
+    <Compile Include="Writters\ResultStoreWritter.cs" />
     <Compile Include="SqliteDbEngine.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +85,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -91,6 +104,10 @@
     <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
       <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
       <Name>Subasta.DomainServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
+      <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
+      <Name>Subasta.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
