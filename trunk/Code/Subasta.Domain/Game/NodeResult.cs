@@ -1,3 +1,4 @@
+using System.Linq;
 using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.Game
@@ -35,6 +36,11 @@ namespace Subasta.Domain.Game
 		{
 			get { return playerPosition == 1 || playerPosition == 3 ? Points1And3 : Points2And4; }
 		}
+
+	    public IHand[] Hands
+	    {
+	        get { return _status.Hands.ToArray(); }
+	    }
 	}
 
 }
