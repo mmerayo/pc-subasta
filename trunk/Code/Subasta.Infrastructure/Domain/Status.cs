@@ -155,7 +155,7 @@ namespace Subasta.Infrastructure.Domain
 
 			if (_hands.Count == 10 || _playerCards.All(x => x.Length == 0))
 				return;
-			var item = new Hand(_cardsComparer, Trump);
+			var item = new Hand(_cardsComparer, Trump,_hands.Count+1);
 			_hands.Add(item);
 		}
 

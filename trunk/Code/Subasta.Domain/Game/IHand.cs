@@ -28,6 +28,7 @@ namespace Subasta.Domain.Game
 		ISuit Trump { get; }
 		Declaration? Declaration { get; }
         int FirstPlayer { get; }
+        int Sequence { get; }
         ICard PlayerCard(int playerPosition);
 
 		IHand Clone();

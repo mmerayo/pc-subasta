@@ -14,12 +14,13 @@ namespace Subasta.Infrastructure.Domain
 		private int _playerWinner = int.MinValue;
 	    private readonly ICardComparer _cardsComparer;
 
-		public Hand(ICardComparer cardsComparer, ISuit trump)
+		public Hand(ICardComparer cardsComparer, ISuit trump,int sequence)
 		{
 		    FirstPlayer = int.MinValue;
 		    if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
 			_cardsComparer = cardsComparer;
 			Trump = trump;
+		    Sequence = sequence;
 		}
 
 		public int Add(int playerPlays, ICard card)
@@ -142,8 +143,9 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 		public ISuit Trump { get; private set; }
+	    public int Sequence { get; private set; }
 
-		public Declaration? Declaration { get; private set; }
+	    public Declaration? Declaration { get; private set; }
 
 	    public int FirstPlayer { get; private set; }
 
@@ -154,7 +156,7 @@ namespace Subasta.Infrastructure.Domain
 
 		public IHand Clone()
 		{
-			var result=new Hand(_cardsComparer,Trump)
+			var result=new Hand(_cardsComparer,Trump,Sequence)
 				{
 					_playerWinner=this._playerWinner,
 					FirstPlayer = this.FirstPlayer,
