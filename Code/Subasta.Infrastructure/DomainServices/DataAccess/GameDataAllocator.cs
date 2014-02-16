@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Subasta.DomainServices.DataAccess;
-using Subasta.DomainServices.DataAccess.Db;
 
 namespace Subasta.Infrastructure.DomainServices.DataAccess
 {

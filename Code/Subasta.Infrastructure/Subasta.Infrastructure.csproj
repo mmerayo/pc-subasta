@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\PathUtils.cs" />
-    <Compile Include="DomainServices\DataAccess\Db\Sqlite\SqliteDbEngine.cs" />
     <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\Game\GameGenerator.cs" />
     <Compile Include="DomainServices\Game\CardComparer.cs" />
