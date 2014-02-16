@@ -38,12 +38,12 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.DataAccess
 		private class TestContext
 		{
 			private readonly IFixture _fixture;
-		    private readonly IDbHelper _dbHelper;
+		    private readonly IGameDataHelper _dbHelper;
 
 			public TestContext()
 			{
 				_fixture=new Fixture().Customize(new SubastaAutoFixtureCustomizations());
-			    _dbHelper = _fixture.Freeze<IDbHelper>();
+			    _dbHelper = _fixture.Freeze<IGameDataHelper>();
 			}
 
 			public GameDataAllocator Sut { get { return _fixture.CreateAnonymous<GameDataAllocator>(); } }

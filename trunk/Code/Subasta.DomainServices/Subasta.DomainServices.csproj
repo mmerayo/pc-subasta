@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\IDbHelper.cs" />
-    <Compile Include="DataAccess\IGameDataAllocator.cs" />
+    <Compile Include="DataAccess\IGameDataHelper.cs" />
+    <Compile Include="DataAccess\IGameDataWritter.cs" />
+    <Compile Include="DataAccess\IGameSettingsStoreWritter.cs" />
+    <Compile Include="DataAccess\IUnitOfWork.cs" />
     <Compile Include="Game\ICardComparer.cs" />
     <Compile Include="Game\IDeckSuffler.cs" />
     <Compile Include="Game\IGameExplorer.cs" />

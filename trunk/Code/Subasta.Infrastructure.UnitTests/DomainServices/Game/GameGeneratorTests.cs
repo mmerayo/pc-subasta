@@ -45,7 +45,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 			private readonly IFixture _fixture;
 			private IGameExplorer _gameExplorer;
 			private IDeckSuffler _suffler;
-			private IGameDataAllocator _dataAllocator;
+			private IGameDataWritter _dataAllocator;
 			private bool _fail;
 
 			public TestContext()
@@ -53,7 +53,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 				_fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 				_gameExplorer = _fixture.Freeze<IGameExplorer>();
 				_suffler = _fixture.Freeze<IDeckSuffler>();
-				_dataAllocator = _fixture.Freeze<IGameDataAllocator>();
+				_dataAllocator = _fixture.Freeze<IGameDataWritter>();
 			}
 
 			public GameGenerator Sut

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
 
 namespace Subasta.Infrastructure.DomainServices.DataAccess
 {
-	class GameDataAllocator:IGameDataAllocator
+	class GameDataAllocator:IGameDataWritter
 	{
-		private readonly IDbHelper _dbHelper;
+		private readonly IGameDataHelper _dbHelper;
 
-		public GameDataAllocator(IDbHelper dbHelper)
+		public GameDataAllocator(IGameDataHelper dbHelper)
 		{
 			_dbHelper = dbHelper;
 		}
@@ -28,5 +29,7 @@ namespace Subasta.Infrastructure.DomainServices.DataAccess
 		{
 			throw new NotImplementedException();
 		}
+
+       
 	}
 }

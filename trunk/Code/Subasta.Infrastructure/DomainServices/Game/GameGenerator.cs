@@ -13,13 +13,13 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
 		private readonly IGameExplorer _gameExplorer;
-		private readonly IGameDataAllocator _gameDataAllocator;
+		private readonly IGameDataWritter _gameDataAllocator;
 
 		public GameGenerator(
 			IDeck deck,
 			IDeckSuffler suffler,
 			IGameExplorer gameExplorer,
-			IGameDataAllocator gameDataAllocator)
+			IGameDataWritter gameDataAllocator)
 		{
 			_deck = deck;
 			_suffler = suffler;
