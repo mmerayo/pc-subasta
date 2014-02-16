@@ -7,6 +7,7 @@ namespace Subasta.DomainServices.DataAccess
 		void CreateDatabase(Guid gameId);
 		void DropDatabase();
 		string GetConnectionString();
-	    IUnitOfWork<TSession> GetUnitOfWork<TSession>();
+        IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId);
+	    void ReleaseResources(Guid gameId);
 	}
 }

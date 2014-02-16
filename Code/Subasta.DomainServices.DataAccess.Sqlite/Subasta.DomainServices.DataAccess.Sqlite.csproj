@@ -80,6 +80,7 @@
     <Compile Include="Models\HandInfo.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionFactoryProvider.cs" />
     <Compile Include="Writters\GameSettingsWritter.cs" />
     <Compile Include="Writters\ResultStoreWritter.cs" />
     <Compile Include="SqliteDbEngine.cs" />

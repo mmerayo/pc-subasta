@@ -47,7 +47,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 			//DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
 			Debug.Assert(gameId!=Guid.Empty);
 			
-			DbName = string.Format("db{0}.game", gameId.ToString().Replace('-', '_'));
+			 SetDbName(gameId);
 			
 
 			if (InMemory)
@@ -58,16 +58,21 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 					_inMemoryConnection = new SQLiteConnection(GetConnectionString());
 					_inMemoryConnection.Open();
 
-					CreateSchema();
+					CreateSchema(gameId);
 				}
 			}
 			Created = true;
 		}
 
-		private void CreateSchema()
-		{
-			throw new NotImplementedException();
-		}
+	    private  void SetDbName(Guid gameId)
+	    {
+            DbName = string.Format("db{0}.game", gameId.ToString().Replace('-', '_'));
+	    }
+
+	    private void CreateSchema(Guid gameId)
+	    {
+	        SessionFactoryProvider.CreateSchema(gameId);
+	    }
 
 		public void DropDatabase()
 		{
@@ -114,11 +119,18 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 							   : string.Format("FullUri=file:{0}?mode=memory&cache=shared;Version=3;BinaryGuid=False;", DbName);
 		}
 
-	    public IUnitOfWork<TSession> GetUnitOfWork<TSession>()
+	    public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
 	    {
             if (!(typeof(TSession) is ISession))
                 throw new NotSupportedException();
-	        return (IUnitOfWork<TSession>) new NHibernateUnitOfWork();
+            SetDbName(gameId);
+	        return (IUnitOfWork<TSession>) new NHibernateUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId,GetConnectionString()));
+	    }
+
+	    public void ReleaseResources(Guid gameId)
+	    {
+
+	        SessionFactoryProvider.ReleaseDbConfiguration(gameId);
 	    }
 
 	    private bool _disposed = false;
@@ -134,5 +146,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 					}
 
 		}
+
+        
 	}
 }
