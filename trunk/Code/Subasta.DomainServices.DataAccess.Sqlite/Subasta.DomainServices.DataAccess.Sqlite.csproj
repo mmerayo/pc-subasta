@@ -86,7 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Writters\GameSettingsWritter.cs" />
     <Compile Include="Writters\ResultStoreWritter.cs" />
-    <Compile Include="SqliteDbEngine.cs" />
+    <Compile Include="DbEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
