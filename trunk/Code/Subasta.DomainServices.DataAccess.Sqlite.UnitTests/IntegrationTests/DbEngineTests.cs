@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Subasta.ApplicationServices;
 using Subasta.Infrastructure.ApplicationServices;
@@ -31,9 +32,10 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
             public TestContext()
             {
                 PathHelper = new PathUtils();
+                Sut=  new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs")); 
             }
 
-            public DbEngine Sut { get { return new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs")); } }
+            public DbEngine Sut { get; private set; }
 
             private IPathHelper PathHelper { get; set; }
         }
