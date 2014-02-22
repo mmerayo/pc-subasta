@@ -9,12 +9,23 @@ namespace Subasta.Infrastructure.ApplicationServices
 	{
 		private string _applicationFolderPath;
 
-		public string GetApplicationFolderPath(string folderName)
+		public string GetApplicationFolderPath(string folderName,bool createIfNotExists=false)
 		{
-			return string.Format("{0}\\{1}", GetApplicationFolderPath(), folderName);
+		    string path = string.Format("{0}\\{1}", GetApplicationFolderPath(), folderName);
+            EnsureDirectoryExists(path);
+
+		    return path;
 		}
 
-		public string GetApplicationFolderPath()
+        private void EnsureDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+                lock (this)
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+        }
+
+	    public string GetApplicationFolderPath()
 		{
 			if (_applicationFolderPath == null)
 			{

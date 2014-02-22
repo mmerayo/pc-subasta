@@ -11,6 +11,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Subasta.ApplicationServices;
+using Subasta.DomainServices.DataAccess.Sqlite.Mappings;
 using Subasta.DomainServices.DataAccess.Sqlite.Models;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite
@@ -22,7 +23,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 		protected bool InMemory { get; private set; }
 		private readonly object _syncLock = new object();
 		private string DbName { get; set; }
-		private SQLiteConnection _inMemoryConnection = null; //holds the connection in memory
+		private SQLiteConnection _connection = null; //holds the connection in memory
 
 
 		public DbEngine(IPathHelper pathHelper, bool inMemory,string dbFolderPath)
@@ -50,25 +51,25 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 		public void CreateDatabase(Guid gameId)
 		{
-			//its created automatically
-			//DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
-			Debug.Assert(gameId!=Guid.Empty);
-			
-			 SetDbName(gameId);
-			
+		    //its created automatically
+		    //DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
+		    Debug.Assert(gameId != Guid.Empty);
 
-			if (InMemory)
-			{
-				lock (_syncLock)
-				{
-					Debug.Assert(_inMemoryConnection == null);
-					_inMemoryConnection = new SQLiteConnection(GetConnectionString());
-					_inMemoryConnection.Open();
+		    SetDbName(gameId);
 
-					CreateSchema(gameId);
-				}
-			}
-			Created = true;
+		    if (!Created)
+		        lock (_syncLock)
+		            if (!Created)
+		            {
+		                Debug.Assert(_connection == null);
+		                _connection = new SQLiteConnection(GetConnectionString());
+		                _connection.Open();
+
+		                CreateSchema(gameId);
+                        Created = true;
+		            }
+
+		    
 		}
 
 	    private  void SetDbName(Guid gameId)
@@ -78,6 +79,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 	    private void CreateSchema(Guid gameId)
 	    {
+	        SessionFactoryProvider.GetSessionFactory(gameId, _connection.ConnectionString);
 	        SessionFactoryProvider.CreateSchema(gameId);
 	    }
 
@@ -94,10 +96,10 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 				}
 				else
 				{
-					if (_inMemoryConnection != null)
+					if (_connection != null)
 					{
-						_inMemoryConnection.Dispose();
-						_inMemoryConnection = null;
+						_connection.Dispose();
+						_connection = null;
 					}
 				}
 			}
@@ -183,7 +185,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
                 Configuration config = null;
                 var fluentConfiguration = Fluently.Configure()
                     .Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
-                    .Mappings(m => m.AutoMappings.Add(AutoMap.AssemblyOf<GameInfo>(new DefaultAutomappingConfiguration())));
+                    .Mappings(m => m.AutoMappings.Add(AutoMap.AssemblyOf<GameInfo>(new MyAutomappingConfiguration())));
                 var result = fluentConfiguration.ExposeConfiguration(x => config = x).BuildSessionFactory();
                 cfg = config;
                 return result;
@@ -198,6 +200,15 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 #endif
 
             }
+
+            private class MyAutomappingConfiguration:DefaultAutomappingConfiguration
+            {
+                public override bool ShouldMap(Type type)
+                {
+                    return type.Namespace == typeof (CardInfoMap).Namespace;
+                }
+            }
+
         }
 	}
 }
