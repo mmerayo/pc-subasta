@@ -15,7 +15,7 @@ using Subasta.DomainServices.DataAccess.Sqlite.Models;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite
 {
-	internal class SqliteDbEngine : IGameDataHelper, IDisposable
+	internal class DbEngine : IGameDataHelper, IDisposable
 	{
 		private readonly IPathHelper _pathHelper;
 		private readonly string _dbFolderPath;
@@ -25,7 +25,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 		private SQLiteConnection _inMemoryConnection = null; //holds the connection in memory
 
 
-		public SqliteDbEngine(IPathHelper pathHelper, bool inMemory,string dbFolderPath)
+		public DbEngine(IPathHelper pathHelper, bool inMemory,string dbFolderPath)
 		{
 			_pathHelper = pathHelper;
 			_dbFolderPath = dbFolderPath;
