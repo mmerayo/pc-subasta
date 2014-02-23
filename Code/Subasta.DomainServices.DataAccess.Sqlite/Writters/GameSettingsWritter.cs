@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using NHibernate;
 using Subasta.Domain.Deck;
@@ -17,14 +18,19 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 
         public void StoreGameInfo(Guid gameId, int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4)
         {
+            var players = new List<PlayerGameInfo>
+                              {
+                                  new PlayerGameInfo(1, Mapper.Map<CardInfo[]>(cardsP1)),
+                                  new PlayerGameInfo(2, Mapper.Map<CardInfo[]>(cardsP2)),
+                                  new PlayerGameInfo(3,Mapper.Map<CardInfo[]>(cardsP3)),
+                                  new PlayerGameInfo(4,Mapper.Map<CardInfo[]>(cardsP4))
+                              };
+
             var gameInfo = new GameInfo
                                {
                                    FirstPlayer = firstPlayer,
                                    TrumpSuit = trump.Name,
-                                   CardsP1 = Mapper.Map<CardInfo[]>(cardsP1),
-                                   CardsP2 = Mapper.Map<CardInfo[]>(cardsP2),
-                                   CardsP3 = Mapper.Map<CardInfo[]>(cardsP3),
-                                   CardsP4 = Mapper.Map<CardInfo[]>(cardsP4)
+                                   Players = players
                                };
            
                using (var uow= _dataHelper.GetUnitOfWork<ISession>(gameId))
