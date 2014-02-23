@@ -47,6 +47,11 @@ namespace Subasta.Domain.Game
 	    {
             get { return _status.GameId; }
 	    }
+
+	    public ISuit Trump
+	    {
+	        get { return _status.Trump; }
+	    }
 	}
 
 }
