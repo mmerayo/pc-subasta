@@ -82,6 +82,7 @@
     <Compile Include="Mappings\GameInfoMap.cs" />
     <Compile Include="Models\HandInfo.cs" />
     <Compile Include="Mappings\HandInfoMap.cs" />
+    <Compile Include="Models\PlayerGameInfo.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Writters\GameSettingsWritter.cs" />
