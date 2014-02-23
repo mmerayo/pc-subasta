@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTests\ResultsWritterTests.cs" />
     <Compile Include="IntegrationTests\DbEngineTests.cs" />
     <Compile Include="IntegrationTests\GameSettingsWritterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

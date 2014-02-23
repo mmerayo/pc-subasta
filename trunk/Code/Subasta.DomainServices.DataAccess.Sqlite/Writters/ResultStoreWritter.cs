@@ -24,13 +24,21 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
             var explorationInfo = Mapper.Map<ExplorationInfo>(result);
             using(var uow=_dataHelper.GetUnitOfWork<ISession>(result.GameId))
             {
-                uow.Session.Save(explorationInfo);
+            Add(explorationInfo, uow);
                 uow.Commit();
             }
         }
 
         private void Add(ExplorationInfo entity,IUnitOfWork<ISession> unitOfWork)
         {
+            foreach (var handInfo in entity.Hands)
+            {
+               handInfo.Cards= StaticDataReader.GetDbCards(unitOfWork.Session, handInfo.Cards);
+                unitOfWork.Session.Save(handInfo);
+            }
+
+            entity.Game= unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump).SingleOrDefault();
+
             unitOfWork.Session.Save(entity);
         }
 

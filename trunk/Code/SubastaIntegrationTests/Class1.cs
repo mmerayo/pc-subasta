@@ -5,8 +5,5 @@ using System.Text;
 
 namespace SubastaIntegrationTests
 {
-	public class Can Generate A Game
-	{
-		
-	}
+	
 }

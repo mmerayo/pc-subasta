@@ -89,6 +89,7 @@
     <Compile Include="Writters\GameSettingsWritter.cs" />
     <Compile Include="Writters\ResultStoreWritter.cs" />
     <Compile Include="DbEngine.cs" />
+    <Compile Include="Writters\StaticDataReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

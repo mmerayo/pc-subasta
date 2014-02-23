@@ -24,10 +24,10 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			{
 				var players = new List<PlayerGameInfo>
 				              	{
-				              		new PlayerGameInfo(1, GetDbCards(uow.Session, cardsP1)),
-				              		new PlayerGameInfo(2, GetDbCards(uow.Session, cardsP2)),
-				              		new PlayerGameInfo(3, GetDbCards(uow.Session, cardsP3)),
-				              		new PlayerGameInfo(4, GetDbCards(uow.Session, cardsP4))
+				              		new PlayerGameInfo(1, StaticDataReader.GetDbCards(uow.Session, cardsP1)),
+				              		new PlayerGameInfo(2, StaticDataReader.GetDbCards(uow.Session, cardsP2)),
+				              		new PlayerGameInfo(3,StaticDataReader. GetDbCards(uow.Session, cardsP3)),
+				              		new PlayerGameInfo(4,StaticDataReader. GetDbCards(uow.Session, cardsP4))
 				              	};
 
 				var gameInfo = new GameInfo
@@ -44,19 +44,6 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			}
 		}
 
-		private IEnumerable<CardInfo> GetDbCards(ISession session, IEnumerable<ICard> cards)
-		{
-			var result = new List<CardInfo>();
-			foreach (var card in cards)
-			{
-				var dbItem =
-					session.QueryOver<CardInfo>().Where(x => x.Suit == card.Suit.Name).And(y => y.Number == card.Number).
-						SingleOrDefault();
-				
-				result.Add(dbItem);
-			}
-
-			return result;
-		}
+		
 	}
 }

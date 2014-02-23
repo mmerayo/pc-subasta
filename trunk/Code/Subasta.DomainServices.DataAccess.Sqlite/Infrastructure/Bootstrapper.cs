@@ -100,6 +100,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
                                Hands = Mapper.Map<HandInfo[]>(sourceValue.Hands),
                                PointsTeam1 = sourceValue.Points1And3,
                                PointsTeam2 = sourceValue.Points2And4,
+                               Trump= sourceValue.Trump.Name
                            };
             }
         }
