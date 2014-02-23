@@ -8,7 +8,7 @@ using Subasta.DomainServices.DataAccess.Sqlite.Models;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
 {
-    class AutoMapperBootstrapper:IBootstrapper
+    class Bootstrapper:IBootstrapper
     {
         private static bool _executed = false;
 
