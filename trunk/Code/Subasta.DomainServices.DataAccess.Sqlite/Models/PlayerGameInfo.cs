@@ -14,7 +14,6 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Models
 
         public virtual int Id { get; set; }
 
-        public virtual GameInfo Game { get; set; }
         public virtual int PlayerPosition { get; set; }
         public virtual IList<CardInfo> Cards { get; set; }
     }

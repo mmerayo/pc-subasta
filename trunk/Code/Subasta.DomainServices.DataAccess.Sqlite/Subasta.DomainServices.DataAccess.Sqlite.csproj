@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\Bootstrapper.cs" />
+    <Compile Include="Mappings\PlayerGameInfoMap.cs" />
     <Compile Include="Models\CardInfo.cs" />
     <Compile Include="Mappings\CardInfoMap.cs" />
     <Compile Include="Models\ExplorationInfo.cs" />

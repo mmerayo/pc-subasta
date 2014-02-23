@@ -31,9 +31,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
         [Test]
         public void CanStoreGame()
         {
-            var gameId = Guid.NewGuid();
 
-            _context.Sut.StoreGameInfo(gameId,1,Suit.FromName("Oros"),new []{new Card("o1")},new []{new Card("o2")},new []{new Card("o3")},new []{new Card("o4")} );
+            _context.Sut.StoreGameInfo(_context.GameId,1,Suit.FromName("Oros"),new []{new Card("o1")},new []{new Card("o2")},new []{new Card("o3")},new []{new Card("o4")} );
 
             //TODO: ASSERTions
             // get reader and read the data
@@ -43,10 +42,13 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
         {
             private readonly DbEngine _db;
             private GameSettingsWritter _sut;
+            public readonly Guid GameId = Guid.NewGuid();
+
             public TestContext()
             {
                 PathHelper = new PathUtils();
                 _db = new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs"));
+                _db.CreateDatabase(GameId);
             }
 
             public GameSettingsWritter Sut
@@ -64,7 +66,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
 
             private void Dispose(bool disposing)
             {
-              _db.Dispose();
+             // _db.DropDatabase();
             }
 
             ~TestContext()

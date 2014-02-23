@@ -5,6 +5,7 @@ namespace Subasta.DomainServices.DataAccess
     public interface IUnitOfWork<TSession>:IDisposable
     {
         TSession Session { get; }
+        void Commit();
     }
 
     

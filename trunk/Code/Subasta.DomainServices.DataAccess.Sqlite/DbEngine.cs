@@ -26,7 +26,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 		private SQLiteConnection _connection = null; //holds the connection in memory
 
 
-		public DbEngine(IPathHelper pathHelper, bool inMemory,string dbFolderPath)
+		public DbEngine(IPathHelper pathHelper, bool inMemory, string dbFolderPath)
 		{
 			_pathHelper = pathHelper;
 			_dbFolderPath = dbFolderPath;
@@ -51,37 +51,53 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 		public void CreateDatabase(Guid gameId)
 		{
-		    //its created automatically
-		    //DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
-		    Debug.Assert(gameId != Guid.Empty);
+			//its created automatically
+			//DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
+			Debug.Assert(gameId != Guid.Empty);
 
-		    SetDbName(gameId);
+			SetDbName(gameId);
 
-		    if (!Created)
-		        lock (_syncLock)
-		            if (!Created)
-		            {
-		                Debug.Assert(_connection == null);
-		                _connection = new SQLiteConnection(GetConnectionString());
-		                _connection.Open();
+			if (!Created)
+				lock (_syncLock)
+					if (!Created)
+					{
+						Debug.Assert(_connection == null);
+						_connection = new SQLiteConnection(GetConnectionString());
+						_connection.Open();
 
-		                CreateSchema(gameId);
-                        Created = true;
-		            }
+						CreateSchema(gameId);
+						Created = true;
+					}
 
-		    
+
 		}
 
-	    private  void SetDbName(Guid gameId)
-	    {
-            DbName = string.Format("db{0}.game", gameId.ToString().Replace('-', '_'));
-	    }
+		private void SetDbName(Guid gameId)
+		{
+			DbName = string.Format("db{0}.game", gameId.ToString().Replace('-', '_'));
+		}
 
-	    private void CreateSchema(Guid gameId)
-	    {
-	        SessionFactoryProvider.GetSessionFactory(gameId, _connection.ConnectionString);
-	        SessionFactoryProvider.CreateSchema(gameId);
-	    }
+		private void CreateSchema(Guid gameId)
+		{
+			SessionFactoryProvider.GetSessionFactory(gameId, _connection.ConnectionString);
+			SessionFactoryProvider.CreateSchema(gameId);
+
+			AddCards(gameId);
+		}
+
+		private void AddCards(Guid gameId)
+		{
+			var suits = new[] {"Oros", "Copas", "Espadas", "Bastos"};
+
+			using (var unitOfWork = GetUnitOfWork<ISession>(gameId))
+			{
+				for (var number = 1; number <= 12; number++)
+					foreach (var suit in suits)
+						if (number != 8 && number != 9)
+							unitOfWork.Session.Save(new CardInfo {Suit = suit, Number = number});
+				unitOfWork.Commit();
+			}
+		}
 
 		public void DropDatabase()
 		{
@@ -124,25 +140,27 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 		public string GetConnectionString()
 		{
 			return !InMemory
-							   ? string.Format("Data Source={0};Version=3;BinaryGuid=False;", FilePath)
-							   : string.Format("FullUri=file:{0}?mode=memory&cache=shared;Version=3;BinaryGuid=False;", DbName);
+			       	? string.Format("Data Source={0};Version=3;BinaryGuid=False;", FilePath)
+			       	: string.Format("FullUri=file:{0}?mode=memory&cache=shared;Version=3;BinaryGuid=False;", DbName);
 		}
 
-	    public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
-	    {
-            if (typeof(TSession)!= typeof(ISession))
-                throw new NotSupportedException();
-            SetDbName(gameId);
-	        return (IUnitOfWork<TSession>) new NHibernateUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId,GetConnectionString()));
-	    }
+		public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
+		{
+			if (typeof (TSession) != typeof (ISession))
+				throw new NotSupportedException();
+			SetDbName(gameId);
+			return
+				(IUnitOfWork<TSession>)
+				new NHibernateUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId, GetConnectionString()));
+		}
 
-	    public void ReleaseResources(Guid gameId)
-	    {
+		public void ReleaseResources(Guid gameId)
+		{
 
-	        SessionFactoryProvider.ReleaseDbConfiguration(gameId);
-	    }
+			SessionFactoryProvider.ReleaseDbConfiguration(gameId);
+		}
 
-	    private bool _disposed = false;
+		private bool _disposed = false;
 
 		public void Dispose()
 		{
@@ -150,65 +168,67 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 				lock (_syncLock)
 					if (!_disposed)
 					{
-						DropDatabase();
 						_disposed = true;
 					}
 
 		}
 
-        private static class SessionFactoryProvider
-        {
-            private static readonly Dictionary<Guid, ISessionFactory> _sessionFactories = new Dictionary<Guid, ISessionFactory>();
-            private static readonly Dictionary<Guid, Configuration> _configurations = new Dictionary<Guid, Configuration>();
-            public static ISessionFactory GetSessionFactory(Guid gameId, string connectionString)
-            {
-                if (!_sessionFactories.ContainsKey(gameId))
-                {
-                    Configuration cfg;
-                    _sessionFactories.Add(gameId, BuildSessionFactory(connectionString, out cfg));
-                    _configurations.Add(gameId, cfg);
-                }
-                return _sessionFactories[gameId];
-            }
+
+		private static class SessionFactoryProvider
+		{
+			private static readonly Dictionary<Guid, ISessionFactory> _sessionFactories = new Dictionary<Guid, ISessionFactory>();
+			private static readonly Dictionary<Guid, Configuration> _configurations = new Dictionary<Guid, Configuration>();
+
+			public static ISessionFactory GetSessionFactory(Guid gameId, string connectionString)
+			{
+				if (!_sessionFactories.ContainsKey(gameId))
+				{
+					Configuration cfg;
+					_sessionFactories.Add(gameId, BuildSessionFactory(connectionString, out cfg));
+					_configurations.Add(gameId, cfg);
+				}
+				return _sessionFactories[gameId];
+			}
 
 
-            public static void ReleaseDbConfiguration(Guid gameId)
-            {
-                if (!_sessionFactories.ContainsKey(gameId))
-                    return;
-                _sessionFactories.Remove(gameId);
-                _configurations.Remove(gameId);
-            }
+			public static void ReleaseDbConfiguration(Guid gameId)
+			{
+				if (!_sessionFactories.ContainsKey(gameId))
+					return;
+				_sessionFactories.Remove(gameId);
+				_configurations.Remove(gameId);
+			}
 
-            private static ISessionFactory BuildSessionFactory(string connectionString, out Configuration cfg)
-            {
-                Configuration config = null;
-                var fluentConfiguration = Fluently.Configure()
-                    .Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
-                    .Mappings(m => m.AutoMappings.Add(AutoMap.AssemblyOf<GameInfo>(new MyAutomappingConfiguration())));
-                var result = fluentConfiguration.ExposeConfiguration(x => config = x).BuildSessionFactory();
-                cfg = config;
-                return result;
+			private static ISessionFactory BuildSessionFactory(string connectionString, out Configuration cfg)
+			{
+				Configuration config = null;
+				var fluentConfiguration = Fluently.Configure()
+					.Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
+					//.Mappings(m => m.AutoMappings.Add(AutoMap.AssemblyOf<GameInfo>(new MyAutomappingConfiguration())));
+					.Mappings(m => m.FluentMappings.AddFromAssemblyOf<GameInfoMap>());
+				var result = fluentConfiguration.ExposeConfiguration(x => config = x).BuildSessionFactory();
+				cfg = config;
+				return result;
 
-            }
+			}
 
-            public static void CreateSchema(Guid gameId)
-            {
+			public static void CreateSchema(Guid gameId)
+			{
 #if DEBUG
-                new SchemaUpdate(_configurations[gameId]).Execute(true, true);
-                //TODO: GENERATE THE DB FROM SCRIPT after improvement
+				new SchemaUpdate(_configurations[gameId]).Execute(true, true);
+				//TODO: GENERATE THE DB FROM SCRIPT after improvement
 #endif
 
-            }
+			}
 
-            private class MyAutomappingConfiguration:DefaultAutomappingConfiguration
-            {
-                public override bool ShouldMap(Type type)
-                {
-                    return type.Namespace == typeof (CardInfo).Namespace;
-                }
-            }
+			private class MyAutomappingConfiguration : DefaultAutomappingConfiguration
+			{
+				public override bool ShouldMap(Type type)
+				{
+					return type.Namespace == typeof (CardInfo).Namespace;
+				}
+			}
 
-        }
+		}
 	}
 }
