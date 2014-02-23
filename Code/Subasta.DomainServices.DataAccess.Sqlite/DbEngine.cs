@@ -205,7 +205,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
             {
                 public override bool ShouldMap(Type type)
                 {
-                    return type.Namespace == typeof (CardInfoMap).Namespace;
+                    return type.Namespace == typeof (CardInfo).Namespace;
                 }
             }
 

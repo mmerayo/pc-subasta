@@ -9,7 +9,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Models
         public virtual int PointsTeam2 { get; set; }
 
         public virtual int GameId { get; set; }
-        public virtual HandInfo[] Hands { get; set; }
+        public virtual IList<HandInfo> Hands { get; set; }
 
     }
 }
