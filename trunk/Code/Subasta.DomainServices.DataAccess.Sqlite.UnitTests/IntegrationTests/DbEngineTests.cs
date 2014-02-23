@@ -10,7 +10,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
     public class DbEngineTests
     {
         private TestContext _context;
-        
+
         [SetUp]
         public void OnSetUp()
         {
@@ -27,12 +27,13 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
             //TODO: ASSERTions
         }
 
+
         private class TestContext
         {
             public TestContext()
             {
                 PathHelper = new PathUtils();
-                Sut=  new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs")); 
+                Sut = new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs"));
             }
 
             public DbEngine Sut { get; private set; }

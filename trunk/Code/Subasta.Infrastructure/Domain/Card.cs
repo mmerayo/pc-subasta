@@ -9,10 +9,19 @@ namespace Subasta.Infrastructure.Domain
 		{
 			Suit = suit;
 			Number = number;
-			Value = GetValue(Number);
 		}
 
-		public Card(string suitName, int number)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shortId">O1,E10</param>
+        internal Card(string shortId)
+        {
+            Suit=Domain.Suit.FromId(shortId[0]);
+            Number = int.Parse(shortId.Substring(1));
+        }
+
+	    public Card(string suitName, int number)
             : this(Domain.Suit.FromName(suitName), number)
 		{
 			if (number == 8 || number == 9)
@@ -57,9 +66,20 @@ namespace Subasta.Infrastructure.Domain
 		
 		public ISuit Suit { get;  private set; }
 		public int Number { get; private set; }
-		public int Value { get; protected set; }
+	    private int _value=int.MinValue;
+	    public int Value
+	    {
+	        get
+	        {
+	            if(_value==int.MinValue)
+	            {
+	                _value = GetValue(Number);
+	            }
+                return _value;
+	        }
+	    }
 
-		public override string ToString()
+	    public override string ToString()
 		{
 			return string.Format("{0} - {1}", Number, Suit.Name);
 		}

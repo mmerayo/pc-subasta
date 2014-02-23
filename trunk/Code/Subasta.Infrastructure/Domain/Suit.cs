@@ -48,5 +48,26 @@ namespace Subasta.Infrastructure.Domain
 		{
 			return Value == trump.Value;
 		}
+
+	    public static ISuit FromId(char idName)
+	    {
+	        switch (Char.ToUpper(idName))
+	        {
+                case 'O':
+	                return FromName("Oros");
+
+                case 'C':
+                    return FromName("Oros");
+
+                case 'E':
+                    return FromName("Oros");
+
+                case 'B':
+                    return FromName("Oros");
+
+	            default:
+	                throw new ArgumentOutOfRangeException("idName");
+	        }
+	    }
 	}
 }

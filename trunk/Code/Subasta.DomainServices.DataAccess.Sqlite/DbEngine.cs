@@ -130,7 +130,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 	    public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
 	    {
-            if (!(typeof(TSession) is ISession))
+            if (typeof(TSession)!= typeof(ISession))
                 throw new NotSupportedException();
             SetDbName(gameId);
 	        return (IUnitOfWork<TSession>) new NHibernateUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId,GetConnectionString()));
