@@ -6,9 +6,12 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.DomainServices.DataAccess
 {
-    public interface IGameSettingsStoreWritter
-    {
-        void StoreGameInfo(Guid gameId,int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4);
+	public interface IGameSettingsStoreWritter
+	{
+		void StoreGameInfo(Guid gameId, int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3,
+		                   ICard[] cardsP4);
 
-    }
+	}
+
+
 }

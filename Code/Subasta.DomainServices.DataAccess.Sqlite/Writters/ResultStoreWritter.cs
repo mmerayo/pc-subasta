@@ -25,6 +25,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
             using(var uow=_dataHelper.GetUnitOfWork<ISession>(result.GameId))
             {
                 uow.Session.Save(explorationInfo);
+                uow.Commit();
             }
         }
 
@@ -48,6 +49,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
                 {
                     Add(explorationInfo, uow);
                 }
+                uow.Commit();
             }
         }
     }
