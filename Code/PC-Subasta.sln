@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.DomainServices.Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.DomainServices.DataAccess.Sqlite.UnitTests", "Subasta.DomainServices.DataAccess.Sqlite.UnitTests\Subasta.DomainServices.DataAccess.Sqlite.UnitTests.csproj", "{EE06499D-FB9F-4F57-80FF-038E0740C737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubastaIntegrationTests", "SubastaIntegrationTests\SubastaIntegrationTests.csproj", "{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,16 +106,6 @@ Global
 		{EE06499D-FB9F-4F57-80FF-038E0740C737}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EE06499D-FB9F-4F57-80FF-038E0740C737}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EE06499D-FB9F-4F57-80FF-038E0740C737}.Release|x86.ActiveCfg = Release|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,7 +113,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{92958A65-1F65-4B36-83C3-6FCA4F984B1F} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
 		{EE06499D-FB9F-4F57-80FF-038E0740C737} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
-		{B23B2FA2-4FF3-41C0-8511-2BF049E32ECC} = {05B0557D-B8E0-4E3B-A8E5-DF5AA532B855}
 		{520BE732-4321-4BC1-8182-FF44B5215C5C} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{B492A802-DD38-4F46-8911-7DF5509EE240} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
