@@ -9,6 +9,7 @@ namespace Subasta.Infrastructure.ApplicationServices
 	{
 		private string _applicationFolderPath;
 
+		
 		public string GetApplicationFolderPath(string folderName,bool createIfNotExists=false)
 		{
 		    string path = string.Format("{0}\\{1}", GetApplicationFolderPath(), folderName);
@@ -52,6 +53,12 @@ namespace Subasta.Infrastructure.ApplicationServices
 			return Path.Combine(GetApplicationFolderPath(), fileName);
 		}
 
+
+		public string GetApplicationFolderPathForFile(string folderPath, string fileName, bool createIfNotExists = false)
+		{
+
+			return Path.Combine(GetApplicationFolderPath(folderPath, createIfNotExists), fileName);
+		}
 
 		public void CopyFolder(string sourceFolder, string destFolder, bool deleteIfExists = true)
 		{

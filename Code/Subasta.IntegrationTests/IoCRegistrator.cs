@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using StructureMap;
 using Subasta.ApplicationServices;
 using Subasta.DomainServices.DataAccess.Sqlite.IoC;
@@ -35,6 +37,26 @@ namespace Subasta.IntegrationTests
 				strap.Execute();
 
 			_initialized = true;
+
+#if DEBUG
+			ExtractInjectionReport();
+#endif
+		}
+
+		public static void ExtractInjectionReport()
+		{
+			
+				//Do not log into the bin folder as forces recompilation of the app(shadow copy)
+				var directoryName = Path.Combine(AppDomain.CurrentDomain.GetData("APPBASE").ToString(), "DebugReports");
+
+				if (!Directory.Exists(directoryName))
+					Directory.CreateDirectory(directoryName);
+
+				var fileName = Path.Combine(directoryName, "InjectionsReport.txt");
+				var reportText = ObjectFactory.WhatDoIHave();
+
+				File.WriteAllText(fileName, reportText);
+			
 		}
 
 

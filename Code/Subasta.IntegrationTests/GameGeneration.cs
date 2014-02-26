@@ -19,7 +19,10 @@ namespace Subasta.IntegrationTests
 		{
 			var gameGenerator = ObjectFactory.GetInstance<IGameGenerator>();
 			Guid gameId;
-			gameGenerator.TryGenerateNewGame(out gameId);
+			bool result=gameGenerator.TryGenerateNewGame(out gameId);
+
+			Assert.IsTrue(result);
+			Assert.AreEqual(Guid.Empty,gameId);
 		}
 	}
 }
