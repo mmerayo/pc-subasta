@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Subasta.ApplicationServices
 {
-    public interface IBootstrapper
+    public interface IBootstrap
     {
         void Execute();
     }

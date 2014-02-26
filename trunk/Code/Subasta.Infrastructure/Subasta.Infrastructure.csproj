@@ -55,6 +55,7 @@
     <Compile Include="DomainServices\Game\PlayerDeclarationsChecker.cs" />
     <Compile Include="DomainServices\Game\ValidCardsRule.cs" />
     <Compile Include="Domain\Card.cs" />
+    <Compile Include="Domain\DomainRegistry.cs" />
     <Compile Include="Domain\Deck.cs" />
     <Compile Include="Domain\Hand.cs" />
     <Compile Include="Domain\Pack.cs" />

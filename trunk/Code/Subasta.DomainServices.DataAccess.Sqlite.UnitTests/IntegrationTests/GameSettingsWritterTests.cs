@@ -16,7 +16,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
         [TestFixtureSetUp]
         public void OnFixtureSetUp()
         {
-            new Bootstrapper().Execute();
+            new Bootstrap().Execute();
         }
 
         private TestContext _context;
