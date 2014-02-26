@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
@@ -51,8 +52,6 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 		public void CreateDatabase(Guid gameId)
 		{
-			//its created automatically
-			//DropDatabase(); //to keep the same behavior as sqlserver //TODO: THIS MIGHT NEED TO BE REMOVED
 			Debug.Assert(gameId != Guid.Empty);
 
 			SetDbName(gameId);

@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBootstrap.cs" />
-    <Compile Include="IPathHelper.cs" />
+    <Compile Include="IO\IPathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\IGameServicesCommands.cs" />
+    <Compile Include="Queues\IProducerConsumerQueue.cs" />
+    <Compile Include="Queues\IProducerSequentialConsumerQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
