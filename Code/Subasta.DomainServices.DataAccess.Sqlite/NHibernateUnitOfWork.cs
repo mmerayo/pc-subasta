@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using NHibernate;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite
