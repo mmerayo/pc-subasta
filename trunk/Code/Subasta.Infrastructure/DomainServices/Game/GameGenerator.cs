@@ -55,6 +55,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
 			var p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
 
+			CREATE FOR PLAYER BET 1 AND 2 TO EXPLORE FOREACH  TEAM
 			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Oros"));
 			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Copas"));
 			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Espadas"));

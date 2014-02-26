@@ -44,7 +44,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 					if (string.IsNullOrEmpty(_dbFolderPath))
 						return _pathHelper.GetApplicationFolderPathForFile(DbName);
 					else
-						return Path.Combine(_dbFolderPath, DbName);
+						return  _pathHelper.GetApplicationFolderPathForFile(_dbFolderPath, DbName,true);
 				throw new InvalidOperationException("In memory dont have a file");
 			}
 		}

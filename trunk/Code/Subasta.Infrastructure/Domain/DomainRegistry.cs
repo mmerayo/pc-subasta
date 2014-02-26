@@ -12,6 +12,7 @@ namespace Subasta.Infrastructure.Domain
 		public DomainRegistry()
 		{
 			For<IDeck>().Use(Deck.DefaultForSubasta);
+			//For<ISuit>().Use(Suit.Suits);
 
 		}
 	}
