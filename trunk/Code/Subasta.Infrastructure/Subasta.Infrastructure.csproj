@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\ApplicationServicesRegistry.cs" />
-    <Compile Include="ApplicationServices\PathUtils.cs" />
+    <Compile Include="ApplicationServices\IO\PathUtils.cs" />
+    <Compile Include="ApplicationServices\Queues\ProducerParallelConsumerQueue.cs" />
+    <Compile Include="ApplicationServices\Queues\ProducerSequentialConsumerQueue.cs" />
     <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\DomainServicesRegistry.cs" />
     <Compile Include="DomainServices\Game\DeckSuffler.cs" />
