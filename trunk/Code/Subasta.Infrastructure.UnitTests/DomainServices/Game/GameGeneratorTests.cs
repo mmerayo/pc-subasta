@@ -80,22 +80,23 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 			{
 				if (!fail)
 				{
-					_gameExplorer.Expect(
-						x =>
-						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
-						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Oros"))));
-					_gameExplorer.Expect(
-						x =>
-						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
-						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Copas"))));
-					_gameExplorer.Expect(
-						x =>
-						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
-						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Espadas"))));
-					_gameExplorer.Expect(
-						x =>
-						x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything,
-						          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(Suit.FromName("Bastos"))));
+					foreach (var suit in Suit.Suits)
+					{
+
+
+						_gameExplorer.Expect(
+							x =>
+							x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything,
+							          Arg<ICard[]>.Is.Anything,
+							          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit)));
+
+						_gameExplorer.Expect(
+							x =>
+							x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<int>.Is.Equal(2), Arg<ICard[]>.Is.Anything,
+							          Arg<ICard[]>.Is.Anything,
+							          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit)));
+					}
+					
 
 					_suffler.Expect(x => x.Suffle(Arg<IDeck>.Is.Anything)).Return(Deck.DefaultForSubasta);
 					_dataAllocator.Expect(x => x.CreateNewGameStorage()).Return(Guid.NewGuid());

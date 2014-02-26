@@ -6,7 +6,7 @@ using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.DomainServices.Game
 {
-	sealed class GameGenerator : IGameGenerator
+	internal sealed class GameGenerator : IGameGenerator
 	{
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
@@ -32,18 +32,18 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			{
 				gameId = _gameDataAllocator.CreateNewGameStorage();
 				DoGeneration(gameId);
-				_gameDataAllocator.RecordGenerationOutput(gameId,true);
+				_gameDataAllocator.RecordGenerationOutput(gameId, true);
 				return true;
 			}
 			catch (Exception ex)
 			{
 				//TODO: log result and exception
-				if(gameId!=Guid.Empty)
-					_gameDataAllocator.RecordGenerationOutput(gameId,false);
+				if (gameId != Guid.Empty)
+					_gameDataAllocator.RecordGenerationOutput(gameId, false);
 				return false;
 			}
 
-			
+
 		}
 
 		private void DoGeneration(Guid gameId)
@@ -55,11 +55,11 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
 			var p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
 
-			CREATE FOR PLAYER BET 1 AND 2 TO EXPLORE FOREACH  TEAM
-			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Oros"));
-			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Copas"));
-			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Espadas"));
-			_gameExplorer.Execute(gameId, 1, p1, p2, p3, p4, Suit.FromName("Bastos"));
+			foreach (var suit in Suit.Suits)
+			{
+				_gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit);
+				_gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit);
+			}
 		}
 
 	}
