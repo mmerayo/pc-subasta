@@ -54,6 +54,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -74,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\Bootstrapper.cs" />
+    <Compile Include="IoC\SqliteRegistry.cs" />
     <Compile Include="Mappings\PlayerGameInfoMap.cs" />
     <Compile Include="Models\CardInfo.cs" />
     <Compile Include="Mappings\CardInfoMap.cs" />
