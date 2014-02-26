@@ -57,7 +57,11 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 			foreach (var suit in Suit.Suits)
 			{
+				//TODO: LOGGER
+				Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
 				_gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit);
+
+				Console.WriteLine("Explore team 2 Suit:{0}", suit.Name);
 				_gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit);
 			}
 		}
