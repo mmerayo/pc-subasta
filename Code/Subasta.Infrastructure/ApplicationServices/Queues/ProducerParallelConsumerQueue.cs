@@ -7,7 +7,7 @@ using Subasta.ApplicationServices.Queues;
 
 namespace Subasta.Infrastructure.ApplicationServices.Queues
 {
-	internal abstract class ProducerParallelConsumerQueue<TQueueItem> : IProducerConsumerQueue<TQueueItem>
+	public abstract class ProducerParallelConsumerQueue<TQueueItem> : IProducerConsumerQueue<TQueueItem>
 	{
 		private readonly int _initialWorkerCount;
 		private int MaxThreadsNum { get; set; }

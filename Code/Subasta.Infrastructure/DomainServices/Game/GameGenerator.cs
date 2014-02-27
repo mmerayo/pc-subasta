@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Subasta.ApplicationServices.Extensions;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game;
@@ -59,10 +62,10 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			{
 				//TODO: LOGGER
 				Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
-				_gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit);
+				Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit)).LogTaskException();
 
 				Console.WriteLine("Explore team 2 Suit:{0}", suit.Name);
-				_gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit);
+				Task.Factory.StartNew(() =>_gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit)).LogTaskException();
 			}
 		}
 

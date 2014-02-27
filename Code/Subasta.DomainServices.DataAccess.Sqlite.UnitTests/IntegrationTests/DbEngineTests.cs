@@ -33,7 +33,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
             public TestContext()
             {
                 PathHelper = new PathUtils();
-                Sut = new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs"));
+                Sut = new DbEngine(PathHelper, false, "Dbs");
             }
 
             public DbEngine Sut { get; private set; }

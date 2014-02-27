@@ -66,7 +66,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
             public TestContext()
             {
                 PathHelper = new PathUtils();
-                _db = new DbEngine(PathHelper, false, PathHelper.GetApplicationFolderPath("Dbs"));
+                _db = new DbEngine(PathHelper, false, "Dbs");
                 _db.CreateDatabase(GameId);
             }
 

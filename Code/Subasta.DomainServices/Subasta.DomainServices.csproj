@@ -46,6 +46,7 @@
     <Compile Include="DataAccess\IGameDataHelper.cs" />
     <Compile Include="DataAccess\IGameDataWritter.cs" />
     <Compile Include="DataAccess\IGameSettingsStoreWritter.cs" />
+    <Compile Include="DataAccess\IQueuedResultStoreWritter.cs" />
     <Compile Include="DataAccess\IUnitOfWork.cs" />
     <Compile Include="Game\ICardComparer.cs" />
     <Compile Include="Game\IDeckSuffler.cs" />
