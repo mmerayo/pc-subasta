@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using NHibernate.Linq;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.ApplicationServices.Queues;
@@ -17,15 +18,19 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		private BackgroundWorker _writterWorker=new BackgroundWorker();
 
 		private readonly List<NodeResult> _pendingItems=new List<NodeResult>();
-		private readonly System.Timers.Timer _timer = new System.Timers.Timer(5000);
+		private readonly System.Timers.Timer _timer;
 
 		private readonly object _syncLock=new object();
 		public QueuedResultStoreWritter(IResultStoreWritter resultStoreWritter) : base(1, 8, 20, TimeSpan.FromMinutes(1))
 		{
 			_resultStoreWritter = resultStoreWritter;
 			_writterWorker.DoWork += _writterWorker_DoWork;
+			_timer = new System.Timers.Timer(5000);
+			_timer.Enabled = true;
+			_timer.AutoReset = true;
 			_timer.Elapsed += _timer_Elapsed;
-			_timer.Start();
+
+			//_timer.Start();
 		}
 
 		protected override void Dispose(bool disposing)
@@ -41,6 +46,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 
 		void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
+			Console.WriteLine("_timer_Elapsed");
 			RunWorker();
 		}
 
@@ -65,10 +71,13 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		{
 			try
 			{
-				Console.WriteLine("QueueRead");
+				
 
-				lock(_syncLock)
+				lock (_syncLock)
+				{
+					Console.WriteLine("QueueRead: pendingItems {0}",_pendingItems.Count);
 					_pendingItems.Add(arg);
+				}
 			}
 			catch (Exception ex)
 			{
