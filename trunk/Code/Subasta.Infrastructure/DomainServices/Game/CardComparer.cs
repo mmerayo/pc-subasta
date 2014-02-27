@@ -5,20 +5,15 @@ namespace Subasta.Infrastructure.DomainServices.Game
 {
 	class CardComparer : ICardComparer
 	{
-		private readonly ISuit _trump;
+		
 
-		public CardComparer(ISuit trump)
-		{
-			_trump = trump;
-		}
-
-		public ICard Best(ICard current, ICard candidate)
+		public ICard Best(ISuit trump, ICard current, ICard candidate)
 		{
 			//candidato es triunfo
-			if (candidate.Suit.IsTrump(_trump))
+			if (candidate.Suit.IsTrump(trump))
 			{
 				//el existente no es triunfo
-				if (!current.Suit.IsTrump(_trump))
+				if (!current.Suit.IsTrump(trump))
 					return candidate;
 				//son triunfos los 2
 				if (current.Value > candidate.Value || (current.Value==candidate.Value && current.Number>candidate.Number))
@@ -26,7 +21,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				return candidate;
 			}
 			//candidato no es triunfo y el current lo es
-			if (current.Suit.IsTrump(_trump))
+			if (current.Suit.IsTrump(trump))
 				return current;
 
 			//son del mismo palo

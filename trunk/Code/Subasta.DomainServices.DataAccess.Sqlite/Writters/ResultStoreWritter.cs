@@ -38,7 +38,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 				unitOfWork.Session.Save(handInfo);
 			}
 
-			entity.Game = unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump).SingleOrDefault();
+			entity.Game = unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump && x.TeamBet==entity.TeamBet).SingleOrDefault();
 
 			unitOfWork.Session.Save(entity);
 		}

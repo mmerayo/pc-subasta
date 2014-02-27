@@ -4,6 +4,6 @@ namespace Subasta.DomainServices.Game
 {
     public interface ICardComparer
 	{
-		ICard Best(ICard current, ICard candidate);
+		ICard Best(ISuit trump, ICard current, ICard candidate);
 	}
 }

@@ -11,6 +11,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Mappings
 			Id(x => x.Id).GeneratedBy.Identity();
 			Map(x => x.TrumpSuit).Length(7).Not.Nullable();
 			Map(x => x.FirstPlayer).Not.Nullable();
+			Map(x => x.TeamBet).Not.Nullable();
 			HasMany(x => x.Players);
 		}
 	}

@@ -32,7 +32,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
         public void CanStoreGame()
         {
 
-            _context.Sut.StoreGameInfo(_context.GameId,1,Suit.FromName("Oros"),new []{new Card("o1")},new []{new Card("o2")},new []{new Card("o3")},new []{new Card("o4")} );
+            _context.Sut.StoreGameInfo(_context.GameId,1,1,Suit.FromName("Oros"),new []{new Card("o1")},new []{new Card("o2")},new []{new Card("o3")},new []{new Card("o4")} );
 
             //TODO: ASSERTions
             // get reader and read the data

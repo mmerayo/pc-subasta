@@ -272,7 +272,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			{
 				_Trump = Suit.FromName(trumpName);
 				_fixture.Register<ISuit>(() => _Trump);
-				_fixture.Register<ICardComparer>(() => new CardComparer(_Trump));
+				_fixture.Register<ICardComparer>(() => new CardComparer());
 
 				return this;
 			}

@@ -34,15 +34,23 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		                    ICard[] cardsP4,
 		                    ISuit trump)
 		{
-			var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
-			status.SetCards(1, cardsP1);
-			status.SetCards(2, cardsP2);
-			status.SetCards(3, cardsP3);
-			status.SetCards(4, cardsP4);
-			status.SetPlayerBet(forPlayerTeamBets);
-			status.Turn = firstPlayer;
-			_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, trump, cardsP1, cardsP2, cardsP3, cardsP4);
-			Execute(status, firstPlayer);
+			try
+			{
+				var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
+				status.SetCards(1, cardsP1);
+				status.SetCards(2, cardsP2);
+				status.SetCards(3, cardsP3);
+				status.SetCards(4, cardsP4);
+				status.SetPlayerBet(forPlayerTeamBets);
+				status.Turn = firstPlayer;
+				_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, forPlayerTeamBets, trump, cardsP1, cardsP2, cardsP3, cardsP4);
+				Execute(status, firstPlayer);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				throw;
+			}
 		}
 
 		//TODO: REMOVE COMPARISONS AS EVERYTHING IS STORED

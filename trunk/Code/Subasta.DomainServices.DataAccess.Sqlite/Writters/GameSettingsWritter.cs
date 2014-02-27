@@ -17,7 +17,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			_dataHelper = dataHelper;
 		}
 
-		public void StoreGameInfo(Guid gameId, int firstPlayer, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3,
+		public void StoreGameInfo(Guid gameId, int firstPlayer,int teamBet, ISuit trump, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3,
 		                          ICard[] cardsP4)
 		{
 
@@ -35,7 +35,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 				               	{
 				               		FirstPlayer = firstPlayer,
 				               		TrumpSuit = trump.Name,
-				               		Players = players
+				               		Players = players,
+									TeamBet = teamBet
 				               	};
 
 				players.ForEach(x => uow.Session.Save(x));
