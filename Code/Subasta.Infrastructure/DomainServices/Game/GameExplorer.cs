@@ -83,6 +83,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private void StoreResult(NodeResult result)
 		{
 			_resultsWritter.Add(result);
+			Console.WriteLine("QueuedItem");
 		}
 
 		//explora los cantes tambien
