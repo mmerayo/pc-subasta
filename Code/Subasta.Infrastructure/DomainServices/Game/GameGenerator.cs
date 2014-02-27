@@ -61,6 +61,8 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			foreach (var suit in Suit.Suits)
 			{
 				//TODO: LOGGER
+
+				SYnchronIze: EXPOSE A PROPERTY THAT INDICATES WHETHER ARE EXPL.LORATIONS BEING EXECUTED OR NOT
 				Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
 				Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit)).LogTaskException();
 
