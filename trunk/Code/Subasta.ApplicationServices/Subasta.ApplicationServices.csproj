@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\TaskExceptionsLogger.cs" />
     <Compile Include="IBootstrap.cs" />
     <Compile Include="IO\IPathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

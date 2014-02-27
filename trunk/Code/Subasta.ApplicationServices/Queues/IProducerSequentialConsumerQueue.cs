@@ -1,6 +1,4 @@
-﻿namespace Subasta.Infrastructure.ApplicationServices.Queues
+﻿namespace Subasta.ApplicationServices.Queues
 {
-	public interface IProducerSequentialConsumerQueue
-	{
-	}
+	
 }

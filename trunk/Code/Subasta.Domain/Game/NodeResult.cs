@@ -52,6 +52,11 @@ namespace Subasta.Domain.Game
 	    {
 	        get { return _status.Trump; }
 	    }
+
+		public int TeamBet
+		{
+			get { return _status.PlayerBets == 1 || _status.PlayerBets == 3 ? 1 : 2; }
+		}
 	}
 
 }
