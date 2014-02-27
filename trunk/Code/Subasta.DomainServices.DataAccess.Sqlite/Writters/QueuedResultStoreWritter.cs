@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using NHibernate.Linq;
@@ -12,12 +13,18 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 	{
 		private readonly IResultStoreWritter _resultStoreWritter;
 
+		private BackgroundWorker _writterWorker=new BackgroundWorker();
 
+		private readonly List<NodeResult> _pendingItems=new List<NodeResult>(); 
 
+		private readonly object _syncLock=new object();
 		public QueuedResultStoreWritter(IResultStoreWritter resultStoreWritter) : base(1, 8, 20, TimeSpan.FromMinutes(1))
 		{
 			_resultStoreWritter = resultStoreWritter;
+			_writterWorker.DoWork += new DoWorkEventHandler(_writterWorker_DoWork);
 		}
+
+		
 
 		protected override Func<NodeResult, bool> RunActionOnDequeue
 		{
@@ -26,20 +33,32 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 				return OnQueueRead;
 			}
 		}
-
+		
 		private bool OnQueueRead(NodeResult arg)
 		{
 			try
 			{
-				_resultStoreWritter.Add(arg);
+				lock(_syncLock)
+					_pendingItems.Add(arg);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				return false;
 			}
-			Console.WriteLine("Saved Item");
+			
 			return true;
+		}
+
+		void _writterWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+
+			lock (_syncLock)
+			{
+				_resultStoreWritter.Add(_pendingItems);
+				Console.WriteLine("Saved {0} Items",_pendingItems.Count);
+				_pendingItems.Clear();
+			}
 		}
 
 		public void Add(NodeResult result)
