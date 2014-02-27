@@ -25,6 +25,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			_resultStoreWritter = resultStoreWritter;
 			_writterWorker.DoWork += _writterWorker_DoWork;
 			_timer.Elapsed += _timer_Elapsed;
+			_timer.Start();
 		}
 
 		protected override void Dispose(bool disposing)
