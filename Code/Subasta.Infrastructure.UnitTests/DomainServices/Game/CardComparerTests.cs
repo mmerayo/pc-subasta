@@ -30,9 +30,9 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 		public ICard CanGetBest(string id, ISuit trump, ICard currentWinner, ICard candidate)
 		{
 			Console.WriteLine("ID:{0}",id);
-			var target = new CardComparer(trump);
+			var target = new CardComparer();
 
-			return target.Best(currentWinner, candidate);
+			return target.Best(trump, currentWinner, candidate);
 		}
 
 		public static IEnumerable CanGetBest_TestCases()

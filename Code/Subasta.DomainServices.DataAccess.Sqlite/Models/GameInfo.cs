@@ -15,6 +15,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Models
         public virtual string TrumpSuit { get; set; }
 
         public virtual IList <PlayerGameInfo>Players { get; set; }
-       
+
+		public virtual int TeamBet { get; set; }
     }
 }

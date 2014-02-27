@@ -206,8 +206,8 @@ namespace Subasta.Infrastructure.Domain
 				var card = _hand[currentPlayer - 1];
 
 				if (card == null) break;
-
-				currentWin = _cardsComparer.Best(currentWin, card);
+				
+				currentWin = _cardsComparer.Best(Trump,currentWin, card);
 			} while ((currentPlayer = NextPlayer(currentPlayer)) != FirstPlayer);
 			return currentWin;
 		}
