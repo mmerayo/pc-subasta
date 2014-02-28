@@ -32,6 +32,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 
 		private void Add(ExplorationInfo entity, IUnitOfWork<IStatelessSession> unitOfWork)
 		{
+			//DENORMALIZE GAMEINFO ALTOGHETEHER WITH EXPLORATION INFO
 			foreach (var handInfo in entity.Hands)
 			{
 				handInfo.Cards = StaticDataReader.GetDbCards(unitOfWork.Session, handInfo.Cards);
