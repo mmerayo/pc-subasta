@@ -19,9 +19,20 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
                 .SingleOrDefault();
         }
 
+		private static CardInfo GetDbCard(IStatelessSession session, string suit, int number)
+		{
+			return session.QueryOver<CardInfo>().Where(x => x.Suit == suit).And(y => y.Number == number)
+				.SingleOrDefault();
+		}
+
         public static IList<CardInfo> GetDbCards(ISession session, IEnumerable<CardInfo> cards)
         {
             return cards.Select(card => GetDbCard(session, card.Suit, card.Number)).ToList();
         }
+
+		public static IList<CardInfo> GetDbCards(IStatelessSession session, IEnumerable<CardInfo> cards)
+	    {
+			return cards.Select(card => GetDbCard(session, card.Suit, card.Number)).ToList();
+	    }
     }
 }

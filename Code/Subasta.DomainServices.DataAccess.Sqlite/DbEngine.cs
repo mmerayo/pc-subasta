@@ -145,12 +145,18 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 
 		public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
 		{
-			if (typeof (TSession) != typeof (ISession))
-				throw new NotSupportedException();
 			SetDbName(gameId);
+
+			if (typeof (TSession) == typeof (IStatelessSession))
+				return (IUnitOfWork<TSession>)
+				       new NHibernateStatelessUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId, GetConnectionString()));
+			if (typeof(TSession) == typeof(ISession))
 			return
 				(IUnitOfWork<TSession>)
 				new NHibernateUnitOfWork(SessionFactoryProvider.GetSessionFactory(gameId, GetConnectionString()));
+
+			throw new NotSupportedException("tytopeof tsession not supported");
+
 		}
 
 		public void ReleaseResources(Guid gameId)

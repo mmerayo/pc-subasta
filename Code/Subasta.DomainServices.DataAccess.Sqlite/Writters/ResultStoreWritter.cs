@@ -23,24 +23,24 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		public void Add(NodeResult result)
 		{
 			var explorationInfo = Mapper.Map<ExplorationInfo>(result);
-			using (var uow = _dataHelper.GetUnitOfWork<ISession>(result.GameId))
+			using (var uow = _dataHelper.GetUnitOfWork<IStatelessSession>(result.GameId))
 			{
 				Add(explorationInfo, uow);
 				uow.Commit();
 			}
 		}
 
-		private void Add(ExplorationInfo entity, IUnitOfWork<ISession> unitOfWork)
+		private void Add(ExplorationInfo entity, IUnitOfWork<IStatelessSession> unitOfWork)
 		{
 			foreach (var handInfo in entity.Hands)
 			{
 				handInfo.Cards = StaticDataReader.GetDbCards(unitOfWork.Session, handInfo.Cards);
-				unitOfWork.Session.Save(handInfo);
+				unitOfWork.Session.Insert(handInfo);
 			}
 
 			entity.Game = unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump && x.TeamBet==entity.TeamBet).SingleOrDefault();
 
-			unitOfWork.Session.Save(entity);
+			unitOfWork.Session.Insert(entity);
 		}
 
 
@@ -52,7 +52,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			Debug.Assert(gameIds.Count() == 1);
 			Guid gameId = gameIds.ElementAt(0);
 			var explorationInfos = Mapper.Map<IEnumerable<ExplorationInfo>>(results);
-			using (var uow = _dataHelper.GetUnitOfWork<ISession>(gameId))
+			using (var uow = _dataHelper.GetUnitOfWork<IStatelessSession>(gameId))
 			{
 				foreach (var explorationInfo in explorationInfos)
 				{

@@ -46,7 +46,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 
 		void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			Console.WriteLine("_timer_Elapsed");
+			Console.WriteLine("_timer_Elapsed, pending items:{0}",_pendingItems.Count);
 			RunWorker();
 		}
 
@@ -71,11 +71,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		{
 			try
 			{
-				
-
 				lock (_syncLock)
 				{
-					Console.WriteLine("QueueRead: pendingItems {0}",_pendingItems.Count);
 					_pendingItems.Add(arg);
 				}
 			}
@@ -92,12 +89,22 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		{
 			Console.WriteLine("_writterWorker_DoWork:Start");
 
+			List<NodeResult> toSave;
 			lock (_syncLock)
 			{
-				_resultStoreWritter.Add(_pendingItems);
-				Console.WriteLine("Saved {0} Items",_pendingItems.Count);
+				toSave=new List<NodeResult>(_pendingItems);
 				_pendingItems.Clear();
 			}
+			try
+			{
+				_resultStoreWritter.Add(toSave);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Excetion!!: {0}",ex);
+				throw;
+			}
+			Console.WriteLine("Saved {0} Items", toSave.Count);
 
 			Console.WriteLine("_writterWorker_DoWork:END");
 		}
