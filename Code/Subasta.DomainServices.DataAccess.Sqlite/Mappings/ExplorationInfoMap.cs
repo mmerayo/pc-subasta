@@ -12,7 +12,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Mappings
             Map(x => x.PointsTeam1).Not.Nullable();
             Map(x => x.PointsTeam2).Not.Nullable();
 	        Map(x => x.TeamBet).Not.Nullable();
-            References(x => x.Game).Not.Nullable();
+            Map(x => x.Trump).Not.Nullable();
+            //References(x => x.Game).Not.Nullable();
             HasMany(x => x.Hands);
         }
     }

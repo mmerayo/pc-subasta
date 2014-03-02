@@ -16,7 +16,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private readonly IGameSettingsStoreWritter _gameSettingsWritter;
 
-		public GameExplorer(IValidCardsRule validMoveRule, IQueuedResultStoreWritter resultsWritter,
+        public GameExplorer(IValidCardsRule validMoveRule, IQueuedResultStoreWritter resultsWritter,
 		                    ICardComparer cardComparer, IPlayerDeclarationsChecker declarationsChecker,
 		                    IGameSettingsStoreWritter gameSettingsWritter)
 		{

@@ -13,7 +13,11 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Mappings
             Map(x => x.FirstPlayer).Not.Nullable();
             Map(x => x.Sequence).Not.Nullable();
             Map(x => x.ExplorationId).Not.Nullable();
-            HasManyToMany(x => x.Cards);
+            Map(x => x.CardP1).Not.Nullable();
+            Map(x => x.CardP2).Not.Nullable();
+            Map(x => x.CardP3).Not.Nullable();
+            Map(x => x.CardP4).Not.Nullable();
+           // HasManyToMany(x => x.Cards);
         }
 
     }
