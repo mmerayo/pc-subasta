@@ -54,7 +54,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			_deck = _suffler.Suffle(_deck);
 
 			
-			Task[] tasks=new Task[8];
+			var tasks=new Task[8];
 			var idx = 0;
 			foreach (var suit in Suit.Suits)
 			{
@@ -65,8 +65,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				//TODO: LOGGER
 				Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
 				tasks[idx++]=Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit)).LogTaskException();
-
-
+			    
 				p1 = _deck.Cards.Cards.GetRange(0, 10).ToArray();
 				p2 = _deck.Cards.Cards.GetRange(10, 10).ToArray();
 				p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
@@ -74,8 +73,9 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				Console.WriteLine("Explore team 2 Suit:{0}", suit.Name);
 				tasks[idx++] = Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit)).LogTaskException();
 			}
+            Task.WaitAll(tasks);
 
-			Task.WaitAll(tasks);
+
 			Console.WriteLine("Finished!!");
 		}
 

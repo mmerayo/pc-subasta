@@ -33,15 +33,16 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		private void Add(ExplorationInfo entity, IUnitOfWork<IStatelessSession> unitOfWork)
 		{
 			//DENORMALIZE GAMEINFO ALTOGHETEHER WITH EXPLORATION INFO
-			foreach (var handInfo in entity.Hands)
-			{
-				handInfo.Cards = StaticDataReader.GetDbCards(unitOfWork.Session, handInfo.Cards);
-				unitOfWork.Session.Insert(handInfo);
-			}
+            unitOfWork.Session.Insert(entity);
+            foreach (var handInfo in entity.Hands)
+            {
+                handInfo.ExplorationId = entity.Id;
+                unitOfWork.Session.Insert(handInfo);
+            }
 
-			entity.Game = unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump && x.TeamBet==entity.TeamBet).SingleOrDefault();
+		    //entity.Game = unitOfWork.Session.QueryOver<GameInfo>().Where(x => x.TrumpSuit == entity.Trump && x.TeamBet==entity.TeamBet).SingleOrDefault();
 
-			unitOfWork.Session.Insert(entity);
+			
 		}
 
 

@@ -74,17 +74,20 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Infrastructure
 		{
 			protected override HandInfo DoConvert(IHand sourceValue)
 			{
-				var cards = new List<CardInfo>
-					{
-						Mapper.Map<CardInfo>(sourceValue.PlayerCard(1)),
-						Mapper.Map<CardInfo>(sourceValue.PlayerCard(2)),
-						Mapper.Map<CardInfo>(sourceValue.PlayerCard(3)),
-						Mapper.Map<CardInfo>(sourceValue.PlayerCard(4))
-					};
+                //var cards = new List<CardInfo>
+                //    {
+                //        Mapper.Map<CardInfo>(sourceValue.PlayerCard(1)),
+                //        Mapper.Map<CardInfo>(sourceValue.PlayerCard(2)),
+                //        Mapper.Map<CardInfo>(sourceValue.PlayerCard(3)),
+                //        Mapper.Map<CardInfo>(sourceValue.PlayerCard(4))
+                //    };
 
 				return new HandInfo
 					{
-						Cards = Mapper.Map<CardInfo[]>(cards),
+                        CardP1 = sourceValue.PlayerCard(1).ToShortString(),
+                        CardP2 = sourceValue.PlayerCard(2).ToShortString(),
+                        CardP3 = sourceValue.PlayerCard(3).ToShortString(),
+                        CardP4 = sourceValue.PlayerCard(4).ToShortString(),
 						Declaration =
 							sourceValue.Declaration.HasValue ? sourceValue.Declaration.Value.ToString() : null,
 						FirstPlayer = sourceValue.FirstPlayer,

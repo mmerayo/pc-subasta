@@ -79,6 +79,11 @@ namespace Subasta.Infrastructure.Domain
 	        }
 	    }
 
+	    public string ToShortString()
+	    {
+	        return string.Format("{0}{1}", Suit.Name[0], Number);
+	    }
+
 	    public override string ToString()
 		{
 			return string.Format("{0} - {1}", Number, Suit.Name);

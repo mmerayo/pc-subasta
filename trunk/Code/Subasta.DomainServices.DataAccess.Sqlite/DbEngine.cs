@@ -139,11 +139,11 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 		public string GetConnectionString()
 		{
 			return !InMemory
-			       	? string.Format("Data Source={0};Version=3;BinaryGuid=False;", FilePath)
+                    ? string.Format("Data Source={0};Version=3;BinaryGuid=False;", FilePath)
 			       	: string.Format("FullUri=file:{0}?mode=memory&cache=shared;Version=3;BinaryGuid=False;", DbName);
 		}
 
-		public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
+        public IUnitOfWork<TSession> GetUnitOfWork<TSession>(Guid gameId)
 		{
 			SetDbName(gameId);
 
@@ -211,7 +211,10 @@ namespace Subasta.DomainServices.DataAccess.Sqlite
 					.Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
 					//.Mappings(m => m.AutoMappings.Add(AutoMap.AssemblyOf<GameInfo>(new MyAutomappingConfiguration())));
 					.Mappings(m => m.FluentMappings.AddFromAssemblyOf<GameInfoMap>());
-				var result = fluentConfiguration.ExposeConfiguration(x => config = x).BuildSessionFactory();
+				var result = fluentConfiguration.ExposeConfiguration(x =>
+				                                                         {
+				                                                             config = x;
+				                                                         }).BuildSessionFactory();
 				cfg = config;
 				return result;
 

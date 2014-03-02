@@ -25,10 +25,12 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 		{
 			_resultStoreWritter = resultStoreWritter;
 			_writterWorker.DoWork += _writterWorker_DoWork;
-			_timer = new System.Timers.Timer(5000);
-			_timer.Enabled = true;
-			_timer.AutoReset = true;
-			_timer.Elapsed += _timer_Elapsed;
+		    _timer = new System.Timers.Timer(5000)
+		                 {
+		                     Enabled = true, 
+                             AutoReset = true
+		                 };
+		    _timer.Elapsed += _timer_Elapsed;
 
 			//_timer.Start();
 		}
@@ -92,7 +94,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			List<NodeResult> toSave;
 			lock (_syncLock)
 			{
-				toSave=new List<NodeResult>(_pendingItems);
+                if(_pendingItems.Count==0) return;
+			    toSave=new List<NodeResult>(_pendingItems);
 				_pendingItems.Clear();
 			}
 			try
@@ -101,7 +104,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Excetion!!: {0}",ex);
+				Console.WriteLine("Exception!!: {0}",ex);
 				throw;
 			}
 			Console.WriteLine("Saved {0} Items", toSave.Count);
@@ -111,12 +114,15 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 
 		public void Add(NodeResult result)
 		{
+            while(_pendingItems.Count>100000)
+                Thread.Sleep(TimeSpan.FromSeconds(10));
+
 			this.EnqueueItem(result);
 		}
 
 		public void Add(IEnumerable<NodeResult> result)
 		{
-			result.ForEach(EnqueueItem);
+			result.ForEach(Add);
 		}
 
 	}
