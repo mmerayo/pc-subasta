@@ -180,7 +180,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 				_sut.SetCards(2, _p2);
 				_sut.SetCards(3, _p3);
 				_sut.SetCards(4, _p4);
-				_sut.SetPlayerBet(_playerBet, TODO);
+				_sut.SetPlayerBet(_playerBet, 70);
 				if (_hands != null)
 				{
 					foreach (var handArray in _hands)
