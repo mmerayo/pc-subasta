@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using StructureMap;
+using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
 using Subasta.DomainServices.DataAccess.Sqlite.IoC;
 using Subasta.Infrastructure.ApplicationServices;
@@ -15,7 +17,7 @@ namespace Subasta.Infrastructure.IoC
 		private static bool _initialized = false;
 		private static readonly object _syncLock=new object();
 
-		public static void Register()
+		public static void Register(List<Registry> clientRegistries=null )
 		{
 
 			if (!_initialized)
@@ -30,7 +32,8 @@ namespace Subasta.Infrastructure.IoC
 									c.AddRegistry<ApplicationServicesRegistry>();
 									c.AddRegistry<DomainServicesRegistry>();
 									c.AddRegistry<DomainRegistry>();
-
+									if (clientRegistries != null)
+										clientRegistries.ForEach(c.AddRegistry);
 								});
 
 						_container = ObjectFactory.Container;
