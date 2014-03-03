@@ -13,6 +13,7 @@ namespace Subasta.Infrastructure.Domain
 {
 	internal class Status : IExplorationStatus
 	{
+		
 		private Guid _gameId;
 		private readonly ICardComparer _cardsComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
@@ -38,7 +39,7 @@ namespace Subasta.Infrastructure.Domain
 		public IExplorationStatus Clone()
 		{
 			Debug.Assert(GameId != Guid.Empty);
-			var target = new Status( _cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets};
+			var target = new Status( _cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets,PointsBet = PointsBet};
 			Array.Copy(_playerCards, target._playerCards, 4);
 
 			target._hands = new List<IHand>();
@@ -153,8 +154,10 @@ namespace Subasta.Infrastructure.Domain
 	        get { return _gameId; }
 	    }
 
+		public int PointsBet { get; private set; }
 
-	    public void AddNewHand()
+
+		public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();
 
@@ -198,6 +201,15 @@ namespace Subasta.Infrastructure.Domain
 			return Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
 		}
 
+		public int SumTotalTeam(int playerPosition)
+		{
+			ThrowIfNotValidPlayerPosition(playerPosition);
+
+			if (playerPosition == 1 || playerPosition == 3)
+				return SumTotal(1) + SumTotal(3);
+			return SumTotal(2) + SumTotal(4);
+		}
+
 		private static void ThrowIfNotValidPlayerPosition(int playerPosition, string argName = "playerPosition")
 		{
 			if (playerPosition < 1 || playerPosition > 4)
@@ -205,10 +217,11 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 
-		public void SetPlayerBet(int playerPosition)
+		public void SetPlayerBet(int playerPosition, int pointsBet)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 			PlayerBets = playerPosition;
+			PointsBet = pointsBet;
 		}
 
 		public void AddHand(IHand hand)

@@ -41,7 +41,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				status.SetCards(2, cardsP2);
 				status.SetCards(3, cardsP3);
 				status.SetCards(4, cardsP4);
-				status.SetPlayerBet(forPlayerTeamBets);
+				status.SetPlayerBet(forPlayerTeamBets, TODO HIDE  this method and all the entities and tests that we will never use);
 				status.Turn = firstPlayer;
 				_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, forPlayerTeamBets, trump, cardsP1, cardsP2, cardsP3, cardsP4);
 				Execute(status, firstPlayer);
@@ -155,11 +155,22 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private bool IsTerminalNode(IExplorationStatus currentStatus, int playerPosition)
 		{
 			//Add the target points
-			//playerPosition position is in team bets then the points otherwise ->
-			//-> BETPOINTS - POTENTIAL DECLARATION POINTS TEAM BETS + 10
+			//playerPosition position is in team bets then the points where reached so the rest is prunned  otherwise ->
+			//-> 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
+			bool isInTeamBets = IsInTeamBets(currentStatus.PlayerBets, playerPosition);
+			if (isInTeamBets && currentStatus.SumTotalTeam(playerPosition)>=currentStatus.PointsBet) return true;
+			
+			//for now always canta 40
+			if (!isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= 130 + 40 - currentStatus.PointsBet) return true;
+
 			return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
 
-
+		private bool IsInTeamBets(int playerBets, int playerPosition)
+		{
+			if (playerBets == 1 || playerBets == 3)
+				return playerPosition == 1 || playerPosition == 3;
+			return playerPosition == 2 || playerPosition == 4;
+		}
 	}
 }
