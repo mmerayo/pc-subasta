@@ -13,7 +13,9 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.IoC
 	{
 		public SqliteRegistry()
 		{
-			For<IGameSettingsStoreWritter>().Use<GameSettingsWritter>();
+			//For<IGameSettingsStoreWritter>().Use<GameSettingsWritter>();
+			For<IGameSettingsStoreWritter>().Use<NullGameSettingsWritter>();
+
 			For<IResultStoreWritter>().Use<ResultStoreWritter>();
 			//For<IQueuedResultStoreWritter>().Use<QueuedResultStoreWritter>();
 			For<IQueuedResultStoreWritter>().Use<NullStoreWritter>();
@@ -26,3 +28,4 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.IoC
 
 	}
 }
+

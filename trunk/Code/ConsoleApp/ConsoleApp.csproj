@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="IGameSimulator.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestGameSimulator.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\Subasta.Infrastructure.IoC\Subasta.Infrastructure.IoC.csproj">
       <Project>{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}</Project>
       <Name>Subasta.Infrastructure.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
+      <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
+      <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

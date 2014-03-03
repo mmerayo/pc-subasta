@@ -4,6 +4,6 @@ namespace ConsoleApp
 {
 	public interface IPlayer
 	{
-		void SetCards(ICard[] toArray);
+		ICard[] Cards { get; set; }
 	}
 }
