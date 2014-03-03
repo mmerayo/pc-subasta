@@ -40,7 +40,7 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
             var cardsP4 = new []{new Card("o4")};
             _context.GameSettingsWritter.StoreGameInfo(_context.GameId,1,1,trump,cardsP1,cardsP2,cardsP3,cardsP4 );
             var status = new Status(_context.GameId,new CardComparer(),trump,new PlayerDeclarationsChecker() );
-            status.SetPlayerBet(1);
+            status.SetPlayerBet(1, TODO);
             status.SetCards(1,cardsP1);
             status.SetCards(2, cardsP2);
             status.SetCards(3, cardsP3);

@@ -16,7 +16,8 @@ namespace Subasta.Domain.Game
         Declaration[] Declarables { get; }
         IHand LastCompletedHand { get; }
         Guid GameId { get; }
-        void AddNewHand();
+	    int PointsBet { get; }
+	    void AddNewHand();
         ICard[] PlayerCards(int playerPosition);
         void SetCards(int playerPosition, ICard[] cards);
 
@@ -27,8 +28,9 @@ namespace Subasta.Domain.Game
         /// <returns></returns>
         int SumTotal(int playerPosition);
 
-        void SetPlayerBet(int playerPosition);
+        void SetPlayerBet(int playerPosition, int pointsBet);
     	void AddHand(IHand hand);
 	    void SetTrump(ISuit trump);
+	    int SumTotalTeam(int playerPosition);
     }
 }
