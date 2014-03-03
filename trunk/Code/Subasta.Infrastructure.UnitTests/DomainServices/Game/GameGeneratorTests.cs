@@ -88,13 +88,13 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 							x =>
 							x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<int>.Is.Equal(1), Arg<ICard[]>.Is.Anything,
 							          Arg<ICard[]>.Is.Anything,
-							          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit)));
+							          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit), Arg<int>.Is.Anything));
 
 						_gameExplorer.Expect(
 							x =>
 							x.Execute(Arg<Guid>.Is.Anything, Arg<int>.Is.Equal(1), Arg<int>.Is.Equal(2), Arg<ICard[]>.Is.Anything,
 							          Arg<ICard[]>.Is.Anything,
-							          Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit)));
+									  Arg<ICard[]>.Is.Anything, Arg<ICard[]>.Is.Anything, Arg<ISuit>.Is.Equal(suit), Arg<int>.Is.Anything));
 					}
 					
 

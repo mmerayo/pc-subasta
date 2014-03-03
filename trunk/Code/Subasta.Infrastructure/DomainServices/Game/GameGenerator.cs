@@ -53,30 +53,30 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		{
 			_deck = _suffler.Suffle(_deck);
 
-			
-			var tasks=new Task[8];
-			var idx = 0;
-			foreach (var suit in Suit.Suits)
-			{
-				var p1 = _deck.Cards.Cards.GetRange(0, 10).ToArray();
-				var p2 = _deck.Cards.Cards.GetRange(10, 10).ToArray();
-				var p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
-				var p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
-				//TODO: LOGGER
-				Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
-				tasks[idx++]=Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit)).LogTaskException();
+			throw new NotImplementedException();
+			//var tasks=new Task[8];
+			//var idx = 0;
+			//foreach (var suit in Suit.Suits)
+			//{
+			//    var p1 = _deck.Cards.Cards.GetRange(0, 10).ToArray();
+			//    var p2 = _deck.Cards.Cards.GetRange(10, 10).ToArray();
+			//    var p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
+			//    var p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
+			//    //TODO: LOGGER
+			//    Console.WriteLine("Explore team 1 Suit:{0}",suit.Name);
+			//    tasks[idx++]=Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 1, p1, p2, p3, p4, suit, TODO)).LogTaskException();
 			    
-				p1 = _deck.Cards.Cards.GetRange(0, 10).ToArray();
-				p2 = _deck.Cards.Cards.GetRange(10, 10).ToArray();
-				p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
-				p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
-				Console.WriteLine("Explore team 2 Suit:{0}", suit.Name);
-				tasks[idx++] = Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit)).LogTaskException();
-			}
-            Task.WaitAll(tasks);
+			//    p1 = _deck.Cards.Cards.GetRange(0, 10).ToArray();
+			//    p2 = _deck.Cards.Cards.GetRange(10, 10).ToArray();
+			//    p3 = _deck.Cards.Cards.GetRange(20, 10).ToArray();
+			//    p4 = _deck.Cards.Cards.GetRange(30, 10).ToArray();
+			//    Console.WriteLine("Explore team 2 Suit:{0}", suit.Name);
+			//    tasks[idx++] = Task.Factory.StartNew(() => _gameExplorer.Execute(gameId, 1, 2, p1, p2, p3, p4, suit, TODO)).LogTaskException();
+			//}
+			//Task.WaitAll(tasks);
 
 
-			Console.WriteLine("Finished!!");
+			//Console.WriteLine("Finished!!");
 		}
 
 	}
