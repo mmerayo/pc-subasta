@@ -15,7 +15,8 @@ namespace Subasta.DomainServices.DataAccess.Sqlite.IoC
 		{
 			For<IGameSettingsStoreWritter>().Use<GameSettingsWritter>();
 			For<IResultStoreWritter>().Use<ResultStoreWritter>();
-			For<IQueuedResultStoreWritter>().Use<QueuedResultStoreWritter>();
+			//For<IQueuedResultStoreWritter>().Use<QueuedResultStoreWritter>();
+			For<IQueuedResultStoreWritter>().Use<NullStoreWritter>();
 
 			For<IGameDataHelper>().Singleton().Use<DbEngine>()
 				.Ctor<bool>("inMemory").Is(x=>false)

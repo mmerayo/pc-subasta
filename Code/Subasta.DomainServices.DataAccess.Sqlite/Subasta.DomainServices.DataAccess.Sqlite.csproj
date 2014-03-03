@@ -91,6 +91,7 @@
     <Compile Include="NHibernateStatelessUnitOfWork.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Writters\NullStoreWritter.cs" />
     <Compile Include="Writters\QueuedResultStoreWritter.cs" />
     <Compile Include="Writters\GameSettingsWritter.cs" />
     <Compile Include="Writters\ResultStoreWritter.cs" />
