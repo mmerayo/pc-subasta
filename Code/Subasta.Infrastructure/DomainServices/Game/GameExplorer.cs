@@ -41,7 +41,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				status.SetCards(2, cardsP2);
 				status.SetCards(3, cardsP3);
 				status.SetCards(4, cardsP4);
-				status.SetPlayerBet(forPlayerTeamBets, TODO HIDE  this method and all the entities and tests that we will never use);
+				status.SetPlayerBet(forPlayerTeamBets, TODO HIDE  this method and all the entities and tests that we will never use, leave sqlite);
 				status.Turn = firstPlayer;
 				_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, forPlayerTeamBets, trump, cardsP1, cardsP2, cardsP3, cardsP4);
 				Execute(status, firstPlayer);
