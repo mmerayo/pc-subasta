@@ -13,33 +13,43 @@ namespace Subasta.Infrastructure.IoC
 	{
 		private static IContainer _container;
 		private static bool _initialized = false;
+		private static readonly object _syncLock=new object();
+
 		public static void Register()
 		{
 
-			if (_initialized) return;
+			if (!_initialized)
+				lock (_syncLock)
+					if (!_initialized)
+					{
 
-			ObjectFactory.Initialize(
-				c => {c.AddRegistry<SqliteRegistry>();
-				c.AddRegistry<ApplicationServicesRegistry>();
-				c.AddRegistry<DomainServicesRegistry>();
-					     c.AddRegistry<DomainRegistry>();
+						ObjectFactory.Initialize(
+							c =>
+								{
+									c.AddRegistry<SqliteRegistry>();
+									c.AddRegistry<ApplicationServicesRegistry>();
+									c.AddRegistry<DomainServicesRegistry>();
+									c.AddRegistry<DomainRegistry>();
 
-				});
+								});
 
-			_container = ObjectFactory.Container;
-			_container.Configure(x => x.For<IContainer>().Use(_container));
+						_container = ObjectFactory.Container;
+						_container.Configure(x => x.For<IContainer>().Use(_container));
 
-			foreach (var strap in _container.GetAllInstances<IBootstrap>())
-				strap.Execute();
+						foreach (var strap in _container.GetAllInstances<IBootstrap>())
+							strap.Execute();
 
-			_initialized = true;
 
 #if DEBUG
-			ExtractInjectionReport();
+						ExtractInjectionReport();
 #endif
+						_initialized = true;
+
+					}
 		}
 
-		public static void ExtractInjectionReport()
+		public static
+			void ExtractInjectionReport()
 		{
 			
 				//Do not log into the bin folder as forces recompilation of the app(shadow copy)

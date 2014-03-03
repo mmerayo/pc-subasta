@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Subasta.Infrastructure.IoC;
+
 
 namespace ConsoleApp
 {
@@ -9,7 +11,9 @@ namespace ConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			Boots
+			IoCRegistrator.Register();
+
+
 
 		}
 	}
