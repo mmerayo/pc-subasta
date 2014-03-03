@@ -53,10 +53,9 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			}
 		}
 
-		//TODO: REMOVE COMPARISONS AS EVERYTHING IS STORED
-		public NodeResult Execute(IExplorationStatus currentStatus, int playerPosition)
+		public NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)
 		{
-			if (IsTerminalNode(currentStatus, playerPosition))
+			if (IsTerminalNode(currentStatus, playerPlays))
 			{
 				var nodeResult = new NodeResult(currentStatus);
 				StoreResult(nodeResult);
@@ -64,16 +63,16 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				return nodeResult;
 			}
 
-			var candidates = GetCandidates(currentStatus, playerPosition);
+			var candidates = GetCandidates(currentStatus, playerPlays);
 
 			IExplorationStatus updatedStatus;
-			var best = Explore(currentStatus, playerPosition, candidates[0], out updatedStatus);
+			var best = Explore(currentStatus, playerPlays, candidates[0], out updatedStatus);
 			var length = candidates.Length;
 			for (int i = 1; i < length; i++)
 			{
-				var current = Explore(currentStatus, playerPosition, candidates[i], out updatedStatus);
+				var current = Explore(currentStatus, playerPlays, candidates[i], out updatedStatus);
 
-				if (current[playerPosition] > best[playerPosition])
+				if (current[playerPlays] > best[playerPlays])
 					best = current;
 			}
 
@@ -155,6 +154,9 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 		private bool IsTerminalNode(IExplorationStatus currentStatus, int playerPosition)
 		{
+			//Add the target points
+			//playerPosition position is in team bets then the points otherwise ->
+			//-> BETPOINTS - POTENTIAL DECLARATION POINTS TEAM BETS + 10
 			return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
 
