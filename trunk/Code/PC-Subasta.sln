@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{940E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{53370571-D091-4945-A1B3-D6FDEA04C267}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.Infrastructure.IoC", "Subasta.Infrastructure.IoC\Subasta.Infrastructure.IoC.csproj", "{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +146,16 @@ Global
 		{53370571-D091-4945-A1B3-D6FDEA04C267}.Release|Mixed Platforms.Build.0 = Release|x86
 		{53370571-D091-4945-A1B3-D6FDEA04C267}.Release|x86.ActiveCfg = Release|x86
 		{53370571-D091-4945-A1B3-D6FDEA04C267}.Release|x86.Build.0 = Release|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Debug|x86.ActiveCfg = Debug|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Debug|x86.Build.0 = Debug|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Release|Any CPU.ActiveCfg = Release|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Release|x86.ActiveCfg = Release|x86
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +170,7 @@ Global
 		{9115547E-2CB4-457D-9D09-678EB35D9A93} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{E3038A36-FB06-42B0-B1B4-713E92E329ED} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{91EFF920-5E31-449A-9720-414025749209} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
+		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{53370571-D091-4945-A1B3-D6FDEA04C267} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 	EndGlobalSection
 EndGlobal
