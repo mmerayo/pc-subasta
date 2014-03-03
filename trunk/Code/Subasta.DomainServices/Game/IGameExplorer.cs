@@ -8,5 +8,6 @@ namespace Subasta.DomainServices.Game
 	{
 		//NodeResult Execute(IExplorationStatus currentStatus, int playerPosition);
 		void Execute(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump);
+		NodeResult Execute(IExplorationStatus currentStatus, int playerPlays);
 	}
 }
