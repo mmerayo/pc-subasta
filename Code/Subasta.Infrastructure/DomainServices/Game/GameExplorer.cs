@@ -36,14 +36,8 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		{
 			try
 			{
-				var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
-				status.SetCards(1, cardsP1);
-				status.SetCards(2, cardsP2);
-				status.SetCards(3, cardsP3);
-				status.SetCards(4, cardsP4);
-				status.SetPlayerBet(forPlayerTeamBets, pointsBet );
-				status.Turn = firstPlayer;
-				_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, forPlayerTeamBets, trump, cardsP1, cardsP2, cardsP3, cardsP4);
+				var status = GetInitialStatus(gameId, firstPlayer, forPlayerTeamBets, cardsP1, cardsP2, cardsP3, cardsP4, trump,
+				                              pointsBet);
 				Execute(status, firstPlayer);
 			}
 			catch (Exception ex)
@@ -51,6 +45,20 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				Console.WriteLine(ex);
 				throw;
 			}
+		}
+
+		public IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump, int pointsBet)
+		{
+			var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
+			status.SetCards(1, cardsP1);
+			status.SetCards(2, cardsP2);
+			status.SetCards(3, cardsP3);
+			status.SetCards(4, cardsP4);
+			status.SetPlayerBet(forPlayerTeamBets, pointsBet);
+			status.Turn = firstPlayer;
+			_gameSettingsWritter.StoreGameInfo(gameId, firstPlayer, forPlayerTeamBets, trump, cardsP1, cardsP2, cardsP3, cardsP4);
+
+			return status;
 		}
 
 		public NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)

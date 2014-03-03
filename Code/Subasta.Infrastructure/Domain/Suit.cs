@@ -5,7 +5,7 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.Infrastructure.Domain
 {
-	internal sealed class Suit : ISuit
+	public sealed class Suit : ISuit
 	{
 		public Suit(string name,int value)
 		{

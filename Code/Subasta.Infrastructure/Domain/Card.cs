@@ -15,7 +15,7 @@ namespace Subasta.Infrastructure.Domain
         /// 
         /// </summary>
         /// <param name="shortId">O1,E10</param>
-        internal Card(string shortId)
+        public Card(string shortId)
         {
             Suit=Domain.Suit.FromId(shortId[0]);
             Number = int.Parse(shortId.Substring(1));

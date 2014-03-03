@@ -30,6 +30,7 @@ namespace ConsoleApp
 			public RegisterIoc()
 			{
 				For<IGameSimulator>().Use<TestGameSimulator>();
+				For<IPlayer>().Use<Player>();
 			}
 		}
 	}
