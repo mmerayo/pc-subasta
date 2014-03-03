@@ -165,7 +165,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 
 			public TestContext WithPlayerBet(int player)
 			{
-				Status.SetPlayerBet(player);
+				Status.SetPlayerBet(player, TODO);
 
 				return this;
 			}

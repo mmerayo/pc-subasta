@@ -220,6 +220,8 @@ namespace Subasta.Infrastructure.Domain
 		public void SetPlayerBet(int playerPosition, int pointsBet)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
+			if(pointsBet<0) throw new ArgumentOutOfRangeException("pointsBet","Must be 0 or higher");
+
 			PlayerBets = playerPosition;
 			PointsBet = pointsBet;
 		}
