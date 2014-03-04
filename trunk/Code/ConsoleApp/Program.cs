@@ -16,7 +16,9 @@ namespace ConsoleApp
 			IoCRegistrator.Register(new List<Registry>(){new RegisterIoc()});
 
 			var game = ObjectFactory.GetInstance<IGameSimulator>();
+			game.GameStatusChanged += game_GameStatusChanged;
 			game.Start();
+
 			while (!game.IsFinished)
 			{
 				game.NextMove();
@@ -24,6 +26,17 @@ namespace ConsoleApp
 				Console.ReadKey();
 			}
 		}
+
+		static void game_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status)
+		{
+			PaintGameStatus();
+		}
+
+		private static void PaintGameStatus()
+		{
+			throw new NotImplementedException();
+		}
+
 
 		private class RegisterIoc : Registry
 		{
