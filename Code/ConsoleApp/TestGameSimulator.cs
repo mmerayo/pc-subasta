@@ -6,12 +6,16 @@ using Subasta.Infrastructure.Domain;
 
 namespace ConsoleApp
 {
+	public delegate void StatusChangedHandler(IExplorationStatus status);
 	public class TestGameSimulator:IGameSimulator
 	{
 		private readonly IGameExplorer _explorer;
 		private readonly IPlayer[] _players=new IPlayer[4];
 		private int _currentPlayer = -1;
 		private IExplorationStatus _status;
+
+		public event StatusChangedHandler GameStatusChanged;
+
 
 		public TestGameSimulator(IGameExplorer explorer, IPlayer player1, IPlayer player2, IPlayer player3, IPlayer player4)
 		{
@@ -20,6 +24,11 @@ namespace ConsoleApp
 			_players[1] = player2;
 			_players[2] = player3;
 			_players[3] = player4;
+
+			player1.Number = 1;
+			player2.Number = 2;
+			player3.Number = 3;
+			player4.Number = 4;
 		}
 
 		public void Start()
@@ -106,12 +115,19 @@ namespace ConsoleApp
 				_currentPlayer = 0;
 			
 			var nodeResult = _explorer.Execute(_status, _currentPlayer + 1);
-			var cardAtMove = nodeResult.CardAtMove(_currentPlayer + 1, ++_moveNumber);
-			
-			OnCardThrown(cardAtMove, _currentPlayer+1, _moveNumber);
+			ICard cardAtMove = nodeResult.CardAtMove(_currentPlayer + 1, _status.Hands.Count);
+			_status.CurrentHand.Add(_currentPlayer+1,cardAtMove);
+
+			OnStatusChanged();
 		}
 
-		private int _moveNumber = 0;
+		private void OnStatusChanged()
+		{
+			if (GameStatusChanged != null)
+				GameStatusChanged(_status);
+		}
+		
+
 		
 
 	}

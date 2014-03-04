@@ -5,5 +5,6 @@
 		void Start();
 		bool IsFinished { get; set; }
 		void NextMove();
+		event StatusChangedHandler GameStatusChanged;
 	}
 }
