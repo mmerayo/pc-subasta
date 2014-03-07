@@ -1,4 +1,5 @@
 ﻿using System;
+using StructureMap;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
@@ -7,37 +8,49 @@ using Subasta.Infrastructure.Domain;
 namespace ConsoleApp
 {
 	public delegate void StatusChangedHandler(IExplorationStatus status);
+	public delegate string InputRequestedHandler();
 	public class TestGameSimulator:IGameSimulator
 	{
 		private readonly IGameExplorer _explorer;
 		private readonly IPlayer[] _players=new IPlayer[4];
-		private int _currentPlayer = -1;
 		private IExplorationStatus _status;
 
 		public event StatusChangedHandler GameStatusChanged;
+		public event InputRequestedHandler InputRequested;
 
 
-		public TestGameSimulator(IGameExplorer explorer, IPlayer player1, IPlayer player2, IPlayer player3, IPlayer player4)
+		public TestGameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
-			_players[0] = player1;
-			_players[1] = player2;
-			_players[2] = player3;
-			_players[3] = player4;
+			_players[0] = ObjectFactory.GetInstance<IPlayer>();
+			_players[1] = ObjectFactory.GetInstance<IPlayer>(); 
+			_players[2] = ObjectFactory.GetInstance<IPlayer>(); 
+			_players[3] = ObjectFactory.GetInstance<IPlayer>(); 
 
-			player1.Number = 1;
-			player2.Number = 2;
-			player3.Number = 3;
-			player4.Number = 4;
 		}
 
 		public void Start()
 		{
 			SetCards();
 
-			_status=_explorer.GetInitialStatus(Guid.NewGuid(), 1, 1, _players[0].Cards, _players[1].Cards, _players[2].Cards, _players[3].Cards,Suit.FromId('C'),10);
+
+			int firstPlayer = 1;
+			_status=_explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 1, _players[0].Cards, _players[1].Cards, _players[2].Cards, _players[3].Cards,Suit.FromId('C'),10);
 			
-			_currentPlayer = 1;
+			while (!_status.GameCompleted)
+			{
+				NextMove();
+				OnStatusChanged();
+				
+				if (_status.CurrentHand.IsCompleted)
+				{
+					OnInputRequested();
+					_status.AddNewHand();
+				}
+
+			}
+
+			OnInputRequested();
 		}
 
 
@@ -111,14 +124,10 @@ namespace ConsoleApp
 		public bool IsFinished { get; set; }
 		public void NextMove()
 		{
-			if (++_currentPlayer > 3)
-				_currentPlayer = 0;
-			
-			var nodeResult = _explorer.Execute(_status, _currentPlayer + 1);
-			ICard cardAtMove = nodeResult.CardAtMove(_currentPlayer + 1, _status.Hands.Count);
-			_status.CurrentHand.Add(_currentPlayer+1,cardAtMove);
-
-			OnStatusChanged();
+			int playerPlays = _status.Turn;
+			var nodeResult = _explorer.Execute(_status, playerPlays);//TODO: TURN NEEDED??
+			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
+			_status.CurrentHand.Add(playerPlays,cardAtMove);
 		}
 
 		private void OnStatusChanged()
@@ -126,9 +135,12 @@ namespace ConsoleApp
 			if (GameStatusChanged != null)
 				GameStatusChanged(_status);
 		}
-		
 
+		private void OnInputRequested()
+		{
+			if (InputRequested != null)
+				InputRequested();
+		}
 		
-
 	}
 }

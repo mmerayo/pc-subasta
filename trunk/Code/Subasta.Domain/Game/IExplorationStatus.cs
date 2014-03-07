@@ -17,6 +17,7 @@ namespace Subasta.Domain.Game
         IHand LastCompletedHand { get; }
         Guid GameId { get; }
 	    int PointsBet { get; }
+	    bool GameCompleted { get; }
 	    void AddNewHand();
         ICard[] PlayerCards(int playerPosition);
         void SetCards(int playerPosition, ICard[] cards);

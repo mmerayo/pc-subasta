@@ -57,13 +57,13 @@ namespace Subasta.Infrastructure.Domain
 	                return FromName("Oros");
 
                 case 'C':
-                    return FromName("Oros");
+                    return FromName("Copas");
 
                 case 'E':
-                    return FromName("Oros");
+                    return FromName("Espadas");
 
                 case 'B':
-                    return FromName("Oros");
+                    return FromName("Bastos");
 
 	            default:
 	                throw new ArgumentOutOfRangeException("idName");

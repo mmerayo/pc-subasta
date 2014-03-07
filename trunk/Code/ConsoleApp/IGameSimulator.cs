@@ -6,5 +6,6 @@
 		bool IsFinished { get; set; }
 		void NextMove();
 		event StatusChangedHandler GameStatusChanged;
+		event InputRequestedHandler InputRequested;
 	}
 }
