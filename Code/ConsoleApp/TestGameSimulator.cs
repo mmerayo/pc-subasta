@@ -35,7 +35,8 @@ namespace ConsoleApp
 
 
 			int firstPlayer = 1;
-			_status=_explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 1, _players[0].Cards, _players[1].Cards, _players[2].Cards, _players[3].Cards,Suit.FromId('C'),10);
+			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 1, _players[0].Cards, _players[1].Cards,
+			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 70);
 			
 			while (!_status.GameCompleted)
 			{
@@ -124,8 +125,9 @@ namespace ConsoleApp
 		public bool IsFinished { get; set; }
 		public void NextMove()
 		{
+			var nodeResult = _explorer.Execute(_status, _status.Turn);//TODO: TURN NEEDED??
+
 			int playerPlays = _status.Turn;
-			var nodeResult = _explorer.Execute(_status, playerPlays);//TODO: TURN NEEDED??
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_status.CurrentHand.Add(playerPlays,cardAtMove);
 		}
