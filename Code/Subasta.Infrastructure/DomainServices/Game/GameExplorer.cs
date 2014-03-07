@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -16,9 +17,11 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private readonly IGameSettingsStoreWritter _gameSettingsWritter;
 
-        public GameExplorer(IValidCardsRule validMoveRule, IQueuedResultStoreWritter resultsWritter,
-		                    ICardComparer cardComparer, IPlayerDeclarationsChecker declarationsChecker,
-		                    IGameSettingsStoreWritter gameSettingsWritter)
+		public GameExplorer(IValidCardsRule validMoveRule,
+		                    IQueuedResultStoreWritter resultsWritter,
+		                    ICardComparer cardComparer,
+		                    IPlayerDeclarationsChecker declarationsChecker,
+		                    IGameSettingsStoreWritter gameSettingsWritter )
 		{
 			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
 			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
@@ -47,7 +50,9 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			}
 		}
 
-		public IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump, int pointsBet)
+		public IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1,
+		                                           ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump,
+		                                           int pointsBet)
 		{
 			var status = new Status(gameId, _cardComparer, trump, _declarationsChecker);
 			status.SetCards(1, cardsP1);
@@ -161,7 +166,28 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 		private ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
 		{
-			return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
+			//TODO: TO STRATEGY
+			//return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
+
+
+			return FilterToMaxMin(_validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand));
+
+		}
+
+		private static ICard[] FilterToMaxMin(ICard[] source)
+		{
+
+			var result = source.ToList();
+			foreach (var sameSuit in result.GroupBy(x => x.Suit))
+			{
+				var ordered = sameSuit.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).ToList();
+				var current = ordered.Skip(1);
+				current = current.Take(current.Count() - 1);
+				foreach (var card in current)
+					result.Remove(card);
+			}
+
+			return result.ToArray();
 		}
 
 		private bool IsTerminalNode(IExplorationStatus currentStatus, int playerPosition)
@@ -170,8 +196,8 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			//playerPosition position is in team bets then the points where reached so the rest is prunned  otherwise ->
 			//-> 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
 			bool isInTeamBets = IsInTeamBets(currentStatus.PlayerBets, playerPosition);
-			if (isInTeamBets && currentStatus.SumTotalTeam(playerPosition)>=currentStatus.PointsBet) return true;
-			
+			if (isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= currentStatus.PointsBet) return true;
+
 			//for now never canta
 			if (!isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= 130 - currentStatus.PointsBet) return true;
 

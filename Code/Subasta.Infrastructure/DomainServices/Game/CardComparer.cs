@@ -5,8 +5,6 @@ namespace Subasta.Infrastructure.DomainServices.Game
 {
 	class CardComparer : ICardComparer
 	{
-		
-
 		public ICard Best(ISuit trump, ICard current, ICard candidate)
 		{
 			//candidato es triunfo

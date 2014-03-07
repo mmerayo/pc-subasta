@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,13 @@ namespace ConsoleApp
 {
 	class Program
 	{
-		static void Main(string[] args)
+		private static Stopwatch _stopwatch;
+		private static List<TimeSpan> _timespans=new List<TimeSpan>();
+
+		private static void Main(string[] args)
 		{
+			
+
 			try
 			{
 				IoCRegistrator.Register(new List<Registry>() {new RegisterIoc()});
@@ -23,16 +29,13 @@ namespace ConsoleApp
 				var game = ObjectFactory.GetInstance<IGameSimulator>();
 				game.GameStatusChanged += game_GameStatusChanged;
 				game.InputRequested += game_InputRequested;
+				_stopwatch = Stopwatch.StartNew();
 				game.Start();
 
-				while (!game.IsFinished)
-				{
-					game.NextMove();
-					Console.WriteLine("Press key to continue...");
-					Console.ReadKey();
-				}
-			}catch(Exception ex)
-			{Console.WriteLine(ex);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
 			}
 			Console.ReadLine();
 		}
@@ -48,9 +51,10 @@ namespace ConsoleApp
 		{
 			PaintGameStatus(status);
 		}
-
 		private static void PaintGameStatus(IExplorationStatus status)
 		{
+			_stopwatch.Stop();
+			_timespans.Add(_stopwatch.Elapsed);
 			Console.Clear();
 			for (int i = 1; i <= 4; i++)
 				PaintPlayerCards(status.PlayerCards(i), i);
@@ -59,6 +63,19 @@ namespace ConsoleApp
 				var hand = status.Hands[index];
 				if(hand.IsCompleted)
 					PaintHand(hand, index + 1);
+			}
+
+			PaintTimes();
+
+			_stopwatch.Restart();
+		}
+
+		private static void PaintTimes()
+		{
+			for (int index = 0; index < _timespans.Count; index++)
+			{
+				var timeSpan = _timespans[index];
+				Console.WriteLine("{0} - {1}",index+1,timeSpan);
 			}
 		}
 
