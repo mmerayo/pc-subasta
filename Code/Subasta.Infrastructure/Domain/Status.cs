@@ -155,6 +155,13 @@ namespace Subasta.Infrastructure.Domain
 	    }
 
 		public int PointsBet { get; private set; }
+		public bool GameCompleted
+		{
+			get
+			{
+				return _hands!=null && _hands.Count == 10 && _hands[9].IsCompleted;
+			}
+		}
 
 
 		public void AddNewHand()
@@ -183,7 +190,11 @@ namespace Subasta.Infrastructure.Domain
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
-			_playerCards[playerPosition - 1] = cards;
+			_playerCards[playerPosition - 1] =
+				cards.OrderBy(x => x.Suit.Name)
+				.ThenByDescending(x => x.Value)
+				.ThenByDescending(x => x.Number).ToArray();
+
 
 			//TODO:CALCULATE DECLARABLES
 		}
