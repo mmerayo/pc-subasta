@@ -125,8 +125,8 @@ namespace ConsoleApp
 		public bool IsFinished { get; set; }
 		public void NextMove()
 		{
-			var nodeResult = _explorer.Execute(_status, _status.Turn);//TODO: TURN NEEDED??
-
+			var nodeResult = _explorer.Execute(_status);//TODO: TURN NEEDED??
+			define maxdeep see property and reuse exploration tree across calls incrementing the depht
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_status.CurrentHand.Add(playerPlays,cardAtMove);
