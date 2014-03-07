@@ -16,6 +16,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private readonly ICardComparer _cardComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private readonly IGameSettingsStoreWritter _gameSettingsWritter;
+		private int _maxDepth;
 
 		public GameExplorer(IValidCardsRule validMoveRule,
 		                    IQueuedResultStoreWritter resultsWritter,
@@ -66,7 +67,22 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			return status;
 		}
 
-		public NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)
+		public NodeResult Execute(IExplorationStatus currentStatus)
+		{
+			return Execute(currentStatus, currentStatus.Turn);
+		}
+
+		public int MaxDepth
+		{
+			get { return _maxDepth; }
+			set
+			{
+				if(value<0) throw new ArgumentOutOfRangeException();
+				_maxDepth = value;
+			}
+		}
+
+		private NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)
 		{
 			if (IsTerminalNode(currentStatus, playerPlays))
 			{
@@ -169,7 +185,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			//TODO: TO STRATEGY
 			//return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
 
-
+			//TODO: Create filter for non consecutives
 			return FilterToMaxMin(_validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand));
 
 		}
@@ -184,7 +200,10 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				var current = ordered.Skip(1);
 				current = current.Take(current.Count() - 1);
 				foreach (var card in current)
+				{
 					result.Remove(card);
+					//Console.WriteLine("One Removed");
+				}
 			}
 
 			return result.ToArray();
