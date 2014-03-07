@@ -65,6 +65,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		{
 			if (IsTerminalNode(currentStatus, playerPlays))
 			{
+				//Console.WriteLine("***Terminal Node");
 				var nodeResult = new NodeResult(currentStatus);
 				StoreResult(nodeResult);
 
@@ -81,7 +82,10 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				var current = Explore(currentStatus, playerPlays, candidates[i], out updatedStatus);
 
 				if (current[playerPlays] > best[playerPlays])
+				{
+					//Console.WriteLine("---Found better move");
 					best = current;
+				}
 			}
 
 			return best;
@@ -168,8 +172,8 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			bool isInTeamBets = IsInTeamBets(currentStatus.PlayerBets, playerPosition);
 			if (isInTeamBets && currentStatus.SumTotalTeam(playerPosition)>=currentStatus.PointsBet) return true;
 			
-			//for now always canta 40
-			if (!isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= 130 + 40 - currentStatus.PointsBet) return true;
+			//for now never canta
+			if (!isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= 130 - currentStatus.PointsBet) return true;
 
 			return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
