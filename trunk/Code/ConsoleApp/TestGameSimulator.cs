@@ -22,10 +22,12 @@ namespace ConsoleApp
 		public TestGameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
+			_explorer.MaxDepth = 2;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>(); 
 			_players[2] = ObjectFactory.GetInstance<IPlayer>(); 
 			_players[3] = ObjectFactory.GetInstance<IPlayer>(); 
+			
 
 		}
 
@@ -45,6 +47,7 @@ namespace ConsoleApp
 				
 				if (_status.CurrentHand.IsCompleted)
 				{
+					_explorer.MaxDepth++;
 					OnInputRequested();
 					_status.AddNewHand();
 				}
@@ -126,10 +129,11 @@ namespace ConsoleApp
 		public void NextMove()
 		{
 			var nodeResult = _explorer.Execute(_status);//TODO: TURN NEEDED??
-			define maxdeep see property and reuse exploration tree across calls incrementing the depht
+
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_status.CurrentHand.Add(playerPlays,cardAtMove);
+			
 		}
 
 		private void OnStatusChanged()

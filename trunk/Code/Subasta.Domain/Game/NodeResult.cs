@@ -14,9 +14,9 @@ namespace Subasta.Domain.Game
 
 		private int GetPoints(int playerNum1, int playerNum2)
 		{
-			int result = _status.SumTotal(playerNum1) + _status.SumTotal(playerNum2);
-			if (_status.GameCompleted 
-				&& (_status.CurrentHand.PlayerWinner == playerNum1 || _status.CurrentHand.PlayerWinner == playerNum2))
+			int result = Status.SumTotal(playerNum1) + Status.SumTotal(playerNum2);
+			if (Status.GameCompleted 
+				&& (Status.CurrentHand.PlayerWinner == playerNum1 || Status.CurrentHand.PlayerWinner == playerNum2))
 				result += 10;
 			return result;
 		}
@@ -24,7 +24,7 @@ namespace Subasta.Domain.Game
 
 		public ICard CardAtMove(int playerPosition, int moveNumber)
 		{
-			return _status.Hands[moveNumber - 1].PlayerCard(playerPosition);
+			return Status.Hands[moveNumber - 1].PlayerCard(playerPosition);
 		}
 
 		public NodeResult(IExplorationStatus status)
@@ -41,22 +41,27 @@ namespace Subasta.Domain.Game
 
 	    public IHand[] Hands
 	    {
-	        get { return _status.Hands.ToArray(); }
+	        get { return Status.Hands.ToArray(); }
 	    }
 
 	    public Guid GameId
 	    {
-            get { return _status.GameId; }
+            get { return Status.GameId; }
 	    }
 
 	    public ISuit Trump
 	    {
-	        get { return _status.Trump; }
+	        get { return Status.Trump; }
 	    }
 
 		public int TeamBet
 		{
-			get { return _status.PlayerBets == 1 || _status.PlayerBets == 3 ? 1 : 2; }
+			get { return Status.PlayerBets == 1 || Status.PlayerBets == 3 ? 1 : 2; }
+		}
+
+		public IExplorationStatus Status
+		{
+			get { return _status; }
 		}
 	}
 
