@@ -24,7 +24,7 @@ namespace ConsoleApp
 		public TestGameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
-			_explorer.MaxDepth = 3;
+			_explorer.MaxDepth = 4;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>();
 			_players[2] = ObjectFactory.GetInstance<IPlayer>();
@@ -41,7 +41,7 @@ namespace ConsoleApp
 			_players[1].Cards = cardsPlayer2;
 			_players[2].Cards = cardsPlayer3;
 			_players[3].Cards = cardsPlayer4;
-			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 1, _players[0].Cards, _players[1].Cards,
+			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 2, _players[0].Cards, _players[1].Cards,
 			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
 
 			while (!_status.IsCompleted)
