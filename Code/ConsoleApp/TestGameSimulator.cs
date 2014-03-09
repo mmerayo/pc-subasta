@@ -22,7 +22,7 @@ namespace ConsoleApp
 		public TestGameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
-			_explorer.MaxDepth = 2;
+			_explorer.MaxDepth = 1;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>(); 
 			_players[2] = ObjectFactory.GetInstance<IPlayer>(); 
@@ -49,7 +49,9 @@ namespace ConsoleApp
 				{
 					_explorer.MaxDepth++;
 					OnInputRequested();
+					_status.Turn = _status.CurrentHand.PlayerWinner;
 					_status.AddNewHand();
+					
 				}
 
 			}
@@ -71,7 +73,8 @@ namespace ConsoleApp
 			switch (playerIdx)
 			{
 				case 0:
-					result[0] = new Card("B12");
+					result[0] = new Card("C1");
+
 					result[1] = new Card("C12");
 					result[2] = new Card("E5");
 					result[3] = new Card("C10");
@@ -118,7 +121,7 @@ namespace ConsoleApp
 					result[6] = new Card("C7");
 					result[7] = new Card("E12");
 					result[8] = new Card("B2");
-					result[9] = new Card("C1");
+					result[9] = new Card("B12");
 					break;
 			}
 
@@ -133,7 +136,10 @@ namespace ConsoleApp
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_status.CurrentHand.Add(playerPlays,cardAtMove);
-			
+			_status.RemovePlayerCard(playerPlays, cardAtMove);
+            if(++playerPlays>4) playerPlays = 1;
+			_status.Turn = playerPlays;
+
 		}
 
 		private void OnStatusChanged()

@@ -22,8 +22,8 @@ namespace ConsoleApp
 		{
 			
 
-			try
-			{
+            //try
+            //{
 				IoCRegistrator.Register(new List<Registry>() {new RegisterIoc()});
 
 				var game = ObjectFactory.GetInstance<IGameSimulator>();
@@ -32,11 +32,11 @@ namespace ConsoleApp
 				_stopwatch = Stopwatch.StartNew();
 				game.Start();
 
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-			}
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
 			Console.ReadLine();
 		}
 
@@ -61,34 +61,39 @@ namespace ConsoleApp
 			for (int index = 0; index < status.Hands.Count; index++)
 			{
 				var hand = status.Hands[index];
-				if(hand.IsCompleted)
-					PaintHand(hand, index + 1);
+				PaintHand(hand, index + 1);
 			}
-
-			PaintTimes();
-
+			
 			_stopwatch.Restart();
 		}
 
-		private static void PaintTimes()
+		private static void PaintTimes(int sequence)
 		{
-			for (int index = 0; index < _timespans.Count; index++)
+			int top = sequence*4;
+			int bottom = top - 4;
+			for (int index = bottom; index < top; index++)
 			{
-				var timeSpan = _timespans[index];
-				Console.WriteLine("{0} - {1}",index+1,timeSpan);
+				if (_timespans.Count >= index + 1)
+				{
+					var timeSpan = _timespans[index];
+					Console.WriteLine("{0} - {1}", index + 1, timeSpan);
+				}
 			}
 		}
 
 		private static void PaintHand(IHand hand, int sequence)
 		{
 			int playerPosition = hand.FirstPlayer;
-			Console.WriteLine("Hand #{0}: starts{1}",sequence,playerPosition);
+			Console.WriteLine("Hand #{0}- IsCompleted={1}: ",sequence,hand.IsCompleted);
 
 			for (int i = 0; i < 4; i++)
 			{
-				Console.WriteLine("player #{0}", hand.PlayerCard(playerPosition));
+				ICard playerCard = hand.PlayerCard(playerPosition);
+				if(playerCard==null) break;
+				Console.WriteLine("\tplayer #{0} -> {1}", playerPosition, playerCard.ToShortString());
 				if (++playerPosition > 4) playerPosition = 1;
 			}
+			PaintTimes(sequence);
 		}
 
 		private static void PaintPlayerCards(IEnumerable<ICard> playerCards, int playerNum)
