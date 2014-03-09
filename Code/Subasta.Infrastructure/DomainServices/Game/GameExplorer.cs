@@ -187,7 +187,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		{
 		    if (currentStatus.Hands.Count(x => x.IsCompleted) == MaxDepth) return true;
 
-			return currentStatus.GameCompleted;
+			return currentStatus.IsCompleted;
 
 		    //return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}

@@ -107,9 +107,13 @@ namespace Subasta.Infrastructure.Domain
 			{
 				//in the latest completed hand no se ha cantado 
 				IHand last = Hands.LastOrDefault();
-				if (last == null || !last.IsCompleted || last.Declaration.HasValue)
+				if (last == null || !last.IsEmpty ||Hands.IndexOf(last)==0)
 					return new Declaration[0];
 
+				IHand hand = Hands[ Hands.IndexOf(last)-1];
+				if(hand.Declaration.HasValue)
+					return new Declaration[0];
+				
 				var candidates = GetDeclarationCandidates();
 				//havent been applied yet 
 				candidates.RemoveAll(y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
@@ -162,7 +166,7 @@ namespace Subasta.Infrastructure.Domain
 
 		public int PointsBet { get; private set; }
 		private bool _gameCompleted;
-		public bool GameCompleted
+		public bool IsCompleted
 		{
 			get
 			{
@@ -240,7 +244,10 @@ namespace Subasta.Infrastructure.Domain
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
-			return Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
+			var result= Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
+			if(Hands.Count>=10 && Hands[9].IsCompleted && Hands[9].PlayerWinner==playerPosition)
+				result += 10;
+			return result;
 		}
 
 		public int SumTotalTeam(int playerPosition)
