@@ -11,22 +11,22 @@ namespace Subasta.Infrastructure.DomainServices.Game
 {
 	internal class GameExplorer : IGameExplorer
 	{
-		private readonly IValidCardsRule _validMoveRule;
+		private readonly ICandidatesSelector _candidatesSelector;
 		private readonly IResultStoreWritter _resultsWritter;
 		private readonly ICardComparer _cardComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private readonly IGameSettingsStoreWritter _gameSettingsWritter;
 		private int _maxDepth;
 
-		public GameExplorer(IValidCardsRule validMoveRule,
+		public GameExplorer(ICandidatesSelector candidatesSelector,
 		                    IQueuedResultStoreWritter resultsWritter,
 		                    ICardComparer cardComparer,
 		                    IPlayerDeclarationsChecker declarationsChecker,
 		                    IGameSettingsStoreWritter gameSettingsWritter )
 		{
-			if (validMoveRule == null) throw new ArgumentNullException("validMoveRule");
+			
 			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
-			_validMoveRule = validMoveRule;
+			_candidatesSelector = candidatesSelector;
 			_resultsWritter = resultsWritter;
 			_cardComparer = cardComparer;
 			_declarationsChecker = declarationsChecker;
@@ -93,7 +93,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 				return nodeResult;
 			}
 
-			var candidates = GetCandidates(currentStatus, playerPlays);
+			var candidates =_candidatesSelector. GetCandidates(currentStatus, playerPlays);
 
 			IExplorationStatus updatedStatus;
 			var best = Explore(currentStatus, playerPlays, candidates[0], out updatedStatus);
@@ -161,10 +161,13 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private IExplorationStatus PlayCandidate(IExplorationStatus currentStatus, int playerPosition, ICard candidate)
 		{
 			IExplorationStatus result = currentStatus.Clone();
-			var playerCards = result.PlayerCards(playerPosition).ToList();
-			playerCards.RemoveAt(playerCards.IndexOf(candidate));
 
-			result.SetCards(playerPosition, playerCards.ToArray());
+			result.RemovePlayerCard(playerPosition,candidate);
+
+			//TODO: USE RemovePlayerCard
+			//var playerCards = result.PlayerCards(playerPosition).ToList();
+			//playerCards.RemoveAt(playerCards.IndexOf(candidate));
+			//result.SetCards(playerPosition, playerCards.ToArray());
 
 			var hand = result.CurrentHand;
 
@@ -180,54 +183,14 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			return result;
 		}
 
-		private ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
-		{
-			//TODO: TO STRATEGY
-			//return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
-
-			//TODO: Create filter for non consecutives
-			return FilterToMaxMin(_validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand));
-
-		}
-
-		private static ICard[] FilterToMaxMin(ICard[] source)
-		{
-
-			var result = source.ToList();
-			foreach (var sameSuit in result.GroupBy(x => x.Suit))
-			{
-				var ordered = sameSuit.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).ToList();
-				var current = ordered.Skip(1);
-				current = current.Take(current.Count() - 1);
-				foreach (var card in current)
-				{
-					result.Remove(card);
-					//Console.WriteLine("One Removed");
-				}
-			}
-
-			return result.ToArray();
-		}
-
 		private bool IsTerminalNode(IExplorationStatus currentStatus, int playerPosition)
 		{
-			//Add the target points
-			//playerPosition position is in team bets then the points where reached so the rest is prunned  otherwise ->
-			//-> 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
-			bool isInTeamBets = IsInTeamBets(currentStatus.PlayerBets, playerPosition);
-			if (isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= currentStatus.PointsBet) return true;
+		    if (currentStatus.Hands.Count(x => x.IsCompleted) == MaxDepth) return true;
 
-			//for now never canta
-			if (!isInTeamBets && currentStatus.SumTotalTeam(playerPosition) >= 130 - currentStatus.PointsBet) return true;
+			return currentStatus.GameCompleted;
 
-			return currentStatus.PlayerCards(playerPosition).Length == 0;
+		    //return currentStatus.PlayerCards(playerPosition).Length == 0;
 		}
-
-		private bool IsInTeamBets(int playerBets, int playerPosition)
-		{
-			if (playerBets == 1 || playerBets == 3)
-				return playerPosition == 1 || playerPosition == 3;
-			return playerPosition == 2 || playerPosition == 4;
-		}
+	    
 	}
 }

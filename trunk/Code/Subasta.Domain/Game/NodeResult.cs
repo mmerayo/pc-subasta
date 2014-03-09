@@ -15,8 +15,10 @@ namespace Subasta.Domain.Game
 		private int GetPoints(int playerNum1, int playerNum2)
 		{
 			int result = Status.SumTotal(playerNum1) + Status.SumTotal(playerNum2);
-			if (Status.GameCompleted 
-				&& (Status.CurrentHand.PlayerWinner == playerNum1 || Status.CurrentHand.PlayerWinner == playerNum2))
+			if (Status.GameCompleted &&
+			    Status.Hands.Count == 10 &&
+			    Status.Hands[9].IsCompleted &&
+			    (Status.CurrentHand.PlayerWinner == playerNum1 || Status.CurrentHand.PlayerWinner == playerNum2))
 				result += 10;
 			return result;
 		}

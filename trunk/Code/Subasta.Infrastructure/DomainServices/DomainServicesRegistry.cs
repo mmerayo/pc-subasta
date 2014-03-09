@@ -23,6 +23,7 @@ namespace Subasta.Infrastructure.DomainServices
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();
+			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
 
 			//TODO: REMOVE THIS DEPENDENCY
 			For<ISuit>().Use(Suit.Suits.First());

@@ -11,7 +11,7 @@ using Subasta.Infrastructure.ApplicationServices.Queues;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
 {
-	class QueuedResultStoreWritter : ProducerParallelConsumerQueue<NodeResult>, IQueuedResultStoreWritter
+    class QueuedResultStoreWritter : ProducerParallelConsumerQueue<NodeResult>, IQueuedResultStoreWritter
 	{
 		private readonly IResultStoreWritter _resultStoreWritter;
 

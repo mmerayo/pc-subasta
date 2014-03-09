@@ -51,6 +51,7 @@
     <Compile Include="ApplicationServices\Queues\ProducerSequentialConsumerQueue.cs" />
     <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\DomainServicesRegistry.cs" />
+    <Compile Include="DomainServices\Game\FilteredCandidatesSelector.cs" />
     <Compile Include="DomainServices\Game\DeckSuffler.cs" />
     <Compile Include="DomainServices\Game\GameGenerator.cs" />
     <Compile Include="DomainServices\Game\CardComparer.cs" />

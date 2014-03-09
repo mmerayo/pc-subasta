@@ -39,7 +39,13 @@ namespace Subasta.Infrastructure.Domain
 		public IExplorationStatus Clone()
 		{
 			Debug.Assert(GameId != Guid.Empty);
-			var target = new Status( _cardsComparer, Trump, _declarationsChecker) {_turn = _turn, PlayerBets = PlayerBets,PointsBet = PointsBet};
+			var target = new Status( _cardsComparer, Trump, _declarationsChecker)
+			             	{
+			             		_turn = _turn, 
+								PlayerBets = PlayerBets,
+								PointsBet = PointsBet,
+								_gameCompleted = _gameCompleted
+			             	};
 			Array.Copy(_playerCards, target._playerCards, 4);
 
 			target._hands = new List<IHand>();
@@ -155,14 +161,39 @@ namespace Subasta.Infrastructure.Domain
 	    }
 
 		public int PointsBet { get; private set; }
+		private bool _gameCompleted;
 		public bool GameCompleted
 		{
 			get
 			{
-				return _hands!=null && _hands.Count == 10 && _hands[9].IsCompleted;
+				UpdateIsCompleted();
+				return _gameCompleted;
 			}
 		}
 
+		private void UpdateIsCompleted()
+		{
+			if (_gameCompleted) return;
+			_gameCompleted = _hands != null && _hands.Count == 10 && _hands[9].IsCompleted;
+			if (_gameCompleted) return;
+			if (SumTotalTeam(PlayerBets) >= PointsBet)
+				_gameCompleted = true;
+			else
+			{
+				var other = PlayerBets + 1;
+				if (other > 4) other = 1;
+				// 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
+				if (SumTotalTeam(other) >= 130 - PointsBet + 1)
+					_gameCompleted = true;
+			}
+		}
+
+		public bool IsInTeamBets(int playerPosition)
+		{
+			if (PlayerBets == 1 || PlayerBets == 3)
+				return playerPosition == 1 || playerPosition == 3;
+			return playerPosition == 2 || playerPosition == 4;
+		}
 
 		public void AddNewHand()
 		{
@@ -219,6 +250,14 @@ namespace Subasta.Infrastructure.Domain
 			if (playerPosition == 1 || playerPosition == 3)
 				return SumTotal(1) + SumTotal(3);
 			return SumTotal(2) + SumTotal(4);
+		}
+
+		public void RemovePlayerCard(int playerPosition, ICard card)
+		{
+			var playerCards = PlayerCards(playerPosition).ToList();
+			playerCards.RemoveAt(playerCards.IndexOf(card));
+
+			SetCards(playerPosition, playerCards.ToArray());
 		}
 
 		private static void ThrowIfNotValidPlayerPosition(int playerPosition, string argName = "playerPosition")
