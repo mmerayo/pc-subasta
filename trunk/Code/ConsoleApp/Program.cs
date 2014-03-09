@@ -9,6 +9,7 @@ using StructureMap.Configuration.DSL;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.IoC;
 
 
@@ -18,28 +19,98 @@ namespace ConsoleApp
 	{
 		private static Stopwatch _stopwatch;
 		private static List<TimeSpan> _timespans=new List<TimeSpan>();
-
+		private static ICard[][]_playerCards=new ICard[4][]; 
 		private static void Main(string[] args)
 		{
-			
 
-            //try
-            //{
-				IoCRegistrator.Register(new List<Registry>() {new RegisterIoc()});
 
-				var game = ObjectFactory.GetInstance<IGameSimulator>();
-				game.GameStatusChanged += game_GameStatusChanged;
-				game.InputRequested += game_InputRequested;
-				_stopwatch = Stopwatch.StartNew();
-				game.Start();
+			//try
+			//{
+			IoCRegistrator.Register(new List<Registry>() {new RegisterIoc()});
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
+			var game = ObjectFactory.GetInstance<IGameSimulator>();
+			game.GameStatusChanged += game_GameStatusChanged;
+			game.InputRequested += game_InputRequested;
+			for (var i = 0; i < 4; i++)
+				_playerCards[i] = GetCards(i);
+
+			_stopwatch = Stopwatch.StartNew();
+			game.Start(_playerCards[0], _playerCards[1], _playerCards[2], _playerCards[3]);
+
+			//}
+			//catch (Exception ex)
+			//{
+			//    Console.WriteLine(ex);
+			//}
 			Console.ReadLine();
 		}
+
+		private static ICard[] GetCards(int playerIdx)
+		{
+
+			var result = new ICard[10];
+			switch (playerIdx)
+			{
+				case 0:
+
+					result[0] = new Card("C1");
+
+					result[1] = new Card("C5");
+					result[2] = new Card("E5");
+					result[3] = new Card("C10");
+					result[4] = new Card("C2");
+
+					result[5] = new Card("O6");
+					result[6] = new Card("C6");
+					result[7] = new Card("O11");
+					result[8] = new Card("C11");
+					result[9] = new Card("O10");
+
+					break;
+				case 1:
+					result[0] = new Card("B10");
+					result[1] = new Card("O3");
+					result[2] = new Card("O5");
+					result[3] = new Card("C12");
+					result[4] = new Card("O2");
+					result[5] = new Card("C3");
+
+					result[6] = new Card("O1");
+					result[7] = new Card("B6");
+					result[8] = new Card("E1");
+					result[9] = new Card("B11");
+					break;
+
+				case 2:
+					result[0] = new Card("B3");
+					result[1] = new Card("B5");
+					result[2] = new Card("E6");
+					result[3] = new Card("E4");
+					result[4] = new Card("E2");
+					result[5] = new Card("E3");
+					result[6] = new Card("O12");
+					result[7] = new Card("B4");
+					result[8] = new Card("E7");
+					result[9] = new Card("O4");
+					break;
+
+				case 3:
+					result[0] = new Card("C4");
+					result[1] = new Card("O7");
+					result[2] = new Card("E11");
+					result[3] = new Card("E10");
+					result[4] = new Card("B7");
+					result[5] = new Card("B1");
+					result[6] = new Card("C7");
+					result[7] = new Card("E12");
+					result[8] = new Card("B2");
+					result[9] = new Card("B12");
+					break;
+			}
+
+			return result;
+		}
+
 
 		static string game_InputRequested()
 		{
