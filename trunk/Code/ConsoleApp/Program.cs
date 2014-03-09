@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using StructureMap;
 using StructureMap.Configuration.DSL;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.IoC;
@@ -64,7 +65,29 @@ namespace ConsoleApp
 				PaintHand(hand, index + 1);
 			}
 			
+			if(status.IsCompleted)
+			{
+				PaintSummary(status);
+			}
+
 			_stopwatch.Restart();
+		}
+
+		private static void PaintSummary(IExplorationStatus status)
+		{
+			ConsoleColor c = Console.ForegroundColor;
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine("***    GameCompleted: PlayerBet={0} - PointsBet={1}", status.PlayerBets, status.PointsBet);
+			Console.WriteLine("Points Team 1={0}", status.SumTotalTeam(1));
+			Console.WriteLine("Points Team 2={0}", status.SumTotalTeam(2));
+
+			var handsWithDeclaration = status.Hands.Where(x=>x.Declaration.HasValue).ToList();
+			foreach (var hand in handsWithDeclaration)
+			{
+				Console.WriteLine("hand #{0} - {1}",hand.Sequence,hand.Declaration);
+				
+			}
+			Console.ForegroundColor = c;
 		}
 
 		private static void PaintTimes(int sequence)
@@ -93,13 +116,17 @@ namespace ConsoleApp
 				Console.WriteLine("\tplayer #{0} -> {1}", playerPosition, playerCard.ToShortString());
 				if (++playerPosition > 4) playerPosition = 1;
 			}
+
 			PaintTimes(sequence);
 		}
 
 		private static void PaintPlayerCards(IEnumerable<ICard> playerCards, int playerNum)
 		{
+			string aggregate = playerCards.Count() > 0
+			                   	? playerCards.Select(x => x.ToShortString()).Aggregate((current, next) => current + ", " + next)
+			                   	: string.Empty;
 			Console.WriteLine("Player #{0}: {1}", playerNum,
-			                  playerCards.Select(x => x.ToShortString()).Aggregate((current, next) => current + ", " + next));
+			                  aggregate);
 		}
 
 

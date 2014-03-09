@@ -22,7 +22,7 @@ namespace ConsoleApp
 		public TestGameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
-			_explorer.MaxDepth = 1;
+			_explorer.MaxDepth = 3;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>(); 
 			_players[2] = ObjectFactory.GetInstance<IPlayer>(); 
@@ -35,12 +35,11 @@ namespace ConsoleApp
 		{
 			SetCards();
 
-
 			int firstPlayer = 1;
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 1, _players[0].Cards, _players[1].Cards,
-			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 70);
+			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
 			
-			while (!_status.GameCompleted)
+			while (!_status.IsCompleted)
 			{
 				NextMove();
 				OnStatusChanged();
@@ -48,7 +47,7 @@ namespace ConsoleApp
 				if (_status.CurrentHand.IsCompleted)
 				{
 					_explorer.MaxDepth++;
-					OnInputRequested();
+					//OnInputRequested();
 					_status.Turn = _status.CurrentHand.PlayerWinner;
 					_status.AddNewHand();
 					
@@ -73,25 +72,29 @@ namespace ConsoleApp
 			switch (playerIdx)
 			{
 				case 0:
+					
 					result[0] = new Card("C1");
-
-					result[1] = new Card("C12");
+					
+					result[1] = new Card("C5");
 					result[2] = new Card("E5");
 					result[3] = new Card("C10");
 					result[4] = new Card("C2");
-					result[5] = new Card("C3");
+
+					result[5] = new Card("O6");
 					result[6] = new Card("C6");
 					result[7] = new Card("O11");
 					result[8] = new Card("C11");
-					result[9] = new Card("C4");
+					result[9] = new Card("O10");
+					
 					break;
 				case 1:
 					result[0] = new Card("B10");
 					result[1] = new Card("O3");
 					result[2] = new Card("O5");
-					result[3] = new Card("O4");
+					result[3] = new Card("C12");
 					result[4] = new Card("O2");
-					result[5] = new Card("O6");
+					result[5] = new Card("C3");
+					
 					result[6] = new Card("O1");
 					result[7] = new Card("B6");
 					result[8] = new Card("E1");
@@ -108,11 +111,11 @@ namespace ConsoleApp
 					result[6] = new Card("O12");
 					result[7] = new Card("B4");
 					result[8] = new Card("E7");
-					result[9] = new Card("C5");
+					result[9] = new Card("O4");
 					break;
 
 				case 3:
-					result[0] = new Card("O10");
+					result[0] = new Card("C4");
 					result[1] = new Card("O7");
 					result[2] = new Card("E11");
 					result[3] = new Card("E10");
