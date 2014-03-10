@@ -2,23 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{53370571-D091-4945-A1B3-D6FDEA04C267}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApp</RootNamespace>
-    <AssemblyName>ConsoleApp</AssemblyName>
+    <RootNamespace>Subasta.Client.Common</RootNamespace>
+    <AssemblyName>Subasta.Client.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,8 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+    <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -49,14 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="IGameSimulator.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GameSimulator.cs" />
+    <Compile Include="RegisterIoc.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
-      <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
-      <Name>Subasta.Client.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
       <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
       <Name>Subasta.DomainServices</Name>
@@ -65,17 +61,12 @@
       <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
       <Name>Subasta.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subasta.Infrastructure.IoC\Subasta.Infrastructure.IoC.csproj">
-      <Project>{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}</Project>
-      <Name>Subasta.Infrastructure.IoC</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
       <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
       <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
