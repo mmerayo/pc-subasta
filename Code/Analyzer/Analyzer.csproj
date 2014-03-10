@@ -58,6 +58,7 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterAnalyzerIoc.cs" />
@@ -90,6 +91,10 @@
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
+      <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
+      <Name>Subasta.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subasta.Infrastructure.IoC\Subasta.Infrastructure.IoC.csproj">
       <Project>{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}</Project>

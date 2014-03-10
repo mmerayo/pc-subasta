@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using StructureMap;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -25,14 +26,37 @@ namespace Subasta.Client.Common
 			_players[3] = ObjectFactory.GetInstance<IPlayer>();
 		}
 
-		public void Start(ICard[] cardsPlayer1, ICard[] cardsPlayer2, ICard[] cardsPlayer3, ICard[] cardsPlayer4, int depth)
+		public IPlayer Player1
+		{
+			get { return _players[0]; }
+		}
+
+		public IPlayer Player2
+		{
+			get { return _players[1]; }
+		}
+
+		public IPlayer Player3
+		{
+			get { return _players[2]; }
+		}
+
+		public IPlayer Player4
+		{
+			get { return _players[3]; }
+		}
+
+		public void Start(int depth)
 		{
 			_explorer.MaxDepth = depth;
 			int firstPlayer = 1;
-			_players[0].Cards = cardsPlayer1;
-			_players[1].Cards = cardsPlayer2;
-			_players[2].Cards = cardsPlayer3;
-			_players[3].Cards = cardsPlayer4;
+
+			foreach (var player in _players)
+			{
+				if(player.Cards==null)throw new InvalidOperationException("Must set player cards");
+			}
+
+
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 2, _players[0].Cards, _players[1].Cards,
 			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
 
