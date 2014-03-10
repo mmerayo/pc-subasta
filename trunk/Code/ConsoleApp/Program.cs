@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using StructureMap;
 using StructureMap.Configuration.DSL;
+using Subasta.Client.Common;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -35,7 +36,7 @@ namespace ConsoleApp
 				_playerCards[i] = GetCards(i);
 
 			_stopwatch = Stopwatch.StartNew();
-			game.Start(_playerCards[0], _playerCards[1], _playerCards[2], _playerCards[3]);
+			game.Start(_playerCards[0], _playerCards[1], _playerCards[2], _playerCards[3], 3);
 
 			//}
 			//catch (Exception ex)
@@ -201,13 +202,6 @@ namespace ConsoleApp
 		}
 
 
-		private class RegisterIoc : Registry
-		{
-			public RegisterIoc()
-			{
-				For<IGameSimulator>().Use<TestGameSimulator>();
-				For<IPlayer>().Use<Player>();
-			}
-		}
+		
 	}
 }

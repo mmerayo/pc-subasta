@@ -5,13 +5,9 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 
-namespace ConsoleApp
+namespace Subasta.Client.Common
 {
-	public delegate void StatusChangedHandler(IExplorationStatus status);
-
-	public delegate string InputRequestedHandler();
-
-	public class TestGameSimulator : IGameSimulator
+	public class GameSimulator : IGameSimulator
 	{
 		private readonly IGameExplorer _explorer;
 		private readonly IPlayer[] _players = new IPlayer[4];
@@ -20,22 +16,18 @@ namespace ConsoleApp
 		public event StatusChangedHandler GameStatusChanged;
 		public event InputRequestedHandler InputRequested;
 
-
-		public TestGameSimulator(IGameExplorer explorer)
+		public GameSimulator(IGameExplorer explorer)
 		{
 			_explorer = explorer;
-			_explorer.MaxDepth = 4;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>();
 			_players[2] = ObjectFactory.GetInstance<IPlayer>();
 			_players[3] = ObjectFactory.GetInstance<IPlayer>();
-
-
 		}
 
-		public void Start(ICard[] cardsPlayer1, ICard[] cardsPlayer2, ICard[] cardsPlayer3, ICard[] cardsPlayer4)
+		public void Start(ICard[] cardsPlayer1, ICard[] cardsPlayer2, ICard[] cardsPlayer3, ICard[] cardsPlayer4, int depth)
 		{
-
+			_explorer.MaxDepth = depth;
 			int firstPlayer = 1;
 			_players[0].Cards = cardsPlayer1;
 			_players[1].Cards = cardsPlayer2;

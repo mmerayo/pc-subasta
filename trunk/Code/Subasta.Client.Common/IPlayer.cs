@@ -1,6 +1,6 @@
 ﻿using Subasta.Domain.Deck;
 
-namespace ConsoleApp
+namespace Subasta.Client.Common
 {
 	public interface IPlayer
 	{
