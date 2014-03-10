@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.Infrastructure.IoC"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.Client.Common", "Subasta.Client.Common\Subasta.Client.Common.csproj", "{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyzer", "Analyzer\Analyzer.csproj", "{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,16 @@ Global
 		{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}.Release|x86.ActiveCfg = Release|Any CPU
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Debug|x86.ActiveCfg = Debug|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Debug|x86.Build.0 = Debug|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Release|Any CPU.ActiveCfg = Release|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Release|x86.ActiveCfg = Release|x86
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,5 +197,6 @@ Global
 		{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065} = {CD086AF4-FBD2-40BA-AAB7-A10E7180D64F}
 		{53370571-D091-4945-A1B3-D6FDEA04C267} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 		{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7} = {940ECE13-3D1D-414F-8059-26376387CA6D}
+		{E3472C08-F7CC-42A2-B7E9-3DEF7885BC33} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 	EndGlobalSection
 EndGlobal

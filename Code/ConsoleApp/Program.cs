@@ -27,7 +27,7 @@ namespace ConsoleApp
 
 			//try
 			//{
-			IoCRegistrator.Register(new List<Registry>() {new RegisterIoc()});
+			IoCRegistrator.Register(new List<Registry>() { new RegisterClientCommonIoc() });
 
 			var game = ObjectFactory.GetInstance<IGameSimulator>();
 			game.GameStatusChanged += game_GameStatusChanged;
