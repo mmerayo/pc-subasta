@@ -2,9 +2,9 @@
 
 namespace Analyzer
 {
-	internal class RegisterAnalizerIoc : Registry
+	internal class RegisterAnalyzerIoc : Registry
 	{
-		public RegisterAnalizerIoc()
+		public RegisterAnalyzerIoc()
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
 		}
