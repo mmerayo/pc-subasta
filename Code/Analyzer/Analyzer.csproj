@@ -58,7 +58,6 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterAnalyzerIoc.cs" />
@@ -86,6 +85,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestSets\Start.data" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
@@ -99,6 +99,10 @@
     <ProjectReference Include="..\Subasta.Infrastructure.IoC\Subasta.Infrastructure.IoC.csproj">
       <Project>{AAFEE9CA-08B2-4350-BE9D-E1314DBDA065}</Project>
       <Name>Subasta.Infrastructure.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
+      <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
+      <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

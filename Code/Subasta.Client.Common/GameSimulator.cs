@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using StructureMap;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -11,15 +13,17 @@ namespace Subasta.Client.Common
 	public class GameSimulator : IGameSimulator
 	{
 		private readonly IGameExplorer _explorer;
+		private readonly IDeck _deck;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
 
 		public event StatusChangedHandler GameStatusChanged;
 		public event InputRequestedHandler InputRequested;
 
-		public GameSimulator(IGameExplorer explorer)
+		public GameSimulator(IGameExplorer explorer,IDeck deck)
 		{
 			_explorer = explorer;
+			_deck = deck;
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>();
 			_players[2] = ObjectFactory.GetInstance<IPlayer>();
@@ -51,11 +55,7 @@ namespace Subasta.Client.Common
 			_explorer.MaxDepth = depth;
 			int firstPlayer = 1;
 
-			foreach (var player in _players)
-			{
-				if(player.Cards==null)throw new InvalidOperationException("Must set player cards");
-			}
-
+			ValidateConfiguration();
 
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 2, _players[0].Cards, _players[1].Cards,
 			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
@@ -79,6 +79,28 @@ namespace Subasta.Client.Common
 			OnInputRequested();
 		}
 
+		private void ValidateConfiguration()
+		{
+			if (_players.Any(player => player.Cards == null))
+			{
+				throw new InvalidOperationException("Must set player cards");
+			}
+
+			var allCards = new List<ICard>();
+			foreach (var player in _players)
+			{
+				allCards.AddRange(player.Cards);
+			}
+
+			var expectedCards = _deck.Cards.Cards;
+
+			foreach (var expectedCard in expectedCards)
+			{
+				if (allCards.Count(x => x == expectedCard) != 1)
+					throw new InvalidOperationException(string.Format("{0} is either repeated or it does not exist", expectedCard));
+			}
+
+		}
 
 
 		public bool IsFinished { get; set; }
