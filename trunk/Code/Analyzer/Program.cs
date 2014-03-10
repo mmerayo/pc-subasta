@@ -19,7 +19,7 @@ namespace Analyzer
 			IoCRegistrator.Register(new List<Registry>
 				{
 					new RegisterClientCommonIoc(),
-					new RegisterAnalizerIoc()
+					new RegisterAnalyzerIoc()
 				});
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

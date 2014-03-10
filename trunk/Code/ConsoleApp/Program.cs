@@ -23,8 +23,6 @@ namespace ConsoleApp
 		private static ICard[][]_playerCards=new ICard[4][]; 
 		private static void Main(string[] args)
 		{
-
-
 			//try
 			//{
 			IoCRegistrator.Register(new List<Registry>() { new RegisterClientCommonIoc() });
