@@ -2,9 +2,9 @@
 
 namespace Subasta.Client.Common
 {
-	public class RegisterIoc : Registry
+	public class RegisterClientCommonIoc : Registry
 	{
-		public RegisterIoc()
+		public RegisterClientCommonIoc()
 		{
 			For<IGameSimulator>().Use<GameSimulator>();
 			For<IPlayer>().Use<Player>();
