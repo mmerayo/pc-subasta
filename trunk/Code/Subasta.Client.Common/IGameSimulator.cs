@@ -9,9 +9,13 @@ namespace Subasta.Client.Common
 	public interface IGameSimulator
 	{
 		bool IsFinished { get; set; }
+		IPlayer Player1 { get; }
+		IPlayer Player2 { get; }
+		IPlayer Player3 { get; }
+		IPlayer Player4 { get; }
 		void NextMove();
 		event StatusChangedHandler GameStatusChanged;
 		event InputRequestedHandler InputRequested;
-		void Start(ICard[] cardsPlayer1, ICard[] cardsPlayer2, ICard[] cardsPlayer3, ICard[] cardsPlayer4, int depth);
+		void Start(int depth);
 	}
 }

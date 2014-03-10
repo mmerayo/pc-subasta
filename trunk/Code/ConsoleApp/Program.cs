@@ -34,7 +34,11 @@ namespace ConsoleApp
 				_playerCards[i] = GetCards(i);
 
 			_stopwatch = Stopwatch.StartNew();
-			game.Start(_playerCards[0], _playerCards[1], _playerCards[2], _playerCards[3], 3);
+			game.Player1.Cards = _playerCards[0];
+			game.Player2.Cards = _playerCards[1];
+			game.Player3.Cards = _playerCards[2];
+			game.Player4.Cards = _playerCards[3];
+			game.Start( 3);
 
 			//}
 			//catch (Exception ex)
