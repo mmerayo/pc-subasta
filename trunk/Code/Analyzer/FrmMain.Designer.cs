@@ -31,13 +31,17 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openGameFile = new System.Windows.Forms.OpenFileDialog();
+			this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.statusToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(674, 24);
@@ -56,8 +60,28 @@
 			// 
 			this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
 			this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.NewToolStripMenuItem.Text = "New";
+			this.NewToolStripMenuItem.Text = "Load";
 			this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
+			// 
+			// openGameFile
+			// 
+			this.openGameFile.FileName = "Start.Data";
+			this.openGameFile.Filter = "new game files|*.data";
+			// 
+			// statusToolStripMenuItem
+			// 
+			this.statusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem});
+			this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
+			this.statusToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+			this.statusToolStripMenuItem.Text = "Operations";
+			// 
+			// startToolStripMenuItem
+			// 
+			this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+			this.startToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.startToolStripMenuItem.Text = "Start";
+			this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
 			// 
 			// FrmMain
 			// 
@@ -81,6 +105,9 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
+		private System.Windows.Forms.OpenFileDialog openGameFile;
+		private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
 	}
 }
 
