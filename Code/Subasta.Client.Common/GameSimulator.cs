@@ -19,6 +19,7 @@ namespace Subasta.Client.Common
 		private IExplorationStatus _status;
 
 		public event StatusChangedHandler GameStatusChanged;
+		public event StatusChangedHandler GameStarted;
 		public event InputRequestedHandler InputRequested;
 
 		public GameSimulator(IGameExplorer explorer,IDeck deck)
@@ -65,7 +66,7 @@ namespace Subasta.Client.Common
 
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 2, _players[0].Cards, _players[1].Cards,
 			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
-
+			OnStart();
 			while (!_status.IsCompleted)
 			{
 				NextMove();
@@ -85,6 +86,7 @@ namespace Subasta.Client.Common
 			OnInputRequested();
 		}
 
+		
 		public void Load(StoredGameData storedGame)
 		{
 			ReloadPlayers();
@@ -144,6 +146,13 @@ namespace Subasta.Client.Common
 			if (InputRequested != null)
 				InputRequested();
 		}
+
+		private void OnStart()
+		{
+			if (GameStarted != null)
+				GameStarted(_status);
+		}
+
 
 	}
 }
