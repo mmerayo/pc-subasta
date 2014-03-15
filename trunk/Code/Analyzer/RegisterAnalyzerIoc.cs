@@ -7,6 +7,7 @@ namespace Analyzer
 		public RegisterAnalyzerIoc()
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
+			For<FrmExplorationStatus>().Singleton().Use<FrmExplorationStatus>();
 		}
 	}
 }
