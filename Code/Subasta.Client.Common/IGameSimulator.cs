@@ -18,5 +18,6 @@ namespace Subasta.Client.Common
 		event InputRequestedHandler InputRequested;
 		void Start(int depth);
 		void Load(StoredGameData storedGame);
+		event StatusChangedHandler GameStarted;
 	}
 }
