@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using StructureMap;
+using Subasta.Client.Common.Games;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
@@ -24,6 +25,11 @@ namespace Subasta.Client.Common
 		{
 			_explorer = explorer;
 			_deck = deck;
+			ReloadPlayers();
+		}
+
+		private void ReloadPlayers()
+		{
 			_players[0] = ObjectFactory.GetInstance<IPlayer>();
 			_players[1] = ObjectFactory.GetInstance<IPlayer>();
 			_players[2] = ObjectFactory.GetInstance<IPlayer>();
@@ -79,6 +85,15 @@ namespace Subasta.Client.Common
 			OnInputRequested();
 		}
 
+		public void Load(StoredGameData storedGame)
+		{
+			ReloadPlayers();
+			Player1.Cards = storedGame.Player1Cards;
+			Player2.Cards = storedGame.Player2Cards;
+			Player3.Cards = storedGame.Player3Cards;
+			Player4.Cards = storedGame.Player4Cards;
+		}
+
 		private void ValidateConfiguration()
 		{
 			if (_players.Any(player => player.Cards == null))
@@ -96,7 +111,7 @@ namespace Subasta.Client.Common
 
 			foreach (var expectedCard in expectedCards)
 			{
-				if (allCards.Count(x => x == expectedCard) != 1)
+				if (allCards.Count(x => x.Equals(expectedCard)) != 1)
 					throw new InvalidOperationException(string.Format("{0} is either repeated or it does not exist", expectedCard));
 			}
 

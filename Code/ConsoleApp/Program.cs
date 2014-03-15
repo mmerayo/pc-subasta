@@ -38,7 +38,7 @@ namespace ConsoleApp
 			game.Player2.Cards = _playerCards[1];
 			game.Player3.Cards = _playerCards[2];
 			game.Player4.Cards = _playerCards[3];
-			game.Start( 3);
+			game.Start( 2);
 
 			//}
 			//catch (Exception ex)

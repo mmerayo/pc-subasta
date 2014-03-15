@@ -1,4 +1,5 @@
-﻿using Subasta.Domain.Game;
+﻿using Subasta.Client.Common.Games;
+using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common
 {
@@ -16,5 +17,6 @@ namespace Subasta.Client.Common
 		event StatusChangedHandler GameStatusChanged;
 		event InputRequestedHandler InputRequested;
 		void Start(int depth);
+		void Load(StoredGameData storedGame);
 	}
 }
