@@ -20,12 +20,20 @@ namespace Analyzer
 			InitializeComponent();
 
 			_gameSimulator = gameSimulator;
-			_gameSimulator.GameStatusChanged += new StatusChangedHandler(_gameSimulator_GameStatusChanged);
+			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
+			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 		}
+
+		void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status)
+			{
+			throw new NotImplementedException();
+			}
 
 		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status)
 		{
 			throw new NotImplementedException();
 		}
+
+		
 	}
 }
