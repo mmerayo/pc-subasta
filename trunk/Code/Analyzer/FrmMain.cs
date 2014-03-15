@@ -9,18 +9,22 @@ using System.Text;
 using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common;
+using Subasta.Client.Common.Games;
 using Subasta.Domain.Deck;
 using Subasta.Infrastructure.Domain;
 
 namespace Analyzer
 {
-	public partial class FrmMain : Form
+	internal partial class FrmMain : Form
 	{
+		private readonly IStoredGamesCommands _storedGamesCommands;
 		public IGameSimulator CurrentSimulation { get; private set; }
 
-		public FrmMain()
+		public FrmMain(IGameSimulator gameSimulator,IStoredGamesCommands storedGamesCommands)
 		{
+			_storedGamesCommands = storedGamesCommands;
 			InitializeComponent();
+			CurrentSimulation = gameSimulator;
 		}
 
 		private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -29,29 +33,7 @@ namespace Analyzer
 			{
 				try
 				{
-					Stream stream=null;
-					if ((stream = openGameFile.OpenFile()) != null)
-					{
-    					CurrentSimulation= ObjectFactory.GetInstance<IGameSimulator>();
-
-						using (stream)
-						using(var sr=new StreamReader(stream))
-						{
-							string line;
-							var index = 0;
-							var cards = new ICard[4][];
-
-							while( (line = sr.ReadLine())!=null)
-							{
-								string[] strings = line.Split(' ');
-								cards[index++]=strings.Select(x => new Card(x)).ToArray();
-							}
-							CurrentSimulation.Player1.Cards = cards[0];
-							CurrentSimulation.Player2.Cards = cards[1];
-							CurrentSimulation.Player3.Cards = cards[2];
-							CurrentSimulation.Player4.Cards = cards[3];
-						}
-					}
+					_storedGamesCommands.RestoreSimulation(openGameFile.FileName);
 				}
 				catch (Exception ex)
 				{

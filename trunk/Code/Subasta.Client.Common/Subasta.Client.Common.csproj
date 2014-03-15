@@ -45,6 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Games\IStoredGameReader.cs" />
+    <Compile Include="Games\IStoredGamesCommands.cs" />
+    <Compile Include="Games\StoredGameData.cs" />
+    <Compile Include="Games\StoredGameReader.cs" />
+    <Compile Include="Games\StoredGamesCommands.cs" />
     <Compile Include="IGameSimulator.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Player.cs" />
