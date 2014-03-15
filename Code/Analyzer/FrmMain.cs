@@ -18,13 +18,18 @@ namespace Analyzer
 	internal partial class FrmMain : Form
 	{
 		private readonly IStoredGamesCommands _storedGamesCommands;
+		private readonly FrmExplorationStatus _frmExplorationStatus;
 		public IGameSimulator CurrentSimulation { get; private set; }
 
-		public FrmMain(IGameSimulator gameSimulator,IStoredGamesCommands storedGamesCommands)
+		public FrmMain(IGameSimulator gameSimulator,IStoredGamesCommands storedGamesCommands,FrmExplorationStatus frmExplorationStatus)
 		{
-			_storedGamesCommands = storedGamesCommands;
 			InitializeComponent();
+
 			CurrentSimulation = gameSimulator;
+			_storedGamesCommands = storedGamesCommands;
+
+			_frmExplorationStatus = frmExplorationStatus;
+			_frmExplorationStatus.Owner = this;
 		}
 
 		private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -44,7 +49,15 @@ namespace Analyzer
 
 		private void startToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			try
+			{
+			    _frmExplorationStatus.Show(this);
+				CurrentSimulation.Start(2);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error: " + ex.Message);
+			}
 		}
 
 	}
