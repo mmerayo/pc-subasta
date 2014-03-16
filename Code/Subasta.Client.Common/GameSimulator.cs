@@ -17,6 +17,8 @@ namespace Subasta.Client.Common
 		private readonly IDeck _deck;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
+		private int _depth;
+		private int _firstPlayer = 1;
 
 		public event StatusChangedHandler GameStatusChanged;
 		public event StatusChangedHandler GameStarted;
@@ -27,6 +29,7 @@ namespace Subasta.Client.Common
 			_explorer = explorer;
 			_deck = deck;
 			ReloadPlayers();
+			_depth = _explorer.MaxDepth;
 		}
 
 		private void ReloadPlayers()
@@ -35,6 +38,12 @@ namespace Subasta.Client.Common
 			_players[1] = ObjectFactory.GetInstance<IPlayer>();
 			_players[2] = ObjectFactory.GetInstance<IPlayer>();
 			_players[3] = ObjectFactory.GetInstance<IPlayer>();
+
+			_players[0].Name = "Player 1";
+			_players[1].Name = "Player 2";
+			_players[2].Name = "Player 3";
+			_players[3].Name = "Player 4";
+
 		}
 
 		public IPlayer Player1
@@ -57,16 +66,30 @@ namespace Subasta.Client.Common
 			get { return _players[3]; }
 		}
 
+		public int Depth
+		{
+			get { return _depth; }
+		}
+
+
+		public ISuit Trump { get; private set; }
+		public int PointsBet { get; private set; }
+
+
+		public int PlayerBets { get; private set; }
+
 		public void Start(int depth=int.MinValue)
 		{
 			if(depth>0)
-				_explorer.MaxDepth = depth;
-			int firstPlayer = 1;
-
+			{
+				_depth = depth;
+			}
+			_explorer.MaxDepth = _depth;
+			
 			ValidateConfiguration();
 
-			_status = _explorer.GetInitialStatus(Guid.NewGuid(), firstPlayer, 2, _players[0].Cards, _players[1].Cards,
-			                                     _players[2].Cards, _players[3].Cards, Suit.FromId('C'), 80);
+			_status = _explorer.GetInitialStatus(Guid.NewGuid(), FirstPlayer, PlayerBets, _players[0].Cards, _players[1].Cards,
+			                                     _players[2].Cards, _players[3].Cards, Trump, PointsBet);
 			OnStart();
 			while (!_status.IsCompleted)
 			{
@@ -95,7 +118,11 @@ namespace Subasta.Client.Common
 			Player2.Cards = storedGame.Player2Cards;
 			Player3.Cards = storedGame.Player3Cards;
 			Player4.Cards = storedGame.Player4Cards;
-			_explorer.MaxDepth = storedGame.ExplorationDepth;
+			_depth = storedGame.ExplorationDepth;
+			FirstPlayer = storedGame.FirstPlayer;
+			Trump = storedGame.Trump;
+			PointsBet = storedGame.PointsBet;
+			PlayerBets = storedGame.PlayerBets;
 		}
 
 		private void ValidateConfiguration()
@@ -123,6 +150,12 @@ namespace Subasta.Client.Common
 
 
 		public bool IsFinished { get; set; }
+
+		public int FirstPlayer
+		{
+			get { return _firstPlayer; }
+			private set { _firstPlayer = value; }
+		}
 
 		public void NextMove()
 		{

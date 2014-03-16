@@ -108,6 +108,12 @@ namespace Analyzer
 					_pbCards[i-1][indexCard++].Image = image;
 				}
 			}
+
+			UpdateDepth();
+			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
+			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
+			lblPlayerBets.Text = "Player Bets#: " + _gameSimulator.PlayerBets;
+			Invalidate(true);
 		}
 
 		private void InitializeDataStructure()
@@ -138,11 +144,21 @@ namespace Analyzer
 			dataRow["Declaration"] = status.CurrentHand.Declaration.HasValue ? status.CurrentHand.Declaration.Value.ToString() : "No";
 			if (status.CurrentHand.IsCompleted && !status.IsCompleted)
 				AddNewRow();
+
+
+			UpdateDepth();
+			Invalidate(true);
+		}
+
+		private void UpdateDepth()
+		{
+			labelDepth.Text = "Exploration depth: " + _gameSimulator.Depth;
 		}
 
 		private void AddNewRow()
 		{
 			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null);
 		}
+
 	}
 }

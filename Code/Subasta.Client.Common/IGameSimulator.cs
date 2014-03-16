@@ -1,4 +1,5 @@
 ﻿using Subasta.Client.Common.Games;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common
@@ -13,6 +14,10 @@ namespace Subasta.Client.Common
 		IPlayer Player2 { get; }
 		IPlayer Player3 { get; }
 		IPlayer Player4 { get; }
+		int Depth { get; }
+		int FirstPlayer { get; }
+		ISuit Trump { get; }
+		int PlayerBets { get; }
 		void NextMove();
 		event StatusChangedHandler GameStatusChanged;
 		event InputRequestedHandler InputRequested;
