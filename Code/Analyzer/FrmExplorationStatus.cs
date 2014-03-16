@@ -25,7 +25,7 @@ namespace Analyzer
 			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 			InitializeDataStructure();
-			dataGridView1.DataSource = _tableStatus;
+			dgvStatus.DataSource = _tableStatus;
 
 
 		}
@@ -98,7 +98,6 @@ namespace Analyzer
 		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
 		{
 			_tableStatus.Rows.Clear();
-			AddNewRow();
 
 			for (int i = 1; i <= 4; i++)
 			{
@@ -137,10 +136,13 @@ namespace Analyzer
 			_tableStatus.Columns.Add("T4");
 		}
 
-		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status, TimeSpan timeTaken)
+		private void _gameSimulator_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
 		{
-			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
+			if (_tableStatus.Rows.Count < status.Hands.Count)
+				AddNewRow();
 			IHand currentHand = status.CurrentHand;
+			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
+
 			dataRow["Sequence"] = currentHand.Sequence;
 			dataRow["FirstPlayer"] = currentHand.FirstPlayer;
 			ICard playerCard;
@@ -153,19 +155,25 @@ namespace Analyzer
 
 			dataRow["TrickWinner"] = currentHand.PlayerWinner;
 			dataRow["Points"] = currentHand.Points;
+			//TODO: FIX
 			dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";
 
 			int turn = status.Turn - 1;
 			if (turn == 0) turn = 4;
 			dataRow["T" + turn] = timeTaken.ToString();
 
-			if (currentHand.IsCompleted && !status.IsCompleted)
-				AddNewRow();
-
-
 			UpdateDepth();
-			this.dataGridView1.Invalidate(true);
-			this.dataGridView1.Update();
+			this.dgvStatus.Invalidate(true);
+			this.dgvStatus.Update();
+
+			if (status.IsCompleted)
+			{
+				lblPointsT1.Text = "T1 total: " + status.SumTotalTeam(1);
+				lblPointsT2.Text = "T2 total: " + status.SumTotalTeam(2);
+				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty, (current, source) => current + source);
+				
+			}
+			Application.DoEvents();
 		}
 
 		private void UpdateDepth()
@@ -176,6 +184,30 @@ namespace Analyzer
 		private void AddNewRow()
 		{
 			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null, null);
+		}
+
+		private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			foreach (DataGridViewRow row in dgvStatus.Rows)
+			{
+				//if(row.Index==0) continue;
+				if (row.Cells["FirstPlayer"].Value != null && row.Cells["FirstPlayer"].Value != DBNull.Value)
+				{
+					var playerStarts = int.Parse(row.Cells["FirstPlayer"].Value.ToString());
+					if(playerStarts<1) break;
+
+					row.Cells["Player" + playerStarts].Style.BackColor = Color.LightPink;
+				}
+
+				if (row.Cells["TrickWinner"].Value != null && row.Cells["TrickWinner"].Value != DBNull.Value)
+				{
+					var playerWins = int.Parse(row.Cells["TrickWinner"].Value.ToString());
+					if (playerWins < 1) break;
+					row.Cells["Player" + playerWins].Style.Font = new Font(dgvStatus.Font,
+					                                                       FontStyle.Bold);
+					row.Cells["Player" + playerWins].Style.ForeColor = Color.Green;
+				}
+			}
 		}
 
 	}

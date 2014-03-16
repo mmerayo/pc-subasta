@@ -7,22 +7,19 @@ using Subasta.DomainServices.Game;
 
 namespace Subasta.Infrastructure.DomainServices.Game
 {
-	internal class FilteredCandidatesSelector : ICandidatesSelector
+	internal class FilteredCandidatesSelector :NonFilteredCandidatesSelector
 	{
-		private readonly IValidCardsRule _validMoveRule;
 
-		public FilteredCandidatesSelector(IValidCardsRule validMoveRule)
+		public FilteredCandidatesSelector(IValidCardsRule validMoveRule):base(validMoveRule)
 		{
-			_validMoveRule = validMoveRule;
 		}
 
-		public ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
+		public override ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
 		{
-			
 			//TODO: Create filter for non consecutives
+			ICard[] validMoves = base.GetCandidates(currentStatus, playerPosition);
 			return
-				FilterToMaxMin(_validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand));
-
+				FilterToMaxMin(validMoves);
 		}
 
 		private static ICard[] FilterToMaxMin(ICard[] source)
