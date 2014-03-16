@@ -29,8 +29,9 @@
 		private void InitializeComponent()
 			{
 			this.components = new System.ComponentModel.Container();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.dgvStatus = new System.Windows.Forms.DataGridView();
 			this.grpStatus = new System.Windows.Forms.GroupBox();
+			this.lblPlayerBets = new System.Windows.Forms.Label();
 			this.lblTrump = new System.Windows.Forms.Label();
 			this.lblFirstPlayer = new System.Windows.Forms.Label();
 			this.labelDepth = new System.Windows.Forms.Label();
@@ -39,22 +40,31 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.imageListCards = new System.Windows.Forms.ImageList(this.components);
-			this.lblPlayerBets = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.lblPointsT2 = new System.Windows.Forms.Label();
+			this.lblPointsT1 = new System.Windows.Forms.Label();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.lblDeclarations = new System.Windows.Forms.Label();
+			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
 			this.grpStatus.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// dataGridView1
+			// dgvStatus
 			// 
-			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-			this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Location = new System.Drawing.Point(35, 359);
-			this.dataGridView1.MultiSelect = false;
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.ReadOnly = true;
-			this.dataGridView1.Size = new System.Drawing.Size(516, 242);
-			this.dataGridView1.TabIndex = 0;
+			this.dgvStatus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+			this.dgvStatus.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+			this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvStatus.Location = new System.Drawing.Point(6, 6);
+			this.dgvStatus.MultiSelect = false;
+			this.dgvStatus.Name = "dgvStatus";
+			this.dgvStatus.ReadOnly = true;
+			this.dgvStatus.Size = new System.Drawing.Size(722, 251);
+			this.dgvStatus.TabIndex = 0;
+			this.dgvStatus.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
 			// 
 			// grpStatus
 			// 
@@ -66,12 +76,21 @@
 			this.grpStatus.Controls.Add(this.label3);
 			this.grpStatus.Controls.Add(this.label2);
 			this.grpStatus.Controls.Add(this.label1);
-			this.grpStatus.Location = new System.Drawing.Point(35, 13);
+			this.grpStatus.Location = new System.Drawing.Point(38, 26);
 			this.grpStatus.Name = "grpStatus";
 			this.grpStatus.Size = new System.Drawing.Size(682, 318);
 			this.grpStatus.TabIndex = 1;
 			this.grpStatus.TabStop = false;
 			this.grpStatus.Text = "Initial status";
+			// 
+			// lblPlayerBets
+			// 
+			this.lblPlayerBets.AutoSize = true;
+			this.lblPlayerBets.Location = new System.Drawing.Point(417, 109);
+			this.lblPlayerBets.Name = "lblPlayerBets";
+			this.lblPlayerBets.Size = new System.Drawing.Size(67, 13);
+			this.lblPlayerBets.TabIndex = 7;
+			this.lblPlayerBets.Text = "lblPlayerBets";
 			// 
 			// lblTrump
 			// 
@@ -142,22 +161,74 @@
 			this.imageListCards.ImageSize = new System.Drawing.Size(16, 16);
 			this.imageListCards.TransparentColor = System.Drawing.Color.Transparent;
 			// 
-			// lblPlayerBets
+			// tabControl1
 			// 
-			this.lblPlayerBets.AutoSize = true;
-			this.lblPlayerBets.Location = new System.Drawing.Point(417, 109);
-			this.lblPlayerBets.Name = "lblPlayerBets";
-			this.lblPlayerBets.Size = new System.Drawing.Size(67, 13);
-			this.lblPlayerBets.TabIndex = 7;
-			this.lblPlayerBets.Text = "lblPlayerBets";
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Location = new System.Drawing.Point(12, 11);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(742, 380);
+			this.tabControl1.TabIndex = 2;
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Controls.Add(this.lblDeclarations);
+			this.tabPage2.Controls.Add(this.lblPointsT2);
+			this.tabPage2.Controls.Add(this.lblPointsT1);
+			this.tabPage2.Controls.Add(this.dgvStatus);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(734, 354);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Simulation";
+			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// lblPointsT2
+			// 
+			this.lblPointsT2.AutoSize = true;
+			this.lblPointsT2.Location = new System.Drawing.Point(6, 306);
+			this.lblPointsT2.Name = "lblPointsT2";
+			this.lblPointsT2.Size = new System.Drawing.Size(10, 13);
+			this.lblPointsT2.TabIndex = 2;
+			this.lblPointsT2.Text = " ";
+			// 
+			// lblPointsT1
+			// 
+			this.lblPointsT1.AutoSize = true;
+			this.lblPointsT1.Location = new System.Drawing.Point(6, 272);
+			this.lblPointsT1.Name = "lblPointsT1";
+			this.lblPointsT1.Size = new System.Drawing.Size(10, 13);
+			this.lblPointsT1.TabIndex = 1;
+			this.lblPointsT1.Text = " ";
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Controls.Add(this.grpStatus);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(734, 354);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "Configuration";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// lblDeclarations
+			// 
+			this.lblDeclarations.AutoSize = true;
+			this.lblDeclarations.Location = new System.Drawing.Point(6, 338);
+			this.lblDeclarations.Name = "lblDeclarations";
+			this.lblDeclarations.Size = new System.Drawing.Size(10, 13);
+			this.lblDeclarations.TabIndex = 3;
+			this.lblDeclarations.Text = " ";
 			// 
 			// FrmExplorationStatus
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(766, 668);
-			this.Controls.Add(this.grpStatus);
-			this.Controls.Add(this.dataGridView1);
+			this.ClientSize = new System.Drawing.Size(766, 422);
+			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -165,16 +236,20 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "FrmExplorationStatus";
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).EndInit();
 			this.grpStatus.ResumeLayout(false);
 			this.grpStatus.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.tabPage2.ResumeLayout(false);
+			this.tabPage2.PerformLayout();
+			this.tabPage1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 			}
 
 		#endregion
 
-		private System.Windows.Forms.DataGridView dataGridView1;
+		private System.Windows.Forms.DataGridView dgvStatus;
 		private System.Windows.Forms.GroupBox grpStatus;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label4;
@@ -185,5 +260,11 @@
 		private System.Windows.Forms.Label lblTrump;
 		private System.Windows.Forms.Label lblFirstPlayer;
 		private System.Windows.Forms.Label lblPlayerBets;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.Label lblPointsT2;
+		private System.Windows.Forms.Label lblPointsT1;
+		private System.Windows.Forms.Label lblDeclarations;
 		}
 	}
