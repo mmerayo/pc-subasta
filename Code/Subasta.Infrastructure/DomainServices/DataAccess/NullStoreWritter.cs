@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.DataAccess;
 
-namespace Subasta.DomainServices.DataAccess.Sqlite.Writters
+namespace Subasta.Infrastructure.DomainServices.DataAccess
 {
 	class NullStoreWritter:IQueuedResultStoreWritter
 	{
