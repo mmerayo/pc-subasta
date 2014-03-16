@@ -30,14 +30,14 @@
 			{
 			this.components = new System.ComponentModel.Container();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.grpStatus = new System.Windows.Forms.GroupBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.imageListCards = new System.Windows.Forms.ImageList(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-			this.groupBox1.SuspendLayout();
+			this.grpStatus.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dataGridView1
@@ -48,18 +48,18 @@
 			this.dataGridView1.Size = new System.Drawing.Size(516, 242);
 			this.dataGridView1.TabIndex = 0;
 			// 
-			// groupBox1
+			// grpStatus
 			// 
-			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Location = new System.Drawing.Point(35, 13);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(516, 318);
-			this.groupBox1.TabIndex = 1;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Initial status";
+			this.grpStatus.Controls.Add(this.label4);
+			this.grpStatus.Controls.Add(this.label3);
+			this.grpStatus.Controls.Add(this.label2);
+			this.grpStatus.Controls.Add(this.label1);
+			this.grpStatus.Location = new System.Drawing.Point(35, 13);
+			this.grpStatus.Name = "grpStatus";
+			this.grpStatus.Size = new System.Drawing.Size(516, 318);
+			this.grpStatus.TabIndex = 1;
+			this.grpStatus.TabStop = false;
+			this.grpStatus.Text = "Initial status";
 			// 
 			// label4
 			// 
@@ -108,16 +108,18 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(624, 668);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.grpStatus);
 			this.Controls.Add(this.dataGridView1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FrmExplorationStatus";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.Text = "FrmExplorationStatus";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
+			this.grpStatus.ResumeLayout(false);
+			this.grpStatus.PerformLayout();
 			this.ResumeLayout(false);
 
 			}
@@ -125,7 +127,7 @@
 		#endregion
 
 		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox grpStatus;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;

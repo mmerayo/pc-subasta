@@ -30,6 +30,7 @@ namespace Analyzer
 
 			_frmExplorationStatus = frmExplorationStatus;
 			_frmExplorationStatus.Owner = this;
+			_frmExplorationStatus.MdiParent = this;
 		}
 
 		private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,7 +52,8 @@ namespace Analyzer
 		{
 			try
 			{
-			    _frmExplorationStatus.Show(this);
+				
+			    _frmExplorationStatus.Show();
 				CurrentSimulation.Start(2);
 			}
 			catch (Exception ex)
