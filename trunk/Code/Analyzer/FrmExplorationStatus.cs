@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Subasta.Client.Common;
 using Subasta.Domain.Deck;
+using Subasta.Domain.Game;
 
 namespace Analyzer
 {
@@ -14,6 +15,7 @@ namespace Analyzer
 
 		private readonly IGameSimulator _gameSimulator;
 		private DataTable _tableStatus;
+
 		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck)
 		{
 			InitializeComponent();
@@ -24,7 +26,7 @@ namespace Analyzer
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 			InitializeDataStructure();
 			dataGridView1.DataSource = _tableStatus;
-			
+
 
 		}
 
@@ -58,14 +60,14 @@ namespace Analyzer
 					var pb = new PictureBox
 					         	{
 					         		SizeMode = PictureBoxSizeMode.StretchImage,
-									 Top = theLabel.Top,
-									 Left = left,
-									 Width = 36,
-									 Height = 54
+					         		Top = theLabel.Top,
+					         		Left = left,
+					         		Width = 36,
+					         		Height = 54
 					         	};
 
 					_pbCards[i][j] = pb;
-									
+
 					grpStatus.Controls.Add(pb);
 					left += pb.Width;
 
@@ -93,7 +95,7 @@ namespace Analyzer
 		}
 
 
-		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status,TimeSpan t)
+		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
 		{
 			_tableStatus.Rows.Clear();
 			AddNewRow();
@@ -105,7 +107,7 @@ namespace Analyzer
 				{
 					var image = imageListCards.Images[playerCard.ToShortString()];
 
-					_pbCards[i-1][indexCard++].Image = image;
+					_pbCards[i - 1][indexCard++].Image = image;
 				}
 			}
 
@@ -119,39 +121,51 @@ namespace Analyzer
 
 		private void InitializeDataStructure()
 		{
-			_tableStatus=new DataTable("Game");
+			_tableStatus = new DataTable("Game");
 			_tableStatus.Columns.Add("Sequence", typeof (int));
 			_tableStatus.Columns.Add("FirstPlayer");
 			_tableStatus.Columns.Add("Player1");
 			_tableStatus.Columns.Add("Player2");
 			_tableStatus.Columns.Add("Player3");
 			_tableStatus.Columns.Add("Player4");
-			_tableStatus.Columns.Add("TrickWinner" );
+			_tableStatus.Columns.Add("TrickWinner");
 			_tableStatus.Columns.Add("Points");
 			_tableStatus.Columns.Add("Declaration");
-			_tableStatus.Columns.Add("Time");
+			_tableStatus.Columns.Add("T1");
+			_tableStatus.Columns.Add("T2");
+			_tableStatus.Columns.Add("T3");
+			_tableStatus.Columns.Add("T4");
 		}
 
-		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status,TimeSpan timeTaken)
+		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status, TimeSpan timeTaken)
 		{
 			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
-			dataRow["Sequence"] = status.CurrentHand.Sequence;
-			dataRow["FirstPlayer"] = status.CurrentHand.FirstPlayer;
-			dataRow["Player1"] = status.CurrentHand.PlayerCard(1);
-			dataRow["Player2"] = status.CurrentHand.PlayerCard(2);
-			dataRow["Player3"] = status.CurrentHand.PlayerCard(3);
-			dataRow["Player4"] = status.CurrentHand.PlayerCard(4);
-			dataRow["TrickWinner"] = status.CurrentHand.PlayerWinner;
-			dataRow["Points"] = status.CurrentHand.Points;
-			dataRow["Declaration"] = status.CurrentHand.Declaration.HasValue ? status.CurrentHand.Declaration.Value.ToString() : "No";
-			dataRow["Time"] = timeTaken.ToString();
-			if (status.CurrentHand.IsCompleted && !status.IsCompleted)
+			IHand currentHand = status.CurrentHand;
+			dataRow["Sequence"] = currentHand.Sequence;
+			dataRow["FirstPlayer"] = currentHand.FirstPlayer;
+			ICard playerCard;
+			for (int i = 1; i <= 4; i++)
+			{
+				playerCard = currentHand.PlayerCard(i);
+				if (playerCard != null)
+					dataRow["Player" + i] = playerCard.ToShortString();
+			}
+
+			dataRow["TrickWinner"] = currentHand.PlayerWinner;
+			dataRow["Points"] = currentHand.Points;
+			dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";
+
+			int turn = status.Turn - 1;
+			if (turn == 0) turn = 4;
+			dataRow["T" + turn] = timeTaken.ToString();
+
+			if (currentHand.IsCompleted && !status.IsCompleted)
 				AddNewRow();
 
 
 			UpdateDepth();
-	this.dataGridView1.Invalidate(true);
-	this.dataGridView1.Update();
+			this.dataGridView1.Invalidate(true);
+			this.dataGridView1.Update();
 		}
 
 		private void UpdateDepth()
@@ -161,7 +175,7 @@ namespace Analyzer
 
 		private void AddNewRow()
 		{
-			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null,null);
+			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null, null);
 		}
 
 	}
