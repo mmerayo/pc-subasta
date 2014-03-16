@@ -7,7 +7,6 @@ using Subasta.Client.Common.Games;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
-using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Client.Common
 {
@@ -24,6 +23,7 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameStarted;
 		public event InputRequestedHandler InputRequested;
 
+		private Stopwatch _perMoveWatcher;
 		public GameSimulator(IGameExplorer explorer,IDeck deck)
 		{
 			_explorer = explorer;
@@ -91,11 +91,13 @@ namespace Subasta.Client.Common
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), FirstPlayer, PlayerBets, _players[0].Cards, _players[1].Cards,
 			                                     _players[2].Cards, _players[3].Cards, Trump, PointsBet);
 			OnStart();
+			_perMoveWatcher = Stopwatch.StartNew();
 			while (!_status.IsCompleted)
 			{
+				_perMoveWatcher.Restart();
 				NextMove();
-				OnStatusChanged();
-
+				OnStatusChanged(_perMoveWatcher.Elapsed);
+				_perMoveWatcher.Stop();
 				if (_status.CurrentHand.IsCompleted)
 				{
 					_explorer.MaxDepth++;
@@ -170,11 +172,12 @@ namespace Subasta.Client.Common
 
 		}
 
-		private void OnStatusChanged()
+		private void OnStatusChanged(TimeSpan timeTaken)
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status);
+				GameStatusChanged(_status,timeTaken);
 		}
+
 
 		private void OnInputRequested()
 		{
@@ -185,7 +188,7 @@ namespace Subasta.Client.Common
 		private void OnStart()
 		{
 			if (GameStarted != null)
-				GameStarted(_status);
+				GameStarted(_status,TimeSpan.Zero);
 		}
 
 

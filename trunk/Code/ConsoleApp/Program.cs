@@ -122,7 +122,7 @@ namespace ConsoleApp
 			return consoleKeyInfo.KeyChar.ToString(CultureInfo.InvariantCulture);
 		}
 
-		static void game_GameStatusChanged(IExplorationStatus status)
+		static void game_GameStatusChanged(IExplorationStatus status,TimeSpan t)
 		{
 			PaintGameStatus(status);
 		}

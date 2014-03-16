@@ -93,7 +93,7 @@ namespace Analyzer
 		}
 
 
-		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status)
+		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status,TimeSpan t)
 		{
 			_tableStatus.Rows.Clear();
 			AddNewRow();
@@ -114,6 +114,7 @@ namespace Analyzer
 			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
 			lblPlayerBets.Text = "Player Bets#: " + _gameSimulator.PlayerBets;
 			Invalidate(true);
+			Update();
 		}
 
 		private void InitializeDataStructure()
@@ -128,9 +129,10 @@ namespace Analyzer
 			_tableStatus.Columns.Add("TrickWinner" );
 			_tableStatus.Columns.Add("Points");
 			_tableStatus.Columns.Add("Declaration");
+			_tableStatus.Columns.Add("Time");
 		}
 
-		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status)
+		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status,TimeSpan timeTaken)
 		{
 			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
 			dataRow["Sequence"] = status.CurrentHand.Sequence;
@@ -142,12 +144,14 @@ namespace Analyzer
 			dataRow["TrickWinner"] = status.CurrentHand.PlayerWinner;
 			dataRow["Points"] = status.CurrentHand.Points;
 			dataRow["Declaration"] = status.CurrentHand.Declaration.HasValue ? status.CurrentHand.Declaration.Value.ToString() : "No";
+			dataRow["Time"] = timeTaken.ToString();
 			if (status.CurrentHand.IsCompleted && !status.IsCompleted)
 				AddNewRow();
 
 
 			UpdateDepth();
-			Invalidate(true);
+	this.dataGridView1.Invalidate(true);
+	this.dataGridView1.Update();
 		}
 
 		private void UpdateDepth()
@@ -157,7 +161,7 @@ namespace Analyzer
 
 		private void AddNewRow()
 		{
-			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null);
+			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null,null);
 		}
 
 	}

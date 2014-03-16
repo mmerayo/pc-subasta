@@ -1,10 +1,11 @@
-﻿using Subasta.Client.Common.Games;
+﻿using System;
+using Subasta.Client.Common.Games;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common
 {
-	public delegate void StatusChangedHandler(IExplorationStatus status);
+	public delegate void StatusChangedHandler(IExplorationStatus status,TimeSpan timeTaken);
 	public delegate string InputRequestedHandler();
 	
 	public interface IGameSimulator
