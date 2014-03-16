@@ -24,7 +24,7 @@ namespace Subasta.Infrastructure.DomainServices
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();
 			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
-
+			For<IQueuedResultStoreWritter>().Use<NullStoreWritter>();
 			//TODO: REMOVE THIS DEPENDENCY
 			For<ISuit>().Use(Suit.Suits.First());
 		}
