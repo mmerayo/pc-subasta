@@ -12,7 +12,7 @@ namespace Subasta.Domain.Game
 		/// <returns> the position of the card in the hand</returns>
 		int Add(int playerPlays, ICard candidate);
 		bool IsCompleted { get; }
-		int PlayerWinner { get; }
+		int? PlayerWinner { get; }
 		int Points { get; }
 		bool IsStartedByTrump { get; }
 		ISuit StartedBySuit { get; }

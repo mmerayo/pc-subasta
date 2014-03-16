@@ -16,7 +16,7 @@ namespace Subasta.Client.Common
 		void NextMove();
 		event StatusChangedHandler GameStatusChanged;
 		event InputRequestedHandler InputRequested;
-		void Start(int depth);
+		void Start(int depth=int.MinValue);
 		void Load(StoredGameData storedGame);
 		event StatusChangedHandler GameStarted;
 	}

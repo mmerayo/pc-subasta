@@ -95,7 +95,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 		{
 			_context.WithTrump(trump).WithExistingCards(cards, 1);
 			Console.WriteLine("Cards:{0}", _context.Sut);
-			return _context.Sut.PlayerWinner;
+			return _context.Sut.PlayerWinner.Value;
 		}
 
 		public static IEnumerable Can_GetPlayerWinner_TestCases()

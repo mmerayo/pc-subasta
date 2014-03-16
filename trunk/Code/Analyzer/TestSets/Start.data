@@ -2,5 +2,6 @@
     "Player1Cards": "C1 C5 E5 C10 C2 O6 C6 O11 C11 O10",
     "Player2Cards": "B10 O3 C12 O5 O2 C3 O1 B6 E1 B11",
     "Player3Cards": "B3 B5 E6 E4 E2 E3 O12 B4 E7 O4",
-    "Player4Cards": "C4 O7 E11 E10 B7 B1 C7 E12 B2 B12"
+    "Player4Cards": "C4 O7 E11 E10 B7 B1 C7 E12 B2 B12",
+	"ExplorationDepth": "3"
 }

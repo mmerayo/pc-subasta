@@ -11,7 +11,7 @@ namespace Subasta.Infrastructure.Domain
 	internal class Hand : IHand
 	{
 		private readonly ICard[] _hand = new ICard[4];
-		private int _playerWinner = int.MinValue;
+		private int? _playerWinner = null;
 	    private readonly ICardComparer _cardsComparer;
 
 		public Hand(ICardComparer cardsComparer, ISuit trump,int sequence)
@@ -47,17 +47,20 @@ namespace Subasta.Infrastructure.Domain
 			get { return _hand.All(x => x != null); }
 		}
 
-		public int PlayerWinner
+		public int? PlayerWinner
 		{
 			get
 			{
-				ThrowIfNotcompleted();
-				if (_playerWinner == int.MinValue)
+				
+				if (IsCompleted && !_playerWinner.HasValue)
 					_playerWinner = GetWinner();
 
 				return _playerWinner;
 			}
-			private set { _playerWinner = value; }
+			private set
+			{
+				_playerWinner = value;
+			}
 		}
 
 		public int Points

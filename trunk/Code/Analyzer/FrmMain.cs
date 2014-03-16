@@ -54,7 +54,7 @@ namespace Analyzer
 			{
 				
 			    _frmExplorationStatus.Show();
-				CurrentSimulation.Start(2);
+				CurrentSimulation.Start();
 			}
 			catch (Exception ex)
 			{
