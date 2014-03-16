@@ -50,16 +50,16 @@ namespace Analyzer
 
 		private void startToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			try
-			{
+			//try
+			//{
 				
 			    _frmExplorationStatus.Show();
 				CurrentSimulation.Start();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Error: " + ex.Message);
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//    MessageBox.Show("Error: " + ex.Message);
+			//}
 		}
 
 	}

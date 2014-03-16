@@ -31,11 +31,15 @@
 			this.components = new System.ComponentModel.Container();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.grpStatus = new System.Windows.Forms.GroupBox();
+			this.lblTrump = new System.Windows.Forms.Label();
+			this.lblFirstPlayer = new System.Windows.Forms.Label();
+			this.labelDepth = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.imageListCards = new System.Windows.Forms.ImageList(this.components);
+			this.lblPlayerBets = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.grpStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -54,16 +58,47 @@
 			// 
 			// grpStatus
 			// 
+			this.grpStatus.Controls.Add(this.lblPlayerBets);
+			this.grpStatus.Controls.Add(this.lblTrump);
+			this.grpStatus.Controls.Add(this.lblFirstPlayer);
+			this.grpStatus.Controls.Add(this.labelDepth);
 			this.grpStatus.Controls.Add(this.label4);
 			this.grpStatus.Controls.Add(this.label3);
 			this.grpStatus.Controls.Add(this.label2);
 			this.grpStatus.Controls.Add(this.label1);
 			this.grpStatus.Location = new System.Drawing.Point(35, 13);
 			this.grpStatus.Name = "grpStatus";
-			this.grpStatus.Size = new System.Drawing.Size(516, 318);
+			this.grpStatus.Size = new System.Drawing.Size(682, 318);
 			this.grpStatus.TabIndex = 1;
 			this.grpStatus.TabStop = false;
 			this.grpStatus.Text = "Initial status";
+			// 
+			// lblTrump
+			// 
+			this.lblTrump.AutoSize = true;
+			this.lblTrump.Location = new System.Drawing.Point(417, 85);
+			this.lblTrump.Name = "lblTrump";
+			this.lblTrump.Size = new System.Drawing.Size(47, 13);
+			this.lblTrump.TabIndex = 6;
+			this.lblTrump.Text = "lblTrump";
+			// 
+			// lblFirstPlayer
+			// 
+			this.lblFirstPlayer.AutoSize = true;
+			this.lblFirstPlayer.Location = new System.Drawing.Point(417, 56);
+			this.lblFirstPlayer.Name = "lblFirstPlayer";
+			this.lblFirstPlayer.Size = new System.Drawing.Size(65, 13);
+			this.lblFirstPlayer.TabIndex = 5;
+			this.lblFirstPlayer.Text = "lblFirstPlayer";
+			// 
+			// labelDepth
+			// 
+			this.labelDepth.AutoSize = true;
+			this.labelDepth.Location = new System.Drawing.Point(417, 30);
+			this.labelDepth.Name = "labelDepth";
+			this.labelDepth.Size = new System.Drawing.Size(91, 13);
+			this.labelDepth.TabIndex = 4;
+			this.labelDepth.Text = "Exploration Depth";
 			// 
 			// label4
 			// 
@@ -107,11 +142,20 @@
 			this.imageListCards.ImageSize = new System.Drawing.Size(16, 16);
 			this.imageListCards.TransparentColor = System.Drawing.Color.Transparent;
 			// 
+			// lblPlayerBets
+			// 
+			this.lblPlayerBets.AutoSize = true;
+			this.lblPlayerBets.Location = new System.Drawing.Point(417, 109);
+			this.lblPlayerBets.Name = "lblPlayerBets";
+			this.lblPlayerBets.Size = new System.Drawing.Size(67, 13);
+			this.lblPlayerBets.TabIndex = 7;
+			this.lblPlayerBets.Text = "lblPlayerBets";
+			// 
 			// FrmExplorationStatus
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(624, 668);
+			this.ClientSize = new System.Drawing.Size(766, 668);
 			this.Controls.Add(this.grpStatus);
 			this.Controls.Add(this.dataGridView1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -137,5 +181,9 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ImageList imageListCards;
+		private System.Windows.Forms.Label labelDepth;
+		private System.Windows.Forms.Label lblTrump;
+		private System.Windows.Forms.Label lblFirstPlayer;
+		private System.Windows.Forms.Label lblPlayerBets;
 		}
 	}

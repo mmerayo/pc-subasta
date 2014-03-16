@@ -10,5 +10,13 @@ namespace Subasta.Client.Common.Games
 		public ICard[] Player4Cards { get; set; }
 
 		public int ExplorationDepth{ get; set; }
+
+		public int FirstPlayer { get; set; }
+
+		public ISuit Trump { get; set; }
+
+		public int PlayerBets { get; set; }
+
+		public int PointsBet { get; set; }
 	}
 }

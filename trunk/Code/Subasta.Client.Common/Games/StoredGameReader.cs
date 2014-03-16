@@ -26,6 +26,10 @@ namespace Subasta.Client.Common.Games
 					result.Player3Cards = ((string)deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 					result.Player4Cards = ((string)deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 					result.ExplorationDepth = deserialized.ExplorationDepth;
+					result.FirstPlayer = deserialized.FirstPlayer;
+					result.Trump = Suit.FromId((char)deserialized.Trump);
+					result.PlayerBets = deserialized.PlayerBets;
+					result.PointsBet = deserialized.PointsBet;
 				}
 
 			}
