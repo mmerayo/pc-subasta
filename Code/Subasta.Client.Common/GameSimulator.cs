@@ -57,9 +57,10 @@ namespace Subasta.Client.Common
 			get { return _players[3]; }
 		}
 
-		public void Start(int depth)
+		public void Start(int depth=int.MinValue)
 		{
-			_explorer.MaxDepth = depth;
+			if(depth>0)
+				_explorer.MaxDepth = depth;
 			int firstPlayer = 1;
 
 			ValidateConfiguration();
@@ -76,7 +77,7 @@ namespace Subasta.Client.Common
 				{
 					_explorer.MaxDepth++;
 					//OnInputRequested();
-					_status.Turn = _status.CurrentHand.PlayerWinner;
+					_status.Turn = _status.CurrentHand.PlayerWinner.Value;
 					_status.AddNewHand();
 
 				}
@@ -94,6 +95,7 @@ namespace Subasta.Client.Common
 			Player2.Cards = storedGame.Player2Cards;
 			Player3.Cards = storedGame.Player3Cards;
 			Player4.Cards = storedGame.Player4Cards;
+			_explorer.MaxDepth = storedGame.ExplorationDepth;
 		}
 
 		private void ValidateConfiguration()

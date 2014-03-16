@@ -175,7 +175,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 			if (hand.IsCompleted)
 			{
-				result.Turn = hand.PlayerWinner;
+				result.Turn = hand.PlayerWinner.Value;
 				result.AddNewHand();
 			}
 			else

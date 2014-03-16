@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Subasta.Client.Common;
 using Subasta.Domain.Deck;
@@ -11,7 +13,7 @@ namespace Analyzer
 		private PictureBox[][] _pbCards = new PictureBox[4][];
 
 		private readonly IGameSimulator _gameSimulator;
-
+		private DataTable _tableStatus;
 		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck)
 		{
 			InitializeComponent();
@@ -20,7 +22,10 @@ namespace Analyzer
 			_gameSimulator = gameSimulator;
 			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
+			InitializeDataStructure();
+			dataGridView1.DataSource = _tableStatus;
 			
+
 		}
 
 		private void LoadPictureBoxControls()
@@ -90,6 +95,9 @@ namespace Analyzer
 
 		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status)
 		{
+			_tableStatus.Rows.Clear();
+			AddNewRow();
+
 			for (int i = 1; i <= 4; i++)
 			{
 				int indexCard = 0;
@@ -102,11 +110,39 @@ namespace Analyzer
 			}
 		}
 
-		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status)
+		private void InitializeDataStructure()
 		{
-			
+			_tableStatus=new DataTable("Game");
+			_tableStatus.Columns.Add("Sequence", typeof (int));
+			_tableStatus.Columns.Add("FirstPlayer");
+			_tableStatus.Columns.Add("Player1");
+			_tableStatus.Columns.Add("Player2");
+			_tableStatus.Columns.Add("Player3");
+			_tableStatus.Columns.Add("Player4");
+			_tableStatus.Columns.Add("TrickWinner" );
+			_tableStatus.Columns.Add("Points");
+			_tableStatus.Columns.Add("Declaration");
 		}
 
+		private void _gameSimulator_GameStatusChanged(Subasta.Domain.Game.IExplorationStatus status)
+		{
+			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
+			dataRow["Sequence"] = status.CurrentHand.Sequence;
+			dataRow["FirstPlayer"] = status.CurrentHand.FirstPlayer;
+			dataRow["Player1"] = status.CurrentHand.PlayerCard(1);
+			dataRow["Player2"] = status.CurrentHand.PlayerCard(2);
+			dataRow["Player3"] = status.CurrentHand.PlayerCard(3);
+			dataRow["Player4"] = status.CurrentHand.PlayerCard(4);
+			dataRow["TrickWinner"] = status.CurrentHand.PlayerWinner;
+			dataRow["Points"] = status.CurrentHand.Points;
+			dataRow["Declaration"] = status.CurrentHand.Declaration.HasValue ? status.CurrentHand.Declaration.Value.ToString() : "No";
+			if (status.CurrentHand.IsCompleted && !status.IsCompleted)
+				AddNewRow();
+		}
 
+		private void AddNewRow()
+		{
+			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null);
+		}
 	}
 }

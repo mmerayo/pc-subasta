@@ -25,6 +25,7 @@ namespace Subasta.Client.Common.Games
 					result.Player2Cards = ((string)deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 					result.Player3Cards = ((string)deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 					result.Player4Cards = ((string)deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+					result.ExplorationDepth = deserialized.ExplorationDepth;
 				}
 
 			}
