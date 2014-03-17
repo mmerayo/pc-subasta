@@ -4,7 +4,7 @@
     "Player3Cards": "B3 B5 E6 E4 E2 E3 O12 B4 E7 O4",
     "Player4Cards": "C4 O7 E11 E10 B7 B1 C7 E12 B2 B12",
 	"ExplorationDepth": "2",
-	"FirstPlayer":"4",
+	"FirstPlayer":"3",
 	"Trump":"E",
 	"PlayerBets":"2",
 	"PointsBet":"120"
