@@ -144,6 +144,7 @@ namespace Subasta.Infrastructure.Domain
 				{
 					_playerWinner=this._playerWinner,
 					FirstPlayer = this.FirstPlayer,
+					Declaration = this.Declaration
 				};
 			Array.Copy(_hand,result._hand,4);
 			return result;

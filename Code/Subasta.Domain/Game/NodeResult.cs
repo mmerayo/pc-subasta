@@ -66,9 +66,21 @@ namespace Subasta.Domain.Game
 			get { return _status; }
 		}
 
-		public Declaration? PotentialDeclaration(int moveNumber)
+		public Declaration? DeclarationAtMove(int moveNumber)
 		{
 			return Status.Hands[moveNumber - 1].Declaration;
+			
+		}
+
+		//this is crap
+		public Declaration? FirstDeclarable(int handNum)
+		{
+			if (Status.Declarables.Length == 0)
+			{
+				return Status.Hands[handNum - 1].Declaration;
+			}
+			return Status.Declarables.FirstOrDefault();
+
 		}
 	}
 

@@ -178,7 +178,7 @@ namespace Subasta.Infrastructure.Domain
 		{
 			get
 			{
-				IHand firstHand = Hands.FirstOrDefault(x => x.IsCompleted && !x.Declaration.HasValue);
+				IHand firstHand = Hands.FirstOrDefault(x => x.IsCompleted && IsInTeamBets(x.PlayerWinner.Value) && !x.Declaration.HasValue);
 				if (firstHand!=null && firstHand.Sequence > 1 && !Hands[Hands.IndexOf(firstHand) - 1].Declaration.HasValue)
 					return null;
 
@@ -216,6 +216,30 @@ namespace Subasta.Infrastructure.Domain
 			if (PlayerBets == 1 || PlayerBets == 3)
 				return playerPosition == 1 || playerPosition == 3;
 			return playerPosition == 2 || playerPosition == 4;
+		}
+
+		//TODO: move to its own resolver
+		public int PlayerMateOf(int playerWinner)
+		{
+			int matePlayer;
+			switch (playerWinner)
+			{
+				case 1:
+					matePlayer = 3;
+					break;
+				case 2:
+					matePlayer = 4;
+					break;
+				case 3:
+					matePlayer = 1;
+					break;
+				case 4:
+					matePlayer = 2;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			return matePlayer;
 		}
 
 		public void AddNewHand()

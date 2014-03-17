@@ -70,7 +70,8 @@ namespace Subasta.Infrastructure.DomainServices.Game
 
 		public NodeResult Execute(IExplorationStatus currentStatus)
 		{
-			return Execute(currentStatus, currentStatus.Turn);
+			NodeResult nodeResult = Execute(currentStatus, currentStatus.Turn);
+			return nodeResult;
 		}
 
 		public int MaxDepth

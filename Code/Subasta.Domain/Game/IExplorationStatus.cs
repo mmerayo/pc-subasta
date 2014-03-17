@@ -36,5 +36,6 @@ namespace Subasta.Domain.Game
 		int SumTotalTeam(int playerPosition);
 		void RemovePlayerCard(int playerPosition, ICard card);
 		bool IsInTeamBets(int playerPosition);
+		int PlayerMateOf(int playerWinner);
 	}
 }
