@@ -25,5 +25,6 @@ namespace Subasta.Client.Common
 		void Start(int depth=int.MinValue);
 		void Load(StoredGameData storedGame);
 		event StatusChangedHandler GameStarted;
+		event StatusChangedHandler GameCompleted;
 	}
 }
