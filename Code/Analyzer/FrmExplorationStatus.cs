@@ -24,10 +24,16 @@ namespace Analyzer
 			_gameSimulator = gameSimulator;
 			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
+			_gameSimulator.GameCompleted += _gameSimulator_GameCompleted;
 			InitializeDataStructure();
 			dgvStatus.DataSource = _tableStatus;
 
 
+		}
+
+		void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
+		{
+			MessageBox.Show("Completed. change this");
 		}
 
 		private void LoadPictureBoxControls()

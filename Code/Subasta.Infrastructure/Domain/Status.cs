@@ -206,7 +206,8 @@ namespace Subasta.Infrastructure.Domain
 							declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[i - 1]));
 						maxPotential += declarations.Sum(source => DeclarationValues.ValueOf(source));
 					}
-				if (SumTotalTeam(other) >= maxPotential - PointsBet + 1)
+				int sumTotalTeam = SumTotalTeam(other);
+				if (sumTotalTeam >= maxPotential - PointsBet + 1)
 					_gameCompleted = true;
 			}
 		}
