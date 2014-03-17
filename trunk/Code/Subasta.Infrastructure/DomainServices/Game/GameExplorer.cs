@@ -126,7 +126,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var declarables = updatedStatus.Declarables;
 			var newStatus = updatedStatus.Clone();
 			if (declarables.Length > 0)
-				newStatus.LastCompletedHand.Add(declarables[0]);
+				newStatus.FirstDeclarableHand.Add(declarables[0]);
 
 			var best = Execute(newStatus, newStatus.Turn);
 
@@ -135,7 +135,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			{
 				var declaration = declarables[index];
 				newStatus = updatedStatus.Clone();
-				newStatus.LastCompletedHand.Add(declaration);
+				newStatus.FirstDeclarableHand.Add(declaration);
 
 				var current = Execute(newStatus, newStatus.Turn);
 

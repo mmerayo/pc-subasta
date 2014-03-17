@@ -130,6 +130,7 @@ namespace Analyzer
 			_tableStatus.Columns.Add("TrickWinner");
 			_tableStatus.Columns.Add("Points");
 			_tableStatus.Columns.Add("Declaration");
+			_tableStatus.Columns.Add("BrokeToTrump",typeof(bool));
 			_tableStatus.Columns.Add("T1");
 			_tableStatus.Columns.Add("T2");
 			_tableStatus.Columns.Add("T3");
@@ -161,6 +162,8 @@ namespace Analyzer
 			int turn = status.Turn - 1;
 			if (turn == 0) turn = 4;
 			dataRow["T" + turn] = timeTaken.ToString();
+
+			dataRow["BrokeToTrump"] = currentHand.BrokeToTrump;
 
 			UpdateDepth();
 			this.dgvStatus.Invalidate(true);

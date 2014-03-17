@@ -21,7 +21,8 @@ namespace Analyzer
 		private readonly FrmExplorationStatus _frmExplorationStatus;
 		public IGameSimulator CurrentSimulation { get; private set; }
 
-		public FrmMain(IGameSimulator gameSimulator,IStoredGamesCommands storedGamesCommands,FrmExplorationStatus frmExplorationStatus)
+		public FrmMain(IGameSimulator gameSimulator, IStoredGamesCommands storedGamesCommands,
+		               FrmExplorationStatus frmExplorationStatus)
 		{
 			InitializeComponent();
 
@@ -52,14 +53,27 @@ namespace Analyzer
 		{
 			//try
 			//{
-				
-			    _frmExplorationStatus.Show();
-				CurrentSimulation.Start();
+
+			_frmExplorationStatus.Show();
+			CurrentSimulation.Start();
 			//}
 			//catch (Exception ex)
 			//{
 			//    MessageBox.Show("Error: " + ex.Message);
 			//}
+		}
+
+		private void showToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+
+				_frmExplorationStatus.Show();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error: " + ex.Message);
+			}
 		}
 
 	}

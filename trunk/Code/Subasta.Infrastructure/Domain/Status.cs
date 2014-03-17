@@ -106,11 +106,10 @@ namespace Subasta.Infrastructure.Domain
 			get
 			{
 				//in the latest completed hand no se ha cantado 
-				IHand last = Hands.LastOrDefault();
-				if (last == null || !last.IsEmpty ||Hands.IndexOf(last)==0)
+				IHand hand = LastCompletedHand;
+				if (hand == null )
 					return new Declaration[0];
 
-				IHand hand = Hands[ Hands.IndexOf(last)-1];
 				if(hand.Declaration.HasValue)
 					return new Declaration[0];
 				
@@ -125,7 +124,7 @@ namespace Subasta.Infrastructure.Domain
 		private List<Declaration> GetDeclarationCandidates()
 		{
 
-			var last = Hands.Last(x => x.IsCompleted);
+			var last = LastCompletedHand;
 			var teamPlayers = new int[2];
 			if (last.PlayerWinner == 1 || last.PlayerWinner == 3)
 			{
@@ -172,6 +171,18 @@ namespace Subasta.Infrastructure.Domain
 			{
 				UpdateIsCompleted();
 				return _gameCompleted;
+			}
+		}
+
+		public IHand FirstDeclarableHand
+		{
+			get
+			{
+				IHand firstHand = Hands.FirstOrDefault(x => x.IsCompleted && !x.Declaration.HasValue);
+				if (firstHand!=null && firstHand.Sequence > 1 && !Hands[Hands.IndexOf(firstHand) - 1].Declaration.HasValue)
+					return null;
+
+				return firstHand;
 			}
 		}
 
