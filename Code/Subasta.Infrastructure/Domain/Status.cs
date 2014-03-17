@@ -198,7 +198,15 @@ namespace Subasta.Infrastructure.Domain
 				var other = PlayerBets + 1;
 				if (other > 4) other = 1;
 				// 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
-				if (SumTotalTeam(other) >= 130 - PointsBet + 1)
+				int maxPotential = 130;
+				for (int i = 1; i <= 4; i++)
+					if (IsInTeamBets(i))
+					{
+						IEnumerable<Declaration> declarations = Enum.GetValues(typeof (Declaration)).Cast<Declaration>().Where(
+							declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[i - 1]));
+						maxPotential += declarations.Sum(source => DeclarationValues.ValueOf(source));
+					}
+				if (SumTotalTeam(other) >= maxPotential - PointsBet + 1)
 					_gameCompleted = true;
 			}
 		}

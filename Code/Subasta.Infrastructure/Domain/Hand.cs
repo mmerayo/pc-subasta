@@ -75,27 +75,8 @@ namespace Subasta.Infrastructure.Domain
 		{
 			int result = 0;
 			if (Declaration.HasValue)
-				switch (Declaration.Value)
-				{
-                    case Subasta.Domain.Declaration.Reyes:
-						result = 120;
-						break;
-                    case Subasta.Domain.Declaration.Caballos:
-						result = 60;
-						break;
-					case Subasta.Domain.Declaration.ParejaOros:
-					case Subasta.Domain.Declaration.ParejaCopas:
-					case Subasta.Domain.Declaration.ParejaEspadas:
-					case Subasta.Domain.Declaration.ParejaBastos:
-						result= 20;
-						break;
-					case Subasta.Domain.Declaration.Cuarenta:
-						result = 40;
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
-
+				return DeclarationValues.ValueOf(Declaration.Value);
+				
 			return result;
 		}
 

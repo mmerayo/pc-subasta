@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
@@ -126,7 +127,9 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var declarables = updatedStatus.Declarables;
 			var newStatus = updatedStatus.Clone();
 			if (declarables.Length > 0)
-				newStatus.FirstDeclarableHand.Add(declarables[0]);
+			{
+				AddDeclaration(declarables[0], newStatus);
+			}
 
 			var best = Execute(newStatus, newStatus.Turn);
 
@@ -135,7 +138,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			{
 				var declaration = declarables[index];
 				newStatus = updatedStatus.Clone();
-				newStatus.FirstDeclarableHand.Add(declaration);
+				AddDeclaration(declaration, newStatus);
 
 				var current = Execute(newStatus, newStatus.Turn);
 
@@ -145,6 +148,13 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			}
 
 			return best;
+		}
+
+		private static void AddDeclaration(Declaration declaration, IExplorationStatus newStatus)
+		{
+			IHand firstDeclarableHand = newStatus.FirstDeclarableHand;
+			if (firstDeclarableHand != null && newStatus.IsInTeamBets(firstDeclarableHand.PlayerWinner.Value))
+				firstDeclarableHand.Add(declaration);
 		}
 
 
