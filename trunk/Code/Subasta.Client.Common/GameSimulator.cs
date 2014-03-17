@@ -22,11 +22,13 @@ namespace Subasta.Client.Common
 
 		public event StatusChangedHandler GameStatusChanged;
 		public event StatusChangedHandler GameStarted;
+		public event StatusChangedHandler GameCompleted;
 		public event InputRequestedHandler InputRequested;
 		//pending declarations per hand/team
 		private readonly Dictionary<int, NodeResult> _currentMoveNodes = new Dictionary<int, NodeResult>();
 		private Stopwatch _perMoveWatcher;
-		public GameSimulator(IGameExplorer explorer,IDeck deck)
+
+		public GameSimulator(IGameExplorer explorer, IDeck deck)
 		{
 			_explorer = explorer;
 			_deck = deck;
@@ -80,14 +82,14 @@ namespace Subasta.Client.Common
 
 		public int PlayerBets { get; private set; }
 
-		public void Start(int depth=int.MinValue)
+		public void Start(int depth = int.MinValue)
 		{
-			if(depth>0)
+			if (depth > 0)
 			{
 				_depth = depth;
 			}
 			_explorer.MaxDepth = _depth;
-			
+
 			ValidateConfiguration();
 
 			_status = _explorer.GetInitialStatus(Guid.NewGuid(), FirstPlayer, PlayerBets, _players[0].Cards, _players[1].Cards,
@@ -96,7 +98,7 @@ namespace Subasta.Client.Common
 			_perMoveWatcher = Stopwatch.StartNew();
 			while (!_status.IsCompleted)
 			{
-			    _perMoveWatcher.Restart();
+				_perMoveWatcher.Restart();
 				NextMove();
 				TimeSpan timeTaken = _perMoveWatcher.Elapsed;
 				OnStatusChanged(timeTaken);
@@ -105,13 +107,13 @@ namespace Subasta.Client.Common
 				{
 					Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
 					int playerWinner = _status.CurrentHand.PlayerWinner.Value;
-					if(_status.IsInTeamBets(playerWinner))
+					if (_status.IsInTeamBets(playerWinner))
 					{
 						//declare winner or mate
-					    Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
-						if(!declarationAtMove.HasValue)
+						Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
+						if (!declarationAtMove.HasValue)
 						{
-							int matePlayer=_status.PlayerMateOf(playerWinner);
+							int matePlayer = _status.PlayerMateOf(playerWinner);
 
 							declarationAtMove = _currentMoveNodes[matePlayer].FirstDeclarable(_status.Hands.Count);
 						}
@@ -121,7 +123,7 @@ namespace Subasta.Client.Common
 							OnStatusChanged(timeTaken);
 						}
 
-						
+
 					}
 					_explorer.MaxDepth++;
 					//OnInputRequested();
@@ -132,11 +134,12 @@ namespace Subasta.Client.Common
 				}
 
 			}
-
+			OnCompleted();
 			OnInputRequested();
 		}
 
-		
+
+
 		public void Load(StoredGameData storedGame)
 		{
 			ReloadPlayers();
@@ -183,7 +186,7 @@ namespace Subasta.Client.Common
 			private set { _firstPlayer = value; }
 		}
 
-		
+
 
 		public void NextMove()
 		{
@@ -202,7 +205,7 @@ namespace Subasta.Client.Common
 		private void OnStatusChanged(TimeSpan timeTaken)
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status,timeTaken);
+				GameStatusChanged(_status, timeTaken);
 		}
 
 
@@ -215,9 +218,16 @@ namespace Subasta.Client.Common
 		private void OnStart()
 		{
 			if (GameStarted != null)
-				GameStarted(_status,TimeSpan.Zero);
+				GameStarted(_status, TimeSpan.Zero);
 		}
 
+		private void OnCompleted()
+		{
+		if (GameCompleted!= null)
+			GameCompleted(_status, TimeSpan.Zero);
 
+
+
+		}
 	}
 }
