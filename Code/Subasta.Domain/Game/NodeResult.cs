@@ -65,6 +65,11 @@ namespace Subasta.Domain.Game
 		{
 			get { return _status; }
 		}
+
+		public Declaration? PotentialDeclaration(int moveNumber)
+		{
+			return Status.Hands[moveNumber - 1].Declaration;
+		}
 	}
 
 }

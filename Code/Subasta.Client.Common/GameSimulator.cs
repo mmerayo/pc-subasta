@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using StructureMap;
 using Subasta.Client.Common.Games;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
@@ -22,7 +23,8 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameStatusChanged;
 		public event StatusChangedHandler GameStarted;
 		public event InputRequestedHandler InputRequested;
-
+		//pending declarations per hand/team
+		private readonly Dictionary<int, Declaration?> _pendingDeclarations = new Dictionary<int, Declaration?>();
 		private Stopwatch _perMoveWatcher;
 		public GameSimulator(IGameExplorer explorer,IDeck deck)
 		{
@@ -94,16 +96,24 @@ namespace Subasta.Client.Common
 			_perMoveWatcher = Stopwatch.StartNew();
 			while (!_status.IsCompleted)
 			{
-				_perMoveWatcher.Restart();
+			    _perMoveWatcher.Restart();
 				NextMove();
 				OnStatusChanged(_perMoveWatcher.Elapsed);
 				_perMoveWatcher.Stop();
 				if (_status.CurrentHand.IsCompleted)
 				{
+					Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
+					int value = _status.CurrentHand.PlayerWinner.Value;
+					if (_pendingDeclarations[value].HasValue)
+					{
+						_status.CurrentHand.Add(_pendingDeclarations[value].Value);
+						OnStatusChanged(TimeSpan.Zero);
+					}
 					_explorer.MaxDepth++;
 					//OnInputRequested();
-					_status.Turn = _status.CurrentHand.PlayerWinner.Value;
+					_status.Turn = value;
 					_status.AddNewHand();
+					_pendingDeclarations.Clear();
 
 				}
 
@@ -159,12 +169,15 @@ namespace Subasta.Client.Common
 			private set { _firstPlayer = value; }
 		}
 
+		
+
 		public void NextMove()
 		{
 			var nodeResult = _explorer.Execute(_status); //TODO: TURN NEEDED??
 
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
+			_pendingDeclarations.Add(playerPlays, nodeResult.PotentialDeclaration(_status.Hands.Count));
 			_status.CurrentHand.Add(playerPlays, cardAtMove);
 			_status.RemovePlayerCard(playerPlays, cardAtMove);
 			if (++playerPlays > 4) playerPlays = 1;
