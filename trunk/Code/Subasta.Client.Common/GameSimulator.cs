@@ -24,7 +24,7 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameStarted;
 		public event InputRequestedHandler InputRequested;
 		//pending declarations per hand/team
-		private readonly Dictionary<int, Declaration?> _pendingDeclarations = new Dictionary<int, Declaration?>();
+		private readonly Dictionary<int, NodeResult> _currentMoveNodes = new Dictionary<int, NodeResult>();
 		private Stopwatch _perMoveWatcher;
 		public GameSimulator(IGameExplorer explorer,IDeck deck)
 		{
@@ -98,22 +98,36 @@ namespace Subasta.Client.Common
 			{
 			    _perMoveWatcher.Restart();
 				NextMove();
-				OnStatusChanged(_perMoveWatcher.Elapsed);
+				TimeSpan timeTaken = _perMoveWatcher.Elapsed;
+				OnStatusChanged(timeTaken);
 				_perMoveWatcher.Stop();
 				if (_status.CurrentHand.IsCompleted)
 				{
 					Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
-					int value = _status.CurrentHand.PlayerWinner.Value;
-					if (_pendingDeclarations[value].HasValue)
+					int playerWinner = _status.CurrentHand.PlayerWinner.Value;
+					if(_status.IsInTeamBets(playerWinner))
 					{
-						_status.CurrentHand.Add(_pendingDeclarations[value].Value);
-						OnStatusChanged(TimeSpan.Zero);
+						//declare winner or mate
+					    Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
+						if(!declarationAtMove.HasValue)
+						{
+							int matePlayer=_status.PlayerMateOf(playerWinner);
+
+							declarationAtMove = _currentMoveNodes[matePlayer].FirstDeclarable(_status.Hands.Count);
+						}
+						if (declarationAtMove.HasValue)
+						{
+							_status.CurrentHand.Add(declarationAtMove.Value);
+							OnStatusChanged(timeTaken);
+						}
+
+						
 					}
 					_explorer.MaxDepth++;
 					//OnInputRequested();
-					_status.Turn = value;
+					_status.Turn = playerWinner;
 					_status.AddNewHand();
-					_pendingDeclarations.Clear();
+					_currentMoveNodes.Clear();
 
 				}
 
@@ -177,7 +191,7 @@ namespace Subasta.Client.Common
 
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
-			_pendingDeclarations.Add(playerPlays, nodeResult.PotentialDeclaration(_status.Hands.Count));
+			_currentMoveNodes.Add(playerPlays, nodeResult);
 			_status.CurrentHand.Add(playerPlays, cardAtMove);
 			_status.RemovePlayerCard(playerPlays, cardAtMove);
 			if (++playerPlays > 4) playerPlays = 1;
