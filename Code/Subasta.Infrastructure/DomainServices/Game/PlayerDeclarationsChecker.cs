@@ -9,9 +9,15 @@ namespace Subasta.Infrastructure.DomainServices.Game
 {
 	internal sealed class PlayerDeclarationsChecker : IPlayerDeclarationsChecker
 	{
+		private readonly ISuit _suitOros = Suit.FromName("Oros");
+		private readonly ISuit _suitCopas = Suit.FromName("Copas");
+		private readonly ISuit _suitEspadas=Suit.FromName("Espadas");
+		private readonly ISuit _suitBastos = Suit.FromName("Bastos");
+
+
 		public bool HasDeclarable(Declaration declarable, ISuit trump, ICard[] playerCards)
 		{
-			bool result=false;
+			bool result = false;
 			switch (declarable)
 			{
 				case Declaration.Reyes:
@@ -21,20 +27,28 @@ namespace Subasta.Infrastructure.DomainServices.Game
 					result = playerCards.Count(x => x.Number == 11) == 4;
 					break;
 				case Declaration.ParejaOros:
-					if (trump.Name != "Oros") //para que se evalue como las 40
-						result = playerCards.Count(x => x.Suit == Suit.FromName("Oros") && (x.Number == 11 || x.Number == 12)) == 2;
+					if (trump!= _suitOros) //para que se evalue como las 40
+					{
+						result = playerCards.Count(x => x.Suit == _suitOros && (x.Number == 11 || x.Number == 12)) == 2;
+					}
 					break;
 				case Declaration.ParejaCopas:
-                    if (trump.Name != "Copas")//para que se evalue como las 40
-						result = playerCards.Count(x => x.Suit == Suit.FromName("Copas") && (x.Number == 11 || x.Number == 12)) == 2;
+					if (trump!= _suitCopas) //para que se evalue como las 40
+					{
+						result = playerCards.Count(x => x.Suit == _suitCopas && (x.Number == 11 || x.Number == 12)) == 2;
+					}
 					break;
 				case Declaration.ParejaEspadas:
-                    if (trump.Name != "Espadas")//para que se evalue como las 40
-						result = playerCards.Count(x => x.Suit == Suit.FromName("Espadas") && (x.Number == 11 || x.Number == 12)) == 2;
+					if (trump!= _suitEspadas) //para que se evalue como las 40
+					{
+						result = playerCards.Count(x => x.Suit == _suitEspadas && (x.Number == 11 || x.Number == 12)) == 2;
+					}
 					break;
 				case Declaration.ParejaBastos:
-                    if (trump.Name != "Bastos")//para que se evalue como las 40
-						result = playerCards.Count(x => x.Suit == Suit.FromName("Bastos") && (x.Number == 11 || x.Number == 12)) == 2;
+					if (trump != _suitBastos) //para que se evalue como las 40
+					{
+						result = playerCards.Count(x => x.Suit == _suitBastos && (x.Number == 11 || x.Number == 12)) == 2;
+					}
 					break;
 				case Declaration.Cuarenta:
 					result = playerCards.Count(x => x.Suit == trump && (x.Number == 11 || x.Number == 12)) == 2;
