@@ -22,7 +22,13 @@ namespace Subasta.Infrastructure.Domain
 			return Name;
 		}
 
-		private static ISuit[] _suits;
+		private static readonly ISuit[] _suits = new ISuit[]
+					{
+						new Suit("Oros", 1),
+						new Suit("Copas", 2),
+						new Suit("Espadas", 3),
+						new Suit("Bastos", 4)
+					};
 
 
 		public static ISuit FromName(string suitName)
@@ -30,17 +36,11 @@ namespace Subasta.Infrastructure.Domain
 			return Suits.Single(x => string.Compare(x.Name, suitName, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 
-		public static IEnumerable<ISuit> Suits
+		public static ISuit[] Suits
 		{
 			get
 			{
-				return _suits ?? (_suits = new ISuit[]
-					{
-						new Suit("Oros", 1),
-						new Suit("Copas", 2),
-						new Suit("Espadas", 3),
-						new Suit("Bastos", 4)
-					});
+				return _suits;
 			}
 		}
 
@@ -54,16 +54,16 @@ namespace Subasta.Infrastructure.Domain
 	        switch (Char.ToUpper(idName))
 	        {
                 case 'O':
-	                return FromName("Oros");
+	                return _suits[0];
 
                 case 'C':
-                    return FromName("Copas");
+					return _suits[1];
 
                 case 'E':
-                    return FromName("Espadas");
+					return _suits[2];
 
                 case 'B':
-                    return FromName("Bastos");
+					return _suits[3];
 
 	            default:
 	                throw new ArgumentOutOfRangeException("idName");

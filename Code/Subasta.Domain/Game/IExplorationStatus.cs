@@ -34,6 +34,12 @@ namespace Subasta.Domain.Game
 		void AddHand(IHand hand);
 		void SetTrump(ISuit trump);
 		int SumTotalTeam(int playerPosition);
+
+		/// <summary>
+		/// Removes the player card from the status, it was played //TODO:Encapsulate
+		/// </summary>
+		/// <param name="playerPosition"></param>
+		/// <param name="card"></param>
 		void RemovePlayerCard(int playerPosition, ICard card);
 		bool IsInTeamBets(int playerPosition);
 		int PlayerMateOf(int playerWinner);

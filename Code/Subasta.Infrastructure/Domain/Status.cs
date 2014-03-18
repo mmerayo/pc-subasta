@@ -140,9 +140,11 @@ namespace Subasta.Infrastructure.Domain
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
 			var result = new List<Declaration>();
 			for (int i = 0; i < 2; i++)
-				result.AddRange(
-					declarables.Where(
-						declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[teamPlayers[i] - 1])));
+			{
+				var declarations = declarables.Where(
+					x => _declarationsChecker.HasDeclarable(x, Trump, _playerCards[teamPlayers[i] - 1]));
+				result.AddRange(declarations);
+			}
 
 			return result;
 		}
@@ -191,6 +193,7 @@ namespace Subasta.Infrastructure.Domain
 			if (_gameCompleted) return;
 			_gameCompleted = _hands != null && _hands.Count == 10 && _hands[9].IsCompleted;
 			if (_gameCompleted) return;
+			if(!CurrentHand.IsCompleted && !CurrentHand.IsEmpty) return;
 			if (SumTotalTeam(PlayerBets) >= PointsBet)
 				_gameCompleted = true;
 			else
@@ -206,6 +209,8 @@ namespace Subasta.Infrastructure.Domain
 							declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[i - 1]));
 						maxPotential += declarations.Sum(source => DeclarationValues.ValueOf(source));
 					}
+				maxPotential+=Hands.Where(x => x.Declaration.HasValue).Sum(x => DeclarationValues.ValueOf(x.Declaration.Value));
+
 				int sumTotalTeam = SumTotalTeam(other);
 				if (sumTotalTeam >= maxPotential - PointsBet + 1)
 					_gameCompleted = true;
