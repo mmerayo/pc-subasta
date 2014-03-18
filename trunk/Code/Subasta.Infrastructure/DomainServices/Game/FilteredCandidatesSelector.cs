@@ -27,7 +27,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var result = source.ToList();
 			foreach (var sameSuit in result.GroupBy(x => x.Suit))
 			{
-				var ordered = sameSuit.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).ToList();
+				var ordered = sameSuit.OrderBy(x => x.Value).ThenBy(x => x.Number).ToList();
 				RemoveCandidatesInTheMiddle(result, ordered);
 			}
 			

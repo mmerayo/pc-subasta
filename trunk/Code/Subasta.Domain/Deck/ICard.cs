@@ -6,5 +6,6 @@
 		int Number { get; }
 		int Value { get; }
 	    string ToShortString();
+		bool IsAbsSmallerThan(ICard card);
 	}
 }

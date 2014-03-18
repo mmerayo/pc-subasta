@@ -102,9 +102,12 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var length = candidates.Length;
 			for (int i = 1; i < length; i++)
 			{
-				var current = Explore(currentStatus, playerPlays, candidates[i], out updatedStatus);
+				ICard candidate = candidates[i];
+				var current = Explore(currentStatus, playerPlays, candidate, out updatedStatus);
 
-				if (current[playerPlays] > best[playerPlays])
+				int currentPoints = current[playerPlays];
+				int currentBestPoints = best[playerPlays];
+				if (currentPoints > currentBestPoints || (currentPoints == currentBestPoints && candidate.IsAbsSmallerThan(best.CardAtMove(playerPlays,currentStatus.CurrentHand.Sequence) )))
 				{
 					//Console.WriteLine("---Found better move");
 					best = current;
@@ -128,9 +131,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			var declarables = updatedStatus.Declarables;
 			var newStatus = updatedStatus.Clone();
 			if (declarables.Length > 0)
-			{
 				AddDeclaration(declarables[0], newStatus);
-			}
 
 			var best = Execute(newStatus, newStatus.Turn);
 
@@ -174,11 +175,6 @@ namespace Subasta.Infrastructure.DomainServices.Game
 			IExplorationStatus result = currentStatus.Clone();
 
 			result.RemovePlayerCard(playerPosition,candidate);
-
-			//TODO: USE RemovePlayerCard
-			//var playerCards = result.PlayerCards(playerPosition).ToList();
-			//playerCards.RemoveAt(playerCards.IndexOf(candidate));
-			//result.SetCards(playerPosition, playerCards.ToArray());
 
 			var hand = result.CurrentHand;
 

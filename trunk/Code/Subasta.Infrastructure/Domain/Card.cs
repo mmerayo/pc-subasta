@@ -84,7 +84,12 @@ namespace Subasta.Infrastructure.Domain
 	        return string.Format("{0}{1}", Suit.Name[0], Number);
 	    }
 
-	    public override string ToString()
+		public bool IsAbsSmallerThan(ICard card)
+		{
+			return Value < card.Value || (Value == card.Value && Number < card.Value);
+		}
+
+		public override string ToString()
 		{
 			return string.Format("{0} - {1}", Number, Suit.Name);
 		}
