@@ -119,7 +119,7 @@ namespace Subasta.Client.Common
 						}
 						if (declarationAtMove.HasValue)
 						{
-							_status.CurrentHand.Add(declarationAtMove.Value);
+							_status.CurrentHand.SetDeclaration(declarationAtMove.Value);
 							OnStatusChanged(timeTaken);
 						}
 

@@ -3,7 +3,7 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Strategies
 {
-	internal class NonFilteredCandidatesSelector: ICandidatesSelector
+	internal class NonFilteredCandidatesSelector: INonFilteredCandidatesSelector
 	{
 		private readonly IValidCardsRule _validMoveRule;
 

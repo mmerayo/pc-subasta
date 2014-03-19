@@ -34,5 +34,7 @@ namespace Subasta.DomainServices.Game.Algorithms
 
 			return status;
 		}
+
+		
 	}
 }

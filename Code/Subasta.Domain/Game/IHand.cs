@@ -32,6 +32,6 @@ namespace Subasta.Domain.Game
         ICard PlayerCard(int playerPosition);
 
 		IHand Clone();
-		void Add(Declaration declaration);
+		void SetDeclaration(Declaration declaration);
 	}
 }

@@ -48,9 +48,11 @@
     <Compile Include="DataAccess\IGameSettingsStoreWritter.cs" />
     <Compile Include="DataAccess\IQueuedResultStoreWritter.cs" />
     <Compile Include="DataAccess\IUnitOfWork.cs" />
+    <Compile Include="Game\ICandidatePlayer.cs" />
     <Compile Include="Game\ICandidatesSelector.cs" />
     <Compile Include="Game\ICardComparer.cs" />
     <Compile Include="Game\IDeckSuffler.cs" />
+    <Compile Include="Game\INonFilteredCandidatesSelector.cs" />
     <Compile Include="Game\ISimulator.cs" />
     <Compile Include="Game\IGameGenerator.cs" />
     <Compile Include="Game\IPlayerDeclarationsChecker.cs" />

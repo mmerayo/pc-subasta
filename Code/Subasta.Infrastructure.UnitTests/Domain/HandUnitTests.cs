@@ -60,7 +60,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			_context.WithTrump(Oros).WithExistingCards(existingCards, 1);
 
-			_context.Sut.Add(declaration);
+			_context.Sut.SetDeclaration(declaration);
 
 			return _context.Sut.Declaration;
 		}
@@ -280,7 +280,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			public TestContext WithDeclaration(Declaration? declaration)
 			{
 				if(declaration.HasValue)
-					Sut.Add(declaration.Value);
+					Sut.SetDeclaration(declaration.Value);
 				return this;
 			}
 		}
