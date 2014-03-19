@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
-using Subasta.DomainServices.Game;
-using Subasta.Infrastructure.Domain;
 
-namespace Subasta.Infrastructure.DomainServices.Game
+namespace Subasta.DomainServices.Game
 {
 	internal class MaxNSimulator : ISimulator
 	{

@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.DomainServices.Game;
 
-namespace Subasta.Infrastructure.DomainServices.Game
+namespace Subasta.DomainServices.Game
 {
 	internal class FilteredCandidatesSelector :NonFilteredCandidatesSelector
 	{

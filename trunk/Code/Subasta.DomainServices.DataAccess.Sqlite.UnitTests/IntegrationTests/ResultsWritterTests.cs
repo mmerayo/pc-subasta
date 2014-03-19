@@ -5,9 +5,9 @@ using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess.Sqlite.Infrastructure;
 using Subasta.DomainServices.DataAccess.Sqlite.Writters;
+using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
-using Subasta.Infrastructure.DomainServices.Game;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
 {

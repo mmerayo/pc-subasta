@@ -5,6 +5,7 @@ using StructureMap;
 using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
 using Subasta.DomainServices.DataAccess.Sqlite.IoC;
+using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
@@ -32,6 +33,7 @@ namespace Subasta.Infrastructure.IoC
 									c.AddRegistry<ApplicationServicesRegistry>();
 									c.AddRegistry<DomainServicesRegistry>();
 									c.AddRegistry<DomainRegistry>();
+									c.AddRegistry<GameRegistry>();
 									if (clientRegistries != null)
 										clientRegistries.ForEach(c.AddRegistry);
 								});
