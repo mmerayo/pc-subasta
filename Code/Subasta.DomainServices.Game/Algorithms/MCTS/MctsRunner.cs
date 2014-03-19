@@ -1,16 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsRunner : IMctsRunner,IDisposable
 	{
-		public void Start(IExplorationStatus result)
-		{
-			//TreeNode<NodeInfo>.Initialize();
+		private bool _stop = false;
 
-			//TODO: BY THREADS
+		public void Start(IExplorationStatus status)
+		{
+			TreeNode.Initialize(status);
+
+			Task.Factory.StartNew(() => Explore(1));
+			Task.Factory.StartNew(() => Explore(2));
+
+		}
+
+		private void Explore(int teamNumber)
+		{
+			int availableThreads = 4;
+			do
+			{
+
+				while(availableThreads > 0)
+				{
+					Task.Factory.StartNew(() =>
+						{
+							var rootTeam = teamNumber == 1 ? TreeNode.RootTeam1 : TreeNode.RootTeam2;
+							availableThreads = DoSelect(availableThreads, rootTeam);
+						});
+				}
+			
+
+			} while (!_stop);
+
+		}
+
+		private static int DoSelect(int availableThreads, TreeNode rootTeam)
+		{
+			availableThreads--;
+			rootTeam.Select();
+			availableThreads++;
+			return availableThreads;
 		}
 
 		/// <summary>
@@ -24,10 +56,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			//TreeNode<NodeInfo>.Root.Select();// done by each thread
 		}
 
+		public void Stop()
+		{
+			_stop = true;
+		}
 
+		private bool _disposed = false;
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			
+		}
+		private void Dispose(bool disposing)
+		{
+			
 		}
 	}
 }
