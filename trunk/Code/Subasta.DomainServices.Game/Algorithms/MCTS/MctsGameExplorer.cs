@@ -32,7 +32,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return result;
 		}
 
-		public NodeResult Execute(IExplorationStatus currentStatus)
+		public NodeResult GetBest(IExplorationStatus currentStatus)
 		{
 			return _treeQuery.GetBestFoundAndShallow();
 		}
