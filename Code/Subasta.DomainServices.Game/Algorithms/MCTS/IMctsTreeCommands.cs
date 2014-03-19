@@ -7,8 +7,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		/// <summary>
 		/// gets the best option found and removes previous uneeded options
 		/// </summary>
+		/// <param name="currentStatus"></param>
 		/// <returns></returns>
-		NodeResult GetBestFoundAndShallow(); 
+		NodeResult GetBestFoundAndShallow(IExplorationStatus currentStatus); 
 		
 		//TODO:create option clone subtree and make it actual, Ensure the status to a node isheld
 	}

@@ -187,6 +187,16 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
+		public int TurnTeam
+		{
+			get
+			{
+				if (Turn == 1 || Turn == 3) 
+					return 1;
+				return 2;
+			}
+		}
+
 		private void UpdateIsCompleted()
 		{
 			if (_gameCompleted) return;

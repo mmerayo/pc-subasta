@@ -64,6 +64,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 			}
 		}
 
+		public void StopSimulation()
+		{
+
+		}
+
 		private NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)
 		{
 			if (IsTerminalNode(currentStatus, playerPlays))

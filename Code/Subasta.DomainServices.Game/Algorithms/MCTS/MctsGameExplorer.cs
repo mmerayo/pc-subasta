@@ -34,9 +34,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public NodeResult GetBest(IExplorationStatus currentStatus)
 		{
-			return _treeQuery.GetBestFoundAndShallow();
+			return _treeQuery.GetBestFoundAndShallow(currentStatus);
 		}
 
 		public int MaxDepth { get; set; }
+		public void StopSimulation()
+		{
+			_mctsRunner.Stop();
+		}
 	}
 }

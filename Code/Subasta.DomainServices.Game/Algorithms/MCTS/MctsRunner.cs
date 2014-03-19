@@ -22,7 +22,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			int availableThreads = 4;
 			do
 			{
-
 				while(availableThreads > 0)
 				{
 					Task.Factory.StartNew(() =>
@@ -31,10 +30,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 							availableThreads = DoSelect(availableThreads, rootTeam);
 						});
 				}
-			
-
 			} while (!_stop);
-
 		}
 
 		private static int DoSelect(int availableThreads, TreeNode rootTeam)

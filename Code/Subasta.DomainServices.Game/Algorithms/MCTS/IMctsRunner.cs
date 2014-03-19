@@ -9,5 +9,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		/// </summary>
 		/// <param name="result"></param>
 		void Start(IExplorationStatus result);// ensure it finishes the exploration(disposes the threads)
+		void Stop();
 	}
 }

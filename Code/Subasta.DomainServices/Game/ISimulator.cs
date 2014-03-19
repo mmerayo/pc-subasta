@@ -12,5 +12,7 @@ namespace Subasta.DomainServices.Game
 		NodeResult GetBest(IExplorationStatus currentStatus);
 
 		int MaxDepth { get; set; }
+
+		void StopSimulation();
 	}
 }
