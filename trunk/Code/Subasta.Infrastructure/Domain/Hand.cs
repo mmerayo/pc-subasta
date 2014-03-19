@@ -150,7 +150,7 @@ namespace Subasta.Infrastructure.Domain
 			return result;
 		}
 
-		public void Add(Declaration declaration)
+		public void SetDeclaration(Declaration declaration)
 		{
 			ThrowIfNotcompleted();
 			Declaration = declaration;

@@ -22,6 +22,8 @@ namespace Subasta.DomainServices.Game
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();
 			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
+			For<ICandidatePlayer>().Use<CandidatePlayer>();
+
 
 			For<IMctsRunner>().Use<MctsRunner>();
 			For<IMctsTreeCommands>().Use<MctsTreeCommands>();

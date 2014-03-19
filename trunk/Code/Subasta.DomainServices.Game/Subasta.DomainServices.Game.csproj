@@ -45,12 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\MCTS\TreeNode.cs" />
     <Compile Include="Algorithms\MCTS\IMctsRunner.cs" />
     <Compile Include="Algorithms\MCTS\IMctsTreeCommands.cs" />
     <Compile Include="Algorithms\MCTS\MctsRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsTreeCommands.cs" />
     <Compile Include="Algorithms\Simulator.cs" />
     <Compile Include="Algorithms\MCTS\MctsGameExplorer.cs" />
+    <Compile Include="Strategies\CandidatePlayer.cs" />
     <Compile Include="Utils\CardComparer.cs" />
     <Compile Include="Strategies\DeckSuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />

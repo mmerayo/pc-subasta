@@ -4,7 +4,6 @@ using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
-using Subasta.DomainServices.Game.Models;
 
 namespace Subasta.DomainServices.Game.Algorithms.MaxN
 {
@@ -12,6 +11,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 	{
 		private readonly ICandidatesSelector _candidatesSelector;
 		private readonly IResultStoreWritter _resultsWritter;
+		private readonly ICandidatePlayer _candidatePlayer;
 		private int _maxDepth;
 		
 
@@ -19,13 +19,14 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 		                    IQueuedResultStoreWritter resultsWritter,
 		                    ICardComparer cardComparer,
 		                    IPlayerDeclarationsChecker declarationsChecker,
-		                    IGameSettingsStoreWritter gameSettingsWritter ):base(cardComparer, declarationsChecker, gameSettingsWritter)
+		                    IGameSettingsStoreWritter gameSettingsWritter,
+			ICandidatePlayer candidatePlayer):base(cardComparer, declarationsChecker, gameSettingsWritter)
 		{
 			
 			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
 			_candidatesSelector = candidatesSelector;
 			_resultsWritter = resultsWritter;
-			
+			_candidatePlayer = candidatePlayer;
 		}
 
 		public void Execute(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2,
@@ -105,7 +106,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 		private NodeResult Explore(IExplorationStatus currentStatus, int playerPosition, ICard candidate,
 		                           out IExplorationStatus updatedStatus)
 		{
-			updatedStatus = PlayCandidate(currentStatus, playerPosition, candidate);
+			updatedStatus = _candidatePlayer.PlayCandidate(currentStatus, playerPosition, candidate);
 
 			var declarables = updatedStatus.Declarables;
 			var newStatus = updatedStatus.Clone();
@@ -135,39 +136,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 		{
 			IHand firstDeclarableHand = newStatus.FirstDeclarableHand;
 			if (firstDeclarableHand != null && newStatus.IsInTeamBets(firstDeclarableHand.PlayerWinner.Value))
-				firstDeclarableHand.Add(declaration);
+				firstDeclarableHand.SetDeclaration(declaration);
 		}
 
-
-		private int NextPlayer(int playerPosition)
-		{
-			var result = playerPosition + 1;
-
-			if (result == 5)
-				result = 1;
-
-			return result;
-		}
-
-		private IExplorationStatus PlayCandidate(IExplorationStatus currentStatus, int playerPosition, ICard candidate)
-		{
-			IExplorationStatus result = currentStatus.Clone();
-
-			result.RemovePlayerCard(playerPosition,candidate);
-
-			var hand = result.CurrentHand;
-
-			hand.Add(playerPosition, candidate);
-
-			if (hand.IsCompleted)
-			{
-				result.Turn = hand.PlayerWinner.Value;
-				result.AddNewHand();
-			}
-			else
-				result.Turn = NextPlayer(result.Turn);
-			return result;
-		}
 
 		private bool IsTerminalNode(IExplorationStatus currentStatus, int playerPosition)
 		{
