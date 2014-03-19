@@ -212,8 +212,10 @@ namespace Subasta.DomainServices.Game.Models
 			get
 			{
 				ThrowIfNotCompleted();
-				if (SumTotal(PlayerBets) >= PointsBet)
+
+				if (SumTotalTeam(PlayerBets) >= PointsBet)
 					return TeamBets;
+
 				if (TeamBets == 1)
 					return 2;
 				return 1;

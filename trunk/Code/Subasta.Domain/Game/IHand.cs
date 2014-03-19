@@ -29,7 +29,8 @@ namespace Subasta.Domain.Game
 		Declaration? Declaration { get; }
         int FirstPlayer { get; }
         int Sequence { get; }
-        ICard PlayerCard(int playerPosition);
+	    int DeclarationValue { get; }
+	    ICard PlayerCard(int playerPosition);
 
 		IHand Clone();
 		void SetDeclaration(Declaration declaration);
