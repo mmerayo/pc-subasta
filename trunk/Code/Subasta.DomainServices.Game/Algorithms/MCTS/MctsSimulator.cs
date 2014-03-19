@@ -8,12 +8,12 @@ using Subasta.DomainServices.DataAccess;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-	class MctsGameExplorer :Simulator, ISimulator
+	class MctsSimulator :Simulator, ISimulator
 	{
 		private readonly IMctsRunner _mctsRunner;
 		private readonly IMctsTreeCommands _treeQuery;
 
-		public MctsGameExplorer(ICardComparer cardComparer, 
+		public MctsSimulator(ICardComparer cardComparer, 
 			IPlayerDeclarationsChecker declarationsChecker, 
 			IGameSettingsStoreWritter gameSettingsWritter,
 			IMctsRunner mctsRunner,IMctsTreeCommands treeQuery)
