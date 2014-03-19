@@ -1,12 +1,14 @@
-﻿using Subasta.Domain.Game;
+﻿using System;
+using System.Linq;
+using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsTreeCommands : IMctsTreeCommands
 	{
-		public NodeResult GetBestFoundAndShallow()
+		public NodeResult GetBestFoundAndShallow(IExplorationStatus currentStatus)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 	}
 }
