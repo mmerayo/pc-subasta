@@ -3,6 +3,7 @@ using System.Collections;
 using NUnit.Framework;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Utils;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
