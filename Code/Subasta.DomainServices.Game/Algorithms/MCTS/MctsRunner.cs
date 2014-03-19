@@ -11,15 +11,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Start(IExplorationStatus status)
 		{
 			TreeNode.Initialize(status);
-
-			Task.Factory.StartNew(() => Explore(1));
-			Task.Factory.StartNew(() => Explore(2));
+			TreeNode.RootTeam1.Select();
+			//Task.Factory.StartNew(() => Explore(1));
+			//Task.Factory.StartNew(() => Explore(2));
 
 		}
 
 		private void Explore(int teamNumber)
 		{
-			int availableThreads = 4;
+			int availableThreads = 1;
 			do
 			{
 				while(availableThreads > 0)

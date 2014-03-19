@@ -16,12 +16,14 @@ namespace Subasta.DomainServices.Game
 		public GameRegistry()
 		{
 			For<ICardComparer>().Use<CardComparer>();
-			For<ISimulator>().Use<MaxNSimulator>();
+			//For<ISimulator>().Use<MaxNSimulator>();
+			For<ISimulator>().Use<MctsSimulator>();
 			For<IGameGenerator>().Use<GameGenerator>();
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();
 			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
+			For<INonFilteredCandidatesSelector>().Use<NonFilteredCandidatesSelector>();
 			For<ICandidatePlayer>().Use<CandidatePlayer>();
 
 

@@ -20,6 +20,8 @@ namespace Subasta.Domain.Game
 		bool IsCompleted { get; }
 		IHand FirstDeclarableHand { get; }
 		int TurnTeam { get; }
+		int TeamWinner { get; }
+		int TeamBets { get; }
 		void AddNewHand();
 		ICard[] PlayerCards(int playerPosition);
 		void SetCards(int playerPosition, ICard[] cards);
