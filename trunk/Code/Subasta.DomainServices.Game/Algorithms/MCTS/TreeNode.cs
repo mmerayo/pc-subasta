@@ -149,14 +149,31 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		//returns 0(loss) or 1(win)
 		private double GetSimulationValue(TreeNode node)
 		{
-			//see remember the team number
-			//if is end of path performs the calculation
+			var status = node._status.Clone();
 
-			//it creates the child nodes as _not expanded if they were not created yet
+			while (!status.IsCompleted)
+			{
+				//TODO: DECLARATIONS???
+				//if (!status.CurrentHand.IsEmpty)
+				//{
+					ICard[] candidates = _candidatesSelector.GetCandidates(status, status.Turn);
+					int index = _random.Next(0, candidates.Length - 1);
+					status = _candidatePlayer.PlayCandidate(status, status.Turn, candidates[index]);
+				//}
+				//else
+				//{
+				//    var declarations = status.Declarables;
 
-			//selects one and keep going
+				//    foreach (var declaration in declarations)
+				//    {
+				//        status.LastCompletedHand
+				//    }
+				//}
+			}
 
-			throw new NotImplementedException();
+			if (node._status.TeamWinner == _teamNumber)
+				return 1;
+			return 0;
 		}
 
 		private void UpdateStatus(double value)

@@ -59,6 +59,16 @@ namespace Subasta.DomainServices.Game.Models
 		//el jugador que la pone
 		public int PlayerBets { get; private set; }
 
+		public int TeamBets
+		{
+			get
+			{
+				if (PlayerBets == 1 || PlayerBets == 3)
+					return 1;
+				return 2;
+			}
+		}
+
 		public int Turn
 		{
 			set
@@ -197,6 +207,21 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
+		public int TeamWinner
+		{
+			get
+			{
+				ThrowIfNotCompleted();
+				if (SumTotal(PlayerBets) >= PointsBet)
+					return TeamBets;
+				if (TeamBets == 1)
+					return 2;
+				return 1;
+			}
+		}
+
+
+
 		private void UpdateIsCompleted()
 		{
 			if (_gameCompleted) return;
@@ -271,6 +296,12 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			if (PlayerBets == int.MinValue)
 				throw new InvalidOperationException("Player bets need to be set");
+		}
+
+		private void ThrowIfNotCompleted()
+		{
+			if(!IsCompleted)
+				throw new InvalidOperationException("Status is not completed");
 		}
 
 		public ICard[] PlayerCards(int playerPosition)
