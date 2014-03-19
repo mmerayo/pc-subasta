@@ -8,6 +8,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		/// it starts the MCTS
 		/// </summary>
 		/// <param name="result"></param>
-		void Start(IExplorationStatus result);
+		void Start(IExplorationStatus result);// ensure it finishes the exploration(disposes the threads)
 	}
 }
