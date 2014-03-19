@@ -67,17 +67,20 @@ namespace Subasta.Infrastructure.Domain
 		{
 			get
 			{
-				return _hand.Where(x => x != null).Sum(x => x.Value)+DeclarationValue();
+				return _hand.Where(x => x != null).Sum(x => x.Value)+DeclarationValue;
 			}
 		}
 
-		private int DeclarationValue()
+		public int DeclarationValue
 		{
-			int result = 0;
-			if (Declaration.HasValue)
-				return DeclarationValues.ValueOf(Declaration.Value);
-				
-			return result;
+			get
+			{
+				int result = 0;
+				if (Declaration.HasValue)
+					return DeclarationValues.ValueOf(Declaration.Value);
+
+				return result;
+			}
 		}
 
 		public bool IsStartedByTrump

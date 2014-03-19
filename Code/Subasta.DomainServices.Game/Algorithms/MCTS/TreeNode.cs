@@ -171,7 +171,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				//}
 			}
 
-			if (node._status.TeamWinner == _teamNumber)
+			if (status.TeamWinner == _teamNumber)
 				return 1;
 			return 0;
 		}
