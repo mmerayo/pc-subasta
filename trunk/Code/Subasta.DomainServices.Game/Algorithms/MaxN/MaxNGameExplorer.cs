@@ -4,8 +4,9 @@ using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
+using Subasta.DomainServices.Game.Models;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Algorithms
 {
 	internal class MaxNSimulator : ISimulator
 	{

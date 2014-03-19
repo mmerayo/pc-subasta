@@ -1,7 +1,7 @@
 ﻿using System;
 using Subasta.Domain.Deck;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Strategies
 {
 	internal class DeckSuffler:IDeckSuffler
 	{

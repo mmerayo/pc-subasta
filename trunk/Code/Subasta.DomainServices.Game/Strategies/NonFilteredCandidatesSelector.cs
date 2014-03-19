@@ -1,7 +1,7 @@
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Strategies
 {
 	internal class NonFilteredCandidatesSelector: ICandidatesSelector
 	{

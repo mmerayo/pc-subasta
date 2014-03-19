@@ -4,7 +4,7 @@ using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Infrastructure.Domain;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Strategies
 {
 	internal sealed class PlayerDeclarationsChecker : IPlayerDeclarationsChecker
 	{
