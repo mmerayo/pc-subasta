@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS

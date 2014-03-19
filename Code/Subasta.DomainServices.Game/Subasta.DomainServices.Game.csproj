@@ -51,7 +51,7 @@
     <Compile Include="Algorithms\MCTS\MctsRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsTreeCommands.cs" />
     <Compile Include="Algorithms\Simulator.cs" />
-    <Compile Include="Algorithms\MCTS\MctsGameExplorer.cs" />
+    <Compile Include="Algorithms\MCTS\MctsSimulator.cs" />
     <Compile Include="Strategies\CandidatePlayer.cs" />
     <Compile Include="Utils\CardComparer.cs" />
     <Compile Include="Strategies\DeckSuffler.cs" />
