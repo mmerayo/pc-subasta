@@ -13,7 +13,7 @@ namespace Subasta.Client.Common
 {
 	public class GameSimulator : IGameSimulator
 	{
-		private readonly IGameExplorer _explorer;
+		private readonly ISimulator _explorer;
 		private readonly IDeck _deck;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
@@ -28,7 +28,7 @@ namespace Subasta.Client.Common
 		private readonly Dictionary<int, NodeResult> _currentMoveNodes = new Dictionary<int, NodeResult>();
 		private Stopwatch _perMoveWatcher;
 
-		public GameSimulator(IGameExplorer explorer, IDeck deck)
+		public GameSimulator(ISimulator explorer, IDeck deck)
 		{
 			_explorer = explorer;
 			_deck = deck;
