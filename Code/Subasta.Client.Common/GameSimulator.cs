@@ -190,7 +190,7 @@ namespace Subasta.Client.Common
 
 		public void NextMove()
 		{
-			var nodeResult = _explorer.Execute(_status); //TODO: TURN NEEDED??
+			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
 
 			int playerPlays = _status.Turn;
 			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);

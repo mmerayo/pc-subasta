@@ -47,7 +47,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 		}
 
 
-		public NodeResult Execute(IExplorationStatus currentStatus)
+		public NodeResult GetBest(IExplorationStatus currentStatus)
 		{
 			NodeResult nodeResult = Execute(currentStatus, currentStatus.Turn);
 			return nodeResult;
