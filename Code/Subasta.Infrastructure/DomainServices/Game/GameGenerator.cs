@@ -13,18 +13,18 @@ namespace Subasta.Infrastructure.DomainServices.Game
 	{
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
-		private readonly IGameExplorer _gameExplorer;
+		private readonly ISimulator _simulator;
 		private readonly IGameDataWritter _gameDataAllocator;
 
 		public GameGenerator(
 			IDeck deck,
 			IDeckSuffler suffler,
-			IGameExplorer gameExplorer,
+			ISimulator simulator,
 			IGameDataWritter gameDataAllocator)
 		{
 			_deck = deck;
 			_suffler = suffler;
-			_gameExplorer = gameExplorer;
+			_simulator = simulator;
 			_gameDataAllocator = gameDataAllocator;
 		}
 

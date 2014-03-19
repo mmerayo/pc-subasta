@@ -10,7 +10,7 @@ using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.DomainServices.Game
 {
-	internal class GameExplorer : IGameExplorer
+	internal class MaxNSimulator : ISimulator
 	{
 		private readonly ICandidatesSelector _candidatesSelector;
 		private readonly IResultStoreWritter _resultsWritter;
@@ -19,7 +19,7 @@ namespace Subasta.Infrastructure.DomainServices.Game
 		private readonly IGameSettingsStoreWritter _gameSettingsWritter;
 		private int _maxDepth;
 
-		public GameExplorer(ICandidatesSelector candidatesSelector,
+		public MaxNSimulator(ICandidatesSelector candidatesSelector,
 		                    IQueuedResultStoreWritter resultsWritter,
 		                    ICardComparer cardComparer,
 		                    IPlayerDeclarationsChecker declarationsChecker,

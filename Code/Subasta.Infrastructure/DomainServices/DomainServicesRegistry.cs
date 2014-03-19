@@ -18,7 +18,7 @@ namespace Subasta.Infrastructure.DomainServices
 		{
 			For<IGameDataWritter>().Use<GameDataAllocator>();
 			For<ICardComparer>().Use<CardComparer>();
-			For<IGameExplorer>().Use<GameExplorer>();
+			For<ISimulator>().Use<MaxNSimulator>();
 			For<IGameGenerator>().Use<GameGenerator>();
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
