@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using StructureMap.Configuration.DSL;
 using Subasta.DomainServices.Game.Algorithms;
+using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Algorithms.MaxN;
 using Subasta.DomainServices.Game.Strategies;
 using Subasta.DomainServices.Game.Utils;
@@ -21,6 +22,9 @@ namespace Subasta.DomainServices.Game
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();
 			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
+
+			For<IMctsRunner>().Use<MctsRunner>();
+			For<IMctsTreeCommands>().Use<MctsTreeCommands>();
 		}
 	}
 }

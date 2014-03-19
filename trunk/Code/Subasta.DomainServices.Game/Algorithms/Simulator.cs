@@ -19,7 +19,7 @@ namespace Subasta.DomainServices.Game.Algorithms
 			_gameSettingsWritter = gameSettingsWritter;
 		}
 
-		public IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1,
+		public virtual IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1,
 		                                           ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump,
 		                                           int pointsBet)
 		{

@@ -4,20 +4,37 @@ using System.Linq;
 using System.Text;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.DataAccess;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-	class MctsGameExplorer : ISimulator
+	class MctsGameExplorer :Simulator, ISimulator
 	{
-		public IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1,
-		                                           ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump, int pointsBet)
+		private readonly IMctsRunner _mctsRunner;
+		private readonly IMctsTreeCommands _treeQuery;
+
+		public MctsGameExplorer(ICardComparer cardComparer, 
+			IPlayerDeclarationsChecker declarationsChecker, 
+			IGameSettingsStoreWritter gameSettingsWritter,
+			IMctsRunner mctsRunner,IMctsTreeCommands treeQuery)
+			: base(cardComparer, declarationsChecker, gameSettingsWritter)
 		{
-			throw new NotImplementedException();
+			_mctsRunner = mctsRunner;
+			_treeQuery = treeQuery;
+		}
+
+		public override IExplorationStatus GetInitialStatus(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2, ICard[] cardsP3, ICard[] cardsP4, ISuit trump, int pointsBet)
+		{
+			var result= base.GetInitialStatus(gameId, firstPlayer, forPlayerTeamBets, cardsP1, cardsP2, cardsP3, cardsP4, trump, pointsBet);
+
+			_mctsRunner.Start(result);
+
+			return result;
 		}
 
 		public NodeResult Execute(IExplorationStatus currentStatus)
 		{
-			throw new NotImplementedException();
+			return _treeQuery.GetBestFoundAndShallow();
 		}
 
 		public int MaxDepth { get; set; }
