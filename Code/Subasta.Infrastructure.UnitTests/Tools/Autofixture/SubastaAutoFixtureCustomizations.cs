@@ -1,5 +1,7 @@
 ﻿using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
+using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Models;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.UnitTests.Tools.Autofixture

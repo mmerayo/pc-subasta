@@ -1,6 +1,6 @@
 ﻿using Subasta.Domain.Deck;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Utils
 {
 	class CardComparer : ICardComparer
 	{

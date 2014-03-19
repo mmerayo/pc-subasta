@@ -3,7 +3,7 @@ using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Utils
 {
 	class ValidCardsRule : IValidCardsRule
 	{

@@ -2,7 +2,7 @@
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
 
-namespace Subasta.DomainServices.Game
+namespace Subasta.DomainServices.Game.Utils
 {
 	internal sealed class GameGenerator : IGameGenerator
 	{

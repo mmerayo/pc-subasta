@@ -6,8 +6,10 @@ using Ploeh.AutoFixture.AutoRhinoMock;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Models;
+using Subasta.DomainServices.Game.Strategies;
+using Subasta.DomainServices.Game.Utils;
 using Subasta.Infrastructure.Domain;
-using Subasta.Infrastructure.DomainServices.Game;
 using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.Domain

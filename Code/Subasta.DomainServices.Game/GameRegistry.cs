@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StructureMap.Configuration.DSL;
+using Subasta.DomainServices.Game.Algorithms;
+using Subasta.DomainServices.Game.Strategies;
+using Subasta.DomainServices.Game.Utils;
 
 namespace Subasta.DomainServices.Game
 {
