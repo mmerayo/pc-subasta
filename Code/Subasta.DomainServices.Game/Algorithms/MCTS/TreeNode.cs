@@ -17,15 +17,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private readonly ICandidatePlayer _candidatePlayer;
 		static readonly Random _random=new Random((int)DateTime.UtcNow.Ticks);
 
-		public static TreeNode Root
+		public static TreeNode RootTeam1
 		{
 			get;
 			private set;
 		}
+
+		public static TreeNode RootTeam2
+		{
+			get;
+			private set;
+		}
+
 		public static void Initialize(INonFilteredCandidatesSelector candidatesSelector,
 			IExplorationStatus status, ICandidatePlayer candidatePlayer)
 		{
-			Root = new TreeNode(candidatesSelector,status,candidatePlayer);
+			RootTeam1 = new TreeNode(candidatesSelector,status,candidatePlayer);
+			RootTeam2 = new TreeNode(candidatesSelector, status, candidatePlayer);
 		}
 
 
