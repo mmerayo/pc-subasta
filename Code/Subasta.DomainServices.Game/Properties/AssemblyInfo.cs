@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Subasta.Infrastructure")]
+[assembly: AssemblyTitle("Subasta.DomainServices.Game")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Subasta.Infrastructure")]
+[assembly: AssemblyProduct("Subasta.DomainServices.Game")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a9dcb9c0-a273-4a8b-b1ca-359a53e21f98")]
+[assembly: Guid("d92a0fed-9c1b-4f41-acb5-1102f407bca6")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,6 +34,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("Subasta.Infrastructure.UnitTests")] [assembly: InternalsVisibleTo("Subasta.Infrastructure.IoC")]
+
+[assembly: InternalsVisibleTo("Subasta.Infrastructure.UnitTests")]
+[assembly: InternalsVisibleTo("Subasta.Infrastructure.IoC")]
 [assembly: InternalsVisibleTo("Subasta.DomainServices.DataAccess.Sqlite.UnitTests")]
-[assembly: InternalsVisibleTo("Subasta.DomainServices.Game")]

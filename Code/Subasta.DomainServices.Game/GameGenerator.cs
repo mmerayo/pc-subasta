@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Subasta.ApplicationServices.Extensions;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
-using Subasta.DomainServices.Game;
-using Subasta.Infrastructure.Domain;
 
-namespace Subasta.Infrastructure.DomainServices.Game
+namespace Subasta.DomainServices.Game
 {
 	internal sealed class GameGenerator : IGameGenerator
 	{

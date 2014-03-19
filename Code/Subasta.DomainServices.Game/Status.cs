@@ -6,10 +6,9 @@ using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.DomainServices;
-using Subasta.DomainServices.Game;
+using Subasta.Infrastructure.Domain;
 
-namespace Subasta.Infrastructure.Domain
+namespace Subasta.DomainServices.Game
 {
 	internal class Status : IExplorationStatus
 	{

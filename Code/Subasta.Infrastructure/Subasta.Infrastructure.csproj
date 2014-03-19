@@ -52,20 +52,11 @@
     <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\DataAccess\NullStoreWritter.cs" />
     <Compile Include="DomainServices\DomainServicesRegistry.cs" />
-    <Compile Include="DomainServices\Game\FilteredCandidatesSelector.cs" />
-    <Compile Include="DomainServices\Game\DeckSuffler.cs" />
-    <Compile Include="DomainServices\Game\GameGenerator.cs" />
-    <Compile Include="DomainServices\Game\CardComparer.cs" />
-    <Compile Include="DomainServices\Game\MaxNGameExplorer.cs" />
-    <Compile Include="DomainServices\Game\NonFilteredCandidatesSelector.cs" />
-    <Compile Include="DomainServices\Game\PlayerDeclarationsChecker.cs" />
-    <Compile Include="DomainServices\Game\ValidCardsRule.cs" />
     <Compile Include="Domain\Card.cs" />
     <Compile Include="Domain\DomainRegistry.cs" />
     <Compile Include="Domain\Deck.cs" />
     <Compile Include="Domain\Hand.cs" />
     <Compile Include="Domain\Pack.cs" />
-    <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\Suit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
