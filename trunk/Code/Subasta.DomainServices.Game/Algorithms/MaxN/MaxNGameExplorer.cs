@@ -6,7 +6,7 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
 using Subasta.DomainServices.Game.Models;
 
-namespace Subasta.DomainServices.Game.Algorithms
+namespace Subasta.DomainServices.Game.Algorithms.MaxN
 {
 	internal class MaxNSimulator : ISimulator
 	{
