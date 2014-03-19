@@ -6,6 +6,9 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess.Sqlite.Infrastructure;
 using Subasta.DomainServices.DataAccess.Sqlite.Writters;
 using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Models;
+using Subasta.DomainServices.Game.Strategies;
+using Subasta.DomainServices.Game.Utils;
 using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
 

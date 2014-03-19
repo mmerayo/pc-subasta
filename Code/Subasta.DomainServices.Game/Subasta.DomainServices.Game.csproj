@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Simulator.cs" />
+    <Compile Include="Algorithms\MCTS\MctsGameExplorer.cs" />
     <Compile Include="Utils\CardComparer.cs" />
     <Compile Include="Strategies\DeckSuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />
@@ -74,6 +76,7 @@
       <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
