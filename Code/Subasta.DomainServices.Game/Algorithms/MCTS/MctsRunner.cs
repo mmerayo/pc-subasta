@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Subasta.Domain.Game;
 
@@ -18,8 +19,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			//for (int i = 1; i < 1000; i++)
 			//    treeNode.Select();
 
-			Task.Factory.StartNew(() => Explore(1));
-			Task.Factory.StartNew(() => Explore(2));
+			//Task.Factory.StartNew(() => Explore(1));
+			//Task.Factory.StartNew(() => Explore(2));
 
 		}
 
@@ -61,6 +62,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Stop()
 		{
 			_stop = true;
+			TreeNode.Reset();
 		}
 
 		private bool _disposed = false;

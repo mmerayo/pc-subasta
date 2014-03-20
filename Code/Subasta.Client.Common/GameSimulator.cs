@@ -191,7 +191,7 @@ namespace Subasta.Client.Common
 
 		public void NextMove()
 		{
-			Thread.Sleep(TimeSpan.FromSeconds(5));
+			//Thread.Sleep(TimeSpan.FromSeconds(1));
 			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
 
 			int playerPlays = _status.Turn;

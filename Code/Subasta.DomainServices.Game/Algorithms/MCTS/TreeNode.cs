@@ -256,5 +256,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				TotalValue += value;
 			}
 		}
+
+		public static void Reset()
+		{
+			RootTeam1 = null;
+			RootTeam2 = null;
+		}
 	}
 }
