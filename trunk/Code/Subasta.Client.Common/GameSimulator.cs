@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using StructureMap;
 using Subasta.Client.Common.Games;
 using Subasta.Domain;
@@ -190,6 +191,7 @@ namespace Subasta.Client.Common
 
 		public void NextMove()
 		{
+			Thread.Sleep(TimeSpan.FromSeconds(5));
 			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
 
 			int playerPlays = _status.Turn;
