@@ -29,6 +29,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private Declaration? _declarationPlayed;
 		private static readonly object _typeLock = new object();
 		private bool _expanded;
+		private List<TreeNode> _children;
 
 		public static TreeNode Root(int teamNumber)
 		{
@@ -92,7 +93,21 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private double TotalValue { get; set; }
 		private int NumberVisits { get; set; }
 
-		public List<TreeNode> Children { get; private set; }
+		public List<TreeNode> Children
+		{
+			get
+			{
+				lock (_syncLock)
+				return _children;
+			}
+			private set
+			{
+				if (_children == null)
+					lock (_syncLock)
+						if (_children == null)
+							_children = value;
+			}
+		}
 
 		public IExplorationStatus ExplorationStatus
 		{
@@ -185,14 +200,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			TreeNode selected = null;
 			double bestValue = double.MinValue;
 
-			foreach (var c in Children)
+			List<TreeNode> treeNodes = Children;
+			foreach (var treeNode in treeNodes)
 			{
-				double uctValue = c.TotalValue/(c.NumberVisits + Epsilon) +
-				                  Math.Sqrt(Math.Log(NumberVisits + 1)/(c.NumberVisits + Epsilon)) +
+				double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
+				                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) +
 				                  _random.NextDouble()*Epsilon;
 				if (uctValue > bestValue)
 				{
-					selected = c;
+					selected = treeNode;
 					bestValue = uctValue;
 				}
 			}
