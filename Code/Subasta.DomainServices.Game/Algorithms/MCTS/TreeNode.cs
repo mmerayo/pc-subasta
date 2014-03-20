@@ -20,30 +20,43 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private readonly int _teamNumber;
 		private readonly INonFilteredCandidatesSelector _candidatesSelector;
-		private readonly IExplorationStatus _status;
+		private readonly IExplorationStatus _explorationStatus;
 		private readonly ICandidatePlayer _candidatePlayer;
 
 		private readonly object _syncLock = new object();
 		private static readonly object _typeLock = new object();
 
-		public static TreeNode RootTeam1
+		public static TreeNode Root(int teamNumber)
+		{
+			switch (teamNumber)
+			{
+				case 1:
+					return RootTeam1;
+				case 2:
+					return RootTeam2;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private static TreeNode RootTeam1
 		{
 			get
 			{
 				lock (_typeLock)
 					return _rootTeam1;
 			}
-			private set
+			set
 			{
 				lock (_typeLock)
 					_rootTeam1 = value;
 			}
 		}
 
-		public static TreeNode RootTeam2
+		private static TreeNode RootTeam2
 		{
 			get { lock (_typeLock) return _rootTeam2; }
-			private set { lock (_typeLock) _rootTeam2 = value; }
+			set { lock (_typeLock) _rootTeam2 = value; }
 		}
 
 		public static void Initialize(IExplorationStatus status)
@@ -55,12 +68,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		}
 
 
-		private TreeNode(int teamNumber, INonFilteredCandidatesSelector candidatesSelector, IExplorationStatus status,
+		private TreeNode(int teamNumber, INonFilteredCandidatesSelector candidatesSelector, IExplorationStatus explorationStatus,
 		                 ICandidatePlayer candidatePlayer)
 		{
 			_teamNumber = teamNumber;
 			_candidatesSelector = candidatesSelector;
-			_status = status;
+			_explorationStatus = explorationStatus;
 			_candidatePlayer = candidatePlayer;
 		}
 
@@ -74,6 +87,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public List<TreeNode> Children { get; private set; }
 
+		public IExplorationStatus ExplorationStatus
+		{
+			get { return _explorationStatus; }
+		}
+
+		public ICard CardPlayed { get; private set; }
+		public Declaration? DeclarationPlayed { get; private set; }
 
 		public void Select()
 		{
@@ -100,11 +120,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void Expand()
 		{
-			ICard[] candidates = _candidatesSelector.GetCandidates(_status, _status.Turn);
+			ICard[] candidates = _candidatesSelector.GetCandidates(ExplorationStatus, ExplorationStatus.Turn);
 			Children = new List<TreeNode>();
 			foreach (var candidate in candidates)
 			{
-				var newStatus = _candidatePlayer.PlayCandidate(_status, _status.Turn, candidate);
+				var newStatus = _candidatePlayer.PlayCandidate(ExplorationStatus, ExplorationStatus.Turn, candidate);
 
 				if (newStatus.CurrentHand.IsEmpty)
 				{
@@ -113,15 +133,18 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					foreach (var declaration in declarations)
 					{
 						newStatus.LastCompletedHand.SetDeclaration(declaration);
-						Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer));
+						Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer){CardPlayed = candidate,DeclarationPlayed = declaration});
 					}
 				}
 				else
 				{
-					Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer));
+					Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer) { CardPlayed = candidate});
 				}
 			}
 		}
+
+		
+
 
 		private TreeNode SelectBestChild()
 		{
@@ -149,29 +172,27 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		//returns 0(loss) or 1(win)
 		private double GetSimulationValue(TreeNode node)
 		{
-			var status = node._status.Clone();
+			var currentStatus = node.ExplorationStatus.Clone();
 
-			while (!status.IsCompleted)
+			while (!currentStatus.IsCompleted)
 			{
-				//TODO: DECLARATIONS???
-				//if (!status.CurrentHand.IsEmpty)
-				//{
-					ICard[] candidates = _candidatesSelector.GetCandidates(status, status.Turn);
-					int index = _random.Next(0, candidates.Length - 1);
-					status = _candidatePlayer.PlayCandidate(status, status.Turn, candidates[index]);
-				//}
-				//else
-				//{
-				//    var declarations = status.Declarables;
+				ICard[] candidates = _candidatesSelector.GetCandidates(currentStatus, currentStatus.Turn);
+				int index = _random.Next(0, candidates.Length - 1);
+				currentStatus = _candidatePlayer.PlayCandidate(currentStatus, currentStatus.Turn, candidates[index]);
 
-				//    foreach (var declaration in declarations)
-				//    {
-				//        status.LastCompletedHand
-				//    }
-				//}
+				//Add the most valuable declaration
+				if (currentStatus.CurrentHand.IsEmpty)
+				{
+					var declarations = currentStatus.Declarables;
+					if (declarations != null && declarations.Length > 0)
+					{
+						Declaration declaration = declarations.OrderByDescending(DeclarationValues.ValueOf).First();
+						currentStatus.LastCompletedHand.SetDeclaration(declaration);
+					}
+				}
 			}
 
-			if (status.TeamWinner == _teamNumber)
+			if (currentStatus.TeamWinner == _teamNumber)
 				return 1;
 			return 0;
 		}

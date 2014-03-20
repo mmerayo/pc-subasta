@@ -1,4 +1,6 @@
-﻿using Subasta.Domain.Deck;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.Game
 {
@@ -34,5 +36,6 @@ namespace Subasta.Domain.Game
 
 		IHand Clone();
 		void SetDeclaration(Declaration declaration);
+	    IEnumerable<ICard> CardsByPlaySequence();
 	}
 }
