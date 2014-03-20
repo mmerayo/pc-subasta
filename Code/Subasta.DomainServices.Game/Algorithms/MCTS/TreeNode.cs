@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private readonly ICandidatePlayer _candidatePlayer;
 
 		private readonly object _syncLock = new object();
+		private ICard _cardPlayed;
+		private Declaration? _declarationPlayed;
 		private static readonly object _typeLock = new object();
+		private bool _expanded;
 
 		public static TreeNode Root(int teamNumber)
 		{
@@ -79,7 +83,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private bool IsLeaf
 		{
-			get { return Children == null; }
+			get
+			{
+				return Children == null;
+			}
 		}
 
 		private double TotalValue { get; set; }
@@ -89,11 +96,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public IExplorationStatus ExplorationStatus
 		{
-			get { return _explorationStatus; }
+			get
+			{
+				return _explorationStatus;
+			}
 		}
 
-		public ICard CardPlayed { get; private set; }
-		public Declaration? DeclarationPlayed { get; private set; }
+		public ICard CardPlayed
+		{
+			get { return _cardPlayed; }
+			private set {_cardPlayed = value; }
+		}
+
+		public Declaration? DeclarationPlayed
+		{
+			get { return _declarationPlayed; }
+			private set { _declarationPlayed = value; }
+		}
 
 		public void Select()
 		{
@@ -120,33 +139,48 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void Expand()
 		{
+			if (!_expanded)
+				lock (_syncLock)
+					if (!_expanded)
+					{
+						DoExpand();
+						_expanded = true;
+					}
+		}
+
+		private void DoExpand()
+		{
 			ICard[] candidates = _candidatesSelector.GetCandidates(ExplorationStatus, ExplorationStatus.Turn);
 			Children = new List<TreeNode>();
 			foreach (var candidate in candidates)
 			{
 				var newStatus = _candidatePlayer.PlayCandidate(ExplorationStatus, ExplorationStatus.Turn, candidate);
 
-				if (newStatus.CurrentHand.IsEmpty)
+				if (newStatus.CurrentHand.IsEmpty && newStatus.Declarables.Length > 0)
 				{
 					var declarations = newStatus.Declarables;
 
 					foreach (var declaration in declarations)
 					{
 						newStatus.LastCompletedHand.SetDeclaration(declaration);
-						Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer){CardPlayed = candidate,DeclarationPlayed = declaration});
+						Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer)
+							{
+								CardPlayed = candidate,
+								DeclarationPlayed = declaration
+							});
 					}
 				}
 				else
 				{
-					Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer) { CardPlayed = candidate});
+					Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer)
+						{
+							CardPlayed = candidate
+						});
 				}
 			}
 		}
 
-		
-
-
-		private TreeNode SelectBestChild()
+		public TreeNode SelectBestChild()
 		{
 			TreeNode selected = null;
 			double bestValue = double.MinValue;
@@ -162,11 +196,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					bestValue = uctValue;
 				}
 			}
-
+			if (selected == null)
+			{
+				
+			}
 			return selected;
 		}
-
-
 
 		//simulation
 		//returns 0(loss) or 1(win)

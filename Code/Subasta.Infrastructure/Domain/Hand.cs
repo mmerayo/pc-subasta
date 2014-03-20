@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
@@ -157,6 +158,21 @@ namespace Subasta.Infrastructure.Domain
 		{
 			ThrowIfNotcompleted();
 			Declaration = declaration;
+		}
+
+		public IEnumerable<ICard> CardsByPlaySequence()
+		{
+			var result = new ICard[4];
+			if(FirstPlayer==int.MinValue)
+				return result;
+			int currentIndex = FirstPlayer - 1;
+			for (int resultIndex = 0; resultIndex < 4; resultIndex++)
+			{
+				result[resultIndex] = _hand[currentIndex];
+				if (++currentIndex == 4) currentIndex = 0;
+			}
+
+			return result;
 		}
 
 

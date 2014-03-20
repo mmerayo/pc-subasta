@@ -11,8 +11,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Start(IExplorationStatus status)
 		{
 			TreeNode.Initialize(status);
-			Task.Factory.StartNew(() => Explore(1));
-			Task.Factory.StartNew(() => Explore(2));
+
+			//temp
+			TreeNode treeNode = TreeNode.Root(1);
+
+			for (int i = 1; i < 1000; i++)
+				treeNode.Select();
+
+			//Task.Factory.StartNew(() => Explore(1));
+			//Task.Factory.StartNew(() => Explore(2));
 
 		}
 

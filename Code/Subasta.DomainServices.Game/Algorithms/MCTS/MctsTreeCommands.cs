@@ -19,12 +19,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			{
 				foreach (var card in hand.CardsByPlaySequence())
 				{
-					//prunes those that are not used in the navigation
-					current.Children.RemoveAll(x =>!Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration);
-					current = current.Children.Single();//Single(x => Equals(x.CardPlayed, card) && x.DeclarationPlayed == hand.Declaration);
+					//prunes those paths that have been passed so they are not used in future navigations
+					
+					//current.Children.RemoveAll(x =>!Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration);
+					//current = current.Children.Single();
+					current = current.Children.Single(x => Equals(x.CardPlayed, card) && x.DeclarationPlayed == hand.Declaration);
 				}
 			}
-			return new NodeResult(current.ExplorationStatus);
+			TreeNode selectBestChild = current.SelectBestChild();
+			return new NodeResult(selectBestChild.ExplorationStatus);
 		}
 	}
 }
