@@ -13,13 +13,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			TreeNode.Initialize(status);
 
 			//temp
-			TreeNode treeNode = TreeNode.Root(1);
+			//TreeNode treeNode = TreeNode.Root(1);
 
-			for (int i = 1; i < 1000; i++)
-				treeNode.Select();
+			//for (int i = 1; i < 1000; i++)
+			//    treeNode.Select();
 
-			//Task.Factory.StartNew(() => Explore(1));
-			//Task.Factory.StartNew(() => Explore(2));
+			Task.Factory.StartNew(() => Explore(1));
+			Task.Factory.StartNew(() => Explore(2));
 
 		}
 
