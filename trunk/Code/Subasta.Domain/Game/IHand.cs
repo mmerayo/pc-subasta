@@ -30,6 +30,8 @@ namespace Subasta.Domain.Game
 		ISuit Trump { get; }
 		Declaration? Declaration { get; }
         int FirstPlayer { get; }
+		int LastPlayer { get; }
+
         int Sequence { get; }
 	    int DeclarationValue { get; }
 	    ICard PlayerCard(int playerPosition);

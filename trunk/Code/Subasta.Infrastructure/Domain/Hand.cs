@@ -131,7 +131,24 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 		public ISuit Trump { get; private set; }
-	    public int Sequence { get; private set; }
+
+		public int LastPlayer
+		{
+			get
+			{
+				if (FirstPlayer == int.MinValue) throw new InvalidOperationException();
+				int firstPlayer = FirstPlayer;
+
+				int current = firstPlayer;
+				for (int i = 0; i < 3; i++)
+					current = NextPlayer(current);
+
+				return current;
+
+			}
+		}
+
+		public int Sequence { get; private set; }
 
 	    public Declaration? Declaration { get; private set; }
 

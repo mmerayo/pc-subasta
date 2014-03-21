@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Subasta.Client.Common;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -146,7 +147,21 @@ namespace Analyzer
 		private void _gameSimulator_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
 		{
 			if (_tableStatus.Rows.Count < status.Hands.Count)
+			{
+				IHand lastCompletedHand = status.LastCompletedHand;
+				if (lastCompletedHand != null)
+				{
+					DataRow row = _tableStatus.Rows[lastCompletedHand.Sequence - 1];
+					for (int i = 1; i < 4; i++)
+						if (row["T" + i] == DBNull.Value)
+							row["T" + i] = timeTaken.ToString();
+					row["Player" + lastCompletedHand.LastPlayer] = lastCompletedHand.CardsByPlaySequence().Last().ToShortString();
+
+					Declaration? declaration = lastCompletedHand.Declaration;
+					row["Declaration"] = declaration.HasValue ? declaration.Value.ToString() : "No";
+				}
 				AddNewRow();
+			}
 			IHand currentHand = status.CurrentHand;
 			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
 
@@ -163,7 +178,7 @@ namespace Analyzer
 			dataRow["TrickWinner"] = currentHand.PlayerWinner;
 			dataRow["Points"] = currentHand.Points;
 			//TODO: FIX
-			dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";
+			//dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";
 
 			int turn = status.Turn - 1;
 			if (turn == 0) turn = 4;

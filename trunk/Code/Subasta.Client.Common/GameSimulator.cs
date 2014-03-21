@@ -102,37 +102,38 @@ namespace Subasta.Client.Common
 				_perMoveWatcher.Restart();
 				NextMove();
 				TimeSpan timeTaken = _perMoveWatcher.Elapsed;
-				OnStatusChanged(timeTaken);
 				_perMoveWatcher.Stop();
-				if (_status.CurrentHand.IsCompleted)
-				{
-					Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
-					int playerWinner = _status.CurrentHand.PlayerWinner.Value;
-					if (_status.IsInTeamBets(playerWinner))
-					{
-						//declare winner or mate
-						Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
-						if (!declarationAtMove.HasValue)
-						{
-							int matePlayer = _status.PlayerMateOf(playerWinner);
+				OnStatusChanged(timeTaken);
+				
+				//if (_status.CurrentHand.IsCompleted)
+				//{
+				//    Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
+				//    int playerWinner = _status.CurrentHand.PlayerWinner.Value;
+				//    if (_status.IsInTeamBets(playerWinner))
+				//    {
+				//        //declare winner or mate
+				//        Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
+				//        if (!declarationAtMove.HasValue)
+				//        {
+				//            int matePlayer = _status.PlayerMateOf(playerWinner);
 
-							declarationAtMove = _currentMoveNodes[matePlayer].FirstDeclarable(_status.Hands.Count);
-						}
-						if (declarationAtMove.HasValue)
-						{
-							_status.CurrentHand.SetDeclaration(declarationAtMove.Value);
-							OnStatusChanged(timeTaken);
-						}
+				//            declarationAtMove = _currentMoveNodes[matePlayer].FirstDeclarable(_status.Hands.Count);
+				//        }
+				//        if (declarationAtMove.HasValue)
+				//        {
+				//            _status.CurrentHand.SetDeclaration(declarationAtMove.Value);
+				//            OnStatusChanged(timeTaken);
+				//        }
 
 
-					}
-					_explorer.MaxDepth++;
-					//OnInputRequested();
-					_status.Turn = playerWinner;
-					_status.AddNewHand();
-					_currentMoveNodes.Clear();
+				//    }
+				//    _explorer.MaxDepth++;
+				//    //OnInputRequested();
+				//    _status.Turn = playerWinner;
+				//    _status.AddNewHand();
+				//    _currentMoveNodes.Clear();
 
-				}
+				//}
 
 			}
 			OnCompleted();
@@ -193,15 +194,16 @@ namespace Subasta.Client.Common
 		{
 			//Thread.Sleep(TimeSpan.FromSeconds(1));
 			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
-
-			int playerPlays = _status.Turn;
-			_currentMoveNodes.Add(playerPlays, nodeResult);
-			//_status = nodeResult.Status.Clone();
-			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
-			_status.CurrentHand.Add(playerPlays, cardAtMove);
-			_status.RemovePlayerCard(playerPlays, cardAtMove);
-			if (++playerPlays > 4) playerPlays = 1;
-			_status.Turn = playerPlays;
+			_status = nodeResult.Status.Clone();
+			//int playerPlays = _status.Turn;
+			//_currentMoveNodes.Add(playerPlays, nodeResult);
+			
+			
+			//ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
+			//_status.CurrentHand.Add(playerPlays, cardAtMove);
+			//_status.RemovePlayerCard(playerPlays, cardAtMove);
+			//if (++playerPlays > 4) playerPlays = 1;
+			//_status.Turn = playerPlays;
 
 		}
 
