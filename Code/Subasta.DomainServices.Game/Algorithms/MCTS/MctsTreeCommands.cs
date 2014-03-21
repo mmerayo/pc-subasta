@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsTreeCommands : IMctsTreeCommands
 	{
+		private IMctsRunner _runner;
+
+		public MctsTreeCommands(IMctsRunner runner)
+		{
+			_runner = runner;
+		}
+
 		/// <summary>
 		/// gets the best found and prunes the passed non needed children
 		/// </summary>
@@ -16,36 +25,58 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			DoSimulation(currentStatus);
 
+			_runner.Pause();
 			var current = IterateToCurrentPrunning(currentStatus);
 			TreeNode selectBestChild = current.SelectBestChild();
-			return new NodeResult(selectBestChild.ExplorationStatus);
+			var result= new NodeResult(selectBestChild.ExplorationStatus);
+			_runner.Restart();
+			return result;
 		}
 
 		private static void DoSimulation(IExplorationStatus currentStatus)
 		{
 			var current = TreeNode.Root(currentStatus.TurnTeam);
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(5));
-			do
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(10));
+			try
 			{
-				current.Select();
-			} while (DateTime.UtcNow <= limit);
+				using (var mfp = new MemoryFailPoint(16))
+				{
+					int i = 0;
+					do
+					{
+						current.Select();
+						if(++i%20==0) System.Windows.Forms.Application.DoEvents()
+					} while (DateTime.UtcNow <= limit);
+				}
+			}
+			catch (InsufficientMemoryException)
+			{
+				//log it
+			} 
 		}
 
 		private static TreeNode IterateToCurrentPrunning(IExplorationStatus currentStatus)
 		{
-			TreeNode current = TreeNode.Root(currentStatus.TurnTeam);
+			TreeNode root = TreeNode.Root(currentStatus.TurnTeam);
+			TreeNode current = root;
 			foreach (var hand in currentStatus.Hands)
 			{
-				foreach (var card in hand.CardsByPlaySequence())
+				IEnumerable<ICard> cardsByPlaySequence = hand.CardsByPlaySequence();
+				foreach (var card in cardsByPlaySequence)
 				{
 					if (card == null) return current;
 					//prunes those paths that have been passed so they are not used in future navigations
 
-					var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration);
+					//while (!current.Children.Any(x => Equals(x.CardPlayed, card) && x.DeclarationPlayed == hand.Declaration))
+					//{
+					//    root.Select();
+					//}
+					//var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration).ToArray();
+					var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card)).ToArray();
 					foreach (var treeNode in treeNodes)
 					{
-						current.Children.Remove(treeNode);
 						treeNode.Dispose();
+						current.Children.Remove(treeNode);
 					}
 
 					current = current.Children.Single();
