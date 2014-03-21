@@ -150,7 +150,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						}
 						current.Expand();
 						var newNode = current.SelectBestChild();
-						//if (newNode == null) return; //this is due a bug in the algorithm
+						if (newNode == null) return; //this is due a bug in the algorithm
 						visited.Add(newNode);
 						var simulationValue = GetSimulationValue(newNode);
 
@@ -168,6 +168,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				catch (ObjectDisposedException) //it was being disposed while doing the select
 				{
 					//log
+				}
+				catch (NullReferenceException)
+				{
+					//this is due a bug in the algorithm FIX
 				}
 				//catch (Exception ex)
 				//{
@@ -222,8 +226,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public TreeNode SelectBestChild()
 		{
-			lock (_syncLock)
-			{
+			
 				TreeNode selected = null;
 				double bestValue = double.MinValue;
 
@@ -244,12 +247,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					lock (_syncLock)
 						if (_disposed)
 							throw new ObjectDisposedException("The node was disposed, prevent caller for this situation");
-					else
-					    throw new NotImplementedException("Unknown. not implemented situation");
+					//else
+					//    throw new NotImplementedException("Unknown. not implemented situation");
 				}
 
 				return selected;
-			}
+			
 		}
 
 		//simulation
