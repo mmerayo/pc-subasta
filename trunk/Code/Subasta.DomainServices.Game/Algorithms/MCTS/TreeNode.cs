@@ -86,7 +86,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			get
 			{
-				return Children == null;
+				lock (_syncLock)
+					return !_expanded;
 			}
 		}
 
