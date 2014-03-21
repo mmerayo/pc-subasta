@@ -159,6 +159,7 @@ namespace Analyzer
 
 					Declaration? declaration = lastCompletedHand.Declaration;
 					row["Declaration"] = declaration.HasValue ? declaration.Value.ToString() : "No";
+					row["TrickWinner"] = lastCompletedHand.PlayerWinner;
 				}
 				AddNewRow();
 			}
@@ -175,7 +176,7 @@ namespace Analyzer
 					dataRow["Player" + i] = playerCard.ToShortString();
 			}
 
-			dataRow["TrickWinner"] = currentHand.PlayerWinner;
+			
 			dataRow["Points"] = currentHand.Points;
 			//TODO: FIX
 			//dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";

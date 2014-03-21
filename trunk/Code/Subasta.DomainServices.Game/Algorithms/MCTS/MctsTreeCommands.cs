@@ -40,13 +40,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private  void DoSimulation(IExplorationStatus currentStatus)
 		{
 			var current = TreeNode.Root(currentStatus.TurnTeam);
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(4));
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(5));
 			try
 			{
-				using (var mfp = new MemoryFailPoint(16))
+				using (var mfp = new MemoryFailPoint(32))
 				{
 					int i = 0;
-					const int threads = 8;
+					const int threads = 16;
 					var tasks = new Task[threads];
 					do
 					{
@@ -93,7 +93,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					current = current.Children.Single();
 				}
 			}
-			GC.Collect(3,GCCollectionMode.Optimized);
+			//GC.Collect(3,GCCollectionMode.Optimized);
 			return current;
 		}
 	}
