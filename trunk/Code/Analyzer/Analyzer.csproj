@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEventsExecutor.cs" />
     <Compile Include="FrmExplorationStatus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +98,10 @@
     <None Include="TestSets\Start.data" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Subasta.ApplicationServices\Subasta.ApplicationServices.csproj">
+      <Project>{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}</Project>
+      <Name>Subasta.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>

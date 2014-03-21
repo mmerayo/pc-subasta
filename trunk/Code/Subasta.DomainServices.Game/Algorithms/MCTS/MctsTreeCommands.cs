@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
+using Subasta.ApplicationServices;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -9,11 +10,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsTreeCommands : IMctsTreeCommands
 	{
-		private IMctsRunner _runner;
+		private readonly IMctsRunner _runner;
+		private readonly IApplicationEventsExecutor _eventsExecutor;
 
-		public MctsTreeCommands(IMctsRunner runner)
+		public MctsTreeCommands(IMctsRunner runner,IApplicationEventsExecutor eventsExecutor)
 		{
 			_runner = runner;
+			_eventsExecutor = eventsExecutor;
 		}
 
 		/// <summary>
@@ -33,7 +36,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return result;
 		}
 
-		private static void DoSimulation(IExplorationStatus currentStatus)
+		private  void DoSimulation(IExplorationStatus currentStatus)
 		{
 			var current = TreeNode.Root(currentStatus.TurnTeam);
 			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(10));
@@ -45,7 +48,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					do
 					{
 						current.Select();
-						if(++i%20==0) System.Windows.Forms.Application.DoEvents()
+						if(++i%20==0) _eventsExecutor.Execute();
 					} while (DateTime.UtcNow <= limit);
 				}
 			}

@@ -1,4 +1,5 @@
 ﻿using StructureMap.Configuration.DSL;
+using Subasta.ApplicationServices;
 
 namespace Analyzer
 {
@@ -8,6 +9,7 @@ namespace Analyzer
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
 			For<FrmExplorationStatus>().Singleton().Use<FrmExplorationStatus>();
+			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
 		}
 	}
 }

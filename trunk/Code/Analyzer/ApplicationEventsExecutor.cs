@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using Subasta.ApplicationServices;
+
+namespace Analyzer
+{
+	class ApplicationEventsExecutorExecutor:IApplicationEventsExecutor
+	{
+		public void Execute()
+		{
+			Application.DoEvents();
+		}
+	}
+}
