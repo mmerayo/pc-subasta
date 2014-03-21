@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading;
 using StructureMap;
@@ -129,40 +130,51 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			get { return _declarationPlayed; }
 			private set { _declarationPlayed = value; }
 		}
-
+		
 		public void Select()
 		{
-			try
+			lock (_syncLock)
 			{
-				var visited = new List<TreeNode>();
-				var current = this;
-				visited.Add(current);
-
-				while (!current.IsLeaf)
+				try
 				{
-					current = current.SelectBestChild();
-					visited.Add(current);
-				}
-				current.Expand();
-				var newNode = current.SelectBestChild();
-				visited.Add(newNode);
-				var simulationValue = GetSimulationValue(newNode);
+					using (var mfp = new MemoryFailPoint(32))
+					{
+						var visited = new List<TreeNode>();
+						var current = this;
+						visited.Add(current);
 
-				foreach (var treeNode in visited)
+						while (!current.IsLeaf)
+						{
+							current = current.SelectBestChild();
+							visited.Add(current);
+						}
+						current.Expand();
+						var newNode = current.SelectBestChild();
+						//if (newNode == null) return; //this is due a bug in the algorithm
+						visited.Add(newNode);
+						var simulationValue = GetSimulationValue(newNode);
+
+						foreach (var treeNode in visited)
+						{
+							treeNode.UpdateStatus(simulationValue);
+						}
+					}
+				}
+				catch (InsufficientMemoryException)
 				{
-					treeNode.UpdateStatus(simulationValue);
+					GC.Collect(3, GCCollectionMode.Forced);
+					//log it
 				}
+				catch (ObjectDisposedException) //it was being disposed while doing the select
+				{
+					//log
+				}
+				//catch (Exception ex)
+				//{
+				//    //swallows
+				//    Debug.WriteLine(string.Format("Select ") ex);
+				//}
 			}
-			catch (ObjectDisposedException) //it was being disposed while doing the select
-			{
-				//log
-			}
-			//catch (Exception ex)
-			//{
-			//    //swallows
-			//    Debug.WriteLine(string.Format("Select ") ex);
-			//}
-
 		}
 
 		private void Expand()
@@ -210,31 +222,34 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public TreeNode SelectBestChild()
 		{
-			TreeNode selected = null;
-			double bestValue = double.MinValue;
+			lock (_syncLock)
+			{
+				TreeNode selected = null;
+				double bestValue = double.MinValue;
 
-			var treeNodes = Children.ToArray();
-			foreach (var treeNode in treeNodes)
-			{
-				double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
-				                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) +
-				                  _random.NextDouble()*Epsilon;
-				if (uctValue > bestValue)
+				var treeNodes = Children.ToArray();
+				foreach (var treeNode in treeNodes)
 				{
-					selected = treeNode;
-					bestValue = uctValue;
+					double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
+					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) +
+					                  _random.NextDouble()*Epsilon;
+					if (uctValue > bestValue)
+					{
+						selected = treeNode;
+						bestValue = uctValue;
+					}
 				}
-			}
-			if (selected == null)
-			{
-				lock (_syncLock)
-					if(_disposed)
-						throw new ObjectDisposedException("The node was disposed, prevent caller for this situation");
+				if (selected == null)
+				{
+					lock (_syncLock)
+						if (_disposed)
+							throw new ObjectDisposedException("The node was disposed, prevent caller for this situation");
 					else
-						throw new NotImplementedException("Unknown. not implemented situation");
+					    throw new NotImplementedException("Unknown. not implemented situation");
+				}
+
+				return selected;
 			}
-			
-			return selected;
 		}
 
 		//simulation
