@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
+using System.Threading.Tasks;
 using Subasta.ApplicationServices;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -45,10 +46,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				using (var mfp = new MemoryFailPoint(16))
 				{
 					int i = 0;
+					const int threads = 8;
+					var tasks = new Task[threads];
 					do
 					{
-						current.Select();
+						for (int j = 0; j < threads;j++ )
+							tasks[j]=Task.Factory.StartNew(current.Select);
+						
 						if(++i%20==0) _eventsExecutor.Execute();
+						Task.WaitAll(tasks);
+
 					} while (DateTime.UtcNow <= limit);
 				}
 			}
