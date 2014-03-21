@@ -39,7 +39,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private  void DoSimulation(IExplorationStatus currentStatus)
 		{
 			var current = TreeNode.Root(currentStatus.TurnTeam);
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(10));
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(4));
 			try
 			{
 				using (var mfp = new MemoryFailPoint(16))
@@ -54,6 +54,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 			catch (InsufficientMemoryException)
 			{
+				GC.Collect(3, GCCollectionMode.Forced);
 				//log it
 			} 
 		}

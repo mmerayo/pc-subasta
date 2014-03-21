@@ -191,12 +191,13 @@ namespace Subasta.Client.Common
 
 		public void NextMove()
 		{
-			Thread.Sleep(TimeSpan.FromSeconds(1));
+			//Thread.Sleep(TimeSpan.FromSeconds(1));
 			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
 
 			int playerPlays = _status.Turn;
-			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_currentMoveNodes.Add(playerPlays, nodeResult);
+			//_status = nodeResult.Status.Clone();
+			ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
 			_status.CurrentHand.Add(playerPlays, cardAtMove);
 			_status.RemovePlayerCard(playerPlays, cardAtMove);
 			if (++playerPlays > 4) playerPlays = 1;
