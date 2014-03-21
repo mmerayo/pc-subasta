@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Game;
 
@@ -15,7 +16,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			DoSimulation(currentStatus);
 
-			var current = IterateToCurrent(currentStatus);
+			var current = IterateToCurrentPrunning(currentStatus);
 			TreeNode selectBestChild = current.SelectBestChild();
 			return new NodeResult(selectBestChild.ExplorationStatus);
 		}
@@ -28,11 +29,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			{
 				current.Select();
 			} while (DateTime.UtcNow <= limit);
-
-			GC.Collect();
 		}
 
-		private static TreeNode IterateToCurrent(IExplorationStatus currentStatus)
+		private static TreeNode IterateToCurrentPrunning(IExplorationStatus currentStatus)
 		{
 			TreeNode current = TreeNode.Root(currentStatus.TurnTeam);
 			foreach (var hand in currentStatus.Hands)
@@ -42,11 +41,17 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					if (card == null) return current;
 					//prunes those paths that have been passed so they are not used in future navigations
 
-					current.Children.RemoveAll(x => !Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration);
+					var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card) || x.DeclarationPlayed != hand.Declaration);
+					foreach (var treeNode in treeNodes)
+					{
+						current.Children.Remove(treeNode);
+						treeNode.Dispose();
+					}
+
 					current = current.Children.Single();
-					//current = current.Children.Single(x => Equals(x.CardPlayed, card) && x.DeclarationPlayed == hand.Declaration);
 				}
 			}
+			GC.Collect(3,GCCollectionMode.Optimized);
 			return current;
 		}
 	}

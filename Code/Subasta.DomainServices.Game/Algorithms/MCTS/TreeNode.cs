@@ -12,7 +12,7 @@ using Subasta.Domain.Game;
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 
-	internal sealed class TreeNode
+	internal sealed class TreeNode:IDisposable
 	{
 		private static readonly Random _random = new Random((int) DateTime.UtcNow.Ticks);
 		private static TreeNode _rootTeam1;
@@ -259,8 +259,28 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public static void Reset()
 		{
+			RootTeam1.Dispose();
 			RootTeam1 = null;
+			RootTeam2.Dispose();
 			RootTeam2 = null;
+		}
+
+		private bool _disposed = false;
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			Children.ForEach(x=>x.Dispose());
+			Children.Clear();
+			_disposed = true;
+		}
+
+		~TreeNode()
+		{
+			Dispose(false);
 		}
 	}
 }

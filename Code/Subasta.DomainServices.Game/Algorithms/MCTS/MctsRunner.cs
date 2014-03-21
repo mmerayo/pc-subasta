@@ -64,11 +64,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_stop = true;
 			TreeNode.Reset();
 		}
-
 		private bool _disposed = false;
 		public void Dispose()
 		{
-			
+			TreeNode.Reset();
 		}
 		private void Dispose(bool disposing)
 		{
