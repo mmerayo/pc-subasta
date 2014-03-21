@@ -106,6 +106,10 @@
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
+      <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
+      <Name>Subasta.DomainServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
       <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
       <Name>Subasta.Domain</Name>
