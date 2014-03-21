@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 using Subasta.Domain.Game;
@@ -29,22 +30,43 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			int availableThreads = 1;
 			do
 			{
-				while(availableThreads > 0)
+				if(availableThreads==0)
+					Thread.Sleep(50);
+				while(!_paused && availableThreads > 0)
 				{
 					Task.Factory.StartNew(() =>
 						{
-							var rootTeam = TreeNode.Root(teamNumber);
-							availableThreads = DoSelect(availableThreads, rootTeam);
+							
+									var rootTeam = TreeNode.Root(teamNumber);
+									availableThreads = DoSelect(availableThreads, rootTeam);
+							
 						});
 				}
+				
 			} while (!_stop);
 		}
 
 		private static int DoSelect(int availableThreads, TreeNode rootTeam)
 		{
 			availableThreads--;
-			rootTeam.Select();
-			availableThreads++;
+
+			try
+			{
+				using (var mfp = new MemoryFailPoint(128))
+				{
+					rootTeam.Select();
+					
+				}
+
+			}
+			catch (InsufficientMemoryException)
+			{
+				//log it
+			}
+			finally
+			{
+				availableThreads++;
+			}
 			return availableThreads;
 		}
 
@@ -64,6 +86,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_stop = true;
 			TreeNode.Reset();
 		}
+
+		private bool _paused = false;
+		public void Pause()
+		{
+			_paused = true;
+			Thread.Sleep(100);
+		}
+
+		public void Restart()
+		{
+			_paused = false;
+		}
+
 		private bool _disposed = false;
 		public void Dispose()
 		{

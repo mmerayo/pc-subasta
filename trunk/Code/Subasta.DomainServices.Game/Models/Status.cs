@@ -19,6 +19,8 @@ namespace Subasta.DomainServices.Game.Models
 		private int _turn = int.MinValue;
 		private readonly ICard[][] _playerCards = new ICard[4][];
 		private List<IHand> _hands;
+		private bool _gameCompleted;
+
 
 		public Status(Guid gameId, ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
 		{
@@ -46,10 +48,13 @@ namespace Subasta.DomainServices.Game.Models
 								_gameCompleted = _gameCompleted
 			             	};
 			Array.Copy(_playerCards, target._playerCards, 4);
-
-			target._hands = new List<IHand>();
-			_hands.ForEach(x => target._hands.Add(x.Clone()));
+			if (_hands != null)
+			{
+				target._hands = new List<IHand>();
+				_hands.ForEach(x => target._hands.Add(x.Clone()));
+			}
 			target._gameId = GameId;
+			target._gameCompleted = false;
 			//CALCULATE DECLARABLES
 			return target;
 		}
@@ -175,7 +180,6 @@ namespace Subasta.DomainServices.Game.Models
 	    }
 
 		public int PointsBet { get; private set; }
-		private bool _gameCompleted;
 		public bool IsCompleted
 		{
 			get

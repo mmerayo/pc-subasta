@@ -78,7 +78,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			_teamNumber = teamNumber;
 			_candidatesSelector = candidatesSelector;
-			_explorationStatus = explorationStatus;
+			_explorationStatus = explorationStatus.Clone();
 			_candidatePlayer = candidatePlayer;
 		}
 
@@ -131,23 +131,30 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public void Select()
 		{
-			var visited = new List<TreeNode>();
-			var current = this;
-			visited.Add(current);
-
-			while (!current.IsLeaf)
+			try
 			{
-				current = current.SelectBestChild();
+				var visited = new List<TreeNode>();
+				var current = this;
 				visited.Add(current);
-			}
-			current.Expand();
-			var newNode = current.SelectBestChild();
-			visited.Add(newNode);
-			var simulationValue = GetSimulationValue(newNode);
 
-			foreach (var treeNode in visited)
+				while (!current.IsLeaf)
+				{
+					current = current.SelectBestChild();
+					visited.Add(current);
+				}
+				current.Expand();
+				var newNode = current.SelectBestChild();
+				visited.Add(newNode);
+				var simulationValue = GetSimulationValue(newNode);
+
+				foreach (var treeNode in visited)
+				{
+					treeNode.UpdateStatus(simulationValue);
+				}
+			}
+			catch (ObjectDisposedException)//it was being disposed while doing the select
 			{
-				treeNode.UpdateStatus(simulationValue);
+				//log
 			}
 
 		}
@@ -200,7 +207,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			TreeNode selected = null;
 			double bestValue = double.MinValue;
 
-			List<TreeNode> treeNodes = Children;
+			var treeNodes = Children.ToArray();
 			foreach (var treeNode in treeNodes)
 			{
 				double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
@@ -214,8 +221,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 			if (selected == null)
 			{
-				
+				lock (_syncLock)
+					if(_disposed)
+						throw new ObjectDisposedException("The node was disposed, prevent caller for this situation");
+					else
+						throw new NotImplementedException("Unknown. not implemented situation");
 			}
+			
 			return selected;
 		}
 
@@ -273,9 +285,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void Dispose(bool disposing)
 		{
-			Children.ForEach(x=>x.Dispose());
-			Children.Clear();
-			_disposed = true;
+			if (Children != null)
+			{
+				Children.ForEach(x => x.Dispose());
+				Children.Clear();
+			}
+			lock (_syncLock)
+				_disposed = true;
 		}
 
 		~TreeNode()
