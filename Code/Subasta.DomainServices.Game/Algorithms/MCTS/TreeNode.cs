@@ -97,13 +97,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			get
 			{
-				lock (_syncLock)
+				//lock (_syncLock)
 				return _children;
 			}
 			private set
 			{
-				if (_children == null)
-					lock (_syncLock)
+				//if (_children == null)
+				//    lock (_syncLock)
 						if (_children == null)
 							_children = value;
 			}
@@ -152,10 +152,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					treeNode.UpdateStatus(simulationValue);
 				}
 			}
-			catch (ObjectDisposedException)//it was being disposed while doing the select
+			catch (ObjectDisposedException) //it was being disposed while doing the select
 			{
 				//log
 			}
+			//catch (Exception ex)
+			//{
+			//    //swallows
+			//    Debug.WriteLine(string.Format("Select ") ex);
+			//}
 
 		}
 

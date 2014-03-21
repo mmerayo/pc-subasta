@@ -123,7 +123,7 @@ namespace Subasta.Infrastructure.Domain
 		{
 			get
 			{
-				ThrowIfEmpty();
+				if (IsEmpty) return false;
 				if (_hand[FirstPlayer - 1].Suit == Trump)
 					return false;
 				return _hand.Any(x => x!=null &&  x.Suit == Trump);
