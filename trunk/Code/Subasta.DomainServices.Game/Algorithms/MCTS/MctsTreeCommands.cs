@@ -36,6 +36,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_runner.Restart();
 			return result;
 		}
+		
 
 		private  void DoSimulation(IExplorationStatus currentStatus)
 		{
