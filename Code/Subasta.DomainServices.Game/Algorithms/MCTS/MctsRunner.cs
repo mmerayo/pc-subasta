@@ -84,7 +84,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Stop()
 		{
 			_stop = true;
-			TreeNode.Reset();
+			TreeNode.Reset();//DISPOSE
 		}
 
 		private bool _paused = false;
