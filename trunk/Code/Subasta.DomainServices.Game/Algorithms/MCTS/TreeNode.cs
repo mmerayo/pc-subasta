@@ -44,7 +44,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-
+		//REMOVE THIS AND THE PLAYER TO KEEP
 		private static TreeNode RootTeam1
 		{
 			get
