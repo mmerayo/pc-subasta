@@ -1,0 +1,8 @@
+//move this class(MctsTreeCommands) code to the runner AND REMOVE
+		//the runner to be running constantly while playing
+		//create IPlayer and with personallity connected to its runner/explorer
+		//CREATE HUMAN PLAYER
+		//simulation to use its own player(change JSON file format)
+		//player runner to keep its own tree from root
+		//level to be decided by confidence in move + time
+		//ABSTRACT ALGORITHM?? NOT YET
