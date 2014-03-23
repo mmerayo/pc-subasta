@@ -29,6 +29,7 @@ namespace Subasta.Client.Common
 		private readonly Dictionary<int, NodeResult> _currentMoveNodes = new Dictionary<int, NodeResult>();
 		private Stopwatch _perMoveWatcher;
 
+		game to be handled by the domain
 		public GameSimulator(ISimulator explorer, IDeck deck)
 		{
 			_explorer = explorer;
@@ -51,7 +52,7 @@ namespace Subasta.Client.Common
 
 		}
 
-		public IPlayer Player1
+		public IPlayer Player1 //I PLAYER TO BE KEPT IN DOMAIN and holds the style
 		{
 			get { return _players[0]; }
 		}
