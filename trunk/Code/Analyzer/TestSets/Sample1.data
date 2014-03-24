@@ -1,0 +1,11 @@
+﻿{
+	"Player1Cards": "C1 C3 C12 C10 C2 O6 C6 O11 C11 O10",
+	"Player2Cards": "B10 O3 E5 O5 O2 C5 O12 B6 B11 O4",
+	"Player3Cards": "B3 B5 E6 E4 B1 E3 O1 B4 E7 E1",
+	"Player4Cards": "C4 O7 E11 E10 B7 E2 C7 E12 B2 B12",
+	"ExplorationDepth": "2",
+	"FirstPlayer":"1",
+	"Trump":"E",
+	"TeamBets":"1",
+	"PointsBet":"170"
+}
