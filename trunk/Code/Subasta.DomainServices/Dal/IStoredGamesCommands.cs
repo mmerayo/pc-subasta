@@ -2,6 +2,6 @@
 {
 	public interface IStoredGamesCommands
 	{
-		void RestoreSimulation(string fileName);
+		void RestoreGame(string fileName);
 	}
 }

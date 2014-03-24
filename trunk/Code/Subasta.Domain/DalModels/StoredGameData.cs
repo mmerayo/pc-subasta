@@ -15,7 +15,7 @@ namespace Subasta.Client.Common.Games
 
 		public ISuit Trump { get; set; }
 
-		public int PlayerBets { get; set; }
+		public int TeamBets { get; set; }
 
 		public int PointsBet { get; set; }
 	}

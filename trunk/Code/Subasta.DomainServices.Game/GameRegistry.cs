@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StructureMap.Configuration.DSL;
+using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Algorithms.MaxN;
+using Subasta.DomainServices.Game.Players;
 using Subasta.DomainServices.Game.Strategies;
 using Subasta.DomainServices.Game.Utils;
 
@@ -16,8 +18,6 @@ namespace Subasta.DomainServices.Game
 		public GameRegistry()
 		{
 			For<ICardComparer>().Use<CardComparer>();
-			//For<ISimulator>().Use<MaxNSimulator>();
-			For<ISimulator>().Use<MctsSimulator>();
 			For<IGameGenerator>().Use<GameGenerator>();
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
@@ -28,7 +28,8 @@ namespace Subasta.DomainServices.Game
 
 
 			For<IMctsRunner>().Use<MctsRunner>();
-			For<IMctsTreeCommands>().Use<MctsTreeCommands>();
+			For<IGame>().Use<Players.Game>();
+			For<IMctsPlayer>().Use<MctsPlayer>();
 		}
 	}
 }

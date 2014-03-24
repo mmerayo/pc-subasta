@@ -9,46 +9,49 @@ using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Players;
 
 namespace Subasta.Client.Common
 {
 	public class GameSimulator : IGameSimulator
 	{
-		private readonly ISimulator _explorer;
+		private readonly IGame _game;
 		private readonly IDeck _deck;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
-		private int _depth;
 		private int _firstPlayer = 1;
+
 
 		public event StatusChangedHandler GameStatusChanged;
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
 		public event InputRequestedHandler InputRequested;
-		//pending declarations per hand/team
-		private readonly Dictionary<int, NodeResult> _currentMoveNodes = new Dictionary<int, NodeResult>();
 		private Stopwatch _perMoveWatcher;
 
-		game to be handled by the domain
-		public GameSimulator(ISimulator explorer, IDeck deck)
+		public GameSimulator(IGame game, IDeck deck)
 		{
-			_explorer = explorer;
+			_game = game;
 			_deck = deck;
 			ReloadPlayers();
-			_depth = _explorer.MaxDepth;
 		}
 
 		private void ReloadPlayers()
 		{
-			_players[0] = ObjectFactory.GetInstance<IPlayer>();
-			_players[1] = ObjectFactory.GetInstance<IPlayer>();
-			_players[2] = ObjectFactory.GetInstance<IPlayer>();
-			_players[3] = ObjectFactory.GetInstance<IPlayer>();
-
+			_players[0] = ObjectFactory.GetInstance<IMctsPlayer>();
 			_players[0].Name = "Player 1";
+			_players[0].TeamNumber = 1;
+
+			_players[1] = ObjectFactory.GetInstance<IMctsPlayer>();
 			_players[1].Name = "Player 2";
+			_players[1].TeamNumber = 2;
+
+			_players[2] = ObjectFactory.GetInstance<IMctsPlayer>();
 			_players[2].Name = "Player 3";
+			_players[2].TeamNumber = 1;
+
+			_players[3] = ObjectFactory.GetInstance<IMctsPlayer>();
 			_players[3].Name = "Player 4";
+			_players[3].TeamNumber = 2;
 
 		}
 
@@ -72,73 +75,39 @@ namespace Subasta.Client.Common
 			get { return _players[3]; }
 		}
 
-		public int Depth
-		{
-			get { return _depth; }
-		}
 
 
 		public ISuit Trump { get; private set; }
 		public int PointsBet { get; private set; }
 
 
-		public int PlayerBets { get; private set; }
+		public int TeamBets { get; private set; }
 
 		public void Start(int depth = int.MinValue)
 		{
-			if (depth > 0)
-			{
-				_depth = depth;
-			}
-			_explorer.MaxDepth = _depth;
+			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer, TeamBets, Trump, PointsBet);
+			_game.GameStatusChanged +=_game_GameStatusChanged;
+			_game.GameStarted += _game_GameStarted;
+			_game.GameCompleted += new GameStatusChangedHandler(_game_GameCompleted);
+			_game.StartGame();
+		}
 
-			ValidateConfiguration();
-
-			_status = _explorer.GetInitialStatus(Guid.NewGuid(), FirstPlayer, PlayerBets, _players[0].Cards, _players[1].Cards,
-			                                     _players[2].Cards, _players[3].Cards, Trump, PointsBet);
-			OnStart();
-			_perMoveWatcher = Stopwatch.StartNew();
-			while (!_status.IsCompleted)
-			{
-				_perMoveWatcher.Restart();
-				NextMove();
-				TimeSpan timeTaken = _perMoveWatcher.Elapsed;
-				_perMoveWatcher.Stop();
-				OnStatusChanged(timeTaken);
-				
-				//if (_status.CurrentHand.IsCompleted)
-				//{
-				//    Debug.Assert(!_status.CurrentHand.Declaration.HasValue);
-				//    int playerWinner = _status.CurrentHand.PlayerWinner.Value;
-				//    if (_status.IsInTeamBets(playerWinner))
-				//    {
-				//        //declare winner or mate
-				//        Declaration? declarationAtMove = _currentMoveNodes[playerWinner].FirstDeclarable(_status.Hands.Count);
-				//        if (!declarationAtMove.HasValue)
-				//        {
-				//            int matePlayer = _status.PlayerMateOf(playerWinner);
-
-				//            declarationAtMove = _currentMoveNodes[matePlayer].FirstDeclarable(_status.Hands.Count);
-				//        }
-				//        if (declarationAtMove.HasValue)
-				//        {
-				//            _status.CurrentHand.SetDeclaration(declarationAtMove.Value);
-				//            OnStatusChanged(timeTaken);
-				//        }
-
-
-				//    }
-				//    _explorer.MaxDepth++;
-				//    //OnInputRequested();
-				//    _status.Turn = playerWinner;
-				//    _status.AddNewHand();
-				//    _currentMoveNodes.Clear();
-
-				//}
-
-			}
+		void _game_GameCompleted(IExplorationStatus status)
+		{
+			_status = status;
 			OnCompleted();
-			OnInputRequested();
+		}
+
+		void _game_GameStarted(IExplorationStatus status)
+		{
+			_status = status;
+			OnStart();
+		}
+
+		void _game_GameStatusChanged(IExplorationStatus status)
+		{
+			_status = status;
+			OnStatusChanged();
 		}
 
 
@@ -150,36 +119,11 @@ namespace Subasta.Client.Common
 			Player2.Cards = storedGame.Player2Cards;
 			Player3.Cards = storedGame.Player3Cards;
 			Player4.Cards = storedGame.Player4Cards;
-			_depth = storedGame.ExplorationDepth;
 			FirstPlayer = storedGame.FirstPlayer;
 			Trump = storedGame.Trump;
 			PointsBet = storedGame.PointsBet;
-			PlayerBets = storedGame.PlayerBets;
+			TeamBets = storedGame.TeamBets;
 		}
-
-		private void ValidateConfiguration()
-		{
-			if (_players.Any(player => player.Cards == null))
-			{
-				throw new InvalidOperationException("Must set player cards");
-			}
-
-			var allCards = new List<ICard>();
-			foreach (var player in _players)
-			{
-				allCards.AddRange(player.Cards);
-			}
-
-			var expectedCards = _deck.Cards.Cards;
-
-			foreach (var expectedCard in expectedCards)
-			{
-				if (allCards.Count(x => x.Equals(expectedCard)) != 1)
-					throw new InvalidOperationException(string.Format("{0} is either repeated or it does not exist", expectedCard));
-			}
-
-		}
-
 
 		public bool IsFinished { get; set; }
 
@@ -191,27 +135,10 @@ namespace Subasta.Client.Common
 
 
 
-		public void NextMove()
-		{
-			//Thread.Sleep(TimeSpan.FromSeconds(1));
-			var nodeResult = _explorer.GetBest(_status); //TODO: TURN NEEDED??
-			_status = nodeResult.Status.Clone();
-			//int playerPlays = _status.Turn;
-			//_currentMoveNodes.Add(playerPlays, nodeResult);
-			
-			
-			//ICard cardAtMove = nodeResult.CardAtMove(playerPlays, _status.Hands.Count);
-			//_status.CurrentHand.Add(playerPlays, cardAtMove);
-			//_status.RemovePlayerCard(playerPlays, cardAtMove);
-			//if (++playerPlays > 4) playerPlays = 1;
-			//_status.Turn = playerPlays;
-
-		}
-
-		private void OnStatusChanged(TimeSpan timeTaken)
+		private void OnStatusChanged()
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status, timeTaken);
+				GameStatusChanged(_status, TimeSpan.Zero);
 		}
 
 
@@ -229,11 +156,8 @@ namespace Subasta.Client.Common
 
 		private void OnCompleted()
 		{
-		if (GameCompleted!= null)
-			GameCompleted(_status, TimeSpan.Zero);
-
-
-
+			if (GameCompleted != null)
+				GameCompleted(_status, TimeSpan.Zero);
 		}
 	}
 }

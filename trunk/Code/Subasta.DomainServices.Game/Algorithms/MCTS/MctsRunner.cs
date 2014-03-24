@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
+using StructureMap;
+using Subasta.ApplicationServices;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
@@ -9,65 +12,62 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 	class MctsRunner : IMctsRunner,IDisposable
 	{
 		private bool _stop = false;
+		private readonly IApplicationEventsExecutor _eventsExecutor;
+		private TreeNode _root;
 
-		public void Start(IExplorationStatus status)
+		public MctsRunner(IApplicationEventsExecutor eventsExecutor)
 		{
-			TreeNode.Initialize(status);
-
-			//temp
-			//TreeNode treeNode = TreeNode.Root(1);
-
-			//for (int i = 1; i < 1000; i++)
-			//    treeNode.Select();
-
-			//Task.Factory.StartNew(() => Explore(1));
-			//Task.Factory.StartNew(() => Explore(2));
-
+			_eventsExecutor = eventsExecutor;
+			
 		}
 
-		private void Explore(int teamNumber)
+		public void Start(int forTeamNumber,IExplorationStatus status)
 		{
-			int availableThreads = 1;
-			do
-			{
-				if(availableThreads==0)
-					Thread.Sleep(50);
-				while(!_paused && availableThreads > 0)
+			if(_root!=null)
+				_root.Dispose();
+
+			_root = ObjectFactory.GetInstance<TreeNode>();
+			_root.Initialize(forTeamNumber, status);
+			_stop = false;
+			Task.Factory.StartNew(() =>
 				{
-					Task.Factory.StartNew(() =>
-						{
-							
-									var rootTeam = TreeNode.Root(teamNumber);
-									availableThreads = DoSelect(availableThreads, rootTeam);
-							
-						});
-				}
-				
-			} while (!_stop);
+					while (!_stop)
+					{
+						DoSimulation();
+					}
+				});
 		}
 
-		private static int DoSelect(int availableThreads, TreeNode rootTeam)
-		{
-			availableThreads--;
 
+		private void DoSimulation()
+		{
+			if (_paused)
+			{
+				Thread.Sleep(250);
+				return;
+			}
+			var current = _root;
+			//DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(7));
 			try
 			{
-				using (var mfp = new MemoryFailPoint(128))
+				using (var mfp = new MemoryFailPoint(32))
 				{
-					rootTeam.Select();
-					
-				}
+					int i = 0;
+					const int threads = 32;
+					var tasks = new Task[threads];
+						for (int j = 0; j < threads; j++)
+							tasks[j] = Task.Factory.StartNew(current.Select);
 
+						if (++i % 20 == 0) _eventsExecutor.Execute();
+						Task.WaitAll(tasks);
+
+				}
 			}
 			catch (InsufficientMemoryException)
 			{
+				GC.Collect(3, GCCollectionMode.Forced);
 				//log it
 			}
-			finally
-			{
-				availableThreads++;
-			}
-			return availableThreads;
 		}
 
 		/// <summary>
@@ -84,14 +84,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Stop()
 		{
 			_stop = true;
-			TreeNode.Reset();//DISPOSE
+			if(_root!=null)
+				_root.Dispose();
 		}
 
 		private bool _paused = false;
 		public void Pause()
 		{
 			_paused = true;
-			Thread.Sleep(100);
+			Thread.Sleep(250);
 		}
 
 		public void Restart()
@@ -99,14 +100,85 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_paused = false;
 		}
 
+
+		/// <summary>
+		/// gets the best found and prunes the passed non needed children
+		/// </summary>
+		/// <param name="currentStatus"></param>
+		/// <returns></returns>
+		public NodeResult GetBest(IExplorationStatus currentStatus)
+		{
+			//DoSimulation(currentStatus);
+
+			//Pause();
+			var current = IterateToCurrentPrunning(currentStatus);
+			EnsureNodeIsExpanded(current);
+			
+			TreeNode bestChild;
+			do
+			{
+				Thread.Sleep(150);
+				bestChild = current.SelectBestChild();
+			} while (bestChild.NumberVisits < 500); //TODO: LEVEL??
+			var result= new NodeResult(bestChild.ExplorationStatus);
+			//Restart();
+			return result;
+		}
+
+		public int MaxDepth { get; set; }
+
+
+		private TreeNode IterateToCurrentPrunning(IExplorationStatus currentStatus)
+		{
+			TreeNode current = _root;
+			foreach (var hand in currentStatus.Hands)
+			{
+				var cardsByPlaySequence = hand.CardsByPlaySequence();
+				foreach (var card in cardsByPlaySequence)
+				{
+					if (card == null) return current;
+					//prunes those paths that have been passed so they are not used in future navigations
+					EnsureNodeIsExpanded(current);
+					var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card)).ToArray();
+					foreach (var treeNode in treeNodes)
+					{
+						treeNode.Dispose();
+						current.Children.Remove(treeNode);
+					}
+
+					current = current.Children.Single();
+				}
+			}
+			//GC.Collect(3,GCCollectionMode.Optimized);
+			return current;
+		}
+
+		private static void EnsureNodeIsExpanded(TreeNode current)
+		{
+			while (current.IsLeaf)
+			{
+				Thread.Sleep(100);
+				//do nothing //TODO: expand explicitly?
+			}
+		}
+
+
 		private bool _disposed = false;
+
+		
 		public void Dispose()
 		{
-			TreeNode.Reset();
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 		private void Dispose(bool disposing)
 		{
-			
+
+			Stop();
+		}
+		~MctsRunner()
+		{
+			Dispose(false);
 		}
 	}
 }
