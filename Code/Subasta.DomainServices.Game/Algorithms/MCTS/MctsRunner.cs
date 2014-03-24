@@ -127,7 +127,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 				Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
 
-			} while (current.Children.Count>1 && bestChild.NumberVisits < 1000 && DateTime.UtcNow <= limit); //TODO: LEVEL??
+			} while (current.Children.Count>1 && bestChild.NumberVisits < 2000 && DateTime.UtcNow <= limit); //TODO: LEVEL??
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			//Restart();
 			return result;
