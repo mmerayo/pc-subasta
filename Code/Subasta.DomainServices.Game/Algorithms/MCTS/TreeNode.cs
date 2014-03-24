@@ -105,7 +105,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						var visited = new List<TreeNode>();
 						var current = this;
 						visited.Add(current);
-
+						if(current==null) return;
 						while (!current.IsLeaf)
 						{
 							current = current.SelectBestChild();

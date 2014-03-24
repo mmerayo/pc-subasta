@@ -13,6 +13,7 @@ namespace Subasta.DomainServices.Game
 		NodeResult GetBest(IExplorationStatus currentStatus);
 
 		int MaxDepth { get; set; }
+		IPlayer Player { get; set; }
 
 		void Start(int teamNumber, IExplorationStatus initialStatus);
 		void Stop();

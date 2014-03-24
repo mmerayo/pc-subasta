@@ -10,6 +10,7 @@ namespace Subasta.DomainServices.Game.Players
 		protected Player(ISimulator simulator)
 		{
 			Simulator = simulator;
+			simulator.Player = this;
 		}
 
 

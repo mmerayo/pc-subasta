@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
 using System.Threading;
@@ -20,6 +21,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_eventsExecutor = eventsExecutor;
 			
 		}
+
+		public IPlayer Player { get; set; }
 
 		public void Start(int forTeamNumber,IExplorationStatus status)
 		{
@@ -114,15 +117,18 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			//Pause();
 			var current = IterateToCurrentPrunning(currentStatus);
 			EnsureNodeIsExpanded(current);
-			
+
 			TreeNode bestChild;
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(5));
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(15));
 			do
 			{
 				Thread.Sleep(150);
 				bestChild = current.SelectBestChild();
-			} while (bestChild.NumberVisits < 200 && DateTime.UtcNow <= limit); //TODO: LEVEL??
-			var result= new NodeResult(bestChild.ExplorationStatus);
+
+				Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
+
+			} while (current.Children.Count>1 && bestChild.NumberVisits < 1000 && DateTime.UtcNow <= limit); //TODO: LEVEL??
+			var result = new NodeResult(bestChild.ExplorationStatus);
 			//Restart();
 			return result;
 		}
