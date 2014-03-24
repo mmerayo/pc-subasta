@@ -7,7 +7,7 @@ using Subasta.DomainServices.DataAccess;
 
 namespace Subasta.DomainServices.Game.Algorithms.MaxN
 {
-	internal class MaxNSimulator :Simulator, ISimulator
+	internal class MaxNSimulator : IMaxNSimulator
 	{
 		private readonly ICandidatesSelector _candidatesSelector;
 		private readonly IResultStoreWritter _resultsWritter;
@@ -17,10 +17,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 
 		public MaxNSimulator(ICandidatesSelector candidatesSelector,
 		                    IQueuedResultStoreWritter resultsWritter,
-		                    ICardComparer cardComparer,
-		                    IPlayerDeclarationsChecker declarationsChecker,
-		                    IGameSettingsStoreWritter gameSettingsWritter,
-			ICandidatePlayer candidatePlayer):base(cardComparer, declarationsChecker, gameSettingsWritter)
+		                   
+			ICandidatePlayer candidatePlayer)
 		{
 			
 			if (resultsWritter == null) throw new ArgumentNullException("resultsWritter");
@@ -29,23 +27,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 			_candidatePlayer = candidatePlayer;
 		}
 
-		public void Execute(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2,
-		                    ICard[] cardsP3,
-		                    ICard[] cardsP4,
-		                    ISuit trump, int pointsBet)
-		{
-			try
-			{
-				var status = GetInitialStatus(gameId, firstPlayer, forPlayerTeamBets, cardsP1, cardsP2, cardsP3, cardsP4, trump,
-				                              pointsBet);
-				Execute(status, firstPlayer);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-				throw;
-			}
-		}
+		//public void Execute(Guid gameId, int firstPlayer, int forPlayerTeamBets, ICard[] cardsP1, ICard[] cardsP2,
+		//                    ICard[] cardsP3,
+		//                    ICard[] cardsP4,
+		//                    ISuit trump, int pointsBet)
+		//{
+		//    try
+		//    {
+		//        var status = GetInitialStatus(gameId, firstPlayer, forPlayerTeamBets, cardsP1, cardsP2, cardsP3, cardsP4, trump,
+		//                                      pointsBet);
+		//        Execute(status, firstPlayer);
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        Console.WriteLine(ex);
+		//        throw;
+		//    }
+		//}
 
 
 		public NodeResult GetBest(IExplorationStatus currentStatus)
@@ -64,7 +62,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 			}
 		}
 
-		public void StopSimulation()
+		public void Start(int teamNumber, IExplorationStatus initialStatus)
+		{
+			
+		}
+
+		public void Stop()
 		{
 
 		}

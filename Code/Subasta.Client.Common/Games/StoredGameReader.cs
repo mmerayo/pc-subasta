@@ -28,7 +28,7 @@ namespace Subasta.Client.Common.Games
 					result.ExplorationDepth = deserialized.ExplorationDepth;
 					result.FirstPlayer = deserialized.FirstPlayer;
 					result.Trump = Suit.FromId((char)deserialized.Trump);
-					result.PlayerBets = deserialized.PlayerBets;
+					result.TeamBets = deserialized.TeamBets;
 					result.PointsBet = deserialized.PointsBet;
 				}
 

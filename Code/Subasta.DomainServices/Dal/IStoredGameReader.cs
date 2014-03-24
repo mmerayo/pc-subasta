@@ -1,6 +1,6 @@
 namespace Subasta.Client.Common.Games
 {
-	interface IStoredGameReader
+	public interface IStoredGameReader
 	{
 		StoredGameData Load(string file);
 	}

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\IStoredGameReader.cs" />
+    <Compile Include="Dal\IStoredGamesCommands.cs" />
     <Compile Include="DataAccess\IGameDataHelper.cs" />
     <Compile Include="DataAccess\IGameDataWritter.cs" />
     <Compile Include="DataAccess\IGameSettingsStoreWritter.cs" />
@@ -52,6 +54,8 @@
     <Compile Include="Game\ICandidatesSelector.cs" />
     <Compile Include="Game\ICardComparer.cs" />
     <Compile Include="Game\IDeckSuffler.cs" />
+    <Compile Include="Game\IMaxNPlayer.cs" />
+    <Compile Include="Game\IMctsPlayer.cs" />
     <Compile Include="Game\INonFilteredCandidatesSelector.cs" />
     <Compile Include="Game\ISimulator.cs" />
     <Compile Include="Game\IGameGenerator.cs" />
@@ -74,6 +78,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

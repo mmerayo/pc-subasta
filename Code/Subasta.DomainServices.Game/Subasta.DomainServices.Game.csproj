@@ -45,13 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\MaxN\IMaxNSimulator.cs" />
     <Compile Include="Algorithms\MCTS\TreeNode.cs" />
     <Compile Include="Algorithms\MCTS\IMctsRunner.cs" />
-    <Compile Include="Algorithms\MCTS\IMctsTreeCommands.cs" />
     <Compile Include="Algorithms\MCTS\MctsRunner.cs" />
-    <Compile Include="Algorithms\MCTS\MctsTreeCommands.cs" />
-    <Compile Include="Algorithms\Simulator.cs" />
-    <Compile Include="Algorithms\MCTS\MctsSimulator.cs" />
+    <Compile Include="Players\Game.cs" />
+    <Compile Include="Players\IMaxNPlayer.cs" />
+    <Compile Include="Players\IMctsPlayer.cs" />
+    <Compile Include="Players\MaxNPlayer.cs" />
+    <Compile Include="Players\MctsPlayer.cs" />
+    <Compile Include="Players\Player.cs" />
     <Compile Include="Strategies\CandidatePlayer.cs" />
     <Compile Include="Utils\CardComparer.cs" />
     <Compile Include="Strategies\DeckSuffler.cs" />

@@ -10,7 +10,6 @@ namespace Subasta.Client.Common
 			For<IGameSimulator>().Use<GameSimulator>();
 			For<IStoredGameReader>().Use<StoredGameReader>();
 			For<IStoredGamesCommands>().Use<StoredGamesCommands>();
-			For<IPlayer>().Use<Player>();
 		}
 	}
 }

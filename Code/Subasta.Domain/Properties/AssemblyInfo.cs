@@ -34,4 +34,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("Subasta.Infrastructure.UnitTests")] [assembly: InternalsVisibleTo("Subasta.Infrastructure.IoC")]
+[assembly: InternalsVisibleTo("Subasta.Infrastructure.UnitTests")]
+[assembly: InternalsVisibleTo("Subasta.DomainServices.Game")]
+[assembly: InternalsVisibleTo("Subasta.Infrastructure.IoC")]

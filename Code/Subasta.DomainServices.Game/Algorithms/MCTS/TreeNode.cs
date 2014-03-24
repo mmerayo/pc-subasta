@@ -12,17 +12,15 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-
 	internal sealed class TreeNode:IDisposable
 	{
 		private static readonly Random _random = new Random((int) DateTime.UtcNow.Ticks);
-		private static TreeNode _rootTeam1;
-		private static TreeNode _rootTeam2;
+	
 		private const double Epsilon = 1e-6;
 
-		private readonly int _teamNumber;
+		private int _teamNumber;
 		private readonly INonFilteredCandidatesSelector _candidatesSelector;
-		private readonly IExplorationStatus _explorationStatus;
+		private  IExplorationStatus _explorationStatus;
 		private readonly ICandidatePlayer _candidatePlayer;
 
 		private readonly object _syncLock = new object();
@@ -32,58 +30,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private bool _expanded;
 		private List<TreeNode> _children;
 
-		public static TreeNode Root(int teamNumber)
-		{
-			switch (teamNumber)
-			{
-				case 1:
-					return RootTeam1;
-				case 2:
-					return RootTeam2;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-		//REMOVE THIS AND THE PLAYER TO KEEP
-		private static TreeNode RootTeam1
-		{
-			get
-			{
-				lock (_typeLock)
-					return _rootTeam1;
-			}
-			set
-			{
-				lock (_typeLock)
-					_rootTeam1 = value;
-			}
-		}
-
-		private static TreeNode RootTeam2
-		{
-			get { lock (_typeLock) return _rootTeam2; }
-			set { lock (_typeLock) _rootTeam2 = value; }
-		}
-
-		public static void Initialize(IExplorationStatus status)
-		{
-			RootTeam1 = new TreeNode(1, ObjectFactory.GetInstance<INonFilteredCandidatesSelector>(), status,
-			                         ObjectFactory.GetInstance<ICandidatePlayer>());
-			RootTeam2 = new TreeNode(2, ObjectFactory.GetInstance<INonFilteredCandidatesSelector>(), status,
-			                         ObjectFactory.GetInstance<ICandidatePlayer>());
-		}
-
-
-		private TreeNode(int teamNumber, INonFilteredCandidatesSelector candidatesSelector, IExplorationStatus explorationStatus,
+		public TreeNode(INonFilteredCandidatesSelector candidatesSelector, 
 		                 ICandidatePlayer candidatePlayer)
 		{
-			_teamNumber = teamNumber;
+			
 			_candidatesSelector = candidatesSelector;
-			_explorationStatus = explorationStatus.Clone();
 			_candidatePlayer = candidatePlayer;
 		}
 
-		private bool IsLeaf
+		public void Initialize(int teamNumber,IExplorationStatus explorationStatus)
+		{
+			_teamNumber = teamNumber;
+			_explorationStatus = explorationStatus.Clone();
+			
+		}
+
+
+		public bool IsLeaf
 		{
 			get
 			{
@@ -92,8 +55,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 		}
 
-		private double TotalValue { get; set; }
-		private int NumberVisits { get; set; }
+		public double TotalValue { get; private set; }
+		public int NumberVisits { get; private set; }
 
 		public List<TreeNode> Children
 		{
@@ -207,18 +170,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					foreach (var declaration in declarations)
 					{
 						newStatus.LastCompletedHand.SetDeclaration(declaration);
-						Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer)
+						var treeNode = new TreeNode(_candidatesSelector, _candidatePlayer)
 							{
 								CardPlayed = candidate,
-								DeclarationPlayed = declaration
-							});
+								DeclarationPlayed = declaration,
+								_explorationStatus = newStatus,
+								_teamNumber = _teamNumber
+							};
+						Children.Add(treeNode);
 					}
 				}
 				else
 				{
-					Children.Add(new TreeNode(_teamNumber, _candidatesSelector, newStatus, _candidatePlayer)
+					Children.Add(new TreeNode(_candidatesSelector, _candidatePlayer)
 						{
-							CardPlayed = candidate
+							CardPlayed = candidate,
+							_explorationStatus = newStatus,
+							_teamNumber = _teamNumber
 						});
 				}
 			}
@@ -292,14 +260,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				TotalValue += value;
 			}
 		}
-
-		public static void Reset()
-		{
-			RootTeam1.Dispose();
-			RootTeam1 = null;
-			RootTeam2.Dispose();
-			RootTeam2 = null;
-		}
+		
 
 		private bool _disposed = false;
 		public void Dispose()

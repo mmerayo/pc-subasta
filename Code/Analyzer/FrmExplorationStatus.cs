@@ -117,10 +117,9 @@ namespace Analyzer
 				}
 			}
 
-			UpdateDepth();
 			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
 			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
-			lblPlayerBets.Text = "Player Bets#: " + _gameSimulator.PlayerBets;
+			lblPlayerBets.Text = "Team Bets#: " + _gameSimulator.TeamBets;
 			Invalidate(true);
 			Update();
 		}
@@ -187,7 +186,6 @@ namespace Analyzer
 
 			dataRow["BrokeToTrump"] = currentHand.BrokeToTrump;
 
-			UpdateDepth();
 			this.dgvStatus.Invalidate(true);
 			this.dgvStatus.Update();
 
@@ -201,11 +199,7 @@ namespace Analyzer
 			Application.DoEvents();
 		}
 
-		private void UpdateDepth()
-		{
-			labelDepth.Text = "Exploration depth: " + _gameSimulator.Depth;
-		}
-
+		
 		private void AddNewRow()
 		{
 			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null, null);

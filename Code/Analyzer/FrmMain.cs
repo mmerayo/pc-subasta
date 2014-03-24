@@ -40,7 +40,7 @@ namespace Analyzer
 			{
 				try
 				{
-					_storedGamesCommands.RestoreSimulation(openGameFile.FileName);
+					_storedGamesCommands.RestoreGame(openGameFile.FileName);
 				}
 				catch (Exception ex)
 				{

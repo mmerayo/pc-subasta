@@ -15,11 +15,9 @@ namespace Subasta.Client.Common
 		IPlayer Player2 { get; }
 		IPlayer Player3 { get; }
 		IPlayer Player4 { get; }
-		int Depth { get; }
 		int FirstPlayer { get; }
 		ISuit Trump { get; }
-		int PlayerBets { get; }
-		void NextMove();
+		int TeamBets { get; }
 		event StatusChangedHandler GameStatusChanged;
 		event InputRequestedHandler InputRequested;
 		void Start(int depth=int.MinValue);

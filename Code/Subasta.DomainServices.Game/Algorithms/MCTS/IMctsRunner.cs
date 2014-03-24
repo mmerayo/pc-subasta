@@ -2,15 +2,11 @@
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-	internal interface IMctsRunner
+	internal interface IMctsRunner:ISimulator
 	{
-		/// <summary>
-		/// it starts the MCTS
-		/// </summary>
-		/// <param name="result"></param>
-		void Start(IExplorationStatus result);// ensure it finishes the exploration(disposes the threads)
-		void Stop();
+
 		void Pause();
 		void Restart();
+		
 	}
 }
