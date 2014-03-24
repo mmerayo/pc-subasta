@@ -130,6 +130,10 @@ namespace Subasta.DomainServices.Game.Players
 
 		private void OnCompleted()
 		{
+			foreach (var player in _players)
+			{
+				player.Stop();
+			}
 			if (GameCompleted != null)
 				GameCompleted(_status);
 		}

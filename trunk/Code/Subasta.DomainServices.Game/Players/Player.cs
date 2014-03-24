@@ -21,6 +21,11 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			return Simulator.GetBest(currentStatus);
 		}
+
+		public void Stop()
+		{
+			Simulator.Stop();
+		}
 	}
 
 	

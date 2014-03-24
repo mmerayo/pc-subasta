@@ -31,9 +31,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_stop = false;
 			Task.Factory.StartNew(() =>
 				{
-					while (!_stop)
+					try
 					{
-						DoSimulation();
+						while (!_stop)
+						{
+							DoSimulation();
+						}
+					}
+					catch (Exception ex)
+					{
+						throw;
 					}
 				});
 		}
@@ -53,13 +60,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				using (var mfp = new MemoryFailPoint(32))
 				{
 					int i = 0;
-					const int threads = 32;
+					const int threads = 8;
 					var tasks = new Task[threads];
-						for (int j = 0; j < threads; j++)
-							tasks[j] = Task.Factory.StartNew(current.Select);
+					for (int j = 0; j < threads; j++)
+						tasks[j] = Task.Factory.StartNew(current.Select);
 
-						if (++i % 20 == 0) _eventsExecutor.Execute();
-						Task.WaitAll(tasks);
+					if (++i%20 == 0) _eventsExecutor.Execute();
+					Task.WaitAll(tasks);
 
 				}
 			}
@@ -68,22 +75,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				GC.Collect(3, GCCollectionMode.Forced);
 				//log it
 			}
-		}
-
-		/// <summary>
-		///Starting at the root node, a child selection
-		///policy is recursively applied to descend through
-		///Starting at the root node, a child selection
-		///policy is recursively applied to descend through
-		/// </summary>
-		private static void Select()
-		{
-			//TreeNode<NodeInfo>.Root.Select();// done by each thread
+			catch
+			{
+				throw;
+			}
 		}
 
 		public void Stop()
 		{
 			_stop = true;
+			Thread.Sleep(150);
 			if(_root!=null)
 				_root.Dispose();
 		}
@@ -115,11 +116,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			EnsureNodeIsExpanded(current);
 			
 			TreeNode bestChild;
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(5));
 			do
 			{
 				Thread.Sleep(150);
 				bestChild = current.SelectBestChild();
-			} while (bestChild.NumberVisits < 500); //TODO: LEVEL??
+			} while (bestChild.NumberVisits < 200 && DateTime.UtcNow <= limit); //TODO: LEVEL??
 			var result= new NodeResult(bestChild.ExplorationStatus);
 			//Restart();
 			return result;

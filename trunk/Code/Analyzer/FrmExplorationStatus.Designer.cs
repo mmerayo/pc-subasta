@@ -42,10 +42,10 @@
 			this.imageListCards = new System.Windows.Forms.ImageList(this.components);
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.lblDeclarations = new System.Windows.Forms.Label();
 			this.lblPointsT2 = new System.Windows.Forms.Label();
 			this.lblPointsT1 = new System.Windows.Forms.Label();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.lblDeclarations = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
 			this.grpStatus.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -185,6 +185,15 @@
 			this.tabPage2.Text = "Simulation";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// lblDeclarations
+			// 
+			this.lblDeclarations.AutoSize = true;
+			this.lblDeclarations.Location = new System.Drawing.Point(6, 338);
+			this.lblDeclarations.Name = "lblDeclarations";
+			this.lblDeclarations.Size = new System.Drawing.Size(10, 13);
+			this.lblDeclarations.TabIndex = 3;
+			this.lblDeclarations.Text = " ";
+			// 
 			// lblPointsT2
 			// 
 			this.lblPointsT2.AutoSize = true;
@@ -213,15 +222,6 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Configuration";
 			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// lblDeclarations
-			// 
-			this.lblDeclarations.AutoSize = true;
-			this.lblDeclarations.Location = new System.Drawing.Point(6, 338);
-			this.lblDeclarations.Name = "lblDeclarations";
-			this.lblDeclarations.Size = new System.Drawing.Size(10, 13);
-			this.lblDeclarations.TabIndex = 3;
-			this.lblDeclarations.Text = " ";
 			// 
 			// FrmExplorationStatus
 			// 

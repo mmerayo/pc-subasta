@@ -159,6 +159,7 @@ namespace Analyzer
 					Declaration? declaration = lastCompletedHand.Declaration;
 					row["Declaration"] = declaration.HasValue ? declaration.Value.ToString() : "No";
 					row["TrickWinner"] = lastCompletedHand.PlayerWinner;
+					row["Points"] = lastCompletedHand.Points;
 				}
 				AddNewRow();
 			}
