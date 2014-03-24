@@ -119,15 +119,27 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			EnsureNodeIsExpanded(current);
 
 			TreeNode bestChild;
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(15));
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(60));
+			const int timesRepeated = 20;
+			int repetitions = 0;
+			TreeNode previousBest=null;
 			do
 			{
 				Thread.Sleep(150);
 				bestChild = current.SelectBestChild();
+				if (previousBest == null || previousBest.CardPlayed.Equals(bestChild.CardPlayed))
+				{
+					repetitions++;
+				}
+				else
+				{
+					previousBest = bestChild;
+					repetitions = 0;
+				}
 
 				Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
 
-			} while (current.Children.Count>1 && bestChild.NumberVisits < 2000 && DateTime.UtcNow <= limit); //TODO: LEVEL??
+			} while (current.Children.Count>1 && repetitions<timesRepeated && DateTime.UtcNow <= limit); //TODO: LEVEL??
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			//Restart();
 			return result;
