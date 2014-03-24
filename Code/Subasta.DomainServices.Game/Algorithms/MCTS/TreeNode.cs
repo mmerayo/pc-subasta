@@ -96,8 +96,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		
 		public void Select()
 		{
-			lock (_syncLock)
-			{
+			//lock (_syncLock)
+			//{
 				try
 				{
 					using (var mfp = new MemoryFailPoint(32))
@@ -136,12 +136,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				{
 					//this is due a bug in the algorithm FIX
 				}
-				//catch (Exception ex)
-				//{
-				//    //swallows
-				//    Debug.WriteLine(string.Format("Select ") ex);
-				//}
-			}
+				catch (Exception ex)
+				{
+				    //swallows
+				   // Debug.WriteLine(string.Format("Select ") ex);
+				}
+			//}
 		}
 
 		private void Expand()
@@ -209,6 +209,14 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						selected = treeNode;
 						bestValue = uctValue;
 					}
+					//else if (uctValue == bestValue)
+					//{
+					//    if (treeNode.CardPlayed.IsAbsSmallerThan(selected.CardPlayed))
+					//    {
+					//        selected = treeNode;
+					//        bestValue = uctValue;
+					//    }
+					//}
 				}
 				if (selected == null)
 				{

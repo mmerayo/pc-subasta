@@ -14,5 +14,6 @@ namespace Subasta.Domain.Game
 		int TeamNumber { get; set; }
 		void SetNewGame(IExplorationStatus initialStatus);
 		NodeResult ChooseMove(IExplorationStatus currentStatus);
+		void Stop();
 	}
 }
