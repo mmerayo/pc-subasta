@@ -11,6 +11,7 @@ using StructureMap;
 using Subasta.Client.Common;
 using Subasta.Client.Common.Games;
 using Subasta.Domain.Deck;
+using Subasta.DomainServices.Dal;
 using Subasta.Infrastructure.Domain;
 
 namespace Analyzer

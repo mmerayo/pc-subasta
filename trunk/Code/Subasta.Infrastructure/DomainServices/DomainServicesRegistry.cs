@@ -5,9 +5,11 @@ using System.Text;
 using StructureMap.Configuration.DSL;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess;
+using Subasta.DomainServices.Factories;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices.DataAccess;
+using Subasta.Infrastructure.DomainServices.Factories;
 
 
 namespace Subasta.Infrastructure.DomainServices
@@ -20,7 +22,8 @@ namespace Subasta.Infrastructure.DomainServices
 			
 			For<IQueuedResultStoreWritter>().Use<NullStoreWritter>();
 			//TODO: REMOVE THIS DEPENDENCY
-			For<ISuit>().Use(Suit.Suits.First());
+			//For<ISuit>().Use(Suit.Suits.First());
+			For<IPlayerFactory>().Use<PlayerFactory>();
 		}
 	}
 }

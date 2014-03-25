@@ -49,6 +49,9 @@
     <Compile Include="Game\IExplorationStatus.cs" />
     <Compile Include="Game\IGame.cs" />
     <Compile Include="Game\IHand.cs" />
+    <Compile Include="Game\IHumanPlayer.cs" />
+    <Compile Include="Game\IMaxNPlayer.cs" />
+    <Compile Include="Game\IMctsPlayer.cs" />
     <Compile Include="Game\IPlayer.cs" />
     <Compile Include="Game\NodeResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

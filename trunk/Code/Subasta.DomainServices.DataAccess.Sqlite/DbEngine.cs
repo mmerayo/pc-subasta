@@ -12,6 +12,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Subasta.ApplicationServices;
+using Subasta.ApplicationServices.IO;
 using Subasta.DomainServices.DataAccess.Sqlite.Mappings;
 using Subasta.DomainServices.DataAccess.Sqlite.Models;
 

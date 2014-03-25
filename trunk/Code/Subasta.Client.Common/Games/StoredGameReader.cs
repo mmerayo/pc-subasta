@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -21,15 +22,21 @@ namespace Subasta.Client.Common.Games
 				using (stream)
 				using (var sr = new StreamReader(stream))
 				{
-					var deserialized=JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+					var deserialized = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
 
-					result.Player1Cards = ((string)deserialized.Player1Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player2Cards = ((string)deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player3Cards = ((string)deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player4Cards = ((string)deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+					result.Player1Cards = ((string) deserialized.Player1Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+					result.Player2Cards = ((string) deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+					result.Player3Cards = ((string) deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+					result.Player4Cards = ((string) deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+
+					result.Player1Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player1Type);
+					result.Player2Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player2Type);
+					result.Player3Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player3Type);
+					result.Player4Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player4Type);
+
 					result.ExplorationDepth = deserialized.ExplorationDepth;
 					result.FirstPlayer = deserialized.FirstPlayer;
-					result.Trump = Suit.FromId((char)deserialized.Trump);
+					result.Trump = Suit.FromId((char) deserialized.Trump);
 					result.TeamBets = deserialized.TeamBets;
 					result.PointsBet = deserialized.PointsBet;
 				}

@@ -49,9 +49,9 @@
     <Compile Include="Algorithms\MCTS\TreeNode.cs" />
     <Compile Include="Algorithms\MCTS\IMctsRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsRunner.cs" />
+    <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="Players\Game.cs" />
-    <Compile Include="Players\IMaxNPlayer.cs" />
-    <Compile Include="Players\IMctsPlayer.cs" />
+    <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Players\MaxNPlayer.cs" />
     <Compile Include="Players\MctsPlayer.cs" />
     <Compile Include="Players\Player.cs" />
@@ -60,7 +60,7 @@
     <Compile Include="Strategies\DeckSuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />
     <Compile Include="Utils\GameGenerator.cs" />
-    <Compile Include="Algorithms\MaxN\MaxNGameExplorer.cs" />
+    <Compile Include="Algorithms\MaxN\MaxNSimulator.cs" />
     <Compile Include="Strategies\NonFilteredCandidatesSelector.cs" />
     <Compile Include="Strategies\PlayerDeclarationsChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

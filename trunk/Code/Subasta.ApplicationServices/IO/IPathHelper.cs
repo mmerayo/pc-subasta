@@ -1,4 +1,4 @@
-﻿namespace Subasta.ApplicationServices
+﻿namespace Subasta.ApplicationServices.IO
 {
 	public interface IPathHelper
 	{
