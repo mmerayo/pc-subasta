@@ -118,7 +118,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			EnsureNodeIsExpanded(current);
 
 			TreeNode bestChild;
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(10));
+			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(30));
 			const int timesRepeated = 15;
 			int repetitions = 0;
 			TreeNode previousBest=null;
@@ -171,7 +171,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					current = current.Children.Single();
 				}
 			}
-			GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			return current;
 		}
 

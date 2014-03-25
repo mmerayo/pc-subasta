@@ -252,6 +252,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 
 			if (currentStatus.TeamWinner == _teamNumber)
+				//return currentStatus.SumTotalTeam(_teamNumber);
 				return 1;
 			return 0;
 		}
