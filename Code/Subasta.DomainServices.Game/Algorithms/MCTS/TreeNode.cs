@@ -125,7 +125,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				}
 				catch (InsufficientMemoryException)
 				{
-					GC.Collect(3, GCCollectionMode.Forced);
+					GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
 					//log it
 				}
 				catch (ObjectDisposedException) //it was being disposed while doing the select
