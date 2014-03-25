@@ -7,6 +7,7 @@ using Subasta.Client.Common;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Infrastructure.Domain;
 
 namespace Analyzer
 {
@@ -26,10 +27,22 @@ namespace Analyzer
 			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 			_gameSimulator.GameCompleted += _gameSimulator_GameCompleted;
+			_gameSimulator.HumanPlayerMoveSelectionNeeded += _gameSimulator_HumanPlayerMoveSelectionNeeded;
 			InitializeDataStructure();
 			dgvStatus.DataSource = _tableStatus;
+		}
 
+		ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
+		{
+			if (validMoves.Length == 1) return validMoves[0];
+			string moves = string.Join("-", validMoves.Select(x => x.ToShortString()));
+			string moveSelected;
+			while (InputBox.Show(string.Format("Select move {0}",source.Name),moves,out moveSelected) != DialogResult.OK)
+			{
+				MessageBox.Show(this, "must select a valid value");
+			}
 
+			return new Card(moveSelected);
 		}
 
 		void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)

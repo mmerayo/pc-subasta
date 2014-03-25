@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEventsExecutor.cs" />
+    <Compile Include="InputBox.cs" />
     <Compile Include="FrmExplorationStatus.cs">
       <SubType>Form</SubType>
     </Compile>

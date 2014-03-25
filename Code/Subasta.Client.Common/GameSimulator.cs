@@ -28,6 +28,7 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameStatusChanged;
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
+		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event InputRequestedHandler InputRequested;
 		private Stopwatch _perMoveWatcher;
 
@@ -101,11 +102,31 @@ namespace Subasta.Client.Common
 			_players[1] = _playerFactory.CreatePlayer(2, storedGame);
 			_players[2] = _playerFactory.CreatePlayer(3, storedGame);
 			_players[3] = _playerFactory.CreatePlayer(4, storedGame);
-			
+
+			foreach (var player in _players)
+			{
+				if (player.PlayerType == PlayerType.Human)
+				{
+					((IHumanPlayer)player).SelectMove += GameSimulator_SelectMove;
+				}
+			}
+
 			FirstPlayer = storedGame.FirstPlayer;
 			Trump = storedGame.Trump;
 			PointsBet = storedGame.PointsBet;
 			TeamBets = storedGame.TeamBets;
+		}
+
+		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves)
+		{
+			return OnMoveSelectionNeeded(source,validMoves);
+		}
+
+		private ICard OnMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
+		{
+			if (HumanPlayerMoveSelectionNeeded != null)
+				return HumanPlayerMoveSelectionNeeded(source, validMoves);
+			throw new InvalidOperationException("Subscription is needed");
 		}
 
 		public bool IsFinished { get; set; }
