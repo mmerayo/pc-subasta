@@ -200,9 +200,11 @@ namespace Analyzer
 
 			dataRow["BrokeToTrump"] = currentHand.BrokeToTrump;
 
-			this.dgvStatus.Invalidate(true);
-			this.dgvStatus.Update();
 
+			//this.dgvStatus.Invalidate(true);
+			dgvStatus.Visible = false;
+			this.dgvStatus.Update();
+			dgvStatus.Visible = true;
 			if (status.IsCompleted)
 			{
 				lblPointsT1.Text = "T1 total: " + status.SumTotalTeam(1);
