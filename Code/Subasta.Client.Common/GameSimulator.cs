@@ -6,6 +6,7 @@ using System.Threading;
 using StructureMap;
 using Subasta.Client.Common.Games;
 using Subasta.Domain;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;

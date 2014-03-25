@@ -5,7 +5,6 @@ using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 using StructureMap;
-using Subasta.ApplicationServices;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS

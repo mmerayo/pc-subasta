@@ -1,6 +1,6 @@
 using Subasta.Domain.Deck;
 
-namespace Subasta.Client.Common.Games
+namespace Subasta.Domain.DalModels
 {
 	public class StoredGameData
 	{

@@ -1,7 +1,9 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
+using Subasta.DomainServices.Dal;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Client.Common.Games

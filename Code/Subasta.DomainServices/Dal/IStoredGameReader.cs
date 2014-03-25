@@ -1,4 +1,6 @@
-namespace Subasta.Client.Common.Games
+using Subasta.Domain.DalModels;
+
+namespace Subasta.DomainServices.Dal
 {
 	public interface IStoredGameReader
 	{
