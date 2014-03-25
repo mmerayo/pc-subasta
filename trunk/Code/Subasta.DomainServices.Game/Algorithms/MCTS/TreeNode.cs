@@ -198,8 +198,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				foreach (var treeNode in treeNodes)
 				{
 					double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
-					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) +
-					                  _random.NextDouble()*Epsilon;
+					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) + Epsilon;//*_random.NextDouble();
 					if (uctValue > bestValue)
 					{
 						selected = treeNode;
