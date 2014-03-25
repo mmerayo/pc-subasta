@@ -48,39 +48,39 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		}
 
 
-		private void DoSimulation()
-		{
-			if (_paused)
-			{
-				Thread.Sleep(250);
-				return;
-			}
-			var current = _root;
-			try
-			{
-				using (var mfp = new MemoryFailPoint(16))
-				{
-					int i = 0;
-					const int threads = 1;
-					var tasks = new Task[threads];
-					for (int j = 0; j < threads; j++)
-						tasks[j] = Task.Factory.StartNew(current.Select);
+		//private void DoSimulation()
+		//{
+		//    if (_paused)
+		//    {
+		//        Thread.Sleep(250);
+		//        return;
+		//    }
+		//    var current = _root;
+		//    try
+		//    {
+		//        using (var mfp = new MemoryFailPoint(16))
+		//        {
+		//            int i = 0;
+		//            const int threads = 1;
+		//            var tasks = new Task[threads];
+		//            for (int j = 0; j < threads; j++)
+		//                tasks[j] = Task.Factory.StartNew(current.Select);
 
-					if (++i%20 == 0) _eventsExecutor.Execute();
-					Task.WaitAll(tasks);
+		//            if (++i%20 == 0) _eventsExecutor.Execute();
+		//            Task.WaitAll(tasks);
 
-				}
-			}
-			catch (InsufficientMemoryException)
-			{
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
-				//log it
-			}
-			catch
-			{
-				throw;
-			}
-		}
+		//        }
+		//    }
+		//    catch (InsufficientMemoryException)
+		//    {
+		//        GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
+		//        //log it
+		//    }
+		//    catch
+		//    {
+		//        throw;
+		//    }
+		//}
 
 		public void Stop()
 		{
@@ -122,8 +122,18 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				while (++selections < 3000)
 				{
 					//DoSimulation();
-					_root.Select();
-					//Debug.WriteLine("{0}- hand:{1} - turn:{2} - selections:{3}",Player.Name, currentStatus.CurrentHand.Sequence,currentStatus.Turn,selections);
+					try
+					{
+						using (var mfp = new MemoryFailPoint(4))
+						{
+							_root.Select();
+						}
+					}
+					catch (InsufficientMemoryException)
+					{
+						//log
+					}
+					if (selections % 100 == 0) _eventsExecutor.Execute();
 				}
 			bestChild = current.SelectBestChild();
 			//const int timesRepeated = 50;
@@ -186,7 +196,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			while (current.IsLeaf)
 			{
-				DoSimulation();
+				current.Select();
 				//Thread.Sleep(100);
 				//do nothing //TODO: expand explicitly?
 			}
