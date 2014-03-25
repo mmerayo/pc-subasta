@@ -33,6 +33,7 @@ namespace Subasta.DomainServices.Game
 			For<IGame>().Use<Players.Game>();
 			For<IMctsPlayer>().Use<MctsPlayer>();
 			For<IMaxNPlayer>().Use<MaxNPlayer>();
+			For<IHumanPlayer>().Use<HumanPlayer>();
 		}
 	}
 }

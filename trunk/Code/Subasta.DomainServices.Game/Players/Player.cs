@@ -8,7 +8,7 @@ namespace Subasta.DomainServices.Game.Players
 		public ICard[] Cards { get; set; }
 		public string Name { get; set; }
 		public int TeamNumber { get; set; }
-		public abstract void SetNewGame(IExplorationStatus initialStatus);
+		public virtual void SetNewGame(IExplorationStatus initialStatus){}
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
 		public virtual void Stop()
 		{
