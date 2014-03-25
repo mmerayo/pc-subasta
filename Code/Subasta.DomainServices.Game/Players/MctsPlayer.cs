@@ -1,4 +1,5 @@
-﻿using Subasta.Domain.Game;
+﻿using Subasta.Domain.DalModels;
+using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 
 namespace Subasta.DomainServices.Game.Players
@@ -8,6 +9,11 @@ namespace Subasta.DomainServices.Game.Players
 
 		public MctsPlayer(IMctsRunner simulator):base(simulator)
 		{
+		}
+
+		public override PlayerType PlayerType
+		{
+			get { return PlayerType.Mcts; }
 		}
 
 		public override void SetNewGame(IExplorationStatus initialStatus)
