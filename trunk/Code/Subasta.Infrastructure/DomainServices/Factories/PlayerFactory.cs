@@ -37,7 +37,7 @@ namespace Subasta.Infrastructure.DomainServices.Factories
 				default:
 					throw new ArgumentOutOfRangeException("playerNumber");
 			}
-
+			result.PlayerNumber = playerNumber;
 			return result;
 		}
 
