@@ -1,10 +1,12 @@
 using System;
 using NUnit.Framework;
 using Subasta.ApplicationServices;
+using Subasta.ApplicationServices.IO;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.DataAccess.Sqlite.Infrastructure;
 using Subasta.DomainServices.DataAccess.Sqlite.Writters;
 using Subasta.Infrastructure.ApplicationServices;
+using Subasta.Infrastructure.ApplicationServices.IO;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests

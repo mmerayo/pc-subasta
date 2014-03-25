@@ -1,5 +1,6 @@
 ﻿using System;
 using Subasta.Client.Common.Games;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 

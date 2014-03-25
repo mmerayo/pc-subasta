@@ -2,7 +2,9 @@
 using System.IO;
 using NUnit.Framework;
 using Subasta.ApplicationServices;
+using Subasta.ApplicationServices.IO;
 using Subasta.Infrastructure.ApplicationServices;
+using Subasta.Infrastructure.ApplicationServices.IO;
 
 namespace Subasta.DomainServices.DataAccess.Sqlite.UnitTests.IntegrationTests
 {
