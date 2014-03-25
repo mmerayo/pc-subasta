@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Subasta.ApplicationServices;
+using Subasta.ApplicationServices.IO;
 
-namespace Subasta.Infrastructure.ApplicationServices
+namespace Subasta.Infrastructure.ApplicationServices.IO
 {
 	class PathUtils:IPathHelper
 	{

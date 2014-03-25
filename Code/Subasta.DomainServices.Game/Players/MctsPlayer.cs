@@ -3,7 +3,7 @@ using Subasta.DomainServices.Game.Algorithms.MCTS;
 
 namespace Subasta.DomainServices.Game.Players
 {
-	internal class MctsPlayer:Player,IMctsPlayer
+	internal class MctsPlayer:AIPlayer,IMctsPlayer
 	{
 
 		public MctsPlayer(IMctsRunner simulator):base(simulator)

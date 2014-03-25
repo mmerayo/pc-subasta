@@ -3,7 +3,7 @@ using Subasta.DomainServices.Game.Algorithms.MaxN;
 
 namespace Subasta.DomainServices.Game.Players
 {
-	internal class MaxNPlayer : AIPlayer, IMaxNPlayer
+	internal class HumanPlayer : AIPlayer, IHumanPlayer
 	{
 		public MaxNPlayer(IMaxNSimulator simulator)
 			: base(simulator)

@@ -52,6 +52,7 @@
     <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
     <Compile Include="DomainServices\DataAccess\NullStoreWritter.cs" />
     <Compile Include="DomainServices\DomainServicesRegistry.cs" />
+    <Compile Include="DomainServices\Factories\PlayerFactory.cs" />
     <Compile Include="Domain\Card.cs" />
     <Compile Include="Domain\DomainRegistry.cs" />
     <Compile Include="Domain\Deck.cs" />

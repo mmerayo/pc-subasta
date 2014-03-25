@@ -1,5 +1,6 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
+using Subasta.DomainServices;
 
 namespace Analyzer
 {

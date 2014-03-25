@@ -28,8 +28,11 @@ namespace Subasta.DomainServices.Game
 
 
 			For<IMctsRunner>().Use<MctsRunner>();
+			For<IMaxNSimulator>().Use<MaxNSimulator>();
+
 			For<IGame>().Use<Players.Game>();
 			For<IMctsPlayer>().Use<MctsPlayer>();
+			For<IMaxNPlayer>().Use<MaxNPlayer>();
 		}
 	}
 }

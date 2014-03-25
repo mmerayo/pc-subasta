@@ -9,6 +9,7 @@ using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.Factories;
 using Subasta.DomainServices.Game;
 using Subasta.DomainServices.Game.Players;
 
@@ -18,6 +19,7 @@ namespace Subasta.Client.Common
 	{
 		private readonly IGame _game;
 		private readonly IDeck _deck;
+		private readonly IPlayerFactory _playerFactory;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
 		private int _firstPlayer = 1;
@@ -29,33 +31,13 @@ namespace Subasta.Client.Common
 		public event InputRequestedHandler InputRequested;
 		private Stopwatch _perMoveWatcher;
 
-		public GameSimulator(IGame game, IDeck deck)
+		public GameSimulator(IGame game, IDeck deck,IPlayerFactory playerFactory)
 		{
 			_game = game;
 			_deck = deck;
-			ReloadPlayers();
+			_playerFactory = playerFactory;
 		}
-
-		private void ReloadPlayers()
-		{
-			_players[0] = ObjectFactory.GetInstance<IMctsPlayer>();
-			_players[0].Name = "Player 1";
-			_players[0].TeamNumber = 1;
-
-			_players[1] = ObjectFactory.GetInstance<IMctsPlayer>();
-			_players[1].Name = "Player 2";
-			_players[1].TeamNumber = 2;
-
-			_players[2] = ObjectFactory.GetInstance<IMctsPlayer>();
-			_players[2].Name = "Player 3";
-			_players[2].TeamNumber = 1;
-
-			_players[3] = ObjectFactory.GetInstance<IMctsPlayer>();
-			_players[3].Name = "Player 4";
-			_players[3].TeamNumber = 2;
-
-		}
-
+		
 		public IPlayer Player1 //I PLAYER TO BE KEPT IN DOMAIN and holds the style
 		{
 			get { return _players[0]; }
@@ -115,11 +97,11 @@ namespace Subasta.Client.Common
 
 		public void Load(StoredGameData storedGame)
 		{
-			ReloadPlayers();
-			Player1.Cards = storedGame.Player1Cards;
-			Player2.Cards = storedGame.Player2Cards;
-			Player3.Cards = storedGame.Player3Cards;
-			Player4.Cards = storedGame.Player4Cards;
+			_players[0]= _playerFactory.CreatePlayer(1, storedGame);
+			_players[1] = _playerFactory.CreatePlayer(2, storedGame);
+			_players[2] = _playerFactory.CreatePlayer(3, storedGame);
+			_players[3] = _playerFactory.CreatePlayer(4, storedGame);
+			
 			FirstPlayer = storedGame.FirstPlayer;
 			Trump = storedGame.Trump;
 			PointsBet = storedGame.PointsBet;
