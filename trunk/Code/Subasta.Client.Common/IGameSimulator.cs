@@ -25,5 +25,6 @@ namespace Subasta.Client.Common
 		void Load(StoredGameData storedGame);
 		event StatusChangedHandler GameStarted;
 		event StatusChangedHandler GameCompleted;
+		event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 	}
 }
