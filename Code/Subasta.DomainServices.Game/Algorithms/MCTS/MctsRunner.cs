@@ -31,20 +31,20 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_root = ObjectFactory.GetInstance<TreeNode>();
 			_root.Initialize(forTeamNumber, status);
 			_stop = false;
-			Task.Factory.StartNew(() =>
-				{
-					try
-					{
-						while (!_stop)
-						{
-							DoSimulation();
-						}
-					}
-					catch (Exception ex)
-					{
-						throw;
-					}
-				});
+			//Task.Factory.StartNew(() =>
+			//    {
+			//        try
+			//        {
+			//            while (!_stop)
+			//            {
+			//                DoSimulation();
+			//            }
+			//        }
+			//        catch (Exception ex)
+			//        {
+			//            throw;
+			//        }
+			//    });
 		}
 
 
@@ -56,13 +56,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				return;
 			}
 			var current = _root;
-			//DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(7));
 			try
 			{
 				using (var mfp = new MemoryFailPoint(16))
 				{
 					int i = 0;
-					const int threads = 8;
+					const int threads = 1;
 					var tasks = new Task[threads];
 					for (int j = 0; j < threads; j++)
 						tasks[j] = Task.Factory.StartNew(current.Select);
@@ -118,30 +117,38 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			EnsureNodeIsExpanded(current);
 
 			TreeNode bestChild;
-			DateTime limit = DateTime.UtcNow.Add(TimeSpan.FromSeconds(30));
-			const int timesRepeated = 15;
-			int repetitions = 0;
-			TreeNode previousBest=null;
-			do
-			{
+			int selections = 0;
+			if(current.Children.Count>1)
+				while (++selections < 3000)
+				{
+					//DoSimulation();
+					_root.Select();
+					//Debug.WriteLine("{0}- hand:{1} - turn:{2} - selections:{3}",Player.Name, currentStatus.CurrentHand.Sequence,currentStatus.Turn,selections);
+				}
+			bestChild = current.SelectBestChild();
+			//const int timesRepeated = 50;
+			//int repetitions = 0;
+			//TreeNode previousBest=null;
+			//do
+			//{
 				
-				bestChild = current.SelectBestChild();
-				if (previousBest == null || !previousBest.CardPlayed.Equals(bestChild.CardPlayed))
-				{
-					previousBest = bestChild;
-					repetitions = 0;
+			//    bestChild = current.SelectBestChild();
+			//    if (previousBest == null || !previousBest.CardPlayed.Equals(bestChild.CardPlayed))
+			//    {
+			//        previousBest = bestChild;
+			//        repetitions = 0;
 					
-				}
-				else
-				{
-					repetitions++;
+			//    }
+			//    else
+			//    {
+			//        repetitions++;
 					
-				}
-				_eventsExecutor.Execute();
-				Thread.Sleep(250);
-				Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
+			//    }
+			//    _eventsExecutor.Execute();
+			//    Thread.Sleep(250);
+			//    Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
 
-			} while (current.Children.Count>1 && repetitions<timesRepeated && DateTime.UtcNow <= limit); //TODO: LEVEL??
+			//} while (current.Children.Count>1 && repetitions<timesRepeated && DateTime.UtcNow <= limit); //TODO: LEVEL??
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			//Restart();
 			return result;
@@ -175,11 +182,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return current;
 		}
 
-		private static void EnsureNodeIsExpanded(TreeNode current)
+		private void EnsureNodeIsExpanded(TreeNode current)
 		{
 			while (current.IsLeaf)
 			{
-				Thread.Sleep(100);
+				DoSimulation();
+				//Thread.Sleep(100);
 				//do nothing //TODO: expand explicitly?
 			}
 		}
