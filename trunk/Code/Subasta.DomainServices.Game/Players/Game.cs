@@ -112,6 +112,7 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			var playerMoves = _players[_status.Turn - 1];
 			var result = playerMoves.ChooseMove(_status);
+
 			_status = result.Status.Clone();
 		}
 
