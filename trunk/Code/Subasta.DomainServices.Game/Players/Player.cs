@@ -1,4 +1,5 @@
-﻿using Subasta.Domain.DalModels;
+﻿using Subasta.Domain;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -13,6 +14,6 @@ namespace Subasta.DomainServices.Game.Players
 		public int PlayerNumber { get; set; }
 		public virtual void SetNewGame(IExplorationStatus initialStatus){}
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
-		
+		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	}
 }

@@ -64,6 +64,15 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
+		public int? TeamWinner
+		{
+			get
+			{
+				if (!PlayerWinner.HasValue) return null;
+				return PlayerWinner.Value == 1 || PlayerWinner.Value == 3 ? 1 : 2;
+			}
+		}
+
 		public int Points
 		{
 			get
@@ -119,6 +128,8 @@ namespace Subasta.Infrastructure.Domain
 			get { return FirstPlayer == int.MinValue; }
 		}
 
+		
+
 		public bool BrokeToTrump
 		{
 			get
@@ -171,7 +182,7 @@ namespace Subasta.Infrastructure.Domain
 			return result;
 		}
 
-		public void SetDeclaration(Declaration declaration)
+		public void SetDeclaration(Declaration? declaration)
 		{
 			ThrowIfNotcompleted();
 			Declaration = declaration;

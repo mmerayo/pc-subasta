@@ -20,7 +20,7 @@ namespace Subasta.Domain.Game
 		ISuit StartedBySuit { get; }
 		ICard CardWinner { get; }
 		bool IsEmpty { get; }
-		
+		int? TeamWinner { get; }
 		
 		/// <summary>
 		/// fallada
@@ -37,7 +37,7 @@ namespace Subasta.Domain.Game
 	    ICard PlayerCard(int playerPosition);
 
 		IHand Clone();
-		void SetDeclaration(Declaration declaration);
+		void SetDeclaration(Declaration? declaration);
 	    IEnumerable<ICard> CardsByPlaySequence();
 	}
 }
