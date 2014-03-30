@@ -188,7 +188,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					current = current.Children.Single();
 				}
 			}
-			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+			//GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			return current;
 		}
 

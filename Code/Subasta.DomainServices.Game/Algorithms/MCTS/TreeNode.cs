@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
 using Subasta.Domain;
@@ -92,24 +93,26 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		
 		public void Select()
 		{
-			//lock (_syncLock)
-			//{
-				try
-				{
-					using (var mfp = new MemoryFailPoint(32))
-					{
-						var visited = new List<TreeNode>();
+				//try
+				//{
+					
 						var current = this;
+						if(current.IsFinal) 
+							return;//end reached
+
+						var visited = new List<TreeNode>();
 						visited.Add(current);
-						if(current==null) return;
 						while (!current.IsLeaf)
 						{
 							current = current.SelectBestChild();
 							visited.Add(current);
 						}
+						
+						if (current.IsFinal)
+							return;//end reached
+						
 						current.Expand();
 						var newNode = current.SelectBestChild();
-						if (newNode == null) return; //this is due a bug in the algorithm
 						visited.Add(newNode);
 						var simulationValue = GetSimulationValue(newNode);
 
@@ -117,27 +120,26 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						{
 							treeNode.UpdateStatus(simulationValue);
 						}
-					}
-				}
-				catch (InsufficientMemoryException)
-				{
-					GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
-					//log it
-				}
-				catch (ObjectDisposedException) //it was being disposed while doing the select
-				{
-					//log
-				}
-				catch (NullReferenceException)
-				{
-					//this is due a bug in the algorithm FIX
-				}
-				catch (Exception ex)
-				{
-				    //swallows
-				   // Debug.WriteLine(string.Format("Select ") ex);
-				}
-			//}
+				//}
+				
+				//catch (ObjectDisposedException) //it was being disposed while doing the select
+				//{
+				//    //log
+				//}
+				//catch (NullReferenceException)
+				//{
+				//    //this is due a bug in the algorithm FIX
+				//}
+				//catch (Exception ex)
+				//{
+				//    //swallows
+				//   // Debug.WriteLine(string.Format("Select ") ex);
+				//}
+		}
+
+		private bool IsFinal
+		{
+			get { return ExplorationStatus.IsCompleted; }
 		}
 
 		private void Expand()
