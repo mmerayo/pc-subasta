@@ -26,5 +26,6 @@ namespace Subasta.Client.Common
 		event StatusChangedHandler GameStarted;
 		event StatusChangedHandler GameCompleted;
 		event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
+		event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 	}
 }

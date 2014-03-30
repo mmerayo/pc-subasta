@@ -1,4 +1,5 @@
-﻿using Subasta.Domain.Game;
+﻿using System;
+using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Players
 {
@@ -15,6 +16,10 @@ namespace Subasta.DomainServices.Game.Players
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
 		{
 			return Simulator.GetBest(currentStatus);
+		}
+		public override Domain.Declaration? ChooseDeclaration(IExplorationStatus previousStatus)
+		{
+			throw new InvalidOperationException("Not valid YET for AI players. Need to correct the interaction");
 		}
 	}
 }

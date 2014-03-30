@@ -28,8 +28,23 @@ namespace Analyzer
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 			_gameSimulator.GameCompleted += _gameSimulator_GameCompleted;
 			_gameSimulator.HumanPlayerMoveSelectionNeeded += _gameSimulator_HumanPlayerMoveSelectionNeeded;
+			_gameSimulator.HumanPlayerDeclarationSelectionNeeded += _gameSimulator_HumanPlayerDeclarationSelectionNeeded;
 			InitializeDataStructure();
 			dgvStatus.DataSource = _tableStatus;
+		}
+
+		Declaration? _gameSimulator_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
+		{
+			string declarations = string.Join("-", availableDeclarations.Select(x => x.ToString()));
+			string declarationSelected;
+			Declaration parsedDeclaration;
+			while (InputBox.Show(string.Format("Select declaration {0}", source.Name), declarations, out declarationSelected) !=
+				   DialogResult.OK || !Enum.TryParse( declarationSelected,true,out parsedDeclaration))
+			{
+				MessageBox.Show(this, "must select a valid value");
+			}
+
+			return parsedDeclaration;
 		}
 
 		private ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)

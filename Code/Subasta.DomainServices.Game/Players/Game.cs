@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
@@ -101,7 +102,6 @@ namespace Subasta.DomainServices.Game.Players
 			while (!_status.IsCompleted)
 			{
 				NextMove();
-				OnStatusChanged();
 			}
 
 			OnCompleted();
@@ -110,10 +110,29 @@ namespace Subasta.DomainServices.Game.Players
 
 		private void NextMove()
 		{
+			var previousStatus = _status.Clone();
 			var playerMoves = _players[_status.Turn - 1];
 			var result = playerMoves.ChooseMove(_status);
-
 			_status = result.Status;
+			
+
+			//if its the last card of the hand AND
+			//the current hand winner has a human in th team
+			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3 && 
+			_players.Any(x=>x.PlayerType==PlayerType.Human && x.TeamNumber==result.Status.LastCompletedHand.TeamWinner.Value))
+			{
+				_status.LastCompletedHand.SetDeclaration(null);
+				OnStatusChanged();
+				//always the first
+				IPlayer player = _players.First(x=>x.PlayerType==PlayerType.Human && x.TeamNumber==result.Status.LastCompletedHand.TeamWinner.Value);
+
+				//Add the hand to chose a declaration
+				previousStatus.CurrentHand.Add(previousStatus.Turn, result.Status.LastCompletedHand.CardsByPlaySequence().Last());
+				var declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
+					_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
+			}
+			OnStatusChanged();
+
 		}
 
 

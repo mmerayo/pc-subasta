@@ -17,5 +17,6 @@ namespace Subasta.Domain.Game
 		void SetNewGame(IExplorationStatus initialStatus);
 		NodeResult ChooseMove(IExplorationStatus currentStatus);
 
+		Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	}
 }

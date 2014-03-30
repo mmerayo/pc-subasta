@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using StructureMap;
-using Subasta.Client.Common.Games;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Factories;
-using Subasta.DomainServices.Game;
-using Subasta.DomainServices.Game.Players;
 
 namespace Subasta.Client.Common
 {
@@ -29,6 +22,7 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
+		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		public event InputRequestedHandler InputRequested;
 		private Stopwatch _perMoveWatcher;
 
@@ -107,7 +101,9 @@ namespace Subasta.Client.Common
 			{
 				if (player.PlayerType == PlayerType.Human)
 				{
-					((IHumanPlayer)player).SelectMove += GameSimulator_SelectMove;
+					var humanPlayer = (IHumanPlayer)player;
+					humanPlayer.SelectMove += GameSimulator_SelectMove;
+					humanPlayer.SelectDeclaration += humanPlayer_SelectDeclaration;
 				}
 			}
 
@@ -117,9 +113,23 @@ namespace Subasta.Client.Common
 			TeamBets = storedGame.TeamBets;
 		}
 
+		Declaration? humanPlayer_SelectDeclaration(IHumanPlayer source, Declaration[] availableDeclarations)
+		{
+			return OnDeclarationSelectionNeeded(source, availableDeclarations);
+		}
+
+		
+
 		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves)
 		{
 			return OnMoveSelectionNeeded(source,validMoves);
+		}
+
+		private Declaration? OnDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
+		{
+			if (HumanPlayerDeclarationSelectionNeeded != null)
+				return HumanPlayerDeclarationSelectionNeeded(source, availableDeclarations);
+			throw new InvalidOperationException("Subscription is needed");
 		}
 
 		private ICard OnMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)

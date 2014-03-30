@@ -171,9 +171,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						var treeNode = new TreeNode(_candidatesSelector, _candidatePlayer)
 							{
 								CardPlayed = candidate,
-								DeclarationPlayed = declaration,
 								_explorationStatus = newStatus,
-								_teamNumber = _teamNumber
+								_teamNumber = _teamNumber,
+								DeclarationPlayed = declaration
+
 							};
 						Children.Add(treeNode);
 					}
