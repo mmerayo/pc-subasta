@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -11,6 +12,13 @@ namespace Subasta.Client.Common.Games
 {
 	internal class StoredGameReader : IStoredGameReader
 	{
+		private readonly IDeck _deck;
+
+		public StoredGameReader(IDeck deck)
+		{
+			_deck = deck;
+		}
+
 		public StoredGameData Load(string fileName)
 		{
 			var result = new StoredGameData();
@@ -42,7 +50,38 @@ namespace Subasta.Client.Common.Games
 				}
 
 			}
+			ThrowIfNotValidData(result.Player1Cards, result.Player2Cards, result.Player3Cards, result.Player4Cards);
+
 			return result;
+		}
+
+		private void ThrowIfNotValidData(ICard[] player1Cards, ICard[] player2Cards, ICard[] player3Cards, ICard[] player4Cards)
+		{
+			var cards = new List<ICard>(_deck.Cards.Cards);
+
+			if (player1Cards.Length != 10)
+				throw new FileLoadException("player 1 cards not valid");
+			if (player2Cards.Length != 10)
+				throw new FileLoadException("player 2 cards not valid");
+			if (player3Cards.Length != 10)
+				throw new FileLoadException("player 3 cards not valid");
+			if (player4Cards.Length != 10)
+				throw new FileLoadException("player 4 cards not valid");
+
+			var source = player1Cards.Concat(player2Cards).Concat(player3Cards).Concat(player4Cards);
+
+			foreach (var card in source)
+			{
+				int removed = cards.RemoveAll(x => x.Equals(card));
+				if (removed != 1)
+					throw new FileLoadException(string.Format("Card {0} is duplicated", card.ToShortString()));
+			}
+			if (cards.Count > 0)
+			{
+				string nonDefined = string.Format("{0}",string.Join(",", cards.Select(x=>x.ToShortString())));
+				throw new FileLoadException("The file data is not valid. Missing: " +nonDefined);
+			}
+
 		}
 	}
 }
