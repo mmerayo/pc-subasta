@@ -137,10 +137,13 @@ namespace Subasta.DomainServices.Game.Models
 
 		private List<Declaration> GetDeclarationCandidates()
 		{
-
+			var result = new List<Declaration>();
 			var last = LastCompletedHand;
+			if (TeamBets != last.TeamWinner)
+				return result;
+
 			var teamPlayers = new int[2];
-			if (last.PlayerWinner == 1 || last.PlayerWinner == 3)
+			if (last.TeamWinner== 1)
 			{
 				teamPlayers[0] = 1;
 				teamPlayers[1] = 3;
@@ -152,7 +155,7 @@ namespace Subasta.DomainServices.Game.Models
 			}
 
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
-			var result = new List<Declaration>();
+			
 			for (int i = 0; i < 2; i++)
 			{
 				var declarations = declarables.Where(

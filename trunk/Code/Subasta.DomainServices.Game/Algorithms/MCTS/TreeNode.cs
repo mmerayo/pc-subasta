@@ -93,48 +93,33 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		
 		public void Select()
 		{
-				//try
-				//{
-					
-						var current = this;
-						if(current.IsFinal) 
-							return;//end reached
 
-						var visited = new List<TreeNode>();
-						visited.Add(current);
-						while (!current.IsLeaf)
-						{
-							current = current.SelectBestChild();
-							visited.Add(current);
-						}
-						
-						if (current.IsFinal)
-							return;//end reached
-						
-						current.Expand();
-						var newNode = current.SelectBestChild();
-						visited.Add(newNode);
-						var simulationValue = GetSimulationValue(newNode);
 
-						foreach (var treeNode in visited)
-						{
-							treeNode.UpdateStatus(simulationValue);
-						}
-				//}
-				
-				//catch (ObjectDisposedException) //it was being disposed while doing the select
-				//{
-				//    //log
-				//}
-				//catch (NullReferenceException)
-				//{
-				//    //this is due a bug in the algorithm FIX
-				//}
-				//catch (Exception ex)
-				//{
-				//    //swallows
-				//   // Debug.WriteLine(string.Format("Select ") ex);
-				//}
+			var current = this;
+			if (current.IsFinal)
+				return; //end reached
+
+			var visited = new List<TreeNode>();
+			visited.Add(current);
+			while (!current.IsLeaf)
+			{
+				current = current.SelectBestChild();
+				visited.Add(current);
+			}
+
+			if (current.IsFinal)
+				return; //end reached
+
+			current.Expand();
+			var newNode = current.SelectBestChild();
+			visited.Add(newNode);
+			var simulationValue = GetSimulationValue(newNode);
+
+			foreach (var treeNode in visited)
+			{
+				treeNode.UpdateStatus(simulationValue);
+			}
+
 		}
 
 		private bool IsFinal
