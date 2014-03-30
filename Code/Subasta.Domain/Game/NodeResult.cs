@@ -31,7 +31,7 @@ namespace Subasta.Domain.Game
 
 		public NodeResult(IExplorationStatus status)
 		{
-			_status = status;
+			_status = status.Clone();
 			Points1And3 = GetPoints(1, 3);
 			Points2And4 = GetPoints(2, 4);
 		}

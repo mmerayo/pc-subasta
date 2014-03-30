@@ -96,6 +96,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestSets\Sample2.data" />
     <None Include="TestSets\Sample1.data" />
     <None Include="TestSets\Start.data" />
   </ItemGroup>
