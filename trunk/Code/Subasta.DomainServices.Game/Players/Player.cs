@@ -13,9 +13,6 @@ namespace Subasta.DomainServices.Game.Players
 		public int PlayerNumber { get; set; }
 		public virtual void SetNewGame(IExplorationStatus initialStatus){}
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
-		public virtual void Stop()
-		{
-			
-		}
+		
 	}
 }

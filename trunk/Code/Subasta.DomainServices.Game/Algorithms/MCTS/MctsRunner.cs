@@ -31,76 +31,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			_root = ObjectFactory.GetInstance<TreeNode>();
 			_root.Initialize(forTeamNumber, status);
 			_stop = false;
-			//Task.Factory.StartNew(() =>
-			//    {
-			//        try
-			//        {
-			//            while (!_stop)
-			//            {
-			//                DoSimulation();
-			//            }
-			//        }
-			//        catch (Exception ex)
-			//        {
-			//            throw;
-			//        }
-			//    });
+			
 		}
 
-
-		//private void DoSimulation()
-		//{
-		//    if (_paused)
-		//    {
-		//        Thread.Sleep(250);
-		//        return;
-		//    }
-		//    var current = _root;
-		//    try
-		//    {
-		//        using (var mfp = new MemoryFailPoint(16))
-		//        {
-		//            int i = 0;
-		//            const int threads = 1;
-		//            var tasks = new Task[threads];
-		//            for (int j = 0; j < threads; j++)
-		//                tasks[j] = Task.Factory.StartNew(current.Select);
-
-		//            if (++i%20 == 0) _eventsExecutor.Execute();
-		//            Task.WaitAll(tasks);
-
-		//        }
-		//    }
-		//    catch (InsufficientMemoryException)
-		//    {
-		//        GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
-		//        //log it
-		//    }
-		//    catch
-		//    {
-		//        throw;
-		//    }
-		//}
-
-		public void Stop()
-		{
-			_stop = true;
-			Thread.Sleep(150);
-			if(_root!=null)
-				_root.Dispose();
-		}
-
-		private bool _paused = false;
-		public void Pause()
-		{
-			_paused = true;
-			Thread.Sleep(250);
-		}
-
-		public void Restart()
-		{
-			_paused = false;
-		}
 
 
 		/// <summary>
@@ -126,7 +59,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					{
 						using (var mfp = new MemoryFailPoint(4))
 						{
-							_root.Select();
+							current.Select();
 						}
 					}
 					catch (InsufficientMemoryException)
@@ -136,31 +69,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					if (selections % 100 == 0) _eventsExecutor.Execute();
 				}
 			bestChild = current.SelectBestChild();
-			//const int timesRepeated = 50;
-			//int repetitions = 0;
-			//TreeNode previousBest=null;
-			//do
-			//{
-				
-			//    bestChild = current.SelectBestChild();
-			//    if (previousBest == null || !previousBest.CardPlayed.Equals(bestChild.CardPlayed))
-			//    {
-			//        previousBest = bestChild;
-			//        repetitions = 0;
-					
-			//    }
-			//    else
-			//    {
-			//        repetitions++;
-					
-			//    }
-			//    _eventsExecutor.Execute();
-			//    Thread.Sleep(250);
-			//    Debug.WriteLine("{0} - Hand:{3} - {1} - Visits:{2}", Player.Name, bestChild.CardPlayed.ToShortString(), bestChild.NumberVisits,currentStatus.CurrentHand.Sequence);
-
-			//} while (current.Children.Count>1 && repetitions<timesRepeated && DateTime.UtcNow <= limit); //TODO: LEVEL??
+			
 			var result = new NodeResult(bestChild.ExplorationStatus);
-			//Restart();
 			return result;
 		}
 
@@ -188,7 +98,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					current = current.Children.Single();
 				}
 			}
-			//GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			return current;
 		}
 
@@ -197,8 +106,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			while (current.IsLeaf)
 			{
 				current.Select();
-				//Thread.Sleep(100);
-				//do nothing //TODO: expand explicitly?
 			}
 		}
 
@@ -214,7 +121,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private void Dispose(bool disposing)
 		{
 
-			Stop();
+			if (_root != null)
+			{
+				_root.Dispose();
+				_root = null;
+			}
 		}
 		~MctsRunner()
 		{
