@@ -12,11 +12,6 @@ namespace Subasta.DomainServices.Game.Players
 			simulator.Player = this;
 		}
 
-		public override void Stop()
-		{
-			Simulator.Stop();
-		}
-
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
 		{
 			return Simulator.GetBest(currentStatus);

@@ -18,7 +18,6 @@ namespace Subasta.DomainServices.Game.Players
 
 		public override void SetNewGame(IExplorationStatus initialStatus)
 		{
-			Simulator.Stop();
 			Simulator.Start(TeamNumber,initialStatus);
 		}
 	}
