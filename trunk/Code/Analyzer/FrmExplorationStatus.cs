@@ -32,12 +32,12 @@ namespace Analyzer
 			dgvStatus.DataSource = _tableStatus;
 		}
 
-		ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
+		private ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
 		{
 			if (validMoves.Length == 1) return validMoves[0];
 			string moves = string.Join("-", validMoves.Select(x => x.ToShortString()));
 			string moveSelected;
-			while (InputBox.Show(string.Format("Select move {0}",source.Name),moves,out moveSelected) != DialogResult.OK)
+			while (InputBox.Show(string.Format("Select move {0}", source.Name), moves, out moveSelected) != DialogResult.OK)
 			{
 				MessageBox.Show(this, "must select a valid value");
 			}
@@ -45,9 +45,9 @@ namespace Analyzer
 			return new Card(moveSelected);
 		}
 
-		void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
+		private void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
 		{
-			MessageBox.Show("Completed. change this");
+			_gameSimulator_GameStatusChanged(status, timeTaken);
 		}
 
 		private void LoadPictureBoxControls()
@@ -149,7 +149,7 @@ namespace Analyzer
 			_tableStatus.Columns.Add("TrickWinner");
 			_tableStatus.Columns.Add("Points");
 			_tableStatus.Columns.Add("Declaration");
-			_tableStatus.Columns.Add("BrokeToTrump",typeof(bool));
+			_tableStatus.Columns.Add("BrokeToTrump", typeof (bool));
 			_tableStatus.Columns.Add("T1");
 			_tableStatus.Columns.Add("T2");
 			_tableStatus.Columns.Add("T3");
@@ -158,22 +158,23 @@ namespace Analyzer
 
 		private void _gameSimulator_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
 		{
+
+			IHand lastCompletedHand = status.LastCompletedHand;
+			if (lastCompletedHand != null)
+			{
+				DataRow row = _tableStatus.Rows[lastCompletedHand.Sequence - 1];
+				for (int i = 1; i < 4; i++)
+					if (row["T" + i] == DBNull.Value)
+						row["T" + i] = timeTaken.ToString();
+				row["Player" + lastCompletedHand.LastPlayer] = lastCompletedHand.CardsByPlaySequence().Last().ToShortString();
+
+				Declaration? declaration = lastCompletedHand.Declaration;
+				row["Declaration"] = declaration.HasValue ? declaration.Value.ToString() : "No";
+				row["TrickWinner"] = lastCompletedHand.PlayerWinner;
+				row["Points"] = lastCompletedHand.Points;
+			}
 			if (_tableStatus.Rows.Count < status.Hands.Count)
 			{
-				IHand lastCompletedHand = status.LastCompletedHand;
-				if (lastCompletedHand != null)
-				{
-					DataRow row = _tableStatus.Rows[lastCompletedHand.Sequence - 1];
-					for (int i = 1; i < 4; i++)
-						if (row["T" + i] == DBNull.Value)
-							row["T" + i] = timeTaken.ToString();
-					row["Player" + lastCompletedHand.LastPlayer] = lastCompletedHand.CardsByPlaySequence().Last().ToShortString();
-
-					Declaration? declaration = lastCompletedHand.Declaration;
-					row["Declaration"] = declaration.HasValue ? declaration.Value.ToString() : "No";
-					row["TrickWinner"] = lastCompletedHand.PlayerWinner;
-					row["Points"] = lastCompletedHand.Points;
-				}
 				AddNewRow();
 			}
 			IHand currentHand = status.CurrentHand;
@@ -189,7 +190,7 @@ namespace Analyzer
 					dataRow["Player" + i] = playerCard.ToShortString();
 			}
 
-			
+
 			dataRow["Points"] = currentHand.Points;
 			//TODO: FIX
 			//dataRow["Declaration"] = currentHand.Declaration.HasValue ? currentHand.Declaration.Value.ToString() : "No";
@@ -209,13 +210,15 @@ namespace Analyzer
 			{
 				lblPointsT1.Text = "T1 total: " + status.SumTotalTeam(1);
 				lblPointsT2.Text = "T2 total: " + status.SumTotalTeam(2);
-				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty, (current, source) => current + source);
-				
+				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty,
+				                                                                                                (current, source) =>
+				                                                                                                current + source);
+
 			}
 			Application.DoEvents();
 		}
 
-		
+
 		private void AddNewRow()
 		{
 			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null, null);
@@ -229,9 +232,10 @@ namespace Analyzer
 				if (row.Cells["FirstPlayer"].Value != null && row.Cells["FirstPlayer"].Value != DBNull.Value)
 				{
 					var playerStarts = int.Parse(row.Cells["FirstPlayer"].Value.ToString());
-					if(playerStarts<1) break;
+					if (playerStarts < 1) break;
 
-					row.Cells["Player" + playerStarts].Style.BackColor = row.Cells["T" + playerStarts].Style.BackColor = Color.LightPink;
+					row.Cells["Player" + playerStarts].Style.BackColor =
+						row.Cells["T" + playerStarts].Style.BackColor = Color.LightPink;
 				}
 
 				if (row.Cells["TrickWinner"].Value != null && row.Cells["TrickWinner"].Value != DBNull.Value)
