@@ -5,6 +5,7 @@ using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 using StructureMap;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
@@ -83,22 +84,40 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			foreach (var hand in currentStatus.Hands)
 			{
 				var cardsByPlaySequence = hand.CardsByPlaySequence();
+				int cardNum = 0;
 				foreach (var card in cardsByPlaySequence)
 				{
 					if (card == null) return current;
 					//prunes those paths that have been passed so they are not used in future navigations
 					EnsureNodeIsExpanded(current);
-					var treeNodes = current.Children.Where(x => !Equals(x.CardPlayed, card)).ToArray();
-					foreach (var treeNode in treeNodes)
-					{
-						treeNode.Dispose();
-						current.Children.Remove(treeNode);
-					}
-
+					
+					DisposeObsoleteTreeItems(hand,card, current, ++cardNum==4);
+					
 					current = current.Children.Single();
 				}
 			}
 			return current;
+		}
+
+		private static void DisposeObsoleteTreeItems(IHand hand,ICard card, TreeNode currentNode, bool checkDeclarationPath )
+		{
+			Func<TreeNode, bool> predicate;
+
+			if (checkDeclarationPath && hand.Declaration.HasValue)
+			{
+				predicate = x => !Equals(x.CardPlayed, card) || hand.Declaration != x.DeclarationPlayed;
+			}
+			else
+			{
+				predicate = x => !Equals(x.CardPlayed, card);
+			}
+			var treeNodes = currentNode.Children.Where(predicate).ToArray();
+
+			foreach (var treeNode in treeNodes)
+			{
+				treeNode.Dispose();
+				currentNode.Children.Remove(treeNode);
+			}
 		}
 
 		private void EnsureNodeIsExpanded(TreeNode current)
