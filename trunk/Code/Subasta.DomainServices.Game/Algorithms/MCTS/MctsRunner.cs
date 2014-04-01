@@ -69,7 +69,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					}
 					if (selections % 100 == 0) _eventsExecutor.Execute();
 				}
-			bestChild = current.SelectBestChild();
+			bestChild = current.SelectBestMove();
 			
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			return result;

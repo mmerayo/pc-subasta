@@ -27,6 +27,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private bool _expanded;
 		private List<TreeNode> _children;
 
+
 		public TreeNode(INonFilteredCandidatesSelector candidatesSelector, 
 		                 ICandidatePlayer candidatePlayer)
 		{
@@ -52,7 +53,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 		}
 
+		private TreeNode Parent { get; set; }
+
 		public double TotalValue { get; private set; }
+		public double AvgPoints { get; private set; }
 		public int NumberVisits { get; private set; }
 
 		public List<TreeNode> Children
@@ -99,12 +103,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			if (current.IsFinal)
 				return; //end reached
 
-			var visited = new List<TreeNode>();
-			visited.Add(current);
 			while (!current.IsLeaf)
 			{
 				current = current.SelectBestChild();
-				visited.Add(current);
 			}
 
 			if (current.IsFinal)
@@ -112,16 +113,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			current.Expand();
 			var newNode = current.SelectBestChild();
-			visited.Add(newNode);
-			var simulationValue = GetSimulationValue(newNode);
+			int points;
+			var simulationValue = GetSimulationValue(newNode,out points);
 
-			foreach (var treeNode in visited)
+			current = newNode;
+			while(current!=null)
 			{
-				treeNode.UpdateStatus(simulationValue);
+				current.UpdateStatus(simulationValue,points);
+				current = current.Parent;
 			}
 
 		}
 
+		
 		private bool IsFinal
 		{
 			get { return ExplorationStatus.IsCompleted; }
@@ -158,7 +162,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 								CardPlayed = candidate,
 								_explorationStatus = newStatus,
 								_teamNumber = _teamNumber,
-								DeclarationPlayed = declaration
+								DeclarationPlayed = declaration,
+								Parent = this
 
 							};
 						Children.Add(treeNode);
@@ -170,13 +175,36 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 						{
 							CardPlayed = candidate,
 							_explorationStatus = newStatus,
-							_teamNumber = _teamNumber
+							_teamNumber = _teamNumber,
+							Parent = this
 						});
 				}
 			}
 		}
 
-		public TreeNode SelectBestChild()
+		public TreeNode SelectBestMove()
+		{
+			var treeNodes = Children.ToArray();
+			
+			if(treeNodes.Length==1) 
+				return treeNodes[0];
+
+			DateTime limit = DateTime.UtcNow.AddSeconds(5);
+			while(treeNodes.Any(x=>x.NumberVisits<10) && DateTime.UtcNow<=limit)
+			{
+			//    Debug.WriteLine(string.Join("-",treeNodes.Select(x=>x.NumberVisits)));
+			    Select();
+			}
+
+			//var result = treeNodes.OrderByDescending(x => x.TotalValue/x.NumberVisits).First();
+			var result = treeNodes.OrderByDescending(x => x.AvgPoints).First();
+			//if((result.TotalValue/result.NumberVisits)==0)
+			//    result = treeNodes.OrderByDescending(x => x.AvgPoints).First();
+
+			return result;
+		}
+
+		private TreeNode SelectBestChild()
 		{
 			
 				TreeNode selected = null;
@@ -186,28 +214,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				foreach (var treeNode in treeNodes)
 				{
 					double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
-					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) + Epsilon;//*_random.NextDouble();
+					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) + Epsilon*_random.NextDouble();
 					if (uctValue > bestValue)
 					{
 						selected = treeNode;
 						bestValue = uctValue;
 					}
-					//else if (uctValue == bestValue)
-					//{
-					//    if (treeNode.CardPlayed.IsAbsSmallerThan(selected.CardPlayed))
-					//    {
-					//        selected = treeNode;
-					//        bestValue = uctValue;
-					//    }
-					//}
-				}
-				if (selected == null)
-				{
-					lock (_syncLock)
-						if (_disposed)
-							throw new ObjectDisposedException("The node was disposed, prevent caller for this situation");
-					//else
-					//    throw new NotImplementedException("Unknown. not implemented situation");
+					
 				}
 
 				return selected;
@@ -216,7 +229,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		//simulation
 		//returns 0(loss) or 1(win)
-		private double GetSimulationValue(TreeNode node)
+		private double GetSimulationValue(TreeNode node,out int points)
 		{
 			var currentStatus = node.ExplorationStatus.Clone();
 
@@ -237,19 +250,18 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					}
 				}
 			}
-
-			if (currentStatus.TeamWinner == _teamNumber)
-				//return currentStatus.SumTotalTeam(_teamNumber);
-				return 1;
-			return 0;
+			var result = currentStatus.TeamWinner == _teamNumber ? 1 : 0;
+			points = currentStatus.SumTotalTeam(_teamNumber);
+			return result;
 		}
 
-		private void UpdateStatus(double value)
+		private void UpdateStatus(double value,int points)
 		{
 			lock (_syncLock)
 			{
 				NumberVisits++;
 				TotalValue += value;
+				AvgPoints = (AvgPoints + points)/2;
 			}
 		}
 		
