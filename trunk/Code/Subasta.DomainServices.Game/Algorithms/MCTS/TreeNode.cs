@@ -206,6 +206,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode SelectBestChild()
 		{
+		    //return Children.OrderBy(x => x.NumberVisits).First();
 			
 				TreeNode selected = null;
 				double bestValue = double.MinValue;
