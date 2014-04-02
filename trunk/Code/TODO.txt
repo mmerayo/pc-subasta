@@ -5,4 +5,4 @@
 		//simulation to use its own player(change JSON file format)
 		//player runner to keep its own tree from root
 		//level to be decided by confidence in move + time
-		//ABSTRACT ALGORITHM?? NOT YET
+		//ABSTRACT ALGORITHM?? NOT YET 
