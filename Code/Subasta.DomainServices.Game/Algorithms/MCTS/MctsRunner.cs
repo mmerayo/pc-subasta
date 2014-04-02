@@ -53,7 +53,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			TreeNode bestChild;
 			int selections = 0;
 			if(current.Children.Count>1)
-				while (++selections < 3000)
+				while (++selections < 6000)
 				{
 					//DoSimulation();
 					try
