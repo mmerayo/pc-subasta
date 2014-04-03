@@ -13,6 +13,7 @@ namespace Subasta.DomainServices.Game
 		IPlayer Player { get; set; }
 
 		void Start(int teamNumber, IExplorationStatus initialStatus);
-		
+
+	    void Reset();
 	}
 }

@@ -103,9 +103,12 @@ namespace Subasta.DomainServices.Game.Players
 			{
 				NextMove();
 			}
-
+		    
 			OnCompleted();
-
+            foreach (var player in _players)
+            {
+                player.Reset();
+            }
 		}
 
 		private void NextMove()
