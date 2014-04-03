@@ -29,7 +29,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 
 		public TreeNode(INonFilteredCandidatesSelector candidatesSelector, 
-		                 ICandidatePlayer candidatePlayer)
+						 ICandidatePlayer candidatePlayer)
 		{
 			
 			_candidatesSelector = candidatesSelector;
@@ -193,38 +193,47 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			while(treeNodes.Any(x=>x.NumberVisits<10) && DateTime.UtcNow<=limit)
 			{
 			//    Debug.WriteLine(string.Join("-",treeNodes.Select(x=>x.NumberVisits)));
-			    Select();
+				Select();
 			}
 
-			//var result = treeNodes.OrderByDescending(x => x.TotalValue/x.NumberVisits).First();
-			var result = treeNodes.OrderByDescending(x => x.AvgPoints).First();
+			var orderByDescending = treeNodes.OrderByDescending(x => x.TotalValue/x.NumberVisits).ToList();
+			if (orderByDescending.Count > 1 &&
+				(orderByDescending[0].TotalValue/orderByDescending[0].NumberVisits ==
+				orderByDescending[1].TotalValue/orderByDescending[1].NumberVisits))
+			{
+				var a = new[]{orderByDescending[0], orderByDescending[1]};
+				return a.OrderByDescending(x => x.AvgPoints).First();
+			}
+			
+			return orderByDescending.First();
+			//var result = treeNodes.OrderByDescending(x => x.AvgPoints).First();
 			//if((result.TotalValue/result.NumberVisits)==0)
 			//    result = treeNodes.OrderByDescending(x => x.AvgPoints).First();
 
-			return result;
+			//return result;
 		}
 
 		private TreeNode SelectBestChild()
 		{
-		    //return Children.OrderBy(x => x.NumberVisits).First();
+			return Children.OrderBy(x => x.NumberVisits).First();
 			
-				TreeNode selected = null;
-				double bestValue = double.MinValue;
+				//TreeNode selected = null;
+				//double bestValue = double.MinValue;
 
-				var treeNodes = Children.ToArray();
-				foreach (var treeNode in treeNodes)
-				{
-					double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
-					                  Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) + Epsilon*_random.NextDouble();
-					if (uctValue > bestValue)
-					{
-						selected = treeNode;
-						bestValue = uctValue;
-					}
+				//var treeNodes = Children.ToArray();
+				//foreach (var treeNode in treeNodes)
+				//{
+				//    double uctValue = treeNode.TotalValue/(treeNode.NumberVisits + Epsilon) +
+				//                      Math.Sqrt(Math.Log(NumberVisits + 1)/(treeNode.NumberVisits + Epsilon)) + Epsilon*_random.NextDouble();
+				//    if (uctValue > bestValue)
+				//    {
+				//        selected = treeNode;
+				//        bestValue = uctValue;
+				//    }
 					
-				}
+				//}
 
-				return selected;
+				//return selected;
 			
 		}
 
