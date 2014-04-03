@@ -55,7 +55,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode Parent { get; set; }
 
-		public double TotalValue { get; private set; }
+	    public double Coeficient
+	    {
+	        get { return TotalValue/NumberVisits; }
+	    }
+
+	    public double TotalValue { get; private set; }
 		public double AvgPoints { get; private set; }
 		public int NumberVisits { get; private set; }
 
@@ -196,10 +201,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				Select();
 			}
 
-			var orderByDescending = treeNodes.OrderByDescending(x => x.TotalValue/x.NumberVisits).ToList();
-			if (orderByDescending.Count > 1 &&
-				(orderByDescending[0].TotalValue/orderByDescending[0].NumberVisits ==
-				orderByDescending[1].TotalValue/orderByDescending[1].NumberVisits))
+			var orderByDescending = treeNodes.OrderByDescending(x => x.Coeficient).ToList();
+		    const double tolerance = 0.0001;
+		    if (orderByDescending.Count > 1 && (Math.Abs(orderByDescending[0].Coeficient - orderByDescending[1].Coeficient) < tolerance))
 			{
 				var a = new[]{orderByDescending[0], orderByDescending[1]};
 				return a.OrderByDescending(x => x.AvgPoints).First();
