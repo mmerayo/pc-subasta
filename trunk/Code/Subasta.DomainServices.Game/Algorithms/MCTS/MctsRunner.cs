@@ -12,7 +12,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsRunner : IMctsRunner,IDisposable
 	{
-		private bool _stop = false;
 		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private TreeNode _root;
 
@@ -31,13 +30,20 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			_root = ObjectFactory.GetInstance<TreeNode>();
 			_root.Initialize(forTeamNumber, status);
-			_stop = false;
 			
 		}
 
+	    public void Reset()
+	    {
+            if (_root != null)
+            {
+                _root.Dispose();
+                _root = null;
+            }
+	    }
 
 
-		/// <summary>
+	    /// <summary>
 		/// gets the best found and prunes the passed non needed children
 		/// </summary>
 		/// <param name="currentStatus"></param>
@@ -139,12 +145,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		}
 		private void Dispose(bool disposing)
 		{
-
-			if (_root != null)
-			{
-				_root.Dispose();
-				_root = null;
-			}
+            Reset();
+			
 		}
 		~MctsRunner()
 		{

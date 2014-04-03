@@ -20,5 +20,11 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			Simulator.Start(TeamNumber,initialStatus);
 		}
+
+	    public override void Reset()
+	    {
+	        Simulator.Reset();
+	        base.Reset();
+	    }
 	}
 }

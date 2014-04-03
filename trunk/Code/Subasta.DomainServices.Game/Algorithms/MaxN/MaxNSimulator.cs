@@ -69,10 +69,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 			
 		}
 
-		public void Stop()
-		{
+	    public void Reset()
+	    {
+	        
+	    }
 
-		}
 
 		private NodeResult Execute(IExplorationStatus currentStatus, int playerPlays)
 		{

@@ -15,5 +15,6 @@ namespace Subasta.DomainServices.Game.Players
 		public virtual void SetNewGame(IExplorationStatus initialStatus){}
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
 		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
+	    public virtual void Reset(){}
 	}
 }
