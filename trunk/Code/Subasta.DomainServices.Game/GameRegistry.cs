@@ -27,7 +27,7 @@ namespace Subasta.DomainServices.Game
 			For<ICandidatePlayer>().Use<CandidatePlayer>();
 
 
-			For<IMctsRunner>().Use<MctsRunner>();
+			For<IMctsRunner>().Singleton().Use<MctsRunner>();
 			For<IMaxNSimulator>().Use<MaxNSimulator>();
 
 			For<IGame>().Use<Players.Game>();

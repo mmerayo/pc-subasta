@@ -21,7 +21,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			
 		}
 
-		public IPlayer Player { get; set; }
 
 		public void Start(IExplorationStatus status)
 		{

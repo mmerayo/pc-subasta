@@ -10,7 +10,6 @@ namespace Subasta.DomainServices.Game.Players
 		protected AIPlayer(ISimulator simulator)
 		{
 			Simulator = simulator;
-			simulator.Player = this;
 		}
 
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)

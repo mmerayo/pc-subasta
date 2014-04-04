@@ -10,7 +10,6 @@ namespace Subasta.DomainServices.Game
 		NodeResult GetBest(IExplorationStatus currentStatus);
 
 		int MaxDepth { get; set; }
-		IPlayer Player { get; set; }
 
 		void Start(IExplorationStatus initialStatus);
 
