@@ -24,25 +24,24 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public void Start(IExplorationStatus status)
 		{
-			if(_root!=null)
-				_root.Dispose();
+			Reset();
 
 			_root = ObjectFactory.GetInstance<TreeNode>();
 			_root.Initialize( status);
-			
+
 		}
 
-	    public void Reset()
-	    {
-            if (_root != null)
-            {
-                _root.Dispose();
-                _root = null;
-            }
-	    }
+		public void Reset()
+		{
+			if (_root != null)
+			{
+				_root.Dispose();
+				_root = null;
+			}
+		}
 
 
-	    /// <summary>
+		/// <summary>
 		/// gets the best found and prunes the passed non needed children
 		/// </summary>
 		/// <param name="currentStatus"></param>
@@ -50,15 +49,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public NodeResult GetBest(IExplorationStatus currentStatus)
 		{
 
-	        int turnTeam = currentStatus.TurnTeam;
+			int turnTeam = currentStatus.TurnTeam;
 
-	        var current = IterateToCurrentPrunning(currentStatus);
+			var current = IterateToCurrentPrunning(currentStatus);
 			EnsureNodeIsExpanded(turnTeam, current);
 
 			TreeNode bestChild;
 			int selections = 0;
 			if(current.Children.Count>1)
-				while (++selections < 6000)
+				while (++selections < 3000)
 				{
 					//DoSimulation();
 					try
@@ -144,7 +143,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		}
 		private void Dispose(bool disposing)
 		{
-            Reset();
+			Reset();
 			
 		}
 		~MctsRunner()
