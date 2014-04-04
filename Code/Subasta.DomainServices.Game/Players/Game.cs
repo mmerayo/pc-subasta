@@ -109,11 +109,11 @@ namespace Subasta.DomainServices.Game.Players
 			}
 			
 			OnCompleted();
-            AiSimulator.Reset();
-            //foreach (var player in _players)
-            //{
-            //    player.Reset();
-            //}
+			AiSimulator.Reset();
+			//foreach (var player in _players)
+			//{
+			//    player.Reset();
+			//}
 		}
 
 		private void NextMove()

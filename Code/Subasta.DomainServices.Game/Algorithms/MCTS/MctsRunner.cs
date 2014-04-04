@@ -14,30 +14,56 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 	{
 		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private TreeNode _root;
-
+		private readonly object _rootLocker=new object();
 		public MctsRunner(IApplicationEventsExecutor eventsExecutor)
 		{
 			_eventsExecutor = eventsExecutor;
 			
 		}
-
-
+		
 		public void Start(IExplorationStatus status)
 		{
 			Reset();
-
+			
 			_root = ObjectFactory.GetInstance<TreeNode>();
 			_root.Initialize( status);
+
+			Task.Factory.StartNew(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					try
+					{
+						using (var mfp = new MemoryFailPoint(4))
+						{
+							lock (_rootLocker)
+							{
+								if(_root==null)
+									return;
+								_root.Select((++count % 2)+1);
+								
+							}
+						}
+					}
+					catch (InsufficientMemoryException)
+					{
+						//log
+					}
+				}
+			});
 
 		}
 
 		public void Reset()
 		{
 			if (_root != null)
-			{
-				_root.Dispose();
-				_root = null;
-			}
+				lock (_rootLocker)
+					if (_root != null)
+					{
+						_root.Dispose();
+						_root = null;
+					}
 		}
 
 
@@ -54,26 +80,29 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			var current = IterateToCurrentPrunning(currentStatus);
 			EnsureNodeIsExpanded(turnTeam, current);
 
-			TreeNode bestChild;
-			int selections = 0;
-			if(current.Children.Count>1)
-				while (++selections < 3000)
-				{
-					//DoSimulation();
-					try
-					{
-						using (var mfp = new MemoryFailPoint(4))
-						{
-							current.Select(turnTeam);
-						}
-					}
-					catch (InsufficientMemoryException)
-					{
-						//log
-					}
-					if (selections % 100 == 0) _eventsExecutor.Execute();
-				}
-			bestChild = current.SelectBestMove(turnTeam);
+		    int selections = 0;
+			if(current.Children.Count!=1)
+
+			{
+			    ITreeNodeInfo treeNodeInfo = _root.GetNodeInfo(turnTeam);
+			    int previousVisits = int.MinValue;
+			    int repetitions = 0;
+			    while (treeNodeInfo.NumberVisits < 3000*currentStatus.TotalMoves)
+			    {
+			        if (previousVisits == treeNodeInfo.NumberVisits)
+			            repetitions++;
+			        else
+			        {
+			            repetitions = 0;
+			            previousVisits = treeNodeInfo.NumberVisits;
+			        }
+			        if (repetitions == 10)
+			            break;
+			        if (++selections%100 == 0)
+			            _eventsExecutor.Execute();
+			    }
+			}
+		    TreeNode bestChild = current.SelectBestMove(turnTeam);
 			
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			return result;
