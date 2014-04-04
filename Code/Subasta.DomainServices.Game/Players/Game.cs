@@ -6,12 +6,14 @@ using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.DataAccess;
+using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Models;
 
 namespace Subasta.DomainServices.Game.Players
 {
 	internal sealed class Game : IGame
 	{
+		public IMctsRunner AiSimulator { get; set; }
 		//TODO: CREATE GAME State machine to handle marque(in another class) & game
 
 		private readonly ICardComparer _cardComparer;
@@ -50,14 +52,16 @@ namespace Subasta.DomainServices.Game.Players
 		public int PointsBet { get; private set; }
 
 		public Game(ICardComparer cardComparer,
-		            IPlayerDeclarationsChecker declarationsChecker)
+					IPlayerDeclarationsChecker declarationsChecker,
+			IMctsRunner aiSimulator)
 		{
+			AiSimulator = aiSimulator;
 			_cardComparer = cardComparer;
 			_declarationsChecker = declarationsChecker;
 		}
 
 		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump,
-		                        int pointsBet)
+								int pointsBet)
 		{
 			_players[0] = p1;
 			_players[1] = p2;
@@ -93,22 +97,23 @@ namespace Subasta.DomainServices.Game.Players
 		public void StartGame()
 		{
 			//TODO:state machine here Marque primero(EN OTRA CLASe) y juego despues en esta
-
-			Player1.SetNewGame(_status);
-			Player2.SetNewGame(_status);
-			Player3.SetNewGame(_status);
-			Player4.SetNewGame(_status);
+			AiSimulator.Start(_status);
+			//Player1.SetNewGame(_status);
+			//Player2.SetNewGame(_status);
+			//Player3.SetNewGame(_status);
+			//Player4.SetNewGame(_status);
 			OnStart();
 			while (!_status.IsCompleted)
 			{
 				NextMove();
 			}
-		    
+			
 			OnCompleted();
-            foreach (var player in _players)
-            {
-                player.Reset();
-            }
+            AiSimulator.Reset();
+            //foreach (var player in _players)
+            //{
+            //    player.Reset();
+            //}
 		}
 
 		private void NextMove()

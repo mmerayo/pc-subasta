@@ -16,10 +16,6 @@ namespace Subasta.DomainServices.Game.Players
 			get { return PlayerType.Mcts; }
 		}
 
-		public override void SetNewGame(IExplorationStatus initialStatus)
-		{
-			Simulator.Start(TeamNumber,initialStatus);
-		}
 
 	    public override void Reset()
 	    {

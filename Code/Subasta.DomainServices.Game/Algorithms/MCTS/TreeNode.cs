@@ -9,27 +9,27 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-    internal interface ITreeNodeInfo
-    {
-         double Coeficient { get; }
+	internal interface ITreeNodeInfo
+	{
+		 double Coeficient { get; }
 
-        double TotalValue { get;}
-        double AvgPoints { get;  }
-        int NumberVisits { get; }
-    }
+		double TotalValue { get;}
+		double AvgPoints { get;  }
+		int NumberVisits { get; }
+	}
 	internal sealed class TreeNode:IDisposable
 	{
-	    private class TreeNodeInfo : ITreeNodeInfo
-	    {
-            public double Coeficient
-            {
-                get { return TotalValue / NumberVisits; }
-            }
+		private class TreeNodeInfo : ITreeNodeInfo
+		{
+			public double Coeficient
+			{
+				get { return TotalValue / NumberVisits; }
+			}
 
-            public double TotalValue { get;  set; }
-            public double AvgPoints { get;  set; }
-            public int NumberVisits { get;  set; }
-	    }
+			public double TotalValue { get;  set; }
+			public double AvgPoints { get;  set; }
+			public int NumberVisits { get;  set; }
+		}
 
 		private static readonly Random _random = new Random((int) DateTime.UtcNow.Ticks);
 	
@@ -73,8 +73,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode Parent { get; set; }
 
-        private TreeNodeInfo[] _nodeInfos=new TreeNodeInfo[]{new TreeNodeInfo(),new TreeNodeInfo() };
-	    
+		private TreeNodeInfo[] _nodeInfos=new TreeNodeInfo[]{new TreeNodeInfo(),new TreeNodeInfo() };
+		
 		public List<TreeNode> Children
 		{
 			get
@@ -113,7 +113,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		
 		public void Select(int teamNumber)
 		{
-            var current = this;
+			var current = this;
 			if (current.IsFinal)
 				return; //end reached
 
@@ -129,23 +129,23 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			var newNode = current.SelectBestChild(teamNumber);
 			int points;
 			SimulateAndBackPropagate(1,newNode);
-            SimulateAndBackPropagate(2, newNode);
+			SimulateAndBackPropagate(2, newNode);
 		}
 
-	    private void SimulateAndBackPropagate(int teamNumber,TreeNode newNode)
-	    {
-	        int points;
-	        var simulationValue = GetSimulationValue(teamNumber, newNode, out points);
-	        var current = newNode;
-	        while (current != null)
-	        {
-	            current.UpdateStatus(teamNumber, simulationValue, points);
-	            current = current.Parent;
-	        }
-	    }
+		private void SimulateAndBackPropagate(int teamNumber,TreeNode newNode)
+		{
+			int points;
+			var simulationValue = GetSimulationValue(teamNumber, newNode, out points);
+			var current = newNode;
+			while (current != null)
+			{
+				current.UpdateStatus(teamNumber, simulationValue, points);
+				current = current.Parent;
+			}
+		}
 
 
-	    private bool IsFinal
+		private bool IsFinal
 		{
 			get { return ExplorationStatus.IsCompleted; }
 		}
@@ -214,8 +214,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 
 			var orderByDescending = treeNodes.OrderByDescending(x => x._nodeInfos[teamNumber-1].Coeficient).ToList();
-		    const double tolerance = 0.0001;
-            if (orderByDescending.Count > 1 && (Math.Abs(orderByDescending[0]._nodeInfos[teamNumber - 1].Coeficient - orderByDescending[1]._nodeInfos[teamNumber - 1].Coeficient) < tolerance))
+			const double tolerance = 0.0001;
+			if (orderByDescending.Count > 1 && (Math.Abs(orderByDescending[0]._nodeInfos[teamNumber - 1].Coeficient - orderByDescending[1]._nodeInfos[teamNumber - 1].Coeficient) < tolerance))
 			{
 				var a = new[]{orderByDescending[0], orderByDescending[1]};
 				return a.OrderByDescending(x => x._nodeInfos[teamNumber-1].AvgPoints).First();
@@ -231,7 +231,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode SelectBestChild(int teamNumber)
 		{
-            return Children.OrderBy(x => x._nodeInfos[teamNumber - 1].NumberVisits).First();
+			return Children.OrderBy(x => x._nodeInfos[teamNumber - 1].NumberVisits).First();
 			
 				//TreeNode selected = null;
 				//double bestValue = double.MinValue;
@@ -276,19 +276,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					}
 				}
 			}
-            var result = currentStatus.TeamWinner == teamNumber ? 1 : 0;
-            points = currentStatus.SumTotalTeam(teamNumber);
+			var result = currentStatus.TeamWinner == teamNumber ? 1 : 0;
+			points = currentStatus.SumTotalTeam(teamNumber);
 			return result;
 		}
 
-        private void UpdateStatus(int teamNumber,double value, int points)
+		private void UpdateStatus(int teamNumber,double value, int points)
 		{
 			lock (_syncLock)
 			{
-			    TreeNodeInfo treeNodeInfo = _nodeInfos[teamNumber-1];
-			    treeNodeInfo.NumberVisits++;
-                treeNodeInfo.TotalValue += value;
-                treeNodeInfo.AvgPoints = (treeNodeInfo.AvgPoints + points) / 2;
+				TreeNodeInfo treeNodeInfo = _nodeInfos[teamNumber-1];
+				treeNodeInfo.NumberVisits++;
+				treeNodeInfo.TotalValue += value;
+				treeNodeInfo.AvgPoints = (treeNodeInfo.AvgPoints + points) / 2;
 			}
 		}
 		

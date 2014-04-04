@@ -17,9 +17,5 @@ namespace Subasta.DomainServices.Game.Players
 			get { return PlayerType.MaxN; }
 		}
 
-		public override void SetNewGame(IExplorationStatus initialStatus)
-		{
-			//TODO:?
-		}
 	}
 }
