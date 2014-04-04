@@ -23,13 +23,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public IPlayer Player { get; set; }
 
-		public void Start(int forTeamNumber,IExplorationStatus status)
+		public void Start(IExplorationStatus status)
 		{
 			if(_root!=null)
 				_root.Dispose();
 
 			_root = ObjectFactory.GetInstance<TreeNode>();
-			_root.Initialize(forTeamNumber, status);
+			_root.Initialize( status);
 			
 		}
 
@@ -50,11 +50,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		/// <returns></returns>
 		public NodeResult GetBest(IExplorationStatus currentStatus)
 		{
-			//DoSimulation(currentStatus);
 
-			//Pause();
-			var current = IterateToCurrentPrunning(currentStatus);
-			EnsureNodeIsExpanded(current);
+	        int turnTeam = currentStatus.TurnTeam;
+
+	        var current = IterateToCurrentPrunning(currentStatus);
+			EnsureNodeIsExpanded(turnTeam, current);
 
 			TreeNode bestChild;
 			int selections = 0;
@@ -66,7 +66,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					{
 						using (var mfp = new MemoryFailPoint(4))
 						{
-							current.Select();
+							current.Select(turnTeam);
 						}
 					}
 					catch (InsufficientMemoryException)
@@ -75,7 +75,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					}
 					if (selections % 100 == 0) _eventsExecutor.Execute();
 				}
-			bestChild = current.SelectBestMove();
+			bestChild = current.SelectBestMove(turnTeam);
 			
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			return result;
@@ -95,7 +95,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				{
 					if (card == null) return current;
 					//prunes those paths that have been passed so they are not used in future navigations
-					EnsureNodeIsExpanded(current);
+					EnsureNodeIsExpanded(currentStatus.TurnTeam,current);
 					
 					DisposeObsoleteTreeItems(hand,card, current, ++cardNum==4);
 					
@@ -126,11 +126,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 		}
 
-		private void EnsureNodeIsExpanded(TreeNode current)
+		private void EnsureNodeIsExpanded(int turnTeam, TreeNode current)
 		{
 			while (current.IsLeaf)
 			{
-				current.Select();
+				current.Select(turnTeam);
 			}
 		}
 
