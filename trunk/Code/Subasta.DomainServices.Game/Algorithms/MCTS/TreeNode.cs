@@ -73,8 +73,13 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode Parent { get; set; }
 
-		private TreeNodeInfo[] _nodeInfos=new TreeNodeInfo[]{new TreeNodeInfo(),new TreeNodeInfo() };
-		
+		private readonly TreeNodeInfo[] _nodeInfos=new TreeNodeInfo[]{new TreeNodeInfo(),new TreeNodeInfo() };
+
+	    public ITreeNodeInfo GetNodeInfo(int teamNumber)
+	    {
+	        return _nodeInfos[teamNumber - 1];
+	    }
+
 		public List<TreeNode> Children
 		{
 			get

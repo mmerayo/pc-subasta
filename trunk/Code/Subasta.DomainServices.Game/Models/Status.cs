@@ -74,7 +74,12 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public int Turn
+	    public int TotalMoves
+	    {
+	        get { return ((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null); }
+	    }
+
+	    public int Turn
 		{
 			set
 			{
