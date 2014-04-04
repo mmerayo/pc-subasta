@@ -12,7 +12,7 @@ namespace Subasta.DomainServices.Game
 		int MaxDepth { get; set; }
 		IPlayer Player { get; set; }
 
-		void Start(int teamNumber, IExplorationStatus initialStatus);
+		void Start(IExplorationStatus initialStatus);
 
 	    void Reset();
 	}
