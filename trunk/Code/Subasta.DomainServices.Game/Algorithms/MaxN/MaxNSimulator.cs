@@ -64,7 +64,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MaxN
 
 		public IPlayer Player { get; set; }
 
-		public void Start(int teamNumber, IExplorationStatus initialStatus)
+		public void Start(IExplorationStatus initialStatus)
 		{
 			
 		}
