@@ -18,5 +18,6 @@ namespace Subasta.Domain.Game
 
 		Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    void Reset();
+		SayKind ChooseSay(ISaysStatus saysStatus);
 	}
 }

@@ -24,6 +24,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Start(IExplorationStatus status)
 		{
 			Reset();
+			//TODO: THE LOGICAL COMPLETE TO BE BY DEFAULT
 			IExplorationStatus explorationStatus = status.Clone();
 			explorationStatus.LogicalComplete = false;
 			_root = ObjectFactory.GetInstance<TreeNode>();

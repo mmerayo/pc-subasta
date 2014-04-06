@@ -7,7 +7,8 @@ namespace Subasta.DomainServices.Game.Players
 	internal class MctsPlayer:AIPlayer,IMctsPlayer
 	{
 
-		public MctsPlayer(IMctsRunner simulator):base(simulator)
+		public MctsPlayer(IMctsRunner simulator, ISaysSimulator saysSimulator)
+			: base(simulator,saysSimulator)
 		{
 		}
 
@@ -23,4 +24,5 @@ namespace Subasta.DomainServices.Game.Players
 	        base.Reset();
 	    }
 	}
-}
+} 
+  

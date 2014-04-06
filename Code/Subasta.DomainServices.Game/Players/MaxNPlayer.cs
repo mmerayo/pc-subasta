@@ -6,8 +6,8 @@ namespace Subasta.DomainServices.Game.Players
 {
 	internal class MaxNPlayer : AIPlayer, IMaxNPlayer
 	{
-		public MaxNPlayer(IMaxNSimulator simulator)
-			: base(simulator)
+		public MaxNPlayer(IMaxNSimulator simulator, ISaysSimulator saysSimulator)
+			: base(simulator,saysSimulator)
 		{
 
 		}
