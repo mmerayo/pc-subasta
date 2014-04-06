@@ -115,11 +115,11 @@ namespace Subasta.DomainServices.Game.Players
 
 		public void StartGame()
 		{
-			RunSays();
-			RunGame();
+			var root=RunSays();
+			RunGame(root);
 		}
 
-		private void RunSays()
+		private TreeNode RunSays()
 		{
 			_saysRunner.Start(_saysStatus);
 			OnSaysStart();
@@ -129,8 +129,16 @@ namespace Subasta.DomainServices.Game.Players
 				OnSaysStatusChanged();
 			}
 
+			_status.SetPlayerBet(_saysStatus.PlayerBets, _saysStatus.PointsBet);
+			ISuit chooseTrump = _players[_saysStatus.PlayerBets - 1].ChooseTrump(_saysStatus);
+			_status.SetTrump(chooseTrump);
+			var result=_saysRunner.GetRoot(chooseTrump);
+
+
 			_saysRunner.Reset();
 			OnSaysCompleted();
+
+			return (TreeNode) result;
 		}
 
 
@@ -142,9 +150,9 @@ namespace Subasta.DomainServices.Game.Players
 		}
 
 
-		private void RunGame()
+		private void RunGame(TreeNode root)
 		{
-			AiSimulator.Start(_status);
+			AiSimulator.Start(_status,root);
 			OnGameStarted();
 			while (!_status.IsCompleted)
 			{

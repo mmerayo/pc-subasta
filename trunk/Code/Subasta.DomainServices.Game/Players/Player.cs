@@ -16,5 +16,6 @@ namespace Subasta.DomainServices.Game.Players
 		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    public virtual void Reset(){}
 		public abstract SayKind ChooseSay(ISaysStatus saysStatus);
+		public abstract ISuit ChooseTrump(ISaysStatus saysStatus);
 	}
 }
