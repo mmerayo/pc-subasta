@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\MaxN\IMaxNSimulator.cs" />
     <Compile Include="Algorithms\MCTS\IMctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\TreeNode.cs" />
@@ -55,7 +54,6 @@
     <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="Players\Game.cs" />
     <Compile Include="Players\HumanPlayer.cs" />
-    <Compile Include="Players\MaxNPlayer.cs" />
     <Compile Include="Players\MctsPlayer.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Strategies\CandidatePlayer.cs" />
@@ -63,7 +61,6 @@
     <Compile Include="Strategies\DeckSuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />
     <Compile Include="Utils\GameGenerator.cs" />
-    <Compile Include="Algorithms\MaxN\MaxNSimulator.cs" />
     <Compile Include="Strategies\NonFilteredCandidatesSelector.cs" />
     <Compile Include="Strategies\PlayerDeclarationsChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

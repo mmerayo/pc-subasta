@@ -5,8 +5,7 @@ namespace Subasta.Domain.DalModels
 	public enum PlayerType
 	{
 		Human=0,
-		Mcts,
-		MaxN
+		Mcts
 	}
 	public class StoredGameData
 	{

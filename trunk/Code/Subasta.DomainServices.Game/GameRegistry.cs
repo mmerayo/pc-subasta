@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StructureMap.Configuration.DSL;
+﻿using StructureMap.Configuration.DSL;
 using Subasta.Domain.Game;
-using Subasta.DomainServices.Game.Algorithms;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
-using Subasta.DomainServices.Game.Algorithms.MaxN;
 using Subasta.DomainServices.Game.Players;
 using Subasta.DomainServices.Game.Strategies;
 using Subasta.DomainServices.Game.Utils;
@@ -29,11 +23,12 @@ namespace Subasta.DomainServices.Game
 
 			For<IMctsRunner>().Singleton().Use<MctsRunner>();
 			For<IMctsSaysRunner>().Singleton().Use<MctsSaysRunner>();
-			For<IMaxNSimulator>().Use<MaxNSimulator>();
+
+			For<ISimulator>().Use(x => x.GetInstance<IMctsRunner>());
+			For<ISaysSimulator>().Use(x => x.GetInstance<IMctsSaysRunner>());
 
 			For<IGame>().Use<Players.Game>();
 			For<IMctsPlayer>().Use<MctsPlayer>();
-			For<IMaxNPlayer>().Use<MaxNPlayer>();
 			For<IHumanPlayer>().Use<HumanPlayer>();
 		}
 	}
