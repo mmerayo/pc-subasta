@@ -5,28 +5,33 @@ namespace Subasta.DomainServices.Game.Models
 	internal class SaysStatus:ISaysStatus
 	{
 		public SaysStatus(IExplorationStatus status)
-		{
-			throw new System.NotImplementedException();
+			{//TODO:
+			//throw new System.NotImplementedException();
 		}
 
 		public bool IsCompleted
 		{
-			get { throw new System.NotImplementedException(); }
+			get {//TODO:
+			 return true; }
 		}
 
 		public int Turn
 		{
-			get { throw new System.NotImplementedException(); }
+			get
+			{
+			//TODO:
+				return 1;
+			}
 		}
 
 		public ISaysStatus Clone()
-		{
-			throw new System.NotImplementedException();
+			{//TODO:
+			return this;
 		}
 
 		public void Add(SayKind result)
-		{
-			throw new System.NotImplementedException();
+			{//TODO:
+			
 		}
 	}
 }

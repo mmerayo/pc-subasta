@@ -18,6 +18,6 @@ namespace Subasta.Domain.Game
 
 	public enum SayKind
 	{
-		
+		As
 	}
 }

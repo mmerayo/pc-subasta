@@ -52,9 +52,6 @@ namespace Subasta.Infrastructure.DomainServices.Factories
 				case PlayerType.Mcts:
 					result = ObjectFactory.GetInstance<IMctsPlayer>();
 					break;
-				case PlayerType.MaxN:
-					result = ObjectFactory.GetInstance<IMaxNPlayer>();
-					break;
 				default:
 					throw new ArgumentOutOfRangeException("playerType");
 			}

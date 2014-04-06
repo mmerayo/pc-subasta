@@ -11,18 +11,18 @@ namespace Subasta.Infrastructure.Domain
 			Number = number;
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="shortId">O1,E10</param>
-        public Card(string shortId)
-        {
-            Suit=Domain.Suit.FromId(shortId[0]);
-            Number = int.Parse(shortId.Substring(1));
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="shortId">O1,E10</param>
+		public Card(string shortId)
+		{
+			Suit=Domain.Suit.FromId(shortId[0]);
+			Number = int.Parse(shortId.Substring(1));
+		}
 
-	    public Card(string suitName, int number)
-            : this(Domain.Suit.FromName(suitName), number)
+		public Card(string suitName, int number)
+			: this(Domain.Suit.FromName(suitName), number)
 		{
 			if (number == 8 || number == 9)
 				throw new ArgumentOutOfRangeException("number");
@@ -66,23 +66,23 @@ namespace Subasta.Infrastructure.Domain
 		
 		public ISuit Suit { get;  private set; }
 		public int Number { get; private set; }
-	    private int _value=int.MinValue;
-	    public int Value
-	    {
-	        get
-	        {
-	            if(_value==int.MinValue)
-	            {
-	                _value = GetValue(Number);
-	            }
-                return _value;
-	        }
-	    }
+		private int _value=int.MinValue;
+		public int Value
+		{
+			get
+			{
+				if(_value==int.MinValue)
+				{
+					_value = GetValue(Number);
+				}
+				return _value;
+			}
+		}
 
-	    public string ToShortString()
-	    {
-	        return string.Format("{0}{1}", Suit.Name[0], Number);
-	    }
+		public string ToShortString()
+		{
+			return string.Format("{0}{1}", Suit.Name[0], Number);
+		}
 
 		public bool IsAbsSmallerThan(ICard card)
 		{

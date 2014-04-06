@@ -13,7 +13,7 @@ namespace Subasta.DomainServices.Game.Players
 {
 	internal sealed class Game : IGame
 	{
-		public IMctsRunner AiSimulator { get; set; }
+		public ISimulator AiSimulator { get; set; }
 		//TODO: CREATE GAME State machine to handle marque(in another class) & game
 
 		private readonly ICardComparer _cardComparer;
@@ -57,12 +57,12 @@ namespace Subasta.DomainServices.Game.Players
 
 		public Game(ICardComparer cardComparer,
 		            IPlayerDeclarationsChecker declarationsChecker,
-		            IMctsRunner aiSimulator, ISaysSimulator saysRunner)
+					ISimulator aiSimulator, ISaysSimulator saysSimulator)
 		{
 			AiSimulator = aiSimulator;
 			_cardComparer = cardComparer;
 			_declarationsChecker = declarationsChecker;
-			_saysRunner = saysRunner;
+			_saysRunner = saysSimulator;
 		}
 
 		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump,

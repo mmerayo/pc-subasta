@@ -14,22 +14,20 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public void Start(ISaysStatus sourceStatus)
 		{
-			throw new NotImplementedException();
+		//TODO:
 		}
 
 		public void Reset()
-		{
-			throw new NotImplementedException();
+			{//TODO:
 		}
 
 		public SayKind GetSay(ISaysStatus saysStatus)
 		{
-			throw new NotImplementedException();
+			return SayKind.As;//TODO: THIS AND THE INTERPRETER
 		}
 
 		public void Dispose()
-		{
-			throw new NotImplementedException();
+			{//TODO:
 		}
 	}
 }
