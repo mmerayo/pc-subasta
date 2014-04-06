@@ -20,19 +20,19 @@ namespace Subasta.DomainServices.Game.Models
 		private readonly ICard[][] _playerCards = new ICard[4][];
 		private List<IHand> _hands;
 		private bool _gameCompleted;
-
-
-		public Status(Guid gameId, ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
+		
+		public Status(Guid gameId, ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker,bool logicalComplete=false)
 		{
 			Trump = trump;
 			_gameId = gameId;
 			_cardsComparer = cardsComparer;
 			_declarationsChecker = declarationsChecker;
+			LogicalComplete = logicalComplete;
 			PlayerBets = int.MinValue;
 		}
 
-		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker)
-			:this(Guid.Empty,cardsComparer,trump,declarationsChecker)
+		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker,bool logicalComplete=false)
+			:this(Guid.Empty,cardsComparer,trump,declarationsChecker,logicalComplete)
 		{
 			
 		}
@@ -40,7 +40,7 @@ namespace Subasta.DomainServices.Game.Models
 		public IExplorationStatus Clone()
 		{
 			Debug.Assert(GameId != Guid.Empty);
-			var target = new Status( _cardsComparer, Trump, _declarationsChecker)
+			var target = new Status( _cardsComparer, Trump, _declarationsChecker,LogicalComplete)
 			             	{
 			             		_turn = _turn, 
 								PlayerBets = PlayerBets,
@@ -58,6 +58,8 @@ namespace Subasta.DomainServices.Game.Models
 			//CALCULATE DECLARABLES
 			return target;
 		}
+
+
 
 		public ISuit Trump { get; private set; }
 
@@ -78,8 +80,10 @@ namespace Subasta.DomainServices.Game.Models
 	    {
 	        get { return ((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null); }
 	    }
+		//completes the game by logic even if not all the cards were played
+		public bool LogicalComplete { get; set; }
 
-	    public int Turn
+		public int Turn
 		{
 			set
 			{
@@ -241,27 +245,30 @@ namespace Subasta.DomainServices.Game.Models
 			if (_gameCompleted) return;
 			_gameCompleted = _hands != null && _hands.Count == 10 && _hands[9].IsCompleted;
 			if (_gameCompleted) return;
-			if(!CurrentHand.IsCompleted && !CurrentHand.IsEmpty) return;
-			if (SumTotalTeam(PlayerBets) >= PointsBet)
-				_gameCompleted = true;
-			else
+			if (LogicalComplete)
 			{
-				var other = PlayerBets + 1;
-				if (other > 4) other = 1;
-				// 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
-				int maxPotential = 130;
-				for (int i = 1; i <= 4; i++)
-					if (IsInTeamBets(i))
-					{
-						IEnumerable<Declaration> declarations = Enum.GetValues(typeof (Declaration)).Cast<Declaration>().Where(
-							declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[i - 1]));
-						maxPotential += declarations.Sum(source => DeclarationValues.ValueOf(source));
-					}
-				maxPotential+=Hands.Where(x => x.Declaration.HasValue).Sum(x => DeclarationValues.ValueOf(x.Declaration.Value));
-
-				int sumTotalTeam = SumTotalTeam(other);
-				if (sumTotalTeam >= maxPotential - PointsBet + 1)
+				if (!CurrentHand.IsCompleted && !CurrentHand.IsEmpty) return;
+				if (SumTotalTeam(PlayerBets) >= PointsBet)
 					_gameCompleted = true;
+				else
+				{
+					var other = PlayerBets + 1;
+					if (other > 4) other = 1;
+					// 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
+					int maxPotential = 130;
+					for (int i = 1; i <= 4; i++)
+						if (IsInTeamBets(i))
+						{
+							IEnumerable<Declaration> declarations = Enum.GetValues(typeof (Declaration)).Cast<Declaration>().Where(
+								declarable => _declarationsChecker.HasDeclarable(declarable, Trump, _playerCards[i - 1]));
+							maxPotential += declarations.Sum(source => DeclarationValues.ValueOf(source));
+						}
+					maxPotential += Hands.Where(x => x.Declaration.HasValue).Sum(x => DeclarationValues.ValueOf(x.Declaration.Value));
+
+					int sumTotalTeam = SumTotalTeam(other);
+					if (sumTotalTeam >= maxPotential - PointsBet + 1)
+						_gameCompleted = true;
+				}
 			}
 		}
 

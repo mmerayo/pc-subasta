@@ -60,10 +60,6 @@
       <Project>{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}</Project>
       <Name>Subasta.ApplicationServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subasta.DomainServices.DataAccess.Sqlite\Subasta.DomainServices.DataAccess.Sqlite.csproj">
-      <Project>{E3038A36-FB06-42B0-B1B4-713E92E329ED}</Project>
-      <Name>Subasta.DomainServices.DataAccess.Sqlite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subasta.DomainServices\Subasta.DomainServices.csproj">
       <Project>{B492A802-DD38-4F46-8911-7DF5509EE240}</Project>
       <Name>Subasta.DomainServices</Name>

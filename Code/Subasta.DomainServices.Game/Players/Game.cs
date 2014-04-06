@@ -82,7 +82,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		private IExplorationStatus GetInitialStatus()
 		{
-			var status = new Status(Guid.NewGuid(), _cardComparer, Trump, _declarationsChecker);
+			var status = new Status(Guid.NewGuid(), _cardComparer, Trump, _declarationsChecker,true);
 			status.SetCards(1, Player1.Cards);
 			status.SetCards(2, Player2.Cards);
 			status.SetCards(3, Player3.Cards);
@@ -121,8 +121,9 @@ namespace Subasta.DomainServices.Game.Players
 			var previousStatus = _status.Clone();
 			var playerMoves = _players[_status.Turn - 1];
 			var result = playerMoves.ChooseMove(_status);
-			_status = result.Status;
-			
+			//TODO: CREATE USER STATUS AND EXPLORATION STATUS
+			_status = result.Status.Clone();
+			_status.LogicalComplete = true;
 
 			//if its the last card of the hand AND
 			//the current hand winner has a human in th team

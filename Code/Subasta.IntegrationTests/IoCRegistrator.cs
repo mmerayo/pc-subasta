@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using StructureMap;
 using Subasta.ApplicationServices;
-using Subasta.DomainServices.DataAccess.Sqlite.IoC;
 using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
@@ -23,7 +22,7 @@ namespace Subasta.IntegrationTests
 			if (_initialized) return;
 
 			ObjectFactory.Initialize(
-				c => {c.AddRegistry<SqliteRegistry>();
+				c => {
 				c.AddRegistry<ApplicationServicesRegistry>();
 				c.AddRegistry<DomainServicesRegistry>();
 					     c.AddRegistry<DomainRegistry>();
