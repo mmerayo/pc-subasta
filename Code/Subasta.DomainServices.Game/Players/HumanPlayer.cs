@@ -13,6 +13,7 @@ namespace Subasta.DomainServices.Game.Players
 		public event MoveSelectionNeeded SelectMove;
 		public event DeclarationSelectionNeeded SelectDeclaration;
 		public event SayNeededEvent SelectSay;
+		public event TrumpNeededEvent ChooseTrumpRequest;
 
 		public HumanPlayer(ICandidatePlayer candidatePlayer,IValidCardsRule validCardsRule)
 		{
@@ -31,7 +32,8 @@ namespace Subasta.DomainServices.Game.Players
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
 		{
 			var onMoveSelectionNeeded = OnMoveSelectionNeeded(currentStatus);
-			var status=_candidatePlayer.PlayCandidate(currentStatus, currentStatus.Turn, onMoveSelectionNeeded);//TODO: falta mecanismo para los CANTES
+			var status=_candidatePlayer.PlayCandidate(currentStatus, currentStatus.Turn, onMoveSelectionNeeded);
+			
 
 			return new NodeResult(status);
 		}
@@ -46,6 +48,10 @@ namespace Subasta.DomainServices.Game.Players
 			return OnSayRequired(saysStatus);
 		}
 
+		public override ISuit ChooseTrump(ISaysStatus saysStatus)
+		{
+			return OnTrumpChoiceRequired(saysStatus);
+		}
 
 		private Declaration? OnDeclarationSelectionNeeded(IExplorationStatus status)
 		{
@@ -78,6 +84,15 @@ namespace Subasta.DomainServices.Game.Players
 				return SelectSay(this);
 			}
 			throw new InvalidOperationException("The event SelectSay on human players need to have one suscriptor");
+		}
+
+		private ISuit OnTrumpChoiceRequired(ISaysStatus saysStatus)
+		{
+			if (ChooseTrumpRequest != null)
+			{
+				return ChooseTrumpRequest(this);
+			}
+			throw new InvalidOperationException("The event ChooseTrumpRequest on human players need to have one suscriptor");
 		}
 
 	}

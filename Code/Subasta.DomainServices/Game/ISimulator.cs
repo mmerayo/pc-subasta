@@ -11,7 +11,7 @@ namespace Subasta.DomainServices.Game
 
 		int MaxDepth { get; set; }
 
-		void Start(IExplorationStatus initialStatus);
+		void Start(IExplorationStatus initialStatus, object root=null); //TODO: TYPE
 
 	    void Reset();
 	}

@@ -21,39 +21,48 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			
 		}
 		
-		public void Start(IExplorationStatus status)
+		public void Start(IExplorationStatus status, object root=null)
 		{
 			Reset();
 			//TODO: THE LOGICAL COMPLETE TO BE BY DEFAULT
 			IExplorationStatus explorationStatus = status.Clone();
 			explorationStatus.LogicalComplete = false;
-			_root = ObjectFactory.GetInstance<TreeNode>();
-			_root.Initialize(explorationStatus);
-
-			Task.Factory.StartNew(() =>
+			if (root == null)
 			{
-				int count = 0;
-				while (true)
-				{
-					try
-					{
-						using (var mfp = new MemoryFailPoint(4))
-						{
-							lock (_rootLocker)
-							{
-								if(_root==null)
-									return;
-								_root.Select((++count % 2)+1);
-								
-							}
-						}
-					}
-					catch (InsufficientMemoryException)
-					{
-						//log
-					}
-				}
-			});
+				_root = ObjectFactory.GetInstance<TreeNode>();
+				_root.Initialize(explorationStatus);
+			}else
+			{
+				_root = (TreeNode) root;
+			}
+			Task.Factory.StartNew(() =>
+			                      {
+			                      	int count = 0;
+			                      	while (true)
+			                      	{
+			                      		try
+			                      		{
+			                      			using (var mfp = new MemoryFailPoint(4))
+			                      			{
+			                      				lock (_rootLocker)
+			                      				{
+			                      					if (_root == null)
+			                      						return;
+			                      					_root.Select((++count%2) + 1);
+
+			                      				}
+			                      			}
+			                      		}
+			                      		catch (InsufficientMemoryException)
+			                      		{
+			                      			//log
+			                      		}
+			                      		catch (NullReferenceException)
+			                      		{
+			                      			return;
+			                      		}
+			                      	}
+			                      });
 
 		}
 
