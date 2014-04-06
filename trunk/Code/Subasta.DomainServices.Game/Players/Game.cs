@@ -18,12 +18,16 @@ namespace Subasta.DomainServices.Game.Players
 
 		private readonly ICardComparer _cardComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
+		private readonly ISaysSimulator _saysRunner;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
-
+		private ISaysStatus _saysStatus;
 		public event GameStatusChangedHandler GameStatusChanged;
 		public event GameStatusChangedHandler GameStarted;
 		public event GameStatusChangedHandler GameCompleted;
+		public event GameSaysStatusChangedHandler GameSaysStatusChanged;
+		public event GameSaysStatusChangedHandler GameSaysStarted;
+		public event GameSaysStatusChangedHandler GameSaysCompleted;
 
 		public IPlayer Player1
 		{
@@ -52,16 +56,17 @@ namespace Subasta.DomainServices.Game.Players
 		public int PointsBet { get; private set; }
 
 		public Game(ICardComparer cardComparer,
-					IPlayerDeclarationsChecker declarationsChecker,
-			IMctsRunner aiSimulator)
+		            IPlayerDeclarationsChecker declarationsChecker,
+		            IMctsRunner aiSimulator, ISaysSimulator saysRunner)
 		{
 			AiSimulator = aiSimulator;
 			_cardComparer = cardComparer;
 			_declarationsChecker = declarationsChecker;
+			_saysRunner = saysRunner;
 		}
 
 		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump,
-								int pointsBet)
+		                        int pointsBet)
 		{
 			_players[0] = p1;
 			_players[1] = p2;
@@ -74,15 +79,25 @@ namespace Subasta.DomainServices.Game.Players
 			PointsBet = pointsBet;
 
 			_status = GetInitialStatus();
+			_saysStatus = GetInitialSaysStatus();
+			ResetEvents();
+		}
 
+		private void ResetEvents()
+		{
 			GameCompleted = null;
 			GameStarted = null;
 			GameStatusChanged = null;
+
+			GameSaysStarted = null;
+			GameSaysCompleted = null;
+			GameSaysStatusChanged = null;
 		}
+
 
 		private IExplorationStatus GetInitialStatus()
 		{
-			var status = new Status(Guid.NewGuid(), _cardComparer, Trump, _declarationsChecker,true);
+			var status = new Status(Guid.NewGuid(), _cardComparer, Trump, _declarationsChecker, true);
 			status.SetCards(1, Player1.Cards);
 			status.SetCards(2, Player2.Cards);
 			status.SetCards(3, Player3.Cards);
@@ -93,27 +108,51 @@ namespace Subasta.DomainServices.Game.Players
 			return status;
 		}
 
+		private ISaysStatus GetInitialSaysStatus()
+		{
+			return new SaysStatus(_status);
+		}
 
 		public void StartGame()
 		{
-			//TODO:state machine here Marque primero(EN OTRA CLASe) y juego despues en esta
+			RunSays();
+			RunGame();
+		}
+
+		private void RunSays()
+		{
+			_saysRunner.Start(_saysStatus);
+			OnSaysStart();
+			while (!_saysStatus.IsCompleted)
+			{
+				NextSay();
+				OnSaysStatusChanged();
+			}
+
+			_saysRunner.Reset();
+			OnSaysCompleted();
+		}
+
+
+		private void NextSay()
+		{
+			var playerSays = _players[_saysStatus.Turn - 1];
+			var result= playerSays.ChooseSay(_saysStatus.Clone());
+			_saysStatus.Add(result);
+		}
+
+
+		private void RunGame()
+		{
 			AiSimulator.Start(_status);
-			//Player1.SetNewGame(_status);
-			//Player2.SetNewGame(_status);
-			//Player3.SetNewGame(_status);
-			//Player4.SetNewGame(_status);
-			OnStart();
+			OnGameStarted();
 			while (!_status.IsCompleted)
 			{
 				NextMove();
+				OnGameStatusChanged();
 			}
-			
-			OnCompleted();
 			AiSimulator.Reset();
-			//foreach (var player in _players)
-			//{
-			//    player.Reset();
-			//}
+			OnGameCompleted();
 		}
 
 		private void NextMove()
@@ -121,47 +160,69 @@ namespace Subasta.DomainServices.Game.Players
 			var previousStatus = _status.Clone();
 			var playerMoves = _players[_status.Turn - 1];
 			var result = playerMoves.ChooseMove(_status);
-			//TODO: CREATE USER STATUS AND EXPLORATION STATUS
+
+			//TODO: CREATE USER STATUS AND EXPLORATION STATUS types and encapsulate the logical complete as default
 			_status = result.Status.Clone();
 			_status.LogicalComplete = true;
 
 			//if its the last card of the hand AND
-			//the current hand winner has a human in th team
-			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3 && 
-			_players.Any(x=>x.PlayerType==PlayerType.Human && x.TeamNumber==result.Status.LastCompletedHand.TeamWinner.Value))
+			//the current hand winner has a human in the team
+			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3 &&
+			    _players.Any(
+			    	x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value))
 			{
 				_status.LastCompletedHand.SetDeclaration(null);
-				OnStatusChanged();
+				OnGameStatusChanged();
 				//always the first
-				IPlayer player = _players.First(x=>x.PlayerType==PlayerType.Human && x.TeamNumber==result.Status.LastCompletedHand.TeamWinner.Value);
+				IPlayer player =
+					_players.First(
+						x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value);
 
 				//Add the hand to chose a declaration
 				previousStatus.CurrentHand.Add(previousStatus.Turn, result.Status.LastCompletedHand.CardsByPlaySequence().Last());
 				var declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
-					_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
+				_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 			}
-			OnStatusChanged();
 
 		}
 
 
-		private void OnStatusChanged()
+		private void OnGameStatusChanged()
 		{
 			if (GameStatusChanged != null)
 				GameStatusChanged(_status);
 		}
 
-		private void OnStart()
+		private void OnGameStarted()
 		{
 			if (GameStarted != null)
 				GameStarted(_status);
 		}
 
-		private void OnCompleted()
+		private void OnGameCompleted()
 		{
-			
+
 			if (GameCompleted != null)
 				GameCompleted(_status);
+		}
+
+		private void OnSaysStart()
+		{
+			if (GameSaysStarted != null)
+				GameSaysStarted(_saysStatus);
+		}
+
+
+		private void OnSaysCompleted()
+		{
+			if (GameSaysCompleted != null)
+				GameSaysCompleted(_saysStatus);
+		}
+
+		private void OnSaysStatusChanged()
+		{
+			if (GameSaysStatusChanged != null)
+				GameSaysStatusChanged(_saysStatus);
 		}
 	}
 }

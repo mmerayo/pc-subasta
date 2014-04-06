@@ -7,6 +7,7 @@ using Subasta.Domain.Deck;
 namespace Subasta.Domain.Game
 {
 	public delegate void GameStatusChangedHandler(IExplorationStatus status);
+	public delegate void GameSaysStatusChangedHandler(ISaysStatus status);
 
 	public interface IGame
 	{
@@ -18,6 +19,11 @@ namespace Subasta.Domain.Game
 		event GameStatusChangedHandler GameStatusChanged;
 		event GameStatusChangedHandler GameStarted;
 		event GameStatusChangedHandler GameCompleted;
+
+		event GameSaysStatusChangedHandler GameSaysStatusChanged;
+		event GameSaysStatusChangedHandler GameSaysStarted;
+		event GameSaysStatusChangedHandler GameSaysCompleted;
+
 		void StartGame();
 		void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump, int pointsBet);
 	}

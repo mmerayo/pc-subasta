@@ -12,6 +12,7 @@ namespace Subasta.DomainServices.Game.Players
 		private readonly IValidCardsRule _validCardsRule;
 		public event MoveSelectionNeeded SelectMove;
 		public event DeclarationSelectionNeeded SelectDeclaration;
+		public event SayNeededEvent SelectSay;
 
 		public HumanPlayer(ICandidatePlayer candidatePlayer,IValidCardsRule validCardsRule)
 		{
@@ -40,6 +41,12 @@ namespace Subasta.DomainServices.Game.Players
 			return OnDeclarationSelectionNeeded(status);
 		}
 
+		public override SayKind ChooseSay(ISaysStatus saysStatus)
+		{
+			return OnSayRequired(saysStatus);
+		}
+
+
 		private Declaration? OnDeclarationSelectionNeeded(IExplorationStatus status)
 		{
 			var declarables = status.Declarables;
@@ -61,6 +68,16 @@ namespace Subasta.DomainServices.Game.Players
 				return SelectMove(this, validMoves);
 			}
 			throw new InvalidOperationException("The event SelectMove on human players need to have one suscriptor");
+		}
+
+
+		private SayKind OnSayRequired(ISaysStatus saysStatus)
+		{
+			if (SelectSay != null)
+			{
+				return SelectSay(this);
+			}
+			throw new InvalidOperationException("The event SelectSay on human players need to have one suscriptor");
 		}
 
 	}

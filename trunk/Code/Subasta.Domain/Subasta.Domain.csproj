@@ -52,6 +52,7 @@
     <Compile Include="Game\IHumanPlayer.cs" />
     <Compile Include="Game\IMaxNPlayer.cs" />
     <Compile Include="Game\IMctsPlayer.cs" />
+    <Compile Include="Game\ISaysStatus.cs" />
     <Compile Include="Game\IPlayer.cs" />
     <Compile Include="Game\NodeResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
