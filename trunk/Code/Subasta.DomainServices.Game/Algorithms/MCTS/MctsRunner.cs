@@ -24,9 +24,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		public void Start(IExplorationStatus status)
 		{
 			Reset();
-			
+			IExplorationStatus explorationStatus = status.Clone();
+			explorationStatus.LogicalComplete = false;
 			_root = ObjectFactory.GetInstance<TreeNode>();
-			_root.Initialize( status);
+			_root.Initialize(explorationStatus);
 
 			Task.Factory.StartNew(() =>
 			{
@@ -87,7 +88,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			    ITreeNodeInfo treeNodeInfo = _root.GetNodeInfo(turnTeam);
 			    int previousVisits = int.MinValue;
 			    int repetitions = 0;
-			    while (treeNodeInfo.NumberVisits < 15000*currentStatus.TotalMoves)
+			    while (treeNodeInfo.NumberVisits < 30000*currentStatus.TotalMoves)
 			    {
 			        if (previousVisits == treeNodeInfo.NumberVisits)
 			            repetitions++;

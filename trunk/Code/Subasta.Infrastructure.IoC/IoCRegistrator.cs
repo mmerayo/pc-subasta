@@ -4,7 +4,6 @@ using System.IO;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
-using Subasta.DomainServices.DataAccess.Sqlite.IoC;
 using Subasta.DomainServices.Game;
 using Subasta.Infrastructure.ApplicationServices;
 using Subasta.Infrastructure.Domain;
@@ -29,7 +28,6 @@ namespace Subasta.Infrastructure.IoC
 						ObjectFactory.Initialize(
 							c =>
 								{
-									c.AddRegistry<SqliteRegistry>();
 									c.AddRegistry<ApplicationServicesRegistry>();
 									c.AddRegistry<DomainServicesRegistry>();
 									c.AddRegistry<DomainRegistry>();
