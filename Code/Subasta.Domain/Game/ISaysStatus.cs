@@ -16,7 +16,7 @@ namespace Subasta.Domain.Game
 		int PlayerBets { get; }
 		int PointsBet { get; }
 		ISaysStatus Clone();
-		void Add(SayKind result);
+		void Add(int playerNumber, SayKind result);
 
 		IExplorationStatus ExplorationStatusForOros();
 		IExplorationStatus ExplorationStatusForCopas();
@@ -24,8 +24,40 @@ namespace Subasta.Domain.Game
 		IExplorationStatus ExplorationStatusForBastos();
 	}
 
-	public enum SayKind
-	{
-		As
-	}
+    public interface ISay
+    {
+        int PlayerNum { get; }
+        SayKind Kind { get; }
+    }
+
+    public enum SayKind
+    {
+        Paso,
+        Una,
+        Dos,
+        Tres,
+        Cuatro,
+        Cinco,
+        Seis,
+        Siete,
+        Ocho,
+        Nueve,
+        Diez,
+        Once,
+        Doce,
+        Trece,
+        Catorce,
+        Quince,
+        Dieciseis,
+        Diecisiete,
+        Dieciocho,
+        Diecinueve,
+        Veinte,
+        Veintiuno,
+        Veintidos,
+        Veintitres,
+        Veinticuatro,
+        Veinticinco,
+        UnaMas,
+    }
 }
