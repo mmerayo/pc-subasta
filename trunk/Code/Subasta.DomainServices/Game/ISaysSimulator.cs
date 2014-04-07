@@ -7,8 +7,8 @@ namespace Subasta.DomainServices.Game
 	{
 		void Start(ISaysStatus sourceStatus);
 		void Reset();
-		SayKind GetSay(ISaysStatus saysStatus);
 		ISuit ChooseTrump(int teamNumber);
 		object GetRoot(ISuit chooseTrump); //TODO: TYPE
+        SayKind GetSay(ISaysStatus saysStatus);
 	}
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.Domain;
 
@@ -5,7 +7,21 @@ namespace Subasta.DomainServices.Game.Models
 {
 	internal class SaysStatus : ISaysStatus
 	{
+	    private class Say : ISay
+	    {
+	        public Say(int playerNum, SayKind kind)
+	        {
+	            Kind = kind;
+	            PlayerNum = playerNum;
+	        }
+
+	        public int PlayerNum { get; private set; }
+	        public SayKind Kind { get; private set; }
+	    }
+
 		private readonly IExplorationStatus _status;
+
+        private readonly List<ISay>_says=new List<ISay>();
 
 		public SaysStatus(IExplorationStatus status)
 		{
@@ -32,7 +48,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int PlayerBets
 		{
-			get { throw new System.NotImplementedException(); }
+			get { return _says.Last().PlayerNum; }
 		}
 
 		public int PointsBet
@@ -46,10 +62,9 @@ namespace Subasta.DomainServices.Game.Models
 			return this;
 		}
 
-		public void Add(SayKind result)
+		public void Add(int playerNumber, SayKind sayKind)
 		{
-//TODO:
-
+		    _says.Add(new Say(playerNumber, sayKind));
 		}
 
 

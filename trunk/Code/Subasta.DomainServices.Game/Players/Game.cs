@@ -146,7 +146,7 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			var playerSays = _players[_saysStatus.Turn - 1];
 			var result= playerSays.ChooseSay(_saysStatus.Clone());
-			_saysStatus.Add(result);
+			_saysStatus.Add(playerSays.PlayerNumber, result);
 		}
 
 
