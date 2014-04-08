@@ -104,10 +104,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private SayKind GetSay(int turn, int topPoints)
 		{
+			//TODO:move THIS FEATURE to a dedicated class
 			throw new NotImplementedException();
 			check available figures and chose the one with the lowest value
 			it the team mate passed try to close or all the figures have been said
-
+			when a figure wasnt said and cannot be said porque se ha superado(Ases y parejas), mark items of UnaMas
 
 		}
 
