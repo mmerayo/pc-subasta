@@ -1,4 +1,5 @@
 ﻿using System;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Players
@@ -7,13 +8,13 @@ namespace Subasta.DomainServices.Game.Players
 	{
 		protected ISimulator Simulator { get; private set; }
 		public ISaysSimulator SaysSimulator { get; private set; }
-	    protected IFiguresSolver FiguresSolver { get; private set; }
+		protected IFiguresSolver FiguresSolver { get; private set; }
 
-	    protected AIPlayer(ISimulator simulator,ISaysSimulator saysSimulator,IFiguresSolver figuresSolver)
+		protected AIPlayer(ISimulator simulator,ISaysSimulator saysSimulator,IFiguresSolver figuresSolver)
 		{
 			Simulator = simulator;
 			SaysSimulator = saysSimulator;
-		    FiguresSolver = figuresSolver;
+			FiguresSolver = figuresSolver;
 		}
 
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
@@ -28,7 +29,12 @@ namespace Subasta.DomainServices.Game.Players
 
 		public override SayKind ChooseSay(ISaysStatus saysStatus)
 		{
-		    return FiguresSolver.GetSay(saysStatus);
+			return FiguresSolver.GetSay(saysStatus);
+		}
+
+		public override ISuit ChooseTrump(ISaysStatus saysStatus)
+		{
+			return SaysSimulator.ChooseTrump(TeamNumber);
 		}
 	}
 }

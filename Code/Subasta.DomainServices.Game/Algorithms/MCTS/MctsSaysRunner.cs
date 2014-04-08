@@ -9,7 +9,7 @@ using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-    internal class MctsSaysRunner : IMctsSaysRunner, IDisposable
+	internal class MctsSaysRunner : IMctsSaysRunner, IDisposable
 	{
 		private const int ROOT_OROS = 0;
 		private const int ROOT_COPAS = 1;
@@ -98,16 +98,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
-        public int GetMaxExplorationFor(int turnTeam)
-        {
-            return
-                (int)
-                    Math.Truncate(
-                        _roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x => x).First());
-        }
+		public int GetMaxExplorationFor(int turnTeam)
+		{
+			return
+				(int)
+					Math.Truncate(
+						_roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x => x).First());
+		}
 
 
-        public void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

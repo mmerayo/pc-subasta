@@ -25,10 +25,7 @@ namespace Subasta.DomainServices.Game.Players
 	        base.Reset();
 	    }
 
-		public override ISuit ChooseTrump(ISaysStatus saysStatus)
-		{
-			return SaysSimulator.ChooseTrump(TeamNumber);
-		}
+		
 	}
 } 
   
