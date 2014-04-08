@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Game;
@@ -7,33 +8,34 @@ namespace Subasta.DomainServices.Game.Models
 {
 	internal class SaysStatus : ISaysStatus
 	{
-	    private class Say : ISay
-	    {
-	        public Say(int playerNum, SayKind kind)
-	        {
-	            Kind = kind;
-	            PlayerNum = playerNum;
-	        }
+		private class Say : ISay
+		{
+			public Say(int playerNum, SayKind kind)
+			{
+				Kind = kind;
+				PlayerNum = playerNum;
+			}
 
-	        public int PlayerNum { get; private set; }
-	        public SayKind Kind { get; private set; }
-	    }
+			public int PlayerNum { get; private set; }
+			public SayKind Kind { get; private set; }
+		}
 
 		private readonly IExplorationStatus _status;
+		private readonly int _firstPlayer;
+		
+		private readonly List<ISay>_says=new List<ISay>();
 
-        private readonly List<ISay>_says=new List<ISay>();
-
-		public SaysStatus(IExplorationStatus status)
+		public SaysStatus(IExplorationStatus status, int firstPlayer)
 		{
 			_status = status;
+			_firstPlayer = firstPlayer;
 		}
 
 		public bool IsCompleted
 		{
 			get
 			{
-//TODO:
-				return true;
+				return _says.Count(x => x.Kind == SayKind.Paso) == 3;
 			}
 		}
 
@@ -41,9 +43,35 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				//TODO:
-				return 1;
+				ThrowIfCompleted();
+
+				int result;
+				do
+				{
+					int playerNum = _says.Count > 0 ? _says.Last().PlayerNum : _firstPlayer;
+					result = NextPlayer(playerNum);
+				} while (PlayerHasPass(result));
+				return result;
 			}
+		}
+
+		private bool PlayerHasPass(int playerNum)
+		{
+			return _says.Any(x => x.Kind == SayKind.Paso && x.PlayerNum == playerNum);
+		}
+
+		private int NextPlayer(int playerNum)
+		{
+			playerNum += 1;
+			if (playerNum > 4)
+				playerNum = 1;
+			return playerNum;
+		}
+
+		private void ThrowIfCompleted()
+		{
+			if(IsCompleted)
+				throw new InvalidOperationException("The say is completed");
 		}
 
 		public int PlayerBets
@@ -56,9 +84,9 @@ namespace Subasta.DomainServices.Game.Models
 			get { throw new System.NotImplementedException(); }
 		}
 
-	    public int TurnTeam { get; private set; }
+		public int TurnTeam { get; private set; }
 
-	    public ISaysStatus Clone()
+		public ISaysStatus Clone()
 		{
 //TODO:
 			return this;
@@ -66,7 +94,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public void Add(int playerNumber, SayKind sayKind)
 		{
-		    _says.Add(new Say(playerNumber, sayKind));
+			_says.Add(new Say(playerNumber, sayKind));
 		}
 
 
