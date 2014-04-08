@@ -34,11 +34,25 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 
             //en caso de mas de una hace el menor incremento
 
-            //si se pasa y no ha marcado marca las alternativas
+            //si se pasa y no ha marcado marca las alternativas 2->3->8
+			
+			//caballos o reyes tienen prioridad
+			
+			//caballos o reyes no se marcan si no sale el companyero
+			
+			//no marca parejas peladas 
+			
+			//con los caballos o los reyes no marca parejas si los consigue marcar
+			
+			//con los caballos o los reyes marca las parejas si no los consigue marcar
+			
+			//si marca un as no marca noventa en el mismo marque
+			
+			//pareja sin marcar, marca unamas si hay margen sino cierra subasta
 			
 			//cuando el companyero esta pasado cierra subasta
 			
-			//cuando no tiene nada mas que marcar y tiene la mayor puntuacion del palo "pasa" si no viene pasada, sino sube una mas(en numero), si hay margen de 2. 
+			//cuando no tiene nada mas que marcar y tiene la mayor puntuacion del palo "pasa" si no viene pasada, sino sube una mas(en forma de "a X"), si hay margen de 2. 
 			
 			//cuando hay margen de 1, cierra subasta indicando "a x" e.g. "a diez"
 
