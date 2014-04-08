@@ -23,12 +23,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			Reset();
 			_roots = new[]
-			         {
-			         	ObjectFactory.GetInstance<TreeNode>(), 
+					 {
+						ObjectFactory.GetInstance<TreeNode>(), 
 						ObjectFactory.GetInstance<TreeNode>(),
-			         	ObjectFactory.GetInstance<TreeNode>(), 
+						ObjectFactory.GetInstance<TreeNode>(), 
 						ObjectFactory.GetInstance<TreeNode>()
-			         };
+					 };
 			_roots[ROOT_OROS].Initialize(sourceStatus.ExplorationStatusForOros());
 			_roots[ROOT_COPAS].Initialize(sourceStatus.ExplorationStatusForCopas());
 			_roots[ROOT_ESPADAS].Initialize(sourceStatus.ExplorationStatusForEspadas());
@@ -44,32 +44,32 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private void StartExploration(int rootIdx)
 		{
 			Task.Factory.StartNew(() =>
-			                      {
-			                      	int count = 0;
-			                      	while (true)
-			                      	{
-			                      		try
-			                      		{
-			                      			using (var mfp = new MemoryFailPoint(4))
-			                      			{
+								  {
+									int count = 0;
+									while (true)
+									{
+										try
+										{
+											using (var mfp = new MemoryFailPoint(4))
+											{
 
-			                      				if (_roots == null)
-			                      					return;
-			                      				_roots[rootIdx].Select((++count%2) + 1);
+												if (_roots == null)
+													return;
+												_roots[rootIdx].Select((++count%2) + 1);
 
 
-			                      			}
-			                      		}
-			                      		catch (InsufficientMemoryException)
-			                      		{
-			                      			//log
-			                      		}
-			                      		catch (NullReferenceException)
-			                      		{
-			                      			return;
-			                      		}
-			                      	}
-			                      });
+											}
+										}
+										catch (InsufficientMemoryException)
+										{
+											//log
+										}
+										catch (NullReferenceException)
+										{
+											return;
+										}
+									}
+								  });
 		}
 
 		public void Reset()
@@ -89,7 +89,31 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public SayKind GetSay(ISaysStatus saysStatus)
 		{
-			return SayKind.As;//TODO: THIS AND THE INTERPRETER
+			if (!saysStatus.IsStarted)
+				PopulateCandidateFigures();
+
+			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam);
+			return GetSay(saysStatus.Turn, maxCurrentExploration);
+
+		}
+
+		private int GetMaxCurrentExploration(int turnTeam)
+		{
+			return (int) Math.Truncate(_roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x=>x).First());
+		}
+
+		private SayKind GetSay(int turn, int topPoints)
+		{
+			throw new NotImplementedException();
+			check available figures and chose the one with the lowest value
+			it the team mate passed try to close or all the figures have been said
+
+
+		}
+
+		private void PopulateCandidateFigures()
+		{
+			throw new NotImplementedException();
 		}
 
 		public ISuit ChooseTrump(int teamNumber)
