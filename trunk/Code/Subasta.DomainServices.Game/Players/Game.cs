@@ -110,7 +110,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		private ISaysStatus GetInitialSaysStatus()
 		{
-			return new SaysStatus(_status);
+			return new SaysStatus(_status,FirstPlayer);
 		}
 
 		public void StartGame()
