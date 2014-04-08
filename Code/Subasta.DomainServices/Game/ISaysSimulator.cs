@@ -9,6 +9,7 @@ namespace Subasta.DomainServices.Game
 		void Reset();
 		ISuit ChooseTrump(int teamNumber);
 		object GetRoot(ISuit chooseTrump); //TODO: TYPE
-        SayKind GetSay(ISaysStatus saysStatus);
+		
+	    int GetMaxExplorationFor(int turnTeam);
 	}
 }

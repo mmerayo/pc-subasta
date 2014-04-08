@@ -56,7 +56,9 @@ namespace Subasta.DomainServices.Game.Models
 			get { throw new System.NotImplementedException(); }
 		}
 
-		public ISaysStatus Clone()
+	    public int TurnTeam { get; private set; }
+
+	    public ISaysStatus Clone()
 		{
 //TODO:
 			return this;
