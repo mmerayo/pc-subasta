@@ -7,11 +7,13 @@ namespace Subasta.DomainServices.Game.Players
 	{
 		protected ISimulator Simulator { get; private set; }
 		public ISaysSimulator SaysSimulator { get; private set; }
+	    protected IFiguresSolver FiguresSolver { get; private set; }
 
-		protected AIPlayer(ISimulator simulator,ISaysSimulator saysSimulator)
+	    protected AIPlayer(ISimulator simulator,ISaysSimulator saysSimulator,IFiguresSolver figuresSolver)
 		{
 			Simulator = simulator;
 			SaysSimulator = saysSimulator;
+		    FiguresSolver = figuresSolver;
 		}
 
 		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
@@ -26,7 +28,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		public override SayKind ChooseSay(ISaysStatus saysStatus)
 		{
-			return SaysSimulator.GetSay(saysStatus);
+		    return FiguresSolver.GetSay(saysStatus);
 		}
 	}
 }

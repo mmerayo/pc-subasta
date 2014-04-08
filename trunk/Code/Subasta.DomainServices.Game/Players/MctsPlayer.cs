@@ -8,8 +8,8 @@ namespace Subasta.DomainServices.Game.Players
 	internal class MctsPlayer:AIPlayer,IMctsPlayer
 	{
 
-		public MctsPlayer(IMctsRunner simulator, IMctsSaysRunner saysSimulator)
-			: base(simulator,saysSimulator)
+		public MctsPlayer(IMctsRunner simulator, IMctsSaysRunner saysSimulator, IFiguresSolver figuresSolver)
+			: base(simulator,saysSimulator,figuresSolver)
 		{
 		}
 

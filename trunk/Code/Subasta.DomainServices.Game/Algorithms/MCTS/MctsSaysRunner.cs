@@ -9,7 +9,7 @@ using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-	internal class MctsSaysRunner : IMctsSaysRunner, IDisposable
+    internal class MctsSaysRunner : IMctsSaysRunner, IDisposable
 	{
 		private const int ROOT_OROS = 0;
 		private const int ROOT_COPAS = 1;
@@ -87,39 +87,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					}
 		}
 
-		public SayKind GetSay(ISaysStatus saysStatus)
-		{
-			if (!saysStatus.IsStarted)
-				PopulateCandidateFigures();
-
-			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam);
-			return GetSay(saysStatus.Turn, maxCurrentExploration);
-
-		}
-
-		private int GetMaxCurrentExploration(int turnTeam)
-		{
-			return (int) Math.Truncate(_roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x=>x).First());
-		}
-
-		private SayKind GetSay(int turn, int topPoints)
-		{
-			//TODO:move THIS FEATURE to a dedicated class
-			throw new NotImplementedException();
-			check available figures and chose the one with the lowest value
-			it the team mate passed try to close or all the figures have been said
-			when a figure wasnt said and cannot be said porque se ha superado(Ases y parejas), mark items of UnaMas
-
-		}
-
-		private void PopulateCandidateFigures()
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		public ISuit ChooseTrump(int teamNumber)
 		{
-			return _roots.OrderByDescending(x => x.GetNodeInfo(teamNumber).Coeficient).First().ExplorationStatus.Trump;
+			return _roots.OrderByDescending(x => x.GetNodeInfo(teamNumber).AvgPoints).First().ExplorationStatus.Trump;
 		}
 
 		public object GetRoot(ISuit suit)
@@ -127,8 +98,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
+        public int GetMaxExplorationFor(int turnTeam)
+        {
+            return
+                (int)
+                    Math.Truncate(
+                        _roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x => x).First());
+        }
 
-		public void Dispose()
+
+        public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

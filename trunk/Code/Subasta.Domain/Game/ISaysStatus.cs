@@ -15,7 +15,6 @@ namespace Subasta.Domain.Game
 		int Turn { get; }
 		int PlayerBets { get; }
 		int PointsBet { get; }
-	    bool IsStarted { get; }
 	    int TurnTeam { get; }
 	    ISaysStatus Clone();
 		void Add(int playerNumber, SayKind result);
