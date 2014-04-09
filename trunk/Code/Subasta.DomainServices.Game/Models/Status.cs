@@ -124,27 +124,28 @@ namespace Subasta.DomainServices.Game.Models
 
 		//expects the last hand to be completed before this request as 
 		//its expected to be invoked on completed hand
-		public Declaration[] Declarables
-		{
-			get
-			{
-				//in the latest completed hand no se ha cantado 
-				IHand hand = LastCompletedHand;
-				if (hand == null )
-					return new Declaration[0];
+	    public Declaration[] Declarables
+	    {
+	        get
+	        {
+	            //in the latest completed hand no se ha cantado 
+	            IHand hand = LastCompletedHand;
+	            if (hand == null
+	                || hand.Declaration.HasValue
+	                || Hands.Any(x => x.Declaration == Declaration.Reyes || x.Declaration == Declaration.Caballos))
+	                return new Declaration[0];
+                if(Hands.Count>1 && !Hands[0].Declaration.HasValue)
+                    return new Declaration[0];
+	            var candidates = GetDeclarationCandidates();
+	            //havent been applied yet 
+	            candidates.RemoveAll(
+	                y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
 
-				if(hand.Declaration.HasValue)
-					return new Declaration[0];
-				
-				var candidates = GetDeclarationCandidates();
-				//havent been applied yet 
-				candidates.RemoveAll(y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
+	            return candidates.ToArray();
+	        }
+	    }
 
-				return candidates.ToArray();
-			}
-		}
-
-		private List<Declaration> GetDeclarationCandidates()
+	    private List<Declaration> GetDeclarationCandidates()
 		{
 			var result = new List<Declaration>();
 			var last = LastCompletedHand;

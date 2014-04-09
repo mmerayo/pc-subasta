@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.Domain;
 
@@ -97,8 +98,13 @@ namespace Subasta.DomainServices.Game.Models
 			_says.Add(new Say(playerNumber, sayKind));
 		}
 
+	    public ICard[] GetPlayerCards(int playerNum)
+	    {
+	        throw new NotImplementedException();
+	    }
 
-		private IExplorationStatus GetExplorationStatus(string suitName)
+
+	    private IExplorationStatus GetExplorationStatus(string suitName)
 		{
 			var result = _status.Clone();
 			result.SetTrump(Suit.FromName(suitName));

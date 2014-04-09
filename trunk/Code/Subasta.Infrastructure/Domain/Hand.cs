@@ -254,11 +254,14 @@ namespace Subasta.Infrastructure.Domain
 
 		public override string ToString()
 		{
-			return string.Format("a-{0} - b-{1} - c-{2} - d-{3}", GetCardString(0), GetCardString(1), GetCardString(2),
-			                     GetCardString(3));
+		    string result = string.Format("a-{0} - b-{1} - c-{2} - d-{3}", GetCardString(0), GetCardString(1), GetCardString(2),
+		        GetCardString(3));
+		    if (Declaration.HasValue)
+		        result += string.Format(" - Declared: {0}", Declaration.Value.ToString());
+		    return result;
 		}
 
-		private string GetCardString(int index)
+	    private string GetCardString(int index)
 		{
 			if (_hand[index] == null) return "null";
 			return _hand[index].ToString();
