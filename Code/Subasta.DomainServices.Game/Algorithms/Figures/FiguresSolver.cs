@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Subasta.Domain.Game;
+
+namespace Subasta.DomainServices.Game.Algorithms.MCTS
+{
+	internal class FiguresSolver : IFiguresSolver
+	{
+		private readonly ISaysSimulator _saysSimulator;
+		private readonly IEnumerable<IFigure> _figures;
+
+		public FiguresSolver(ISaysSimulator saysSimulator,IEnumerable<IFigure> figures )
+		{
+			_saysSimulator = saysSimulator;
+			_figures = figures;
+		}
+
+		public IFigure GetFigure(ISaysStatus saysStatus)
+		{
+			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam);
+
+			var candidates=GetCandidateFigures(saysStatus,maxCurrentExploration);
+			
+			return Resolve(candidates, maxCurrentExploration,saysStatus);
+		 }
+		
+		private int GetMaxCurrentExploration(int turnTeam)
+		{
+			return _saysSimulator.GetMaxExplorationFor(turnTeam);
+		}
+
+		private IFigure Resolve(IEnumerable<IFigure> candidates, int topPoints,ISaysStatus saysStatus)
+		{
+			
+			throw new NotImplementedException();
+			//if the team mate passed try to close or all the figures have been said
+			//check available figures and chose the one with the lowest value
+			//if there are not figures then try to close if the player cards value in the siut is higher than the mate ones
+		}
+
+		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
+		{
+			return _figures.Where(x => x.IsAvailable(saysStatus,topPoints)).ToList();
+		}
+	}
+}

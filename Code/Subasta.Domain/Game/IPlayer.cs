@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
+using Subasta.DomainServices.Game;
 
 namespace Subasta.Domain.Game
 {
@@ -18,7 +19,7 @@ namespace Subasta.Domain.Game
 
 		Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    void Reset();
-		SayKind ChooseSay(ISaysStatus saysStatus);
+		IFigure ChooseSay(ISaysStatus saysStatus);
 		ISuit ChooseTrump(ISaysStatus saysStatus);
 	}
 }

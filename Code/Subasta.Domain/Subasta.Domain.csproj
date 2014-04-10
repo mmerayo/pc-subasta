@@ -48,6 +48,7 @@
     <Compile Include="Deck\ISuit.cs" />
     <Compile Include="Declaration.cs" />
     <Compile Include="Game\IExplorationStatus.cs" />
+    <Compile Include="Game\IFiguresSolver.cs" />
     <Compile Include="Game\IGame.cs" />
     <Compile Include="Game\IHand.cs" />
     <Compile Include="Game\IHumanPlayer.cs" />

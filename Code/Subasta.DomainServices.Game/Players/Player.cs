@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.Game.Players
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
 		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    public virtual void Reset(){}
-		public abstract SayKind ChooseSay(ISaysStatus saysStatus);
+		public abstract IFigure ChooseSay(ISaysStatus saysStatus);
 		public abstract ISuit ChooseTrump(ISaysStatus saysStatus);
 	}
 }

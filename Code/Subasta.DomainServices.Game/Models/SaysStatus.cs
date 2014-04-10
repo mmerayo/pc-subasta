@@ -11,14 +11,14 @@ namespace Subasta.DomainServices.Game.Models
 	{
 		private class Say : ISay
 		{
-			public Say(int playerNum, SayKind kind)
+			public Say(int playerNum, IFigure kind)
 			{
-				Kind = kind;
+				Figure = kind;
 				PlayerNum = playerNum;
 			}
 
 			public int PlayerNum { get; private set; }
-			public SayKind Kind { get; private set; }
+			public IFigure Figure { get; private set; }
 		}
 
 		private readonly IExplorationStatus _status;
@@ -44,7 +44,7 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				return _says.Count(x => x.Kind == SayKind.Paso) == 3;
+				return _says.Count(x => x.Figure.Say == SayKind.Paso) == 3;
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		private bool PlayerHasPass(int playerNum)
 		{
-			return _says.Any(x => x.Kind == SayKind.Paso && x.PlayerNum == playerNum);
+			return _says.Any(x => x.Figure.Say == SayKind.Paso && x.PlayerNum == playerNum);
 		}
 
 		private int NextPlayer(int playerNum)
@@ -101,9 +101,9 @@ namespace Subasta.DomainServices.Game.Models
 			return this;
 		}
 
-		public void Add(int playerNumber, SayKind sayKind)
+		public void Add(int playerNumber, IFigure figure)
 		{
-			_says.Add(new Say(playerNumber, sayKind));
+			_says.Add(new Say(playerNumber, figure));
 		}
 
 	    public ISayCard[] GetPlayerCards(int playerNum)
