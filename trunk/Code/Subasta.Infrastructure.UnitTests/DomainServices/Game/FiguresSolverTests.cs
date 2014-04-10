@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.Game;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
@@ -22,10 +23,10 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
         }
 
         [TestCaseSource("CanGetSay_TestCases")]
-        public SayKind CanGetSay(ISaysStatus saysStatus)
+        public IFigure CanGetSay(ISaysStatus saysStatus)
         {
             _context.WithStatus(saysStatus);
-            return _context.Sut.GetSay(saysStatus);
+            return _context.Sut.GetFigure(saysStatus);
         }
 
         public static IEnumerable CanGetSay_TestCases()

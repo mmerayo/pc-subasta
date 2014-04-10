@@ -43,7 +43,7 @@ namespace Subasta.DomainServices.Game.Players
 			return OnDeclarationSelectionNeeded(status);
 		}
 
-		public override SayKind ChooseSay(ISaysStatus saysStatus)
+		public override IFigure ChooseSay(ISaysStatus saysStatus)
 		{
 			return OnSayRequired(saysStatus);
 		}
@@ -77,7 +77,7 @@ namespace Subasta.DomainServices.Game.Players
 		}
 
 
-		private SayKind OnSayRequired(ISaysStatus saysStatus)
+		private IFigure OnSayRequired(ISaysStatus saysStatus)
 		{
 			if (SelectSay != null)
 			{

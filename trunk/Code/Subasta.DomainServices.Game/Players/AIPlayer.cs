@@ -27,9 +27,9 @@ namespace Subasta.DomainServices.Game.Players
 			throw new InvalidOperationException("Not valid YET for AI players. Need to correct the interaction");
 		}
 
-		public override SayKind ChooseSay(ISaysStatus saysStatus)
+		public override IFigure ChooseSay(ISaysStatus saysStatus)
 		{
-			return FiguresSolver.GetSay(saysStatus);
+			return FiguresSolver.GetFigure(saysStatus);
 		}
 
 		public override ISuit ChooseTrump(ISaysStatus saysStatus)

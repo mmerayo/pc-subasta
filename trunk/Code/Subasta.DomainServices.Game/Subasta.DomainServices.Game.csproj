@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\MCTS\FiguresSolver.cs" />
+    <Compile Include="Algorithms\Figures\FiguresSolver.cs" />
     <Compile Include="Algorithms\MCTS\IMctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\TreeNode.cs" />
