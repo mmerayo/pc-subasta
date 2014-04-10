@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Subasta.Domain.Deck;
-using Subasta.DomainServices.Game;
 
 namespace Subasta.Domain.Game
 {
