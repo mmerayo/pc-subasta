@@ -55,6 +55,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private List<SayKind> GetCandidateFigures()
 		{
+			//TODO: CHAIN OF RESPONSIBILITY SCANNING MATCHES BASED ON PREVIOUS STATUS AND IF THEY WERE MARKED ALREADY.see saystatus getplayercards
 			throw new NotImplementedException();
 		}
 

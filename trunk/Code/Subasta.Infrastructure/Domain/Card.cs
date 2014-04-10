@@ -3,7 +3,7 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.Infrastructure.Domain
 {
-	public sealed class Card : ICard
+	public  class Card : ICard
 	{
 		internal Card(ISuit suit, int number)
 		{

@@ -44,6 +44,7 @@
     <Compile Include="Deck\ICard.cs" />
     <Compile Include="Deck\IDeck.cs" />
     <Compile Include="Deck\IPack.cs" />
+    <Compile Include="Deck\ISayCard.cs" />
     <Compile Include="Deck\ISuit.cs" />
     <Compile Include="Declaration.cs" />
     <Compile Include="Game\IExplorationStatus.cs" />

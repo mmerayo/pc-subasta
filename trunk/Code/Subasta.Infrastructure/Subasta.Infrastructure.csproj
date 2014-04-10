@@ -58,6 +58,7 @@
     <Compile Include="Domain\Deck.cs" />
     <Compile Include="Domain\Hand.cs" />
     <Compile Include="Domain\Pack.cs" />
+    <Compile Include="Domain\SayCard.cs" />
     <Compile Include="Domain\Suit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
