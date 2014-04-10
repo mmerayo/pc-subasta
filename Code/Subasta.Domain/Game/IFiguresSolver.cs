@@ -1,6 +1,4 @@
-using Subasta.Domain.Game;
-
-namespace Subasta.DomainServices.Game
+namespace Subasta.Domain.Game
 {
     public interface IFiguresSolver{
         IFigure GetFigure(ISaysStatus saysStatus);

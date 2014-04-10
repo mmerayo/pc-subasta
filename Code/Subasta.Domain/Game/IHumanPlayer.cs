@@ -1,5 +1,4 @@
 ﻿using Subasta.Domain.Deck;
-using Subasta.DomainServices.Game;
 
 namespace Subasta.Domain.Game
 {
