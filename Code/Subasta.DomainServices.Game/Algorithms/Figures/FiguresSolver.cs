@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Game;
 
-namespace Subasta.DomainServices.Game.Algorithms.MCTS
+namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
 	internal class FiguresSolver : IFiguresSolver
 	{
