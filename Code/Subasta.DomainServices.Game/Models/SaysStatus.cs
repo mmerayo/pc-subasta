@@ -95,6 +95,8 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int TurnTeam { get; private set; }
 
+		public List<ISay> Says{get { return _says; }} 
+
 		public ISaysStatus Clone()
 		{
 //TODO:
