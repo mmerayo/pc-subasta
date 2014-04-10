@@ -23,13 +23,21 @@ namespace Subasta.DomainServices.Game.Models
 
 		private readonly IExplorationStatus _status;
 		private readonly int _firstPlayer;
-		
+		private readonly ISayCard[] _cardsP1;
+		private readonly ISayCard[] _cardsP2;
+		private readonly ISayCard[] _cardsP3;
+		private readonly ISayCard[] _cardsP4;
+
 		private readonly List<ISay>_says=new List<ISay>();
 
 		public SaysStatus(IExplorationStatus status, int firstPlayer)
 		{
 			_status = status;
 			_firstPlayer = firstPlayer;
+			_cardsP1 = SayCard.FromCards(status.PlayerCards(1));
+			_cardsP2 = SayCard.FromCards(status.PlayerCards(2));
+			_cardsP3 = SayCard.FromCards(status.PlayerCards(3));
+			_cardsP4 = SayCard.FromCards(status.PlayerCards(4));
 		}
 
 		public bool IsCompleted
@@ -98,9 +106,21 @@ namespace Subasta.DomainServices.Game.Models
 			_says.Add(new Say(playerNumber, sayKind));
 		}
 
-	    public ICard[] GetPlayerCards(int playerNum)
+	    public ISayCard[] GetPlayerCards(int playerNum)
 	    {
-	        throw new NotImplementedException();
+	        switch (playerNum)
+	        {
+	            case 1:
+	                return _cardsP1;
+	            case 2:
+	                return _cardsP2;
+	            case 3:
+	                return _cardsP3;
+	            case 4:
+	                return _cardsP4;
+
+	        }
+	        throw new ArgumentOutOfRangeException();
 	    }
 
 

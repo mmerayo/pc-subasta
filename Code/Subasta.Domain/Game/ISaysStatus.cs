@@ -18,7 +18,7 @@ namespace Subasta.Domain.Game
 	    int TurnTeam { get; }
 	    ISaysStatus Clone();
 		void Add(int playerNumber, SayKind result);
-	    ICard[] GetPlayerCards(int playerNum);
+	    ISayCard[] GetPlayerCards(int playerNum);
 
 		IExplorationStatus ExplorationStatusForOros();
 		IExplorationStatus ExplorationStatusForCopas();
