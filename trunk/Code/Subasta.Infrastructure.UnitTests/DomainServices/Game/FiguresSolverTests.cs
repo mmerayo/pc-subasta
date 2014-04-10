@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
+using Subasta.DomainServices.Game.Algorithms.Figures;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
