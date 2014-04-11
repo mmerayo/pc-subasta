@@ -11,14 +11,16 @@ namespace Subasta.DomainServices.Game.Models
 	{
 		private class Say : ISay
 		{
-			public Say(int playerNum, IFigure kind)
+			public Say(int playerNum, IFigure kind,int sequence)
 			{
 				Figure = kind;
+				Sequence = sequence;
 				PlayerNum = playerNum;
 			}
 
 			public int PlayerNum { get; private set; }
 			public IFigure Figure { get; private set; }
+			public int Sequence { get; private set; }
 		}
 
 		private readonly IExplorationStatus _status;
@@ -95,7 +97,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int TurnTeam { get; private set; }
 
-		public List<ISay> Says{get { return _says; }} 
+		public List<ISay> Says{get { return new List<ISay>(_says); }} 
 
 		public ISaysStatus Clone()
 		{
@@ -105,7 +107,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public void Add(int playerNumber, IFigure figure)
 		{
-			_says.Add(new Say(playerNumber, figure));
+			_says.Add(new Say(playerNumber, figure,_says.Max(x=>x.Sequence)+1));
 		}
 
 	    public ISayCard[] GetPlayerCards(int playerNum)

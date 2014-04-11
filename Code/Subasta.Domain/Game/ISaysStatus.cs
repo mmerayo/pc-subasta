@@ -15,8 +15,9 @@ namespace Subasta.Domain.Game
 		int Turn { get; }
 		int PlayerBets { get; }
 		int PointsBet { get; }
-	    int TurnTeam { get; } 
-	    ISaysStatus Clone();
+	    int TurnTeam { get; }
+		List<ISay> Says { get; }
+		ISaysStatus Clone();
 		void Add(int playerNumber, IFigure figure);
 	    ISayCard[] GetPlayerCards(int playerNum);
 
@@ -30,6 +31,7 @@ namespace Subasta.Domain.Game
 	{
 		int PlayerNum { get; }
 		IFigure Figure { get; }
+		int Sequence { get; }
 	}
 
 	public enum SayKind

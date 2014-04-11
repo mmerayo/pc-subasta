@@ -3,11 +3,11 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
-	internal class FigurePaso : IFigure
+	internal class FigureAs : IFigure
 	{
 		public SayKind[] Say
 		{
-			get { return new[]{SayKind.Paso};}
+			get { return new[]{SayKind.Una,SayKind.UnaMas}; }
 		}
 
 		public bool IsAvailable(ISaysStatus saysStatus, int topPoints)
