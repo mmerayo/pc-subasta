@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
@@ -12,7 +12,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public bool IsAvailable(ISaysStatus saysStatus, int topPoints)
 		{
-			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
+			//ensure everything works first
+			throw new NotImplementedException();
+			//return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 		}
 
 	}

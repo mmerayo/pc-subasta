@@ -46,7 +46,7 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				return _says.Count(x => x.Figure.Say == SayKind.Paso) == 3;
+				return _says.Count(x => x.Figure.Say.Contains(SayKind.Paso)) == 3;
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		private bool PlayerHasPass(int playerNum)
 		{
-			return _says.Any(x => x.Figure.Say == SayKind.Paso && x.PlayerNum == playerNum);
+			return _says.Any(x => x.Figure.Say.Contains(SayKind.Paso) && x.PlayerNum == playerNum);
 		}
 
 		private int NextPlayer(int playerNum)
