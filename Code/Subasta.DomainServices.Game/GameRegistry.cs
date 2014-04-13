@@ -1,5 +1,6 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.Game.Algorithms.Figures;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Players;
 using Subasta.DomainServices.Game.Strategies;
@@ -23,8 +24,11 @@ namespace Subasta.DomainServices.Game
 
 			For<IMctsRunner>().Singleton().Use<MctsRunner>();
 			For<IMctsSaysRunner>().Singleton().Use<MctsSaysRunner>();
-
 			For<ISimulator>().Use(x => x.GetInstance<IMctsRunner>());
+
+			For<IFiguresSolver>().Use<FiguresSolver>();
+			For<IFigure>().Use<FigurePaso>();
+
 			For<ISaysSimulator>().Use(x => x.GetInstance<IMctsSaysRunner>());
 
 			For<IGame>().Use<Players.Game>();

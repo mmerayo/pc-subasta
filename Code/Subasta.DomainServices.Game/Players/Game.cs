@@ -116,6 +116,8 @@ namespace Subasta.DomainServices.Game.Players
 		public void StartGame()
 		{
 			var root=RunSays();
+
+			
 			RunGame(root);
 		}
 

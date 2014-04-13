@@ -10,6 +10,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return new[]{SayKind.Una,SayKind.UnaMas}; }
 		}
 
+		public int PointsBet
+		{
+			get { return 1; }
+		}
+
 		public bool IsAvailable(ISaysStatus saysStatus, int topPoints)
 		{
 			//ensure everything works first
