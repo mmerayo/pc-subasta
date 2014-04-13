@@ -33,10 +33,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		private IFigure Resolve(IEnumerable<IFigure> candidates, int topPoints,ISaysStatus saysStatus)
 		{
 			
-			throw new NotImplementedException();
+			//TODO:
 			//if the team mate passed try to close or all the figures have been said
 			//check available figures and chose the one with the lowest value
 			//if there are not figures then try to close if the player cards value in the siut is higher than the mate ones
+			return candidates.First();
 		}
 
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)

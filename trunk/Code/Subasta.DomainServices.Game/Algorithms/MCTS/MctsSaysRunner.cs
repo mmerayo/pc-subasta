@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
+using System.Threading;
 using System.Threading.Tasks;
 using StructureMap;
 using Subasta.Domain.Deck;
@@ -43,8 +45,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void StartExploration(int rootIdx)
 		{
+
 			Task.Factory.StartNew(() =>
 								  {
+								  TreeNode root = _roots[rootIdx];
+
 									int count = 0;
 									while (true)
 									{
@@ -55,7 +60,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 												if (_roots == null)
 													return;
-												_roots[rootIdx].Select((++count%2) + 1);
+												//Debug.WriteLine("rootIdx: {0} - Visits: team1: {1}, team2: {2}",rootIdx,root.GetNodeInfo(1).NumberVisits,root.GetNodeInfo(2).NumberVisits);
+												root.Select((++count%2) + 1);
 
 
 											}
@@ -100,6 +106,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public int GetMaxExplorationFor(int turnTeam)
 		{
+			while(_roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<10000))
+				Thread.Sleep(250);
+
 			return
 				(int)
 					Math.Truncate(

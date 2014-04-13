@@ -19,8 +19,10 @@ namespace Subasta.DomainServices.Game.Models
 			}
 
 			public int PlayerNum { get; private set; }
+			public int PlayerTeamNum { get { return PlayerNum%2 == 1 ? 1 : 2; }}
 			public IFigure Figure { get; private set; }
 			public int Sequence { get; private set; }
+
 		}
 
 		private readonly IExplorationStatus _status;
@@ -34,7 +36,8 @@ namespace Subasta.DomainServices.Game.Models
 
 		public SaysStatus(IExplorationStatus status, int firstPlayer)
 		{
-			_status = status;
+			_status = status.Clone();
+			_status.LogicalComplete = false;
 			_firstPlayer = firstPlayer;
 			_cardsP1 = SayCard.FromCards(status.PlayerCards(1));
 			_cardsP2 = SayCard.FromCards(status.PlayerCards(2));
@@ -59,8 +62,15 @@ namespace Subasta.DomainServices.Game.Models
 				int result;
 				do
 				{
-					int playerNum = _says.Count > 0 ? _says.Last().PlayerNum : _firstPlayer;
-					result = NextPlayer(playerNum);
+					if (_says.Count > 0)
+					{
+						result = NextPlayer(_says.Last().PlayerNum);
+
+					}
+					else
+					{
+						result = _firstPlayer;
+					}
 				} while (PlayerHasPass(result));
 				return result;
 			}
@@ -92,10 +102,19 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int PointsBet
 		{
-			get { throw new System.NotImplementedException(); }
+			get { return _says.Where(x => x.PlayerTeamNum == TeamBets).Sum(x => x.Figure.PointsBet); }
 		}
 
-		public int TurnTeam { get; private set; }
+		public int TurnTeam
+		{
+			get { return Turn%2 == 1 ? 1 : 2; }
+		}
+
+		public int TeamBets
+		{
+			get { return PlayerBets%2 == 1 ? 1 : 2; }
+		}
+
 
 		public List<ISay> Says{get { return new List<ISay>(_says); }} 
 
@@ -107,7 +126,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public void Add(int playerNumber, IFigure figure)
 		{
-			_says.Add(new Say(playerNumber, figure,_says.Max(x=>x.Sequence)+1));
+			_says.Add(new Say(playerNumber, figure, _says.Count > 0 ? _says.Max(x => x.Sequence) + 1 : 1));
 		}
 
 	    public ISayCard[] GetPlayerCards(int playerNum)

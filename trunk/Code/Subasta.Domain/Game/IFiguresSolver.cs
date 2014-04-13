@@ -7,6 +7,7 @@ namespace Subasta.Domain.Game
     public interface IFigure
     {
         SayKind [] Say { get; }
-        bool IsAvailable(ISaysStatus saysStatus, int topPoints);
+    	int PointsBet { get; }
+    	bool IsAvailable(ISaysStatus saysStatus, int topPoints);
     }
 }
