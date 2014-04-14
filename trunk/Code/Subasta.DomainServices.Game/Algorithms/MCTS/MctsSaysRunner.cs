@@ -104,9 +104,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
-		public int GetMaxExplorationFor(int turnTeam)
+		public int GetMaxExplorationFor(int turnTeam,int minNumberExplorations)
 		{
-			while(_roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<10000))
+			while(_roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<minNumberExplorations))
 				Thread.Sleep(250);
 
 			return

@@ -42,17 +42,17 @@
 			this.imageListCards = new System.Windows.Forms.ImageList(this.components);
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.dgvSaysStatus = new System.Windows.Forms.DataGridView();
 			this.lblDeclarations = new System.Windows.Forms.Label();
 			this.lblPointsT2 = new System.Windows.Forms.Label();
 			this.lblPointsT1 = new System.Windows.Forms.Label();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.dgvSaysStatus = new System.Windows.Forms.DataGridView();
 			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
 			this.grpStatus.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
-			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvSaysStatus)).BeginInit();
+			this.tabPage1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dgvStatus
@@ -188,6 +188,16 @@
 			this.tabPage2.Text = "Simulation";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// dgvSaysStatus
+			// 
+			this.dgvSaysStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvSaysStatus.Location = new System.Drawing.Point(3, 3);
+			this.dgvSaysStatus.MultiSelect = false;
+			this.dgvSaysStatus.Name = "dgvSaysStatus";
+			this.dgvSaysStatus.ReadOnly = true;
+			this.dgvSaysStatus.Size = new System.Drawing.Size(722, 189);
+			this.dgvSaysStatus.TabIndex = 4;
+			// 
 			// lblDeclarations
 			// 
 			this.lblDeclarations.AutoSize = true;
@@ -226,18 +236,6 @@
 			this.tabPage1.Text = "Configuration";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// dgvSaysStatus
-			// 
-			this.dgvSaysStatus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-			this.dgvSaysStatus.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-			this.dgvSaysStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvSaysStatus.Location = new System.Drawing.Point(3, 3);
-			this.dgvSaysStatus.MultiSelect = false;
-			this.dgvSaysStatus.Name = "dgvSaysStatus";
-			this.dgvSaysStatus.ReadOnly = true;
-			this.dgvSaysStatus.Size = new System.Drawing.Size(722, 189);
-			this.dgvSaysStatus.TabIndex = 4;
-			// 
 			// FrmExplorationStatus
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,8 +255,8 @@
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
-			this.tabPage1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvSaysStatus)).EndInit();
+			this.tabPage1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 			}

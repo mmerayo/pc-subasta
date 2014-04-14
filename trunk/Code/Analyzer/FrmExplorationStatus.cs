@@ -288,12 +288,14 @@ namespace Analyzer
 
 		private void InitializeSaysDataStructure()
 		{
-			_tableStatus = new DataTable("Says");
-			_tableStatus.Columns.Add("Sequence", typeof(int));
-			_tableStatus.Columns.Add("PlayerNum", typeof(int));
-			_tableStatus.Columns.Add("Figure");
-			_tableStatus.Columns.Add("CurrentBet", typeof(int));
-			_tableStatus.Columns.Add("Marked items");
+			_tableSaysStatus = new DataTable("Says");
+			_tableSaysStatus.Columns.Add("Sequence", typeof(int));
+			_tableSaysStatus.Columns.Add("PlayerNum", typeof(int));
+			_tableSaysStatus.Columns.Add("Figure");
+			_tableSaysStatus.Columns.Add("PointsBet", typeof(int));
+			_tableSaysStatus.Columns.Add("CurrentBet", typeof(int));
+
+			_tableSaysStatus.Columns.Add("MarkedItems");
 
 		}
 
@@ -321,15 +323,18 @@ namespace Analyzer
 			ISay say = status.Says.Last();
 			row["Sequence"] = say.Sequence;
 			row["PlayerNum"] = say.PlayerNum;
-			row["Figure"] = say.Figure.Name;
-
+			row["Figure"] = say.Figure.GetType().Name;
+			row["PointsBet"] = say.Figure.PointsBet;
+			row["CurrentBet"] = status.PointsBet;
+			row["MarkedItems"] = string.Join("-",status.GetPlayerCards(status.Turn).Where(x => x.Marked).Select(x => x.ToShortString()));
 			dgvSaysStatus.Update();
+			Application.DoEvents();
 
 		}
 
 		private void AddNewSaysRow()
 		{
-			_tableSaysStatus.Rows.Add(-1, -1, null, -1, null);
+			_tableSaysStatus.Rows.Add(-1, -1, null, -1,-1, null);
 		}
 
 	}

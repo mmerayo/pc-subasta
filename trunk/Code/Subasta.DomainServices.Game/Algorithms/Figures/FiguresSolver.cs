@@ -18,16 +18,16 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
 		{
-			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam);
+			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam,saysStatus.Says.Count(x=>x.PlayerNum==saysStatus.Turn)*3000);
 
 			var candidates=GetCandidateFigures(saysStatus,maxCurrentExploration);
 			
 			return Resolve(candidates, maxCurrentExploration,saysStatus);
 		 }
 		
-		private int GetMaxCurrentExploration(int turnTeam)
+		private int GetMaxCurrentExploration(int turnTeam,int minNumberExplorations)
 		{
-			return _saysSimulator.GetMaxExplorationFor(turnTeam);
+			return _saysSimulator.GetMaxExplorationFor(turnTeam, minNumberExplorations);
 		}
 
 		private IFigure Resolve(IEnumerable<IFigure> candidates, int topPoints,ISaysStatus saysStatus)
