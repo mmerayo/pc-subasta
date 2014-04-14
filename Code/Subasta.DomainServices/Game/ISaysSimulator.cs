@@ -10,6 +10,6 @@ namespace Subasta.DomainServices.Game
 		ISuit ChooseTrump(int teamNumber);
 		object GetRoot(ISuit chooseTrump); //TODO: TYPE
 		
-	    int GetMaxExplorationFor(int turnTeam);
+	    int GetMaxExplorationFor(int turnTeam, int minNumberExplorations);
 	}
 }

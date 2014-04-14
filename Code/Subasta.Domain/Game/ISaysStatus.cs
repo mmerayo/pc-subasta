@@ -18,6 +18,7 @@ namespace Subasta.Domain.Game
 	    int TurnTeam { get; }
 		List<ISay> Says { get; }
 		int TeamBets { get; }
+		int Sequences { get; }
 		ISaysStatus Clone();
 		void Add(int playerNumber, IFigure figure);
 	    ISayCard[] GetPlayerCards(int playerNum);
