@@ -19,11 +19,15 @@ namespace Subasta.Client.Common
 
 
 		public event StatusChangedHandler GameStatusChanged;
+		public event SaysStatusChangedHandler GameSaysStatusChanged;
+		public event SaysStatusChangedHandler GameSaysStarted;
+		public event SaysStatusChangedHandler GameSaysCompleted;
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		public event InputRequestedHandler InputRequested;
+		public ISaysStatus _saysStatus;
 		private Stopwatch _perMoveWatcher;
 
 		public GameSimulator(IGame game, IDeck deck,IPlayerFactory playerFactory)
@@ -64,11 +68,46 @@ namespace Subasta.Client.Common
 		public void Start(int depth = int.MinValue)
 		{
 			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer, TeamBets, Trump, PointsBet);
-			_game.GameStatusChanged +=_game_GameStatusChanged;
-			_game.GameStarted += _game_GameStarted;
-			_game.GameCompleted += new GameStatusChangedHandler(_game_GameCompleted);
+			
+			SubscribeToEvents();
+
+
 			_game.StartGame();
 		}
+
+		private void SubscribeToEvents()
+		{
+			_game.GameStatusChanged += _game_GameStatusChanged;
+			_game.GameStarted += _game_GameStarted;
+			_game.GameCompleted += _game_GameCompleted;
+
+			_game.GameSaysStatusChanged += _game_GameSaysStatusChanged;
+			_game.GameSaysStarted += _game_GameSaysStarted;
+			_game.GameSaysCompleted += _game_GameSaysCompleted;
+		}
+
+		void _game_GameSaysCompleted(ISaysStatus status)
+		{
+			_saysStatus = status;
+			OnSaysCompleted();
+		}
+
+		
+
+		void _game_GameSaysStarted(ISaysStatus status)
+		{
+			_saysStatus = status;
+			OnSaysStarted();
+		}
+		
+
+		void _game_GameSaysStatusChanged(ISaysStatus status)
+		{
+			_saysStatus = status;
+			OnSaysChanged();
+		}
+
+		
 
 		void _game_GameCompleted(IExplorationStatus status)
 		{
@@ -172,6 +211,23 @@ namespace Subasta.Client.Common
 		{
 			if (GameCompleted != null)
 				GameCompleted(_status, TimeSpan.Zero);
+		}
+
+		private void OnSaysChanged()
+		{
+			if (GameSaysStatusChanged != null)
+				GameSaysStatusChanged(_saysStatus);
+		}
+
+		private void OnSaysCompleted()
+		{
+			if (GameSaysCompleted != null)
+				GameSaysCompleted(_saysStatus);
+		}
+		private void OnSaysStarted()
+		{
+			if (GameSaysStarted != null)
+				GameSaysStarted(_saysStatus);
 		}
 	}
 }

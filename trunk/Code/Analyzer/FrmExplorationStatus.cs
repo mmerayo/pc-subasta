@@ -17,6 +17,7 @@ namespace Analyzer
 
 		private readonly IGameSimulator _gameSimulator;
 		private DataTable _tableStatus;
+		private DataTable _tableSaysStatus;
 
 		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck)
 		{
@@ -24,15 +25,33 @@ namespace Analyzer
 			LoadImages(deck);
 			LoadPictureBoxControls();
 			_gameSimulator = gameSimulator;
+			
+			SubscribeToGameEvents();
+
+
+			InitializeMovesDataStructure();
+			InitializeSaysDataStructure();
+
+			dgvStatus.DataSource = _tableStatus;
+			dgvSaysStatus.DataSource = _tableSaysStatus;
+		}
+
+
+		private void SubscribeToGameEvents()
+		{
 			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
 			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
 			_gameSimulator.GameCompleted += _gameSimulator_GameCompleted;
+
 			_gameSimulator.HumanPlayerMoveSelectionNeeded += _gameSimulator_HumanPlayerMoveSelectionNeeded;
 			_gameSimulator.HumanPlayerDeclarationSelectionNeeded += _gameSimulator_HumanPlayerDeclarationSelectionNeeded;
-			InitializeDataStructure();
-			dgvStatus.DataSource = _tableStatus;
+
+			_gameSimulator.GameSaysStarted += _gameSimulator_GameSaysStarted;
+			_gameSimulator.GameSaysCompleted += _gameSimulator_GameSaysCompleted;
+			_gameSimulator.GameSaysStatusChanged += _gameSimulator_GameSaysStatusChanged;
 		}
 
+		
 		Declaration? _gameSimulator_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
 		{
 			string declarations = string.Join("-", availableDeclarations.Select(x => x.ToString()));
@@ -152,7 +171,7 @@ namespace Analyzer
 			Update();
 		}
 
-		private void InitializeDataStructure()
+		private void InitializeMovesDataStructure()
 		{
 			_tableStatus = new DataTable("Game");
 			_tableStatus.Columns.Add("Sequence", typeof (int));
@@ -170,6 +189,9 @@ namespace Analyzer
 			_tableStatus.Columns.Add("T3");
 			_tableStatus.Columns.Add("T4");
 		}
+
+
+		
 
 		private void _gameSimulator_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
 		{
@@ -190,7 +212,7 @@ namespace Analyzer
 			}
 			if (_tableStatus.Rows.Count < status.Hands.Count)
 			{
-				AddNewRow();
+				AddNewStatusRow();
 			}
 			IHand currentHand = status.CurrentHand;
 			DataRow dataRow = _tableStatus.Rows[_tableStatus.Rows.Count - 1];
@@ -234,7 +256,7 @@ namespace Analyzer
 		}
 
 
-		private void AddNewRow()
+		private void AddNewStatusRow()
 		{
 			_tableStatus.Rows.Add(-1, null, null, null, null, -1, -1, null, null);
 		}
@@ -262,6 +284,52 @@ namespace Analyzer
 					row.Cells["Player" + playerWins].Style.ForeColor = Color.Green;
 				}
 			}
+		}
+
+		private void InitializeSaysDataStructure()
+		{
+			_tableStatus = new DataTable("Says");
+			_tableStatus.Columns.Add("Sequence", typeof(int));
+			_tableStatus.Columns.Add("PlayerNum", typeof(int));
+			_tableStatus.Columns.Add("Figure");
+			_tableStatus.Columns.Add("CurrentBet", typeof(int));
+			_tableStatus.Columns.Add("Marked items");
+
+		}
+
+		
+
+		void _gameSimulator_GameSaysCompleted(ISaysStatus status)
+		{
+			_gameSimulator_GameSaysStatusChanged(status);
+		}
+
+		void _gameSimulator_GameSaysStarted(ISaysStatus status)
+		{
+			_tableSaysStatus.Rows.Clear();
+
+			dgvSaysStatus.Update();
+		}
+
+
+		void _gameSimulator_GameSaysStatusChanged(ISaysStatus status)
+		{
+			AddNewSaysRow();
+
+			DataRow row = _tableSaysStatus.Rows[_tableSaysStatus.Rows.Count-1];
+
+			ISay say = status.Says.Last();
+			row["Sequence"] = say.Sequence;
+			row["PlayerNum"] = say.PlayerNum;
+			row["Figure"] = say.Figure.Name;
+
+			dgvSaysStatus.Update();
+
+		}
+
+		private void AddNewSaysRow()
+		{
+			_tableSaysStatus.Rows.Add(-1, -1, null, -1, null);
 		}
 
 	}
