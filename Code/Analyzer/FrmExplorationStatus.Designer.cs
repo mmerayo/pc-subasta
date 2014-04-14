@@ -46,11 +46,13 @@
 			this.lblPointsT2 = new System.Windows.Forms.Label();
 			this.lblPointsT1 = new System.Windows.Forms.Label();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.dgvSaysStatus = new System.Windows.Forms.DataGridView();
 			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
 			this.grpStatus.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvSaysStatus)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// dgvStatus
@@ -173,6 +175,7 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.dgvSaysStatus);
 			this.tabPage2.Controls.Add(this.lblDeclarations);
 			this.tabPage2.Controls.Add(this.lblPointsT2);
 			this.tabPage2.Controls.Add(this.lblPointsT1);
@@ -218,10 +221,22 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(734, 354);
+			this.tabPage1.Size = new System.Drawing.Size(734, 554);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Configuration";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// dgvSaysStatus
+			// 
+			this.dgvSaysStatus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+			this.dgvSaysStatus.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+			this.dgvSaysStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvSaysStatus.Location = new System.Drawing.Point(3, 3);
+			this.dgvSaysStatus.MultiSelect = false;
+			this.dgvSaysStatus.Name = "dgvSaysStatus";
+			this.dgvSaysStatus.ReadOnly = true;
+			this.dgvSaysStatus.Size = new System.Drawing.Size(722, 189);
+			this.dgvSaysStatus.TabIndex = 4;
 			// 
 			// FrmExplorationStatus
 			// 
@@ -243,6 +258,7 @@
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
 			this.tabPage1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dgvSaysStatus)).EndInit();
 			this.ResumeLayout(false);
 
 			}
@@ -266,5 +282,6 @@
 		private System.Windows.Forms.Label lblPointsT2;
 		private System.Windows.Forms.Label lblPointsT1;
 		private System.Windows.Forms.Label lblDeclarations;
+		private System.Windows.Forms.DataGridView dgvSaysStatus;
 		}
 	}

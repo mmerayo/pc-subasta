@@ -71,12 +71,12 @@ namespace Subasta.DomainServices.Game.Models
 					{
 						result = _firstPlayer;
 					}
-				} while (PlayerHasPass(result));
+				} while (PlayerHasPassed(result));
 				return result;
 			}
 		}
 
-		private bool PlayerHasPass(int playerNum)
+		private bool PlayerHasPassed(int playerNum)
 		{
 			return _says.Any(x => x.Figure.Say.Contains(SayKind.Paso) && x.PlayerNum == playerNum);
 		}
