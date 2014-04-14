@@ -326,7 +326,7 @@ namespace Analyzer
 			row["Figure"] = say.Figure.GetType().Name;
 			row["PointsBet"] = say.Figure.PointsBet;
 			row["CurrentBet"] = status.PointsBet;
-			row["MarkedItems"] = string.Join("-",status.GetPlayerCards(status.Turn).Where(x => x.Marked).Select(x => x.ToShortString()));
+			row["MarkedItems"] = string.Join("-",status.GetPlayerCards(status.LastSayPlayer).Where(x => x.Marked).Select(x => x.ToShortString()));
 			dgvSaysStatus.Update();
 			Application.DoEvents();
 

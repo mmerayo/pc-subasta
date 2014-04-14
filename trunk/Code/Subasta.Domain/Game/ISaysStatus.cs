@@ -19,6 +19,8 @@ namespace Subasta.Domain.Game
 		List<ISay> Says { get; }
 		int TeamBets { get; }
 		int Sequences { get; }
+		int LastSayPlayer { get; }
+		bool IsEmpty { get; }
 		ISaysStatus Clone();
 		void Add(int playerNumber, IFigure figure);
 	    ISayCard[] GetPlayerCards(int playerNum);
