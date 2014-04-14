@@ -116,7 +116,8 @@ namespace Subasta.DomainServices.Game.Players
 		public void StartGame()
 		{
 			var root=RunSays();
-
+			if(_saysStatus.PointsBet==0)
+				return;//TODO: DONE
 			
 			RunGame(root);
 		}
@@ -135,9 +136,8 @@ namespace Subasta.DomainServices.Game.Players
 			ISuit chooseTrump = _players[_saysStatus.PlayerBets - 1].ChooseTrump(_saysStatus);
 			_status.SetTrump(chooseTrump);
 			var result=_saysRunner.GetRoot(chooseTrump);
-
-
-			_saysRunner.Reset();
+			
+			_saysRunner.Reset(result);
 			OnSaysCompleted();
 
 			return (TreeNode) result;

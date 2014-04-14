@@ -49,15 +49,21 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				return _says.Count(x => x.Figure.Say.Contains(SayKind.Paso)) == 3 && _says.Count>3;
+				return _says.Count(x => x.Figure.Say.Contains(SayKind.Paso)) >= 3 && _says.Count>3;
 			}
 		}
+
+		public bool IsEmpty
+		{
+			get { return _says.Count == 0; }
+		}
+
 
 		public int Turn
 		{
 			get
 			{
-				//ThrowIfCompleted();
+				ThrowIfCompleted();
 
 				int result;
 				do
@@ -95,6 +101,13 @@ namespace Subasta.DomainServices.Game.Models
 				throw new InvalidOperationException("The say is completed");
 		}
 
+		private void ThrowIfEmpty()
+		{
+			if (IsEmpty)
+				throw new InvalidOperationException("The say is empty");
+		}
+
+
 		public int PlayerBets
 		{
 			get { return _says.Last().PlayerNum; }
@@ -123,6 +136,17 @@ namespace Subasta.DomainServices.Game.Models
 				return lastOrDefault != null ? lastOrDefault.Sequence : 1;
 			}
 		}
+
+		public int LastSayPlayer
+		{
+			get
+			{
+				ThrowIfEmpty();
+				return _says.Last().PlayerNum;
+			}
+		}
+
+		
 
 
 		public List<ISay> Says{get { return new List<ISay>(_says); }} 

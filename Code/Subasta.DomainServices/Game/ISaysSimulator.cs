@@ -6,7 +6,7 @@ namespace Subasta.DomainServices.Game
 	public interface ISaysSimulator
 	{
 		void Start(ISaysStatus sourceStatus);
-		void Reset();
+		void Reset(object result);
 		ISuit ChooseTrump(int teamNumber);
 		object GetRoot(ISuit chooseTrump); //TODO: TYPE
 		

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
@@ -23,7 +24,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public void Start(ISaysStatus sourceStatus)
 		{
-			Reset();
+			Reset(null);
 			_roots = new[]
 					 {
 						ObjectFactory.GetInstance<TreeNode>(), 
@@ -78,13 +79,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 								  });
 		}
 
-		public void Reset()
+		public void Reset(object rootToNotToReset)
 		{
+			TreeNode avoidRoot = rootToNotToReset as TreeNode;
+
 			if (_roots != null)
 				lock (_rootLocker)
 					if (_roots != null)
 					{
-						foreach (var root in _roots)
+						IEnumerable<TreeNode> treeNodes = _roots.Where(x => x != avoidRoot);
+						foreach (var root in treeNodes)
 						{
 							root.Dispose();
 
@@ -123,7 +127,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		}
 		private void Dispose(bool disposing)
 		{
-			Reset();
+			Reset(null);
 			
 		}
 		~MctsSaysRunner()
