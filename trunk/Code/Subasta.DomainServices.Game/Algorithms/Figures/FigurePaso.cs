@@ -5,22 +5,29 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
 	internal class FigurePaso : IFigure
 	{
-		public SayKind[] Say
+		public SayKind Say
 		{
-			get { return new[]{SayKind.Paso};}
+			get { return SayKind.Paso;}
 		}
+
+		public SayKind AlternativeSay { get { return Say; } }
 
 		public int PointsBet
 		{
 			get { return 0; }
 		}
 
-		public bool IsAvailable(ISaysStatus saysStatus)
+		public bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
 		{
 			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 		}
 
 		public void MarkFigures(ISaysStatus saysStatus)
+		{
+			//DOES NOT MARK ANYTHING
+		}
+
+		public void UnMarkPotentialCandidates()
 		{
 			//DOES NOT MARK ANYTHING
 		}
