@@ -17,28 +17,32 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 1; }
 		}
 
-		private string _potentiallyMarkedCardCode;
+		private ISayCard _potentiallyMarkedCard;
 
-		public bool IsAvailable(ISaysStatus saysStatus, int topPoints)
+		public bool IsAvailable(ISaysStatus saysStatus)
 		{
 			ISayCard[] playerCards = saysStatus.GetPlayerCards(saysStatus.Turn);
 			bool result = false;
-			if(saysStatus.PointsBet+1<topPoints)
+
+			ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked && !x.MarkCandidate);
+			if (card != null)
 			{
-				ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked);
-				if (card != null)
-				{
-					result = true;
-					_potentiallyMarkedCardCode = card.ToShortString();
-				}
+				result = true;
+				_potentiallyMarkedCard = card;
+				_potentiallyMarkedCard.MarkCandidate = true;
+
 			}
 			return result;
 		}
 
 		public void MarkFigures(ISaysStatus saysStatus)
 		{
-			var card = saysStatus.GetPlayerCards(saysStatus.Turn).Single(x=>x.ToShortString().Equals(_potentiallyMarkedCardCode));
-			card.Marked = true;
+			_potentiallyMarkedCard.Marked = true;
+		}
+
+		public void UnMarkPotentialCandidates()
+		{
+			_potentiallyMarkedCard.MarkCandidate = false;
 		}
 	}
 }

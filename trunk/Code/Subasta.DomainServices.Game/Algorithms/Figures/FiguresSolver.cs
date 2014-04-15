@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using StructureMap;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
@@ -8,12 +9,14 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 	internal class FiguresSolver : IFiguresSolver
 	{
 		private readonly ISaysSimulator _saysSimulator;
-		private readonly IEnumerable<IFigure> _figures;
+		private readonly List<IFigure> _figures;
 
 		public FiguresSolver(ISaysSimulator saysSimulator,IEnumerable<IFigure> figures )
 		{
 			_saysSimulator = saysSimulator;
-			_figures = figures;
+			_figures = figures.ToList();
+			for(int i=0;i<3;i++)//hay 4 ases
+				_figures.Add(new FigureAs());
 		}
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
@@ -37,7 +40,19 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			//if the team mate passed try to close or all the figures have been said
 			//check available figures and chose the one with the lowest value
 			//if there are not figures then try to close if the player cards value in the siut is higher than the mate ones
-			IFigure result = candidates.First();
+			//***SE NECESITA LOGICA PARA EN CASO DE QUE HAYA POR EJEMPLO ASES Y PAREJA Y AS O 90 DECIDIR ANTES DE USAR ESTRATEGIA DE MARQUE,
+				//FILTRAR()
+
+			IFigure result;
+			if (candidates.Any(x => x.PointsBet > 0))
+				result = candidates.Where(x => x.PointsBet > 0).Min();
+			else
+				result = candidates.First();
+			var toUnmark = candidates.Where(x => x != result);
+			foreach (var figure in toUnmark)
+			{
+				figure.UnMarkPotentialCandidates();
+			}
 			result.MarkFigures(saysStatus);
 			return result;
 		}
@@ -45,7 +60,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
 		{
 			int normalizedPoints = (int)Math.Truncate((double)(topPoints/10));
-			return _figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints)).ToList();
+			return _figures.Where(x => x.IsAvailable(saysStatus)).ToList();
 		}
 	}
 }

@@ -8,7 +8,8 @@ namespace Subasta.Domain.Game
     {
         SayKind [] Say { get; }
     	int PointsBet { get; }
-    	bool IsAvailable(ISaysStatus saysStatus, int topPoints);
+    	bool IsAvailable(ISaysStatus saysStatus);
 	    void MarkFigures(ISaysStatus saysStatus);
+	    void UnMarkPotentialCandidates();
     }
 }
