@@ -9,5 +9,6 @@ namespace Subasta.Domain.Game
         SayKind [] Say { get; }
     	int PointsBet { get; }
     	bool IsAvailable(ISaysStatus saysStatus, int topPoints);
+	    void MarkFigures(ISaysStatus saysStatus);
     }
 }
