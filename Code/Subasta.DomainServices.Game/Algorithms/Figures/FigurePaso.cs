@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 0; }
 		}
 
-		public bool IsAvailable(ISaysStatus saysStatus, int topPoints)
+		public bool IsAvailable(ISaysStatus saysStatus)
 		{
 			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 		}
