@@ -20,5 +20,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 		}
 
+		public void MarkFigures(ISaysStatus saysStatus)
+		{
+			//DOES NOT MARK ANYTHING
+		}
 	}
 }
