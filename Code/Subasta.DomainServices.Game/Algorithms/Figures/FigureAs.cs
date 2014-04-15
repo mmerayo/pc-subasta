@@ -7,10 +7,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
 	internal class FigureAs : IFigure
 	{
-		public SayKind[] Say
+		public SayKind Say
 		{
-			get { return new[]{SayKind.Una,SayKind.UnaMas}; }
+			get { return SayKind.Una; }
 		}
+
+		public SayKind AlternativeSay { get { return SayKind.UnaMas; } }
 
 		public int PointsBet
 		{
@@ -19,18 +21,19 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		private ISayCard _potentiallyMarkedCard;
 
-		public bool IsAvailable(ISaysStatus saysStatus)
+		public bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
 		{
 			ISayCard[] playerCards = saysStatus.GetPlayerCards(saysStatus.Turn);
 			bool result = false;
-
-			ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked && !x.MarkCandidate);
-			if (card != null)
+			if (saysStatus.PointsBet + 1 <= normalizedPoints)
 			{
-				result = true;
-				_potentiallyMarkedCard = card;
-				_potentiallyMarkedCard.MarkCandidate = true;
-
+				ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked && !x.MarkCandidate);
+				if (card != null)
+				{
+					result = true;
+					_potentiallyMarkedCard = card;
+					_potentiallyMarkedCard.MarkCandidate = true;
+				}
 			}
 			return result;
 		}
