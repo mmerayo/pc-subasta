@@ -18,7 +18,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
 		{
-			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam,saysStatus.Says.Count(x=>x.PlayerNum==saysStatus.Turn)*3000);
+			int minVisits = (saysStatus.Says.Count(x=>x.PlayerNum==saysStatus.Turn)+1)*3000;
+			var maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam,minVisits);
 
 			var candidates=GetCandidateFigures(saysStatus,maxCurrentExploration);
 			
@@ -43,7 +44,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
 		{
-			return _figures.Where(x => x.IsAvailable(saysStatus,topPoints)).ToList();
+			int normalizedPoints = (int)Math.Truncate((double)(topPoints/10));
+			return _figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints)).ToList();
 		}
 	}
 }
