@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
 	internal abstract class Figure: IFigure
 	{
+		//stands for figures that can be repeated (for different cards)like aces
 		protected abstract bool CanBeRepeated { get; }
 
 		public abstract SayKind Say { get; }
@@ -54,12 +56,13 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public virtual bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
 		{
-			if (!CanBeRepeated && saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say))
+			bool alreadyUsed = saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
+			if (!CanBeRepeated && alreadyUsed)
 				return false;
 
 			ISayCard[] playerCards = saysStatus.GetPlayerCards(saysStatus.Turn);
 			bool result = false;
-			if (saysStatus.PointsBet + 1 <= normalizedPoints)
+			if (GetPotentialPointsBet(saysStatus,alreadyUsed) <= normalizedPoints)
 			{
 				ISayCard[] cards;
 				
@@ -77,7 +80,10 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			return result;
 		}
 
-		protected abstract bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards);
+		private int GetPotentialPointsBet(ISaysStatus saysStatus, bool alreadyUsed)
+		{
+			return !alreadyUsed ? saysStatus.PointsBet + PointsBet : saysStatus.PointsBet + AlternativePointsBet;
+		}
 
 
 		private bool ContainsCardsOfSuit(IEnumerable<ISayCard> source, ISuit suit,IEnumerable<int> cardNumbers)
@@ -90,15 +96,52 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			return source.Where(x => x.Suit.Equals(suit) && cardNumbers.Contains(x.Number)).ToArray();
 		}
 
-		protected bool TryGetCardsWhenMatch(List<ISayCard> source,int[] cardNumbers, ISuit suit,out	 ISayCard[] cards)
+		private bool TryGetCandidateCardsWhenMatch(IEnumerable<ISayCard> source, int[] cardNumbers, int[] notHavingCardNumbers, ISuit suit, out ISayCard[] cards)
 		{
+			var items = source.Where(x => !x.Marked && !x.MarkedAsCandidate && x.Suit.Equals(suit)).ToList();
+
 			cards=new ISayCard[0];
-			if (ContainsCardsOfSuit(source, suit, cardNumbers))
+			if (ContainsCardsOfSuit(items, suit, notHavingCardNumbers))
+				return false;
+			if (ContainsCardsOfSuit(items, suit, cardNumbers))
 			{
-				cards = GetCardsSubset(source, suit, cardNumbers);
+				cards = GetCardsSubset(items, suit, cardNumbers);
 				return true;
 			}
 			return false;
 		}
+
+		private bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
+		{
+			if (!HavingCardNumberCombinations.Any())
+			{
+				cards = new ISayCard[0];
+				return true;
+			}
+			if (CombinationPerSuit)
+			{
+				
+				foreach (var suit in Suit.Suits)
+				{
+					foreach (var combination in HavingCardNumberCombinations)
+					{
+						if (TryGetCandidateCardsWhenMatch(playerCards, combination,NotHavingCardNumbers, suit, out cards))
+							return true;
+					}
+
+				}
+				cards = new ISayCard[0];
+				return false;
+			}
+			else
+			{
+				throw new NotImplementedException("Reyes y caballos");
+			}
+		}
+
+		protected abstract bool CombinationPerSuit { get;  }
+
+		protected abstract IEnumerable<int[]> HavingCardNumberCombinations { get; }
+		protected abstract int[] NotHavingCardNumbers { get; }
 	}
 }

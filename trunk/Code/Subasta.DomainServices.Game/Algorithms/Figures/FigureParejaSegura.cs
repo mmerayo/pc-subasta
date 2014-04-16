@@ -31,20 +31,24 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 2; }
 		}
 
-		protected override bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
+		protected override IEnumerable<int[]> HavingCardNumberCombinations
 		{
-			foreach (var suit in Suit.Suits)
+			get
 			{
-				var items = playerCards.Where(x => x.Suit.Equals(suit) && !x.Marked && !x.MarkedAsCandidate).ToList();
-				if(TryGetCardsWhenMatch(items, new[] {3, 12, 11, 10}, suit,out cards))
-					return true;
-				if (TryGetCardsWhenMatch(items, new[] { 1, 3, 12, 11 }, suit, out cards))
-					return true;
-				if (TryGetCardsWhenMatch(items, new[] { 12, 11, 10, 7 }, suit, out cards))
-					return true;
+				yield return new[] {3, 12, 11, 10};
+				yield return new[] {1, 3, 12, 11};
+				yield return new[] {12, 11, 10, 7};
 			}
-			cards = new ISayCard[0];
-			return false;
+		}
+
+		protected override int[] NotHavingCardNumbers
+		{
+			get { return new int[0]; }
+		}
+
+		protected override bool CombinationPerSuit
+		{
+			get { return true; }
 		}
 	}
 }
