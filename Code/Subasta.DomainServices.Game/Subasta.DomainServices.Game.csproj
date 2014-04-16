@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Figures\FigureCuatro.cs" />
+    <Compile Include="Algorithms\Figures\FigureParejaConAs.cs" />
     <Compile Include="Algorithms\Figures\Figure.cs" />
     <Compile Include="Algorithms\Figures\FigureAs.cs" />
     <Compile Include="Algorithms\Figures\FigureParejaSegura.cs" />
