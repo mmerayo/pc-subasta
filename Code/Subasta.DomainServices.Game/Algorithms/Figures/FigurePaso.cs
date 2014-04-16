@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -28,10 +30,24 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 0; }
 		}
 
-		protected override bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
+		protected override IEnumerable<int[]> HavingCardNumberCombinations
 		{
-			cards=new ISayCard[0];
-			return true;
+			get
+			{
+				return new int[0][];
+			}
+		}
+
+
+		protected override int[] NotHavingCardNumbers
+		{
+			get { return new int[0]; }
+		}
+
+
+		protected override bool CombinationPerSuit
+		{
+			get { return true; }
 		}
 	}
 }
