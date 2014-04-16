@@ -23,6 +23,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 0; }
 		}
 
+		public override int AlternativePointsBet
+		{
+			get { return 0; }
+		}
+
 		protected override bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
 		{
 			cards=new ISayCard[0];

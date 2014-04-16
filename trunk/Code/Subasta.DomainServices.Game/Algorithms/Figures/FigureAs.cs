@@ -23,9 +23,14 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return 1; }
 		}
 
+		public override int AlternativePointsBet
+		{
+			get { return 1; }
+		}
+
 		protected override bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
 		{
-			ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked && !x.MarkCandidate);
+			ISayCard card = playerCards.FirstOrDefault(x => x.Number == 1 && !x.Marked && !x.MarkedAsCandidate);
 			cards = card!=null? new[]{card}:new ISayCard[0];
 			return cards.Length > 0;
 		}
