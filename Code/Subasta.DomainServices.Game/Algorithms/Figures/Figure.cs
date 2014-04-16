@@ -120,27 +120,31 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			}
 			if (CombinationPerSuit)
 			{
-				
+
 				foreach (var suit in Suit.Suits)
 				{
 					foreach (var combination in HavingCardNumberCombinations)
 					{
-						if (TryGetCandidateCardsWhenMatch(playerCards, combination,NotHavingCardNumbers, suit, out cards))
+						if (TryGetCandidateCardsWhenMatch(playerCards, combination, NotHavingCardNumbers, suit, out cards))
 							return true;
 					}
 
 				}
-				cards = new ISayCard[0];
-				return false;
+
 			}
 			else
 			{
-				playerCards.Count(x=>
+			//TODO: TEST
+				var havingCardNumberCombination = HavingCardNumberCombinations.First()[0];
+
+				if (playerCards.Count(x => x.Number == havingCardNumberCombination) == 4)
 				{
-					var havingCardNumberCombination = HavingCardNumberCombinations[0];
-					return x.Number==havingCardNumberCombination;
-				})
+					cards = playerCards.Where(x => x.Number == havingCardNumberCombination).ToArray();
+					return true;
+				}
 			}
+			cards = new ISayCard[0];
+			return false;
 		}
 
 		protected abstract bool CombinationPerSuit { get;  }
