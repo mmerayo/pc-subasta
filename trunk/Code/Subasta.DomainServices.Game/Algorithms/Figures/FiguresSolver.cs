@@ -15,6 +15,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		{
 			_saysSimulator = saysSimulator;
 			_figures = figures.ToList();
+
+			//TODO: inject one provider
 			for(int i=0;i<3;i++)//hay 4 ases
 				_figures.Add(new FigureAs());
 		}
@@ -45,7 +47,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 			IFigure result;
 			if (candidates.Any(x => x.PointsBet > 0))
-				result = candidates.Where(x => x.PointsBet > 0).Min();
+				result = candidates.Where(x => x.PointsBet > 0).OrderBy(x=>x.PointsBet).First();
 			else
 				result = candidates.First();
 			var toUnmark = candidates.Where(x => x != result);
@@ -60,7 +62,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
 		{
 			int normalizedPoints = (int)Math.Truncate((double)(topPoints/10));
-			IEnumerable<IFigure> candidateFigures = _figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints));
+			IEnumerable<IFigure> candidateFigures = _figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints)).ToList();
 			
 			return candidateFigures;
 		}
