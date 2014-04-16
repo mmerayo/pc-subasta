@@ -29,6 +29,8 @@ namespace Subasta.DomainServices.Game
 			For<IFiguresSolver>().Use<FiguresSolver>();
 			For<IFigure>().Use<FigurePaso>();
 			For<IFigure>().Use<FigureAs>();
+			For<IFigure>().Use<FigureParejaSegura>();
+			For<IFigure>().Use<FigureParejaConAs>();
 
 			For<ISaysSimulator>().Use(x => x.GetInstance<IMctsSaysRunner>());
 
