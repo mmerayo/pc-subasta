@@ -16,7 +16,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		}
 		public override SayKind Say
 		{
-			get { return SayKind.Dos; }
+			get { return SayKind.Tres; }
 		}
 
 		public override SayKind AlternativeSay { get { return SayKind.UnaMas; } }

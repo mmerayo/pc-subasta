@@ -9,9 +9,6 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			get { return SayKind.Cuatro; }
 		}
 
-		public override SayKind AlternativeSay
-		{
-			get { return SayKind.Cuatro; }
-		}
+		
 	}
 }
