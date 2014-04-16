@@ -4,35 +4,29 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
-	internal class FigurePaso : IFigure
+	internal class FigurePaso :Figure
 	{
-		public SayKind Say
+		protected override bool CanBeRepeated
+		{
+			get { return false; }
+		}
+
+		public override SayKind Say
 		{
 			get { return SayKind.Paso;}
 		}
 
-		public SayKind AlternativeSay { get { return Say; } }
+		public override SayKind AlternativeSay { get { return Say; } }
 
-		public int PointsBet
+		public override int PointsBet
 		{
 			get { return 0; }
 		}
 
-		public ICard[] MarkedCards { get{ return new ICard[0];} }
-
-		public bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
+		protected override bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards)
 		{
-			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
-		}
-
-		public void MarkFigures(ISaysStatus saysStatus)
-		{
-			//DOES NOT MARK ANYTHING
-		}
-
-		public void UnMarkPotentialCandidates()
-		{
-			//DOES NOT MARK ANYTHING
+			cards=new ISayCard[0];
+			return true;
 		}
 	}
 }
