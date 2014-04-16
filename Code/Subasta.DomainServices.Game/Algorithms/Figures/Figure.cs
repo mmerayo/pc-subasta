@@ -13,6 +13,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		public abstract SayKind Say { get; }
 		public abstract SayKind AlternativeSay { get; }
 		public abstract int PointsBet { get; }
+		public abstract int AlternativePointsBet { get; }
 
 		private readonly List<ISayCard> _potentiallyMarkedCards=new List<ISayCard>();
 
@@ -22,7 +23,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 			if(_potentiallyMarkedCards.Contains(card)) throw new ArgumentException();
 
-			card.MarkCandidate = true;
+			card.MarkedAsCandidate = true;
 			_potentiallyMarkedCards.Add(card);
 
 		}
@@ -40,7 +41,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		{
 			foreach (var potentiallyMarkedCard in _potentiallyMarkedCards)
 			{
-				potentiallyMarkedCard.MarkCandidate = false;
+				potentiallyMarkedCard.MarkedAsCandidate= false;
 			}
 		}
 
@@ -77,8 +78,27 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		}
 
 		protected abstract bool HasCandidates(ISayCard[] playerCards, out ISayCard[] cards);
-		
 
-		
+
+		private bool ContainsCardsOfSuit(IEnumerable<ISayCard> source, ISuit suit,IEnumerable<int> cardNumbers)
+		{
+			return source.Any(x => x.Suit.Equals(suit) && cardNumbers.Contains(x.Number));
+		}
+
+		private ISayCard[] GetCardsSubset(IEnumerable<ISayCard> source, ISuit suit, IEnumerable<int> cardNumbers)
+		{
+			return source.Where(x => x.Suit.Equals(suit) && cardNumbers.Contains(x.Number)).ToArray();
+		}
+
+		protected bool TryGetCardsWhenMatch(List<ISayCard> source,int[] cardNumbers, ISuit suit,out	 ISayCard[] cards)
+		{
+			cards=new ISayCard[0];
+			if (ContainsCardsOfSuit(source, suit, cardNumbers))
+			{
+				cards = GetCardsSubset(source, suit, cardNumbers);
+				return true;
+			}
+			return false;
+		}
 	}
 }
