@@ -1,4 +1,5 @@
 using System.Linq;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
@@ -16,6 +17,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		{
 			get { return 0; }
 		}
+
+		public ICard[] MarkedCards { get{ return new ICard[0];} }
 
 		public bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
 		{
