@@ -38,6 +38,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			return result;
 		}
 
+
+
+		//TODO: TO ABSTRACT
 		public void MarkFigures(ISaysStatus saysStatus)
 		{
 			_potentiallyMarkedCard.Marked = true;
@@ -46,6 +49,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		public void UnMarkPotentialCandidates()
 		{
 			_potentiallyMarkedCard.MarkCandidate = false;
+		}
+
+		public ICard[] MarkedCards
+		{
+			get { return new[] {(ICard) _potentiallyMarkedCard}; }
 		}
 	}
 }

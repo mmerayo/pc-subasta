@@ -21,8 +21,9 @@ namespace Subasta.Infrastructure.Domain
         }
 
         public bool Marked { get; set; }
+	    public bool MarkCandidate { get; set; }
 
-        public static ISayCard[] FromCards(ICard[] playerCards)
+	    public static ISayCard[] FromCards(ICard[] playerCards)
         {
             var result=new ISayCard[playerCards.Length];
             for (int index = 0; index < playerCards.Length; index++)
