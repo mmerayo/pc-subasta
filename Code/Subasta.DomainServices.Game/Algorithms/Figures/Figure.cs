@@ -135,7 +135,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			}
 			else
 			{
-				throw new NotImplementedException("Reyes y caballos");
+				playerCards.Count(x=>
+				{
+					var havingCardNumberCombination = HavingCardNumberCombinations[0];
+					return x.Number==havingCardNumberCombination;
+				})
 			}
 		}
 

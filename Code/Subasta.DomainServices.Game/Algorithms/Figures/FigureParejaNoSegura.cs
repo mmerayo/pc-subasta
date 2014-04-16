@@ -3,56 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
-	internal class FigurePaso :Figure
+	internal class FigureParejaNoSegura : Figure
 	{
+
 		protected override bool CanBeRepeated
 		{
 			get { return false; }
 		}
-
 		public override SayKind Say
 		{
-			get { return SayKind.Paso;}
+			get { return SayKind.Cinco; }
 		}
 
-		public override SayKind AlternativeSay
+		public override SayKind AlternativeSay { get { return SayKind.UnaMas; } }
+
+		public override int AlternativePointsBet
 		{
-			get
-			{
-				throw new InvalidOperationException();
-			}
+			get { return 1; }
 		}
 
 		public override int PointsBet
 		{
-			get { return 0; }
-		}
-
-		public override int AlternativePointsBet
-		{
-			get
-			{
-				throw new InvalidOperationException();
-			}
+			get { return 2; }
 		}
 
 		protected override IEnumerable<int[]> HavingCardNumberCombinations
 		{
 			get
 			{
-				return new int[0][];
+				yield return new[] {12, 11};
 			}
 		}
 
-
 		protected override int[] NotHavingCardNumbers
 		{
-			get { return new int[0]; }
+			get { return new int[0]; }//TODO: ni 3 ni sota, hay que cambiarlo
 		}
-
 
 		protected override bool CombinationPerSuit
 		{
