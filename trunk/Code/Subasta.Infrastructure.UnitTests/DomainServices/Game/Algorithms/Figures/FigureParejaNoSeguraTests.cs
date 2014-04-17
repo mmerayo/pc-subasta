@@ -1,23 +1,24 @@
 using System.Collections;
-using NUnit.Framework;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Game.Algorithms.Figures.Catalog;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Algorithms.Figures
 {
-	class FigureAsTests : FiguresTests<FigureAs>
+	class FigureParejaNoSeguraTests : FiguresTests<FigureParejaNoSegura>
 	{
 		public new static IEnumerable CanPerform_IsAvailable_TestCases()
 		{
-			return FiguresTests<FigureAs>.CanPerform_IsAvailable_TestCases();//issue with nunit
+			return FiguresTests<FigureParejaNoSegura>.CanPerform_IsAvailable_TestCases();//issue with nunit
 		}
 
 		protected override ISayCard[] GetCards(bool containingTheFigure)
 		{
 			return new ISayCard[]
 			{
-				containingTheFigure? new SayCard("O1"):new SayCard("O2"),
+				new SayCard("O7"),
+				containingTheFigure? new SayCard("O11"):new SayCard("O10"),
+				new SayCard("O12")
 				
 			};
 		}
