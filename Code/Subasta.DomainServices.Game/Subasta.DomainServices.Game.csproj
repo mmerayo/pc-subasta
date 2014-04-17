@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Figures\Catalog\FigureJustPoints.cs" />
     <Compile Include="Algorithms\Figures\Catalog\FiguresCatalog.cs" />
     <Compile Include="Algorithms\Figures\Catalog\FigureReyes.cs" />
     <Compile Include="Algorithms\Figures\Catalog\FigurePaloCorrido.cs" />
