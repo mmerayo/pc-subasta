@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServices\DataAccess\GameDataAllocatorTests.cs" />
+    <Compile Include="DomainServices\Game\Algorithms\Figures\FigurePaloCorridoTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureReyesTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureAsTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureCaballosTests.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureParejaNoSeguraTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresSolverTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresTests.cs" />
+    <Compile Include="DomainServices\Game\Algorithms\Figures\FigureTresesTests.cs" />
     <Compile Include="DomainServices\Game\GameGeneratorTests.cs" />
     <Compile Include="DomainServices\Game\GameExplorerIntegrationTests.cs" />
     <Compile Include="DomainServices\Game\CardComparerTests.cs" />
