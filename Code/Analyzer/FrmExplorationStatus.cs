@@ -303,7 +303,7 @@ namespace Analyzer
 
 		void _gameSimulator_GameSaysCompleted(ISaysStatus status)
 		{
-			_gameSimulator_GameSaysStatusChanged(status);
+			MessageBox.Show(this, "Marque completado");
 		}
 
 		void _gameSimulator_GameSaysStarted(ISaysStatus status)

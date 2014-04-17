@@ -45,6 +45,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			{
 				potentiallyMarkedCard.MarkedAsCandidate= false;
 			}
+			_potentiallyMarkedCards.Clear();
 		}
 
 		
