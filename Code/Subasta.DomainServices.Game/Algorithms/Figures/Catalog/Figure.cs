@@ -54,7 +54,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return _potentiallyMarkedCards.Cast<ICard>().ToArray(); }
 		}
 
-		public virtual bool IsAvailable(ISaysStatus saysStatus, int normalizedPoints)
+		public virtual bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
 		{
 			bool alreadyUsed = saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 			if (!CanBeRepeated && alreadyUsed)
@@ -62,7 +62,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 			ISayCard[] playerCards = saysStatus.GetPlayerCards(saysStatus.Turn);
 			bool result = false;
-			if (GetPotentialPointsBet(saysStatus,alreadyUsed) <= normalizedPoints)
+			if (GetPotentialPointsBet(saysStatus,alreadyUsed) <= normalizedTopPoints)
 			{
 				ISayCard[] cards;
 				
