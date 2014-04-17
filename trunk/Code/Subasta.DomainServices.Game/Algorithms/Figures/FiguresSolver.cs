@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.Game.Algorithms.Figures.Catalog;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
 	internal class FiguresSolver : IFiguresSolver
 	{
 		private readonly ISaysSimulator _saysSimulator;
-		private readonly List<IFigure> _figures;
+		private readonly IFiguresCatalog _figuresCatalog;
 
-		public FiguresSolver(ISaysSimulator saysSimulator,IEnumerable<IFigure> figures )
+		public FiguresSolver(ISaysSimulator saysSimulator,IFiguresCatalog figuresCatalog )
 		{
 			_saysSimulator = saysSimulator;
-			_figures = figures.ToList();
-
-			//TODO: inject one provider
-			for(int i=0;i<3;i++)//hay 4 ases
-				_figures.Add(new FigureAs());
+			_figuresCatalog = figuresCatalog;
 		}
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
@@ -62,7 +59,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
 		{
 			int normalizedPoints = (int)Math.Truncate((double)(topPoints/10));
-			IEnumerable<IFigure> candidateFigures = _figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints)).ToList();
+			IEnumerable<IFigure> candidateFigures = _figuresCatalog.Figures.Where(x => x.IsAvailable(saysStatus,normalizedPoints)).ToList();
 			
 			return candidateFigures;
 		}

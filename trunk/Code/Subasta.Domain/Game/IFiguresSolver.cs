@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.Game
@@ -17,4 +18,10 @@ namespace Subasta.Domain.Game
 	    void MarkFigures(ISaysStatus saysStatus);
 	    void UnMarkPotentialCandidates();
     }
+
+	public interface IFiguresCatalog
+	{
+		IEnumerable<IFigure> Figures { get; }
+	}
+	
 }
