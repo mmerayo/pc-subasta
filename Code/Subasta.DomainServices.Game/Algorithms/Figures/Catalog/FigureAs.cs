@@ -5,8 +5,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal class FigureAs : Figure
 	{
-
-		protected override bool CanBeRepeated
+		public override bool CanBeRepeated
 		{
 			get { return true; }
 		}

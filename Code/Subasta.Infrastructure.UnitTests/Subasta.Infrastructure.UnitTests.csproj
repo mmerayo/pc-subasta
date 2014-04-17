@@ -68,6 +68,7 @@
     <Compile Include="DomainServices\Game\GameGeneratorTests.cs" />
     <Compile Include="DomainServices\Game\GameExplorerIntegrationTests.cs" />
     <Compile Include="DomainServices\Game\CardComparerTests.cs" />
+    <Compile Include="DomainServices\Game\Models\SaysStatusTests.cs" />
     <Compile Include="DomainServices\Game\ValidCardsRuleTests.cs" />
     <Compile Include="Domain\ExplorationStatusTests.cs" />
     <Compile Include="Domain\HandUnitTests.cs" />
