@@ -1,50 +1,56 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.Infrastructure.Domain;
 
-namespace Subasta.DomainServices.Game.Algorithms.Figures
+namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
-	internal class FigureParejaSegura : Figure
+	internal class FigurePaso :Figure
 	{
-
 		protected override bool CanBeRepeated
 		{
 			get { return false; }
 		}
+
 		public override SayKind Say
 		{
-			get { return SayKind.Dos; }
+			get { return SayKind.Paso;}
 		}
 
-		public override SayKind AlternativeSay { get { return SayKind.UnaMas; } }
-
-		public override int AlternativePointsBet
+		public override SayKind AlternativeSay
 		{
-			get { return 1; }
+			get
+			{
+				throw new InvalidOperationException();
+			}
 		}
 
 		public override int PointsBet
 		{
-			get { return 2; }
+			get { return 0; }
+		}
+
+		public override int AlternativePointsBet
+		{
+			get
+			{
+				throw new InvalidOperationException();
+			}
 		}
 
 		protected override IEnumerable<int[]> HavingCardNumberCombinations
 		{
 			get
 			{
-				yield return new[] {3, 12, 11, 10};
-				yield return new[] {1, 3, 12, 11};
-				yield return new[] {12, 11, 10, 7};
+				return new int[0][];
 			}
 		}
+
 
 		protected override int[] NotHavingCardNumbers
 		{
 			get { return new int[0]; }
 		}
+
 
 		protected override bool CombinationPerSuit
 		{

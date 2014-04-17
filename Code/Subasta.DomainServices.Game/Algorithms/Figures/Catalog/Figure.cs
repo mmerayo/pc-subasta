@@ -5,7 +5,7 @@ using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.Domain;
 
-namespace Subasta.DomainServices.Game.Algorithms.Figures
+namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal abstract class Figure: IFigure
 	{

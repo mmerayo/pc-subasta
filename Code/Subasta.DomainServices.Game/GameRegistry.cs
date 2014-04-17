@@ -1,6 +1,7 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms.Figures;
+using Subasta.DomainServices.Game.Algorithms.Figures.Catalog;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Players;
 using Subasta.DomainServices.Game.Strategies;
@@ -38,7 +39,7 @@ namespace Subasta.DomainServices.Game
 			For<IFigure>().Use<FigureNoSeguraSinDominarPalo>();
 			For<IFigure>().Use<FigurePaloCorrido>();
 			For<IFigure>().Use<FigureReyes>();
-
+			For<IFiguresCatalog>().Use<FiguresCatalog>();
 			For<ISaysSimulator>().Use(x => x.GetInstance<IMctsSaysRunner>());
 
 			For<IGame>().Use<Players.Game>();
