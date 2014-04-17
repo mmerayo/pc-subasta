@@ -9,6 +9,7 @@ namespace Subasta.Domain.Game
 		int PointsBet { get; }
 		int AlternativePointsBet { get; }
 		ICard[] MarkedCards { get; }
+		bool CanBeRepeated { get; }
 		bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints);
 		void MarkFigures(ISaysStatus saysStatus);
 		void UnMarkPotentialCandidates();

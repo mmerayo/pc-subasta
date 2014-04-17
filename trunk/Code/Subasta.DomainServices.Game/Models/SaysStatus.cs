@@ -120,7 +120,36 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int PointsBet
 		{
-			get { return _says.Where(x => x.PlayerTeamNum == TeamBets).Sum(x => x.Figure.PointsBet); }
+			get
+			{
+				//return _says.Where(x => x.PlayerTeamNum == TeamBets).Sum(x => x.Figure.PointsBet);
+				ISay last = _says.LastOrDefault();
+				if (last == null)
+					return 0;
+				if (!last.Figure.CanBeRepeated)
+					return last.Figure.PointsBet;
+				 //IT CAN BE REPEATED SO IT DOES ADDITIONS	
+				last = _says.LastOrDefault(x => !x.Figure.CanBeRepeated);
+				int addFromPoints;
+				int startIndex;
+
+				if (last == null)
+				{
+					addFromPoints = 0;
+					startIndex = 0;
+				}
+				else
+				{
+					addFromPoints = last.Figure.PointsBet;
+					startIndex = _says.IndexOf(last)+1;
+					
+				}
+				for (int idx = startIndex; idx < _says.Count; idx++)
+				{
+					addFromPoints += _says[idx].Figure.PointsBet;
+				}
+				return addFromPoints;
+			}
 		}
 
 		public int TurnTeam

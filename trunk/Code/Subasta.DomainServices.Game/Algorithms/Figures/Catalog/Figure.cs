@@ -10,7 +10,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 	internal abstract class Figure : IFigure
 	{
 		//stands for figures that can be repeated (for different cards)like aces
-		protected abstract bool CanBeRepeated { get; }
+		public abstract bool CanBeRepeated { get; }
 
 		public abstract SayKind Say { get; }
 		public abstract SayKind AlternativeSay { get; }
