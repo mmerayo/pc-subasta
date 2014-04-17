@@ -45,14 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Figures\FigureReyes.cs" />
+    <Compile Include="Algorithms\Figures\FigurePaloCorrido.cs" />
     <Compile Include="Algorithms\Figures\FigureCaballos.cs" />
+    <Compile Include="Algorithms\Figures\FigureNoSeguraSinDominarPalo.cs" />
     <Compile Include="Algorithms\Figures\FigureParejaNoSegura.cs" />
-    <Compile Include="Algorithms\Figures\FigureCuatro.cs" />
+    <Compile Include="Algorithms\Figures\FigureNada.cs" />
     <Compile Include="Algorithms\Figures\FigureParejaConAs.cs" />
     <Compile Include="Algorithms\Figures\Figure.cs" />
     <Compile Include="Algorithms\Figures\FigureAs.cs" />
     <Compile Include="Algorithms\Figures\FigureParejaSegura.cs" />
     <Compile Include="Algorithms\Figures\FigurePaso.cs" />
+    <Compile Include="Algorithms\Figures\FigureTreses.cs" />
     <Compile Include="Algorithms\Figures\FiguresSolver.cs" />
     <Compile Include="Algorithms\MCTS\IMctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsSaysRunner.cs" />
