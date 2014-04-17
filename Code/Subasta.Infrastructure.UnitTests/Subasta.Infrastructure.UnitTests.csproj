@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="DomainServices\DataAccess\GameDataAllocatorTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureAsTests.cs" />
+    <Compile Include="DomainServices\Game\Algorithms\Figures\FigureCaballosTests.cs" />
+    <Compile Include="DomainServices\Game\Algorithms\Figures\FigureParejaNoSeguraTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresSolverTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresTests.cs" />
     <Compile Include="DomainServices\Game\GameGeneratorTests.cs" />

@@ -86,9 +86,10 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		}
 
 
-		private bool ContainsCardsOfSuit(IEnumerable<ISayCard> source, ISuit suit,IEnumerable<int> cardNumbers)
+		private bool ContainsCardsOfSuit(IEnumerable<ISayCard> source, ISuit suit,IEnumerable<int> cardNumbers,IEnumerable<int> notHavingCardNumbers )
 		{
-			return source.Any(x => x.Suit.Equals(suit) && cardNumbers.Contains(x.Number));
+			bool containsCardsOfSuit = source.Count(x => x.Suit.Equals(suit) && cardNumbers.Contains(x.Number))==cardNumbers.Count();
+			return containsCardsOfSuit && !source.Any(x => x.Suit.Equals(suit) && notHavingCardNumbers.Contains(x.Number));
 		}
 
 		private ISayCard[] GetCardsSubset(IEnumerable<ISayCard> source, ISuit suit, IEnumerable<int> cardNumbers)
@@ -101,9 +102,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			var items = source.Where(x => !x.Marked && !x.MarkedAsCandidate && x.Suit.Equals(suit)).ToList();
 
 			cards=new ISayCard[0];
-			if (ContainsCardsOfSuit(items, suit, notHavingCardNumbers))
-				return false;
-			if (ContainsCardsOfSuit(items, suit, cardNumbers))
+			if (ContainsCardsOfSuit(items, suit, cardNumbers, notHavingCardNumbers))
 			{
 				cards = GetCardsSubset(items, suit, cardNumbers);
 				return true;
@@ -134,12 +133,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 			else
 			{
-			//TODO: TEST
 				var havingCardNumberCombination = HavingCardNumberCombinations.First()[0];
 
-				if (playerCards.Count(x => x.Number == havingCardNumberCombination) >= CardRepetitionMin)
+				if (playerCards.Count(x => !x.Marked && !x.MarkedAsCandidate && x.Number == havingCardNumberCombination) >= CardRepetitionMin)
 				{
-					cards = playerCards.Where(x => x.Number == havingCardNumberCombination).ToArray();
+					cards = playerCards.Where(x => !x.Marked && !x.MarkedAsCandidate && x.Number == havingCardNumberCombination).ToArray();
 					return true;
 				}
 			}

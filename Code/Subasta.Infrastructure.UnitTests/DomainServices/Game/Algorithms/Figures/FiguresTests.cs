@@ -23,9 +23,6 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Algorithms.Figure
 
 		protected abstract ISayCard[] GetCards(bool containingTheFigure);
 
-
-
-
 		[Test,TestCaseSource( "CanPerform_IsAvailable_TestCases")]
 		public bool CanPerform_IsAvailable(bool hasTheFigure,int topPointsLimit,bool alreadyMarked)
 		{
@@ -120,6 +117,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Algorithms.Figure
 			{
 				WithPlayerHavingFigure(true);
 				MarkFigureCards();
+
 				return this;
 			}
 
