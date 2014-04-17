@@ -49,7 +49,10 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				return _says.Count(x => x.Figure.Say==SayKind.Paso) >= 3 && _says.Count>3;
+				return (_says.Count(x => x.Figure.Say == SayKind.Paso) == 3 && _says.Count > 3 &&
+				       _says.Last().Figure.Say != SayKind.Paso) 
+					   ||
+					   (_says.Count(x => x.Figure.Say == SayKind.Paso) == 4 && _says.Count == 4 );
 			}
 		}
 
@@ -65,18 +68,16 @@ namespace Subasta.DomainServices.Game.Models
 			{
 				ThrowIfCompleted();
 
-				int result;
+				int result = int.MinValue;
 				do
 				{
-					if (_says.Count > 0)
-					{
-						result = NextPlayer(_says.Last().PlayerNum);
-
-					}
-					else
-					{
+					if (_says.Count == 0)
 						result = _firstPlayer;
-					}
+					else if (result == int.MinValue)
+						result = NextPlayer(_says.Last().PlayerNum);
+					else
+						result = NextPlayer(result);
+
 				} while (PlayerHasPassed(result));
 				return result;
 			}

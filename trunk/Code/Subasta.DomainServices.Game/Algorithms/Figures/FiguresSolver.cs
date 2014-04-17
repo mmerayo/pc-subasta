@@ -59,7 +59,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
 		{
 			int normalizedTopPoints = (int)Math.Truncate((double)(topPoints/10));
-			IEnumerable<IFigure> candidateFigures = _figuresCatalog.Figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
+			_figuresCatalog.Init();
+			IEnumerable<IFigure> figures = _figuresCatalog.Figures;
+			IEnumerable<IFigure> candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
 			
 			return candidateFigures;
 		}
