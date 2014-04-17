@@ -50,5 +50,10 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		public void UnMarkPotentialCandidates()
 		{
 		}
+
+		public override string ToString()
+		{
+			return Say.ToString();
+		}
 	}
 }
