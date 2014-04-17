@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
@@ -55,6 +56,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		protected override bool CombinationPerSuit
 		{
 			get { return true; }
+		}
+
+		public override bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
+		{
+			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == SayKind.Paso);
+
 		}
 	}
 }

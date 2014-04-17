@@ -23,6 +23,10 @@ namespace Subasta.DomainServices.Game.Models
 			public IFigure Figure { get; private set; }
 			public int Sequence { get; private set; }
 
+			public override string ToString()
+			{
+				return string.Format("Player:{0} - {1}", PlayerNum, Figure.ToString());
+			}
 		}
 
 		private readonly IExplorationStatus _status;

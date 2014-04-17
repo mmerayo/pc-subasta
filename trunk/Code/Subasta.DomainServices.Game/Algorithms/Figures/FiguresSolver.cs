@@ -85,8 +85,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			var normalizedTopPoints = (int) Math.Truncate((double) (topPoints/10));
 			_figuresCatalog.Init();
 			IEnumerable<IFigure> figures = _figuresCatalog.Figures;
-			IEnumerable<IFigure> candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
-
+			var candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
+			
 			return candidateFigures;
 		}
 	}
