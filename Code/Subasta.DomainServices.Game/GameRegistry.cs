@@ -31,6 +31,13 @@ namespace Subasta.DomainServices.Game
 			For<IFigure>().Use<FigureAs>();
 			For<IFigure>().Use<FigureParejaSegura>();
 			For<IFigure>().Use<FigureParejaConAs>();
+			For<IFigure>().Use<FigureNada>();
+			For<IFigure>().Use<FigureParejaNoSegura>();
+			For<IFigure>().Use<FigureCaballos>();
+			For<IFigure>().Use<FigureTreses>();
+			For<IFigure>().Use<FigureNoSeguraSinDominarPalo>();
+			For<IFigure>().Use<FigurePaloCorrido>();
+			For<IFigure>().Use<FigureReyes>();
 
 			For<ISaysSimulator>().Use(x => x.GetInstance<IMctsSaysRunner>());
 

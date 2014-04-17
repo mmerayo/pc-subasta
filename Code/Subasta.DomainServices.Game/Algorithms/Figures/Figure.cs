@@ -137,7 +137,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			//TODO: TEST
 				var havingCardNumberCombination = HavingCardNumberCombinations.First()[0];
 
-				if (playerCards.Count(x => x.Number == havingCardNumberCombination) == 4)
+				if (playerCards.Count(x => x.Number == havingCardNumberCombination) >= CardRepetitionMin)
 				{
 					cards = playerCards.Where(x => x.Number == havingCardNumberCombination).ToArray();
 					return true;
@@ -151,5 +151,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		protected abstract IEnumerable<int[]> HavingCardNumberCombinations { get; }
 		protected abstract int[] NotHavingCardNumbers { get; }
+
+		protected virtual int CardRepetitionMin
+		{
+			get { return 4; }
+		}
+
 	}
 }

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
-	internal class FigureCaballos : Figure
+	internal class FigureReyes : Figure
 	{
 
 		protected override bool CanBeRepeated
@@ -13,7 +16,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		}
 		public override SayKind Say
 		{
-			get { return SayKind.Seis; }
+			get { return SayKind.Doce; }
 		}
 
 		public override SayKind AlternativeSay
@@ -26,7 +29,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public override int PointsBet
 		{
-			get { return 6; }
+			get { return 12; }
 		}
 
 		public override int AlternativePointsBet
@@ -46,7 +49,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 		{
 			get
 			{
-				yield return new[] {11};
+				yield return new[] {12};
 			}
 		}
 

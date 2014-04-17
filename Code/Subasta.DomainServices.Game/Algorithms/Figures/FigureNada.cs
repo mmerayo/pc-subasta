@@ -2,7 +2,7 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures
 {
-	internal class FigureCuatro : FigurePaso
+	internal class FigureNada : FigurePaso
 	{
 		public override SayKind Say
 		{
