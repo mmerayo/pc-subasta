@@ -37,7 +37,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		protected override int[] NotHavingCardNumbers
 		{
-			get { return new int[0]; }//TODO: ni 3 ni sota, hay que cambiarlo
+			get { return new []{3,10}; }
 		}
 
 		protected override bool CombinationPerSuit
