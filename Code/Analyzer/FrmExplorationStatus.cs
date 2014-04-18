@@ -292,6 +292,7 @@ namespace Analyzer
 			_tableSaysStatus.Columns.Add("Sequence", typeof(int));
 			_tableSaysStatus.Columns.Add("PlayerNum", typeof(int));
 			_tableSaysStatus.Columns.Add("Figure");
+			_tableSaysStatus.Columns.Add("Say");
 			_tableSaysStatus.Columns.Add("PointsBet", typeof(int));
 			_tableSaysStatus.Columns.Add("CurrentBet", typeof(int));
 
@@ -324,6 +325,7 @@ namespace Analyzer
 			row["Sequence"] = say.Sequence;
 			row["PlayerNum"] = say.PlayerNum;
 			row["Figure"] = say.Figure.GetType().Name;
+			row["Say"] =  say.Figure.Say;
 			row["PointsBet"] = say.Figure.PointsBet;
 			row["CurrentBet"] = status.PointsBet;
 			row["MarkedItems"] = string.Join("-",status.Says.Last().Figure.MarkedCards.Select(x=>x.ToShortString()));

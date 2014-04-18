@@ -4,7 +4,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal class FigureNada : FigurePaso
 	{
-		public override SayKind Say
+		protected override SayKind PrimarySay
 		{
 			get { return SayKind.Cuatro; }
 		}
