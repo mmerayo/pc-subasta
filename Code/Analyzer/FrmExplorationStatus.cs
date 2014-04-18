@@ -153,6 +153,15 @@ namespace Analyzer
 		{
 			_tableStatus.Rows.Clear();
 
+			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
+			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
+			lblPlayerBets.Text = "Team Bets#: " + _gameSimulator.TeamBets;
+			Invalidate(true);
+			Update();
+		}
+
+		private void PaintCards(IExplorationStatus status)
+		{
 			for (int i = 1; i <= 4; i++)
 			{
 				int indexCard = 0;
@@ -163,12 +172,6 @@ namespace Analyzer
 					_pbCards[i - 1][indexCard++].Image = image;
 				}
 			}
-
-			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
-			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
-			lblPlayerBets.Text = "Team Bets#: " + _gameSimulator.TeamBets;
-			Invalidate(true);
-			Update();
 		}
 
 		private void InitializeMovesDataStructure()
@@ -309,6 +312,9 @@ namespace Analyzer
 
 		void _gameSimulator_GameSaysStarted(ISaysStatus status)
 		{
+			PaintCards(status.OriginalStatus);
+
+
 			_tableSaysStatus.Rows.Clear();
 
 			dgvSaysStatus.Update();

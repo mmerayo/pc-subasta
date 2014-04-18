@@ -123,13 +123,13 @@ namespace Subasta.DomainServices.Game.Models
 			get
 			{
 				//return _says.Where(x => x.PlayerTeamNum == TeamBets).Sum(x => x.Figure.PointsBet);
-				ISay last = _says.LastOrDefault();
+				ISay last = _says.LastOrDefault(x => x.Figure.Say != SayKind.Paso);
 				if (last == null)
 					return 0;
 				if (!last.Figure.UsingAlternative)
 					return last.Figure.PointsBet;
-				 //IT CAN BE REPEATED SO IT DOES ADDITIONS	
-				last = _says.LastOrDefault(x => !x.Figure.UsingAlternative);
+				//IT CAN BE REPEATED SO IT DOES ADDITIONS	
+				last = _says.LastOrDefault(x => !x.Figure.UsingAlternative && x.Figure.Say != SayKind.Paso);
 				int result;
 				int startIndex;
 
@@ -141,8 +141,8 @@ namespace Subasta.DomainServices.Game.Models
 				else
 				{
 					result = last.Figure.PointsBet;
-					startIndex = _says.IndexOf(last)+1;
-					
+					startIndex = _says.IndexOf(last) + 1;
+
 				}
 				for (int idx = startIndex; idx < _says.Count; idx++)
 				{
@@ -184,7 +184,17 @@ namespace Subasta.DomainServices.Game.Models
 		
 
 
-		public List<ISay> Says{get { return new List<ISay>(_says); }} 
+		public List<ISay> Says{get { return new List<ISay>(_says); }}
+
+		public IExplorationStatus OriginalStatus
+		{
+			get
+			{
+				IExplorationStatus result = _status.Clone();
+				result.LogicalComplete = true;
+				return result;
+			}
+		}
 
 		public ISaysStatus Clone()
 		{
