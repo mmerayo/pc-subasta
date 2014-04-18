@@ -132,7 +132,7 @@ namespace Subasta.DomainServices.Game.Players
 				OnSaysStatusChanged();
 			}
 
-			_status.SetPlayerBet(_saysStatus.PlayerBets, _saysStatus.PointsBet);
+			_status.SetPlayerBet(_saysStatus.PlayerBets, _saysStatus.PointsBet*10);
 			ISuit chooseTrump = _players[_saysStatus.PlayerBets - 1].ChooseTrump(_saysStatus);
 			_status.SetTrump(chooseTrump);
 			var result=_saysRunner.GetRoot(chooseTrump);
@@ -148,6 +148,7 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			var playerSays = _players[_saysStatus.Turn - 1];
 			var result= playerSays.ChooseSay(_saysStatus.Clone());
+			
 			_saysStatus.Add(playerSays.PlayerNumber, result);
 			
 		}

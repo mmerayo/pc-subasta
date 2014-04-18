@@ -60,7 +60,7 @@
 			this.dgvStatus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
 			this.dgvStatus.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
 			this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvStatus.Location = new System.Drawing.Point(3, 198);
+			this.dgvStatus.Location = new System.Drawing.Point(0, 276);
 			this.dgvStatus.MultiSelect = false;
 			this.dgvStatus.Name = "dgvStatus";
 			this.dgvStatus.ReadOnly = true;
@@ -195,35 +195,35 @@
 			this.dgvSaysStatus.MultiSelect = false;
 			this.dgvSaysStatus.Name = "dgvSaysStatus";
 			this.dgvSaysStatus.ReadOnly = true;
-			this.dgvSaysStatus.Size = new System.Drawing.Size(722, 189);
+			this.dgvSaysStatus.Size = new System.Drawing.Size(722, 267);
 			this.dgvSaysStatus.TabIndex = 4;
 			// 
 			// lblDeclarations
 			// 
 			this.lblDeclarations.AutoSize = true;
-			this.lblDeclarations.Location = new System.Drawing.Point(3, 530);
+			this.lblDeclarations.Location = new System.Drawing.Point(509, 530);
 			this.lblDeclarations.Name = "lblDeclarations";
-			this.lblDeclarations.Size = new System.Drawing.Size(10, 13);
+			this.lblDeclarations.Size = new System.Drawing.Size(13, 13);
 			this.lblDeclarations.TabIndex = 3;
-			this.lblDeclarations.Text = " ";
+			this.lblDeclarations.Text = "c";
 			// 
 			// lblPointsT2
 			// 
 			this.lblPointsT2.AutoSize = true;
-			this.lblPointsT2.Location = new System.Drawing.Point(3, 498);
+			this.lblPointsT2.Location = new System.Drawing.Point(19, 530);
 			this.lblPointsT2.Name = "lblPointsT2";
-			this.lblPointsT2.Size = new System.Drawing.Size(10, 13);
+			this.lblPointsT2.Size = new System.Drawing.Size(13, 13);
 			this.lblPointsT2.TabIndex = 2;
-			this.lblPointsT2.Text = " ";
+			this.lblPointsT2.Text = "a";
 			// 
 			// lblPointsT1
 			// 
 			this.lblPointsT1.AutoSize = true;
-			this.lblPointsT1.Location = new System.Drawing.Point(3, 464);
+			this.lblPointsT1.Location = new System.Drawing.Point(223, 530);
 			this.lblPointsT1.Name = "lblPointsT1";
-			this.lblPointsT1.Size = new System.Drawing.Size(10, 13);
+			this.lblPointsT1.Size = new System.Drawing.Size(16, 13);
 			this.lblPointsT1.TabIndex = 1;
-			this.lblPointsT1.Text = " ";
+			this.lblPointsT1.Text = " b";
 			// 
 			// tabPage1
 			// 
@@ -240,7 +240,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(766, 633);
+			this.ClientSize = new System.Drawing.Size(766, 701);
 			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;

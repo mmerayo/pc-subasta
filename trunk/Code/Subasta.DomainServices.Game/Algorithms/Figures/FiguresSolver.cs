@@ -44,7 +44,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			IFigure result;
 
 
-			if (saysStatus.Says.Count(x => x.Figure.Say == SayKind.Paso && x.PlayerTeamNum == saysStatus.TurnTeam) == 0)
+			if (!MatePassed(saysStatus)
+				|| (candidates.Count()==1 && candidates.First().Say==SayKind.Paso)
+			)
 			{
 				//Mate still marking,
 				result = GiveInformation(candidates);
@@ -58,6 +60,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			
 
 			return result;
+		}
+
+		private static bool MatePassed(ISaysStatus saysStatus)
+		{
+			return saysStatus.Says.Count(x => x.Figure.Say == SayKind.Paso && x.PlayerTeamNum == saysStatus.TurnTeam) != 0;
 		}
 
 		private static IFigure GiveInformation(IEnumerable<IFigure> candidates)
