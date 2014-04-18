@@ -10,13 +10,33 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 	internal abstract class Figure : IFigure
 	{
 		//stands for figures that can be repeated (for different cards)like aces
-		public abstract bool CanBeRepeated { get; }
+		protected abstract bool HasAlternativeSay { get; }
 
-		public abstract SayKind Say { get; }
-		public abstract SayKind AlternativeSay { get; }
-		public abstract int PointsBet { get; }
-		public abstract int AlternativePointsBet { get; }
+		public SayKind Say
+		{
+			get
+			{
+				if(UsingAlternative)
+					return AlternativeSay;
+				return PrimarySay;
+			}
+		}
 
+		public int PointsBet
+		{
+			get
+			{
+				if (UsingAlternative)
+					return AlternativePointsBet;
+				return PrimaryPointsBet;
+			}
+		}
+
+		protected abstract SayKind PrimarySay { get; }
+
+		protected abstract SayKind AlternativeSay { get; }
+		protected abstract int AlternativePointsBet { get; }
+		protected abstract int PrimaryPointsBet { get; }
 		private readonly List<ISayCard> _potentiallyMarkedCards = new List<ISayCard>();
 
 		protected void BookCard(ISayCard card)
@@ -55,15 +75,18 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return _potentiallyMarkedCards.Cast<ICard>().ToArray(); }
 		}
 
+		public bool UsingAlternative { get; private set; }
+
 		public virtual bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
 		{
 			bool alreadyUsed = saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
-			if (!CanBeRepeated && alreadyUsed)
+			if (!HasAlternativeSay && alreadyUsed)
 				return false;
+			UpdateUsingAlternative(saysStatus);
 
 			ISayCard[] playerCards = saysStatus.GetPlayerCards(saysStatus.Turn);
 			bool result = false;
-			if (GetPotentialPointsBet(saysStatus, alreadyUsed) <= normalizedTopPoints)
+			if (GetPotentialPointsBet(saysStatus) <= normalizedTopPoints)
 			{
 				ISayCard[] cards;
 
@@ -81,9 +104,15 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			return result;
 		}
 
-		private int GetPotentialPointsBet(ISaysStatus saysStatus, bool alreadyUsed)
+		private void UpdateUsingAlternative(ISaysStatus saysStatus)
 		{
-			return !alreadyUsed ? saysStatus.PointsBet + PointsBet : saysStatus.PointsBet + AlternativePointsBet;
+			if (HasAlternativeSay && saysStatus.PointsBet >= PointsBet)
+				UsingAlternative = true;
+		}
+
+		private int GetPotentialPointsBet(ISaysStatus saysStatus)
+		{
+			return !UsingAlternative ? saysStatus.PointsBet + PointsBet : saysStatus.PointsBet + AlternativePointsBet;
 		}
 
 
@@ -165,5 +194,10 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		{
 			return Say.ToString();
 		}
+
+		
+
+		
+
 	}
 }

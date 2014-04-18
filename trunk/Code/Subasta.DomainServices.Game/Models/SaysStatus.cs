@@ -126,29 +126,30 @@ namespace Subasta.DomainServices.Game.Models
 				ISay last = _says.LastOrDefault();
 				if (last == null)
 					return 0;
-				if (!last.Figure.CanBeRepeated)
+				if (!last.Figure.UsingAlternative)
 					return last.Figure.PointsBet;
 				 //IT CAN BE REPEATED SO IT DOES ADDITIONS	
-				last = _says.LastOrDefault(x => !x.Figure.CanBeRepeated);
-				int addFromPoints;
+				last = _says.LastOrDefault(x => !x.Figure.UsingAlternative);
+				int result;
 				int startIndex;
 
 				if (last == null)
 				{
-					addFromPoints = 0;
+					result = 0;
 					startIndex = 0;
 				}
 				else
 				{
-					addFromPoints = last.Figure.PointsBet;
+					result = last.Figure.PointsBet;
 					startIndex = _says.IndexOf(last)+1;
 					
 				}
 				for (int idx = startIndex; idx < _says.Count; idx++)
 				{
-					addFromPoints += _says[idx].Figure.PointsBet;
+					IFigure figure = _says[idx].Figure;
+					result += figure.PointsBet;
 				}
-				return addFromPoints;
+				return result;
 			}
 		}
 

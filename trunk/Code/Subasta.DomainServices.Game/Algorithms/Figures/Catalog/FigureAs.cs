@@ -5,23 +5,27 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal class FigureAs : Figure
 	{
-		public override bool CanBeRepeated
+		protected override bool HasAlternativeSay
 		{
 			get { return true; }
 		}
-		public override SayKind Say
+		
+		protected override  SayKind AlternativeSay
 		{
-			get { return SayKind.Una; }
+			get { return SayKind.UnaMas; }
 		}
 
-		public override SayKind AlternativeSay { get { return SayKind.UnaMas; } }
-
-		public override int PointsBet
+		protected override int AlternativePointsBet
 		{
 			get { return 1; }
 		}
 
-		public override int AlternativePointsBet
+		protected override SayKind PrimarySay
+		{
+			get { return SayKind.Una; }
+		}
+
+		protected override int PrimaryPointsBet
 		{
 			get { return 1; }
 		}

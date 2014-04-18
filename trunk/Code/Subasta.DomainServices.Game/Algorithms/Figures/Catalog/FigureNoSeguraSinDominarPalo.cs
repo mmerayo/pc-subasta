@@ -4,12 +4,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal class FigureNoSeguraSinDominarPalo : FigureParejaNoSegura
 	{
-		public override int PointsBet
+		protected override int PrimaryPointsBet
 		{
 			get { return 8; }
 		}
 
-		public override SayKind Say
+		protected override SayKind PrimarySay
 		{
 			get { return SayKind.Ocho; }
 		}

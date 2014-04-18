@@ -110,7 +110,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public int GetMaxExplorationFor(int turnTeam,int minNumberExplorations)
 		{
-			while(_roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<minNumberExplorations))
+			DateTime limit = DateTime.UtcNow.AddSeconds(5);
+			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<minNumberExplorations))
 				Thread.Sleep(250);
 
 			return

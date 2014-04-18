@@ -6,16 +6,16 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	internal class FigureTreses : Figure
 	{
-		public override bool CanBeRepeated
+		protected override bool HasAlternativeSay
 		{
 			get { return false; }
 		}
-		public override SayKind Say
+		protected override SayKind PrimarySay
 		{
 			get { return SayKind.Siete; }
 		}
 
-		public override SayKind AlternativeSay
+		protected override SayKind AlternativeSay
 		{
 			get
 			{
@@ -23,12 +23,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 
-		public override int PointsBet
+		protected override int PrimaryPointsBet
 		{
 			get { return 7; }
 		}
 
-		public override int AlternativePointsBet
+		protected override int AlternativePointsBet
 		{
 			get
 			{

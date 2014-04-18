@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Rhino.Mocks;
@@ -27,8 +24,9 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 		}
 
 		[TestCaseSource("Can_Get_PointsBet_CaseSources")]
-		public int Can_Get_PointsBet(List<Tuple<int,IFigure>> says)
+		public int Can_Get_PointsBet(int id, List<Tuple<int,IFigure>> says)
 		{
+			Console.WriteLine("Id:{0}",id);
 			_context.WithSays(says);
 
 			return _context.Sut.PointsBet;
@@ -43,13 +41,13 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				new Tuple<int,IFigure>(2,new FigureTreses()),
 				new Tuple<int,IFigure>(3,new FigurePaloCorrido())
 			};
-			yield return new TestCaseData(says).Returns(9);
+			yield return new TestCaseData(10,says).Returns(9);
 			says = new List<Tuple<int, IFigure>>
 			{
 				new Tuple<int,IFigure>(1,new FigurePaso()),
 				new Tuple<int,IFigure>(2,new FigureTreses())
 			};
-			yield return new TestCaseData(says).Returns(7);
+			yield return new TestCaseData(20,says).Returns(7);
 			//with all repeatables
 			says = new List<Tuple<int, IFigure>>
 			{
@@ -57,7 +55,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				new Tuple<int,IFigure>(2,new FigureAs()),
 				
 			};
-			yield return new TestCaseData(says).Returns(2);
+			yield return new TestCaseData(30,says).Returns(2);
 
 			//with all repeatables adding alternate points
 			says = new List<Tuple<int, IFigure>>
@@ -66,7 +64,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				new Tuple<int,IFigure>(2,new FigureAs()),
 				new Tuple<int,IFigure>(3,new FigureParejaSegura())
 			};
-			yield return new TestCaseData(says).Returns(3);
+			yield return new TestCaseData(40,says).Returns(3);
 
 			//with some repeatables
 
@@ -77,7 +75,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				new Tuple<int,IFigure>(2,new FigureAs()),
 				new Tuple<int,IFigure>(3,new FigurePaloCorrido())
 			};
-			yield return new TestCaseData(says).Returns(9);
+			yield return new TestCaseData(50,says).Returns(9);
 		}
 
 		private class TestContext
@@ -102,8 +100,12 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 
 			public TestContext WithSays(IEnumerable<Tuple<int, IFigure>> says)
 			{
+			
 				foreach (var tuple in says)
+				{
+					tuple.Item2.IsAvailable(Sut, 25);
 					Sut.Add(tuple.Item1,tuple.Item2);
+				}
 				return this;
 			}
 		}

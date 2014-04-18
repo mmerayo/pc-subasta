@@ -37,7 +37,13 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 		public ICard[] MarkedCards { get{return new ICard[0];} }
-		public bool CanBeRepeated { get { return false; } }
+
+		public bool UsingAlternative
+		{
+			get { return false; }
+		}
+
+		public bool HasAlternativeSay { get { return false; } }
 
 		public bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
 		{
