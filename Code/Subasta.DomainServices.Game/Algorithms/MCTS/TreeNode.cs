@@ -28,8 +28,21 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				{
 					int sum = _ocurrences.Keys.Where(x => x >= points).Sum(key => _ocurrences[key]);
 
-					double d = ((double)sum/(double)NumberVisits);
-					return d*100;
+					return ((double)sum/(double)NumberVisits);
+				}
+			}
+
+			public int GetMaxPointsWithMinimumChances(double percentaje)
+			{
+				lock (this)
+				{
+					var candidates = new List<int>(25);
+					for (int i = 0; i < 25; i++)
+					{
+						if (PercentageChancesOfMaking(i) > percentaje)
+							candidates.Add(i);
+					}
+					return candidates.Max()*10;
 				}
 			}
 

@@ -197,6 +197,11 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
+		public int OtherTeam
+		{
+			get { return TurnTeam == 1 ? 2 : 1; }
+		}
+
 		public ISaysStatus Clone()
 		{
 //TODO:

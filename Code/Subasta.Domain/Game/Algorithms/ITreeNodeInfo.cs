@@ -9,5 +9,6 @@ namespace Subasta.Domain.Game.Algorithms
 		int NumberVisits { get; }
 
 		double PercentageChancesOfMaking(int points);
+		int GetMaxPointsWithMinimumChances(double percentaje);
 	}
 }
