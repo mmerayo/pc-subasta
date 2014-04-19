@@ -20,7 +20,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private const int ROOT_BASTOS = 3;
 		private readonly object _rootLocker = new object();
 		private TreeNode[] _roots;
+		private IApplicationEventsExecutor _eventsExecutor;
 
+		public MctsSaysRunner(IApplicationEventsExecutor eventsExecutor)
+		{
+			_eventsExecutor = eventsExecutor;
+		}
 
 		public void Start(ISaysStatus sourceStatus)
 		{
@@ -50,7 +55,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			Task.Factory.StartNew(() =>
 								  {
 								  TreeNode root = _roots[rootIdx];
-
+								  Thread.CurrentThread.Name = string.Format("MctsSaysRunner - {0}", root.ExplorationStatus.Trump.Name);
 									int count = 0;
 									while (true)
 									{
@@ -112,7 +117,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			DateTime limit = DateTime.UtcNow.AddSeconds(5);
 			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<minNumberExplorations))
+			{
 				Thread.Sleep(250);
+				_eventsExecutor.Execute();
+			}
 
 			return
 				(int)

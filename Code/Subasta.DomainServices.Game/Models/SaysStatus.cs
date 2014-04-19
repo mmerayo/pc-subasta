@@ -40,7 +40,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public SaysStatus(IExplorationStatus status, int firstPlayer)
 		{
-			_status = status.Clone();
+			_status = status;
 			_status.LogicalComplete = false;
 			_firstPlayer = firstPlayer;
 			_cardsP1 = SayCard.FromCards(status.PlayerCards(1));

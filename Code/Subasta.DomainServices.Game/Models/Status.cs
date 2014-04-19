@@ -134,7 +134,7 @@ namespace Subasta.DomainServices.Game.Models
 	                || hand.Declaration.HasValue
 	                || Hands.Any(x => x.Declaration == Declaration.Reyes || x.Declaration == Declaration.Caballos))
 	                return new Declaration[0];
-                if(Hands.Count>1 && !Hands[0].Declaration.HasValue)
+                if(Hands.Count>1 && !Hands[1].IsEmpty && !Hands[0].Declaration.HasValue )
                     return new Declaration[0];
 	            var candidates = GetDeclarationCandidates();
 	            //havent been applied yet 
