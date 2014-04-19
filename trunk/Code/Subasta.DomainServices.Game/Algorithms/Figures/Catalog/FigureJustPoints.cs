@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -12,7 +9,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		private readonly int _points;
 		public FigureJustPoints(int points)
 		{
+			if(points<0 || points>250)
+				throw new ArgumentOutOfRangeException("points","[0-250]");
+
 			_points = (int) Math.Truncate((double) (points/10));
+			
 		}
 
 		public SayKind Say

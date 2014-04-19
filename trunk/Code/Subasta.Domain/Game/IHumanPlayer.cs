@@ -14,5 +14,6 @@ namespace Subasta.Domain.Game
 		event MoveSelectionNeeded SelectMove;
 		event DeclarationSelectionNeeded SelectDeclaration;
 		event SayNeededEvent SelectSay;
+		event TrumpNeededEvent ChooseTrumpRequest;
 	}
 }

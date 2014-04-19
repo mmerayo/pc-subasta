@@ -22,5 +22,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			for (int i = 0; i < 3; i++) //hay 4 ases
 				_figures.Add(new FigureAs());
 		}
+
+		public IFigure Get(int points)
+		{
+			if(points==0)
+				return new FigurePaso();
+			return new FigureJustPoints(points*10);
+		}
 	}
 }

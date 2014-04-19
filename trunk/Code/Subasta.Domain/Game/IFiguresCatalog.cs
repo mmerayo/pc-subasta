@@ -6,5 +6,6 @@ namespace Subasta.Domain.Game
 	{
 		IEnumerable<IFigure> Figures { get; }
 		void Init();
+		IFigure Get(int points);
 	}
 }
