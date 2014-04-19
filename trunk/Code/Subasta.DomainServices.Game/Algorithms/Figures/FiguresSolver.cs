@@ -23,7 +23,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			int maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam, minVisits);
 
 			IEnumerable<IFigure> candidates = GetCandidateFigures(saysStatus, maxCurrentExploration);
-
+			_saysSimulator.UpdateExplorationListeners();
 			return Resolve(candidates, maxCurrentExploration, saysStatus);
 		}
 

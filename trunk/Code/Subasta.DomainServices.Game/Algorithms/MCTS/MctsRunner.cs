@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using StructureMap;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Domain.Game.Algorithms;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {

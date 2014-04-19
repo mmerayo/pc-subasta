@@ -1,5 +1,6 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
+using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
 
 namespace Analyzer
@@ -10,6 +11,9 @@ namespace Analyzer
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
 			For<FrmExplorationStatus>().Singleton().Use<FrmExplorationStatus>();
+			For<FrmGameExplorationAnalyzer>().Use<FrmGameExplorationAnalyzer>();
+
+			For<ISaysExplorationListener>().Singleton().Use<ExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
 		}
 	}
