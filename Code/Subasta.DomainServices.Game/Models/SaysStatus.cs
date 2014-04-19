@@ -53,10 +53,11 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			get
 			{
-				return (_says.Count(x => x.Figure.Say == SayKind.Paso) == 3 && _says.Count > 3 &&
-				       _says.Last().Figure.Say != SayKind.Paso) 
-					   ||
-					   (_says.Count(x => x.Figure.Say == SayKind.Paso) == 4 && _says.Count == 4 );
+				if(_says.Count(x => x.Figure.Say == SayKind.Paso) == 4 && _says.Count == 4 )
+					return true;
+
+
+				return _says.Count(x => x.Figure.Say == SayKind.Paso) == 3 && Says.Count>3;
 			}
 		}
 
@@ -115,7 +116,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int PlayerBets
 		{
-			get { return _says.Last().PlayerNum; }
+			get { return _says.Last(x=>x.Figure.Say != SayKind.Paso).PlayerNum; }
 		}
 
 		public int PointsBet

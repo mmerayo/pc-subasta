@@ -254,7 +254,7 @@ namespace Analyzer
 				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty,
 				                                                                                                (current, source) =>
 				                                                                                                current + source);
-				lblTeamWins.Text = string.Format("Team Winner: {0} - Points Bet:{1}", status.TeamWinner.ToString(),status.PointsBet);
+				lblTeamWins.Text = string.Format("Team Bets: {2} - Points Bet:{1} - Team Winner: {0}", status.TeamWinner.ToString(), status.PointsBet,status.TeamBets);
 
 				
 			}
