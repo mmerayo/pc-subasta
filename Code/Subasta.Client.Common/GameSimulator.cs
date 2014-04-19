@@ -11,7 +11,6 @@ namespace Subasta.Client.Common
 	public class GameSimulator : IGameSimulator
 	{
 		private readonly IGame _game;
-		private readonly IDeck _deck;
 		private readonly IPlayerFactory _playerFactory;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private IExplorationStatus _status;
@@ -26,14 +25,14 @@ namespace Subasta.Client.Common
 		public event StatusChangedHandler GameCompleted;
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
+		public event SayNeededEvent HumanPlayerSayNeeded;
+		public event TrumpNeededEvent HumanPlayerTrumpNeeded;
 		public event InputRequestedHandler InputRequested;
-		public ISaysStatus _saysStatus;
-		private Stopwatch _perMoveWatcher;
+		private ISaysStatus _saysStatus;
 
-		public GameSimulator(IGame game, IDeck deck,IPlayerFactory playerFactory)
+		public GameSimulator(IGame game, IPlayerFactory playerFactory)
 		{
 			_game = game;
-			_deck = deck;
 			_playerFactory = playerFactory;
 		}
 		
@@ -143,6 +142,8 @@ namespace Subasta.Client.Common
 					var humanPlayer = (IHumanPlayer)player;
 					humanPlayer.SelectMove += GameSimulator_SelectMove;
 					humanPlayer.SelectDeclaration += humanPlayer_SelectDeclaration;
+					humanPlayer.SelectSay += humanPlayer_SelectSay;
+					humanPlayer.ChooseTrumpRequest+=humanPlayer_ChooseTrumpRequest;
 				}
 			}
 
@@ -152,12 +153,20 @@ namespace Subasta.Client.Common
 			TeamBets = storedGame.TeamBets;
 		}
 
+		private ISuit humanPlayer_ChooseTrumpRequest(IHumanPlayer source)
+		{
+			return OnTrumpSelectionNeeded(source);
+		}
+
+		IFigure humanPlayer_SelectSay(IHumanPlayer source)
+		{
+			return OnSaySelectionNeeded(source);
+		}
+
 		Declaration? humanPlayer_SelectDeclaration(IHumanPlayer source, Declaration[] availableDeclarations)
 		{
 			return OnDeclarationSelectionNeeded(source, availableDeclarations);
 		}
-
-		
 
 		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves)
 		{
@@ -168,14 +177,28 @@ namespace Subasta.Client.Common
 		{
 			if (HumanPlayerDeclarationSelectionNeeded != null)
 				return HumanPlayerDeclarationSelectionNeeded(source, availableDeclarations);
-			throw new InvalidOperationException("Subscription is needed");
+			throw new InvalidOperationException("Subscription is mandatory");
 		}
 
 		private ICard OnMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
 		{
 			if (HumanPlayerMoveSelectionNeeded != null)
 				return HumanPlayerMoveSelectionNeeded(source, validMoves);
-			throw new InvalidOperationException("Subscription is needed");
+			throw new InvalidOperationException("Subscription is mandatory");
+		}
+
+		private IFigure OnSaySelectionNeeded(IHumanPlayer source)
+		{
+			if (HumanPlayerSayNeeded != null)
+				return HumanPlayerSayNeeded(source);
+			throw new InvalidOperationException("Subscription is mandatory");
+		}
+
+		private ISuit OnTrumpSelectionNeeded(IHumanPlayer source)
+		{
+			if (HumanPlayerTrumpNeeded != null)
+				return HumanPlayerTrumpNeeded(source);
+			throw new InvalidOperationException("Subscription is mandatory");
 		}
 
 		public bool IsFinished { get; set; }

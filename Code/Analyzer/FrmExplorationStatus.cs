@@ -16,16 +16,18 @@ namespace Analyzer
 		private PictureBox[][] _pbCards = new PictureBox[4][];
 
 		private readonly IGameSimulator _gameSimulator;
+		private readonly IFiguresCatalog _figuresCatalog;
 		private DataTable _tableStatus;
 		private DataTable _tableSaysStatus;
 
-		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck)
+		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck,IFiguresCatalog figuresCatalog)
 		{
 			InitializeComponent();
 			LoadImages(deck);
 			LoadPictureBoxControls();
 			_gameSimulator = gameSimulator;
-			
+			_figuresCatalog = figuresCatalog;
+
 			SubscribeToGameEvents();
 
 
@@ -45,13 +47,57 @@ namespace Analyzer
 
 			_gameSimulator.HumanPlayerMoveSelectionNeeded += _gameSimulator_HumanPlayerMoveSelectionNeeded;
 			_gameSimulator.HumanPlayerDeclarationSelectionNeeded += _gameSimulator_HumanPlayerDeclarationSelectionNeeded;
-
+			_gameSimulator.HumanPlayerSayNeeded += _gameSimulator_HumanPlayerSayNeeded;
+			_gameSimulator.HumanPlayerTrumpNeeded += _gameSimulator_HumanPlayerTrumpNeeded;
 			_gameSimulator.GameSaysStarted += _gameSimulator_GameSaysStarted;
 			_gameSimulator.GameSaysCompleted += _gameSimulator_GameSaysCompleted;
 			_gameSimulator.GameSaysStatusChanged += _gameSimulator_GameSaysStatusChanged;
 		}
 
-		
+		ISuit _gameSimulator_HumanPlayerTrumpNeeded(IHumanPlayer source)
+		{
+			ISuit result;
+			DialogResult dialogResult;
+			string stringResult;
+			do
+			{
+				dialogResult = InputBox.Show(string.Format("Select trump {0}", source.Name), "Values:[O-C-E-B]", out stringResult);
+				try
+				{
+					result = Suit.FromId(stringResult[0]);
+				}
+				catch
+				{
+					result = null;
+				}
+			} while (dialogResult != DialogResult.OK || result == null);
+
+			return result;
+
+		}
+
+		IFigure _gameSimulator_HumanPlayerSayNeeded(IHumanPlayer source)
+		{
+			IFigure result;
+			DialogResult dialogResult;
+			string stringResult;
+			do
+			{
+				dialogResult = InputBox.Show(string.Format("Select points {0}", source.Name), "Values:[0-25]", out stringResult);
+				try
+				{
+					result = _figuresCatalog.Get(int.Parse(stringResult));
+				}
+				catch
+				{
+					result = null;
+				}
+			} while (dialogResult != DialogResult.OK || result == null);
+
+			return result;
+		}
+
+
 		Declaration? _gameSimulator_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
 		{
 			string declarations = string.Join("-", availableDeclarations.Select(x => x.ToString()));
@@ -254,7 +300,7 @@ namespace Analyzer
 				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty,
 				                                                                                                (current, source) =>
 				                                                                                                current + source);
-				lblTeamWins.Text = string.Format("Team Bets: {2} - Points Bet:{1} - Team Winner: {0}", status.TeamWinner.ToString(), status.PointsBet,status.TeamBets);
+				lblTeamWins.Text = string.Format("Trump: {3} - Team Bets: {2} - Points Bet:{1} - Team Winner: {0}", status.TeamWinner.ToString(), status.PointsBet,status.TeamBets,status.Trump);
 
 				
 			}
