@@ -9,10 +9,10 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	class FigureJustPoints:IFigure
 	{
-		private int _points;
-		public FigureJustPoints(int topPoints)
+		private readonly int _points;
+		public FigureJustPoints(int points)
 		{
-			_points = (int) Math.Truncate((double) (topPoints/10));
+			_points = (int) Math.Truncate((double) (points/10));
 		}
 
 		public SayKind Say

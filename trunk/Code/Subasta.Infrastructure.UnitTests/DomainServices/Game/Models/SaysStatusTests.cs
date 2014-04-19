@@ -78,6 +78,60 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 			yield return new TestCaseData(50,says).Returns(9);
 		}
 
+		[TestCaseSource("Can_Get_IsCompleted_CaseSources")]
+		public bool Can_Get_IsCompleted(int id, List<Tuple<int, IFigure>> says)
+		{
+			Console.WriteLine("Id:{0}", id);
+			_context.WithSays(says);
+
+			return _context.Sut.IsCompleted;
+		}
+
+		public static IEnumerable Can_Get_IsCompleted_CaseSources()
+		{
+		//incompleta
+		var says = new List<Tuple<int, IFigure>>
+			           {
+			           	new Tuple<int, IFigure>(1, new FigurePaso()),
+			           	new Tuple<int, IFigure>(2, new FigurePaso()),
+			           	new Tuple<int, IFigure>(3, new FigurePaso())
+			           };
+			yield return new TestCaseData(5, says).Returns(false);
+
+			//todos pasan
+			 says = new List<Tuple<int, IFigure>>
+			           {
+			           	new Tuple<int, IFigure>(1, new FigurePaso()),
+			           	new Tuple<int, IFigure>(2, new FigurePaso()),
+			           	new Tuple<int, IFigure>(3, new FigurePaso()),
+						new Tuple<int, IFigure>(4, new FigurePaso())
+			           };
+			yield return new TestCaseData(10, says).Returns(true);
+
+			//todos pasan el ultimo cierra
+			 says = new List<Tuple<int, IFigure>>
+			           {
+			           	new Tuple<int, IFigure>(1, new FigurePaso()),
+			           	new Tuple<int, IFigure>(2, new FigurePaso()),
+			           	new Tuple<int, IFigure>(3, new FigurePaso()),
+						new Tuple<int, IFigure>(4, new FigureJustPoints(11))
+			           };
+			yield return new TestCaseData(20, says).Returns(true);
+
+			//el ultimo antes de pasar queda
+			says = new List<Tuple<int, IFigure>>
+			           {
+			           	new Tuple<int, IFigure>(1, new FigurePaso()),
+			           	new Tuple<int, IFigure>(2, new FigurePaso()),
+			           	new Tuple<int, IFigure>(3, new FigureJustPoints(10)),
+						new Tuple<int, IFigure>(4, new FigureJustPoints(11)),
+						new Tuple<int, IFigure>(3, new FigurePaso())
+			           };
+			yield return new TestCaseData(30, says).Returns(true);
+
+		}
+
+
 		private class TestContext
 		{
 			IFixture _fixture=new Fixture().Customize(new SubastaAutoFixtureCustomizations());
