@@ -114,8 +114,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
-		public int GetMaxExplorationFor(int teamNumber,int minNumberExplorations)
+		public int GetMaxExplorationFor(int teamNumber, int minNumberExplorations, double maxRiskPercentage)
 		{
+			//ensure explorations
 			DateTime limit = DateTime.UtcNow.AddSeconds(5);
 			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(teamNumber).NumberVisits<minNumberExplorations))
 			{
@@ -123,10 +124,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				_eventsExecutor.Execute();
 			}
 
-			return
-				(int)
-					Math.Truncate(
-						_roots.Select(x => x.GetNodeInfo(teamNumber).AvgPoints).OrderByDescending(x => x).First());
+
+			//gets the max points in all suits while the percentage of success is higher than the specified
+			IEnumerable<int> candidates = _roots.Select(x => x.GetNodeInfo(teamNumber).GetMaxPointsWithMinimumChances(maxRiskPercentage));
+			return candidates.Max();
+
+			//return
+			//    (int)
+			//        Math.Truncate(
+			//            _roots.Select(x => x.GetNodeInfo(teamNumber).AvgPoints).OrderByDescending(x => x).First());
 		}
 
 		public void UpdateExplorationListeners()

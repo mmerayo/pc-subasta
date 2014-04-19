@@ -19,18 +19,17 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
 		{
+			//TODO: CONFIGURABLE
+	
 			int minVisits = (saysStatus.Says.Count(x => x.PlayerNum == saysStatus.Turn) + 1)*3000;
-			int maxCurrentExploration = GetMaxCurrentExploration(saysStatus.TurnTeam, minVisits);
+			int maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, 0.2);
 
 			IEnumerable<IFigure> candidates = GetCandidateFigures(saysStatus, maxCurrentExploration);
 			_saysSimulator.UpdateExplorationListeners();
 			return Resolve(candidates, maxCurrentExploration, saysStatus);
 		}
 
-		private int GetMaxCurrentExploration(int turnTeam, int minNumberExplorations)
-		{
-			return _saysSimulator.GetMaxExplorationFor(turnTeam, minNumberExplorations);
-		}
+	
 
 		private IFigure Resolve(IEnumerable<IFigure> candidates, int topPoints, ISaysStatus saysStatus)
 		{
@@ -93,7 +92,36 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			_figuresCatalog.Init();
 			IEnumerable<IFigure> figures = _figuresCatalog.Figures;
 			var candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
-			
+
+			//only paso and can bet
+			if (candidateFigures.Count == 1 && candidateFigures[0].Say == SayKind.Paso &&
+			    saysStatus.PointsBet + 1 <= normalizedTopPoints)
+			{
+				//if the other team wont reach the normalized top points block them by taking their bet otherwise use current max
+				int maxOtherTeam = _saysSimulator.GetMaxExplorationFor(saysStatus.OtherTeam, 0, 0.1)/10;
+				int points;
+				if (maxOtherTeam < normalizedTopPoints)
+				{
+					int maxConservative = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, 0, 0.4) / 10;
+
+					if (saysStatus.PointsBet + 1 <= maxOtherTeam)
+					//chooses max between other and a more conservative max as It does not need to be pushed
+						{
+						points = new[] { maxOtherTeam, maxConservative }.Max();
+						}
+					else
+					{
+						points = maxConservative;
+					}
+
+				}
+				else 
+					points = normalizedTopPoints;
+				
+				IFigure figure = _figuresCatalog.Get(points);
+				candidateFigures.Add(figure);
+			}
+
 			return candidateFigures;
 		}
 	}

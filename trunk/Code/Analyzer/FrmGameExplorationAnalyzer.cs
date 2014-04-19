@@ -45,12 +45,12 @@ namespace Analyzer
 			{
 				var dataTable = new DataTable();
 				dataTable.Columns.Add("Points", typeof (int));
-				dataTable.Columns.Add("Percentage", typeof(double));
+				dataTable.Columns.Add("Percentage", typeof(string));
 
 				for (int i = 0; i <= 25; i++)
 				{
 					double percent = source.PercentageChancesOfMaking(i);
-					dataTable.Rows.Add(i, percent);
+					dataTable.Rows.Add(i, percent.ToString("P"));
 				}
 
 				return dataTable;
