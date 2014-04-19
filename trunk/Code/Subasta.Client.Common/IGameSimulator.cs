@@ -32,5 +32,7 @@ namespace Subasta.Client.Common
 
 		event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
+		event SayNeededEvent HumanPlayerSayNeeded;
+		event TrumpNeededEvent HumanPlayerTrumpNeeded;
 	}
 }
