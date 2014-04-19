@@ -110,7 +110,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		private ISaysStatus GetInitialSaysStatus()
 		{
-			return new SaysStatus(_status,FirstPlayer);
+			return new SaysStatus(_status.Clone(),FirstPlayer);
 		}
 
 		public void StartGame()
@@ -132,15 +132,19 @@ namespace Subasta.DomainServices.Game.Players
 				OnSaysStatusChanged();
 			}
 
-			_status.SetPlayerBet(_saysStatus.PlayerBets, _saysStatus.PointsBet*10);
-			ISuit chooseTrump = _players[_saysStatus.PlayerBets - 1].ChooseTrump(_saysStatus);
+			int playerBets = _saysStatus.PlayerBets;
+			ISuit chooseTrump = _players[playerBets - 1].ChooseTrump(_saysStatus);
+			int pointsBet = _saysStatus.PointsBet*10;
+
+			_status.SetPlayerBet(playerBets, pointsBet);
 			_status.SetTrump(chooseTrump);
-			var result=_saysRunner.GetRoot(chooseTrump);
-			
+
+			var result = (TreeNode)_saysRunner.GetRoot(chooseTrump);
 			_saysRunner.Reset(result);
+
 			OnSaysCompleted();
 
-			return (TreeNode) result;
+			return  result;
 		}
 
 
@@ -156,6 +160,11 @@ namespace Subasta.DomainServices.Game.Players
 
 		private void RunGame(TreeNode root)
 		{
+			//TODO: not using this until the root can be reused in the game
+			root.Dispose();
+			root = null;
+			//TODO:end TODO
+
 			AiSimulator.Start(_status,root);
 			OnGameStarted();
 			while (!_status.IsCompleted)

@@ -37,6 +37,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 			Task.Factory.StartNew(() =>
 			                      {
+								  Thread.CurrentThread.Name = "MctsRunner";
 			                      	int count = 0;
 			                      	while (true)
 			                      	{

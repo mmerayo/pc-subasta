@@ -47,6 +47,7 @@
 			this.lblPointsT2 = new System.Windows.Forms.Label();
 			this.lblPointsT1 = new System.Windows.Forms.Label();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.lblTeamWins = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
 			this.grpStatus.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -170,11 +171,12 @@
 			this.tabControl1.Location = new System.Drawing.Point(12, 11);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(742, 580);
+			this.tabControl1.Size = new System.Drawing.Size(742, 678);
 			this.tabControl1.TabIndex = 2;
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.lblTeamWins);
 			this.tabPage2.Controls.Add(this.dgvSaysStatus);
 			this.tabPage2.Controls.Add(this.lblDeclarations);
 			this.tabPage2.Controls.Add(this.lblPointsT2);
@@ -183,7 +185,7 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(734, 554);
+			this.tabPage2.Size = new System.Drawing.Size(734, 652);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Simulation";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -201,7 +203,7 @@
 			// lblDeclarations
 			// 
 			this.lblDeclarations.AutoSize = true;
-			this.lblDeclarations.Location = new System.Drawing.Point(509, 530);
+			this.lblDeclarations.Location = new System.Drawing.Point(9, 556);
 			this.lblDeclarations.Name = "lblDeclarations";
 			this.lblDeclarations.Size = new System.Drawing.Size(13, 13);
 			this.lblDeclarations.TabIndex = 3;
@@ -210,7 +212,7 @@
 			// lblPointsT2
 			// 
 			this.lblPointsT2.AutoSize = true;
-			this.lblPointsT2.Location = new System.Drawing.Point(19, 530);
+			this.lblPointsT2.Location = new System.Drawing.Point(9, 543);
 			this.lblPointsT2.Name = "lblPointsT2";
 			this.lblPointsT2.Size = new System.Drawing.Size(13, 13);
 			this.lblPointsT2.TabIndex = 2;
@@ -219,7 +221,7 @@
 			// lblPointsT1
 			// 
 			this.lblPointsT1.AutoSize = true;
-			this.lblPointsT1.Location = new System.Drawing.Point(223, 530);
+			this.lblPointsT1.Location = new System.Drawing.Point(6, 530);
 			this.lblPointsT1.Name = "lblPointsT1";
 			this.lblPointsT1.Size = new System.Drawing.Size(16, 13);
 			this.lblPointsT1.TabIndex = 1;
@@ -235,6 +237,15 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Configuration";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// lblTeamWins
+			// 
+			this.lblTeamWins.AutoSize = true;
+			this.lblTeamWins.Location = new System.Drawing.Point(9, 569);
+			this.lblTeamWins.Name = "lblTeamWins";
+			this.lblTeamWins.Size = new System.Drawing.Size(13, 13);
+			this.lblTeamWins.TabIndex = 5;
+			this.lblTeamWins.Text = "d";
 			// 
 			// FrmExplorationStatus
 			// 
@@ -281,5 +292,6 @@
 		private System.Windows.Forms.Label lblPointsT1;
 		private System.Windows.Forms.Label lblDeclarations;
 		private System.Windows.Forms.DataGridView dgvSaysStatus;
+		private System.Windows.Forms.Label lblTeamWins;
 		}
 	}

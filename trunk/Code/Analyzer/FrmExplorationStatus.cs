@@ -151,6 +151,7 @@ namespace Analyzer
 
 		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
 		{
+			PaintCards(status);
 			_tableStatus.Rows.Clear();
 
 			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
@@ -253,7 +254,9 @@ namespace Analyzer
 				lblDeclarations.Text = status.Hands.Select(x => x.Declaration).Where(x => x.HasValue).Aggregate(string.Empty,
 				                                                                                                (current, source) =>
 				                                                                                                current + source);
+				lblTeamWins.Text = string.Format("Team Winner: {0} - Points Bet:{1}", status.TeamWinner.ToString(),status.PointsBet);
 
+				
 			}
 			Application.DoEvents();
 		}
