@@ -6,18 +6,10 @@ using System.Runtime;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Domain.Game.Algorithms;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
-	internal interface ITreeNodeInfo
-	{
-		double Coeficient { get; }
-
-		double TotalValue { get; }
-		double AvgPoints { get; }
-		int NumberVisits { get; }
-	}
-
 	internal sealed class TreeNode : IDisposable
 	{
 		private class TreeNodeInfo : ITreeNodeInfo
@@ -27,9 +19,37 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				get { return TotalValue/NumberVisits; }
 			}
 
-			public double TotalValue { get; set; }
-			public double AvgPoints { get; set; }
-			public int NumberVisits { get; set; }
+			public double TotalValue { get; private set; }
+			public double AvgPoints { get; private set; }
+			public int NumberVisits { get; private set; }
+			public double PercentageChancesOfMaking(int points)
+			{
+				lock(this)
+				{
+					int sum = _ocurrences.Keys.Where(x => x >= points).Sum(key => _ocurrences[key]);
+
+					double d = ((double)sum/(double)NumberVisits);
+					return d*100;
+				}
+			}
+
+			private readonly Dictionary<int,int> _ocurrences=new Dictionary<int, int>();  
+			
+			public void RecordExploration(int points, double value)
+			{
+			lock (this)
+			{
+				NumberVisits++;
+				TotalValue += value;
+				AvgPoints = (AvgPoints + points)/2;
+
+				var normalizedPoints = (int) Math.Truncate((double) (points/10));
+				if (!_ocurrences.ContainsKey(normalizedPoints))
+					_ocurrences.Add(normalizedPoints, 0);
+
+				_ocurrences[normalizedPoints] = _ocurrences[normalizedPoints] + 1;
+			}
+			}
 		}
 
 		private static readonly Random _random = new Random((int) DateTime.UtcNow.Ticks);
@@ -292,9 +312,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			lock (_syncLock)
 			{
 				TreeNodeInfo treeNodeInfo = _nodeInfos[teamNumber - 1];
-				treeNodeInfo.NumberVisits++;
-				treeNodeInfo.TotalValue += value;
-				treeNodeInfo.AvgPoints = (treeNodeInfo.AvgPoints + points)/2;
+				treeNodeInfo.RecordExploration(points,value);
+				
 			}
 		}
 

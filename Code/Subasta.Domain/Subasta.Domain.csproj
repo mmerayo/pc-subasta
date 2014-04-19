@@ -47,6 +47,7 @@
     <Compile Include="Deck\ISayCard.cs" />
     <Compile Include="Deck\ISuit.cs" />
     <Compile Include="Declaration.cs" />
+    <Compile Include="Game\Analysis\ISaysExplorationListener.cs" />
     <Compile Include="Game\IExplorationStatus.cs" />
     <Compile Include="Game\IFigure.cs" />
     <Compile Include="Game\IFiguresCatalog.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Game\IMctsPlayer.cs" />
     <Compile Include="Game\ISaysStatus.cs" />
     <Compile Include="Game\IPlayer.cs" />
+    <Compile Include="Game\Algorithms\ITreeNodeInfo.cs" />
     <Compile Include="Game\NodeResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

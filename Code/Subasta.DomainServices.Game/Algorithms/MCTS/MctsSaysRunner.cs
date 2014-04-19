@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using StructureMap;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Domain.Game.Analysis;
 using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Algorithms.MCTS
@@ -21,10 +22,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private readonly object _rootLocker = new object();
 		private TreeNode[] _roots;
 		private IApplicationEventsExecutor _eventsExecutor;
+		private readonly ISaysExplorationListener _explorationListener;
 
-		public MctsSaysRunner(IApplicationEventsExecutor eventsExecutor)
+		public MctsSaysRunner(IApplicationEventsExecutor eventsExecutor,ISaysExplorationListener explorationListener)
 		{
 			_eventsExecutor = eventsExecutor;
+			_explorationListener = explorationListener;
 		}
 
 		public void Start(ISaysStatus sourceStatus)
@@ -68,8 +71,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 													return;
 												//Debug.WriteLine("rootIdx: {0} - Visits: team1: {1}, team2: {2}",rootIdx,root.GetNodeInfo(1).NumberVisits,root.GetNodeInfo(2).NumberVisits);
 												root.Select((++count%2) + 1);
-
-
 											}
 										}
 										catch (InsufficientMemoryException)
@@ -113,10 +114,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
-		public int GetMaxExplorationFor(int turnTeam,int minNumberExplorations)
+		public int GetMaxExplorationFor(int teamNumber,int minNumberExplorations)
 		{
 			DateTime limit = DateTime.UtcNow.AddSeconds(5);
-			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(turnTeam).NumberVisits<minNumberExplorations))
+			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(teamNumber).NumberVisits<minNumberExplorations))
 			{
 				Thread.Sleep(250);
 				_eventsExecutor.Execute();
@@ -125,7 +126,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return
 				(int)
 					Math.Truncate(
-						_roots.Select(x => x.GetNodeInfo(turnTeam).AvgPoints).OrderByDescending(x => x).First());
+						_roots.Select(x => x.GetNodeInfo(teamNumber).AvgPoints).OrderByDescending(x => x).First());
+		}
+
+		public void UpdateExplorationListeners()
+		{
+		_explorationListener.Update(Suit.FromId('O'), _roots[ROOT_OROS].GetNodeInfo(1), _roots[ROOT_OROS].GetNodeInfo(2));
+			_explorationListener.Update(Suit.FromId('C'), _roots[ROOT_COPAS].GetNodeInfo(1), _roots[ROOT_COPAS].GetNodeInfo(2));
+			_explorationListener.Update(Suit.FromId('E'), _roots[ROOT_ESPADAS].GetNodeInfo(1), _roots[ROOT_ESPADAS].GetNodeInfo(2));
+			_explorationListener.Update(Suit.FromId('B'), _roots[ROOT_BASTOS].GetNodeInfo(1), _roots[ROOT_BASTOS].GetNodeInfo(2));
 		}
 
 
