@@ -15,12 +15,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.Nueve; }
 		}
 
-		protected override SayKind AlternativeSay
+		protected override SayKind SecondarySay
 		{
 			get { throw new InvalidOperationException();}
 		}
 
-		protected override int AlternativePointsBet
+		protected override int SecondaryPointsBet
 		{
 			get { throw new InvalidOperationException(); }
 		}

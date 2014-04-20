@@ -14,9 +14,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.Cinco; }
 		}
 
-		protected override SayKind AlternativeSay { get { return SayKind.UnaMas; } }
+		protected override SayKind SecondarySay { get { return SayKind.UnaMas; } }
 
-		protected override int AlternativePointsBet
+		protected override int SecondaryPointsBet
 		{
 			get { return 1; }
 		}

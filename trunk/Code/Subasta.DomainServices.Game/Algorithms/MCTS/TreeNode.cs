@@ -16,7 +16,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		{
 			public double Coeficient
 			{
-				get { return TotalValue/NumberVisits; }
+				get { return (double)TotalValue/(double)NumberVisits; }
 			}
 
 			public double TotalValue { get; private set; }
@@ -206,16 +206,16 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 							if (newStatus.CurrentHand.IsEmpty && newStatus.Declarables.Length > 0)
 							{
-								var declarations = newStatus.Declarables;
+								var declarables = newStatus.Declarables;
 
-								foreach (var declaration in declarations)
+								foreach (var declarable in declarables)
 								{
-									newStatus.LastCompletedHand.SetDeclaration(declaration);
+									newStatus.LastCompletedHand.SetDeclaration(declarable);
 									var treeNode = new TreeNode(_candidatesSelector, _candidatePlayer)
 									{
 										CardPlayed = candidate,
 										_explorationStatus = newStatus,
-										DeclarationPlayed = declaration,
+										DeclarationPlayed = declarable,
 										Parent = this
 
 									};
@@ -248,7 +248,6 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				return treeNodes[0];
 
 			int nodeInfoIdx = teamNumber - 1;
-
 			int[] currentVisits = treeNodes.Select(x => x._nodeInfos[nodeInfoIdx].NumberVisits).ToArray();
 			int repeatedCount = 0;
 			while (treeNodes.Any(x => x._nodeInfos[nodeInfoIdx].NumberVisits < 10) && repeatedCount<3)
@@ -268,15 +267,15 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				}
 			}
 
-			var orderByDescending = treeNodes.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].Coeficient).ToList();
-			const double tolerance = 0.0001;
-			if (orderByDescending.Count > 1 &&
-				(Math.Abs(orderByDescending[0]._nodeInfos[nodeInfoIdx].Coeficient -
-						  orderByDescending[1]._nodeInfos[nodeInfoIdx].Coeficient) < tolerance))
-			{
-				var a = new[] {orderByDescending[0], orderByDescending[1]};
-				return a.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints).First();
-			}
+			var orderByDescending = treeNodes.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints).ToList();
+			//const double tolerance = 0.0001;
+			//if (orderByDescending.Count > 1 &&
+			//    (Math.Abs(orderByDescending[0]._nodeInfos[nodeInfoIdx].Coeficient -
+			//              orderByDescending[1]._nodeInfos[nodeInfoIdx].Coeficient) < tolerance))
+			//    {
+			//    var a = new[] { orderByDescending[0], orderByDescending[1] };
+			//    return a.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints).First();
+			//    }
 
 			return orderByDescending.First();
 		   
@@ -328,6 +327,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				treeNodeInfo.RecordExploration(points,value);
 				
 			}
+		}
+
+		public override string ToString()
+		{
+			return string.Format("{0} - {1}", CardPlayed, DeclarationPlayed);
 		}
 
 

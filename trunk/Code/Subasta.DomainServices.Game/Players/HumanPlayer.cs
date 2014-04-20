@@ -29,9 +29,9 @@ namespace Subasta.DomainServices.Game.Players
 			}
 		}
 
-		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
+		public override NodeResult ChooseMove(IExplorationStatus currentStatus, out bool peta)
 		{
-			var onMoveSelectionNeeded = OnMoveSelectionNeeded(currentStatus);
+			var onMoveSelectionNeeded = OnMoveSelectionNeeded(currentStatus,out peta);
 			var status=_candidatePlayer.PlayCandidate(currentStatus, currentStatus.Turn, onMoveSelectionNeeded);
 			
 
@@ -65,13 +65,13 @@ namespace Subasta.DomainServices.Game.Players
 			throw new InvalidOperationException("The event SelectDeclaration on human players need to have one suscriptor");
 		}
 
-		private ICard OnMoveSelectionNeeded(IExplorationStatus currentStatus)
+		private ICard OnMoveSelectionNeeded(IExplorationStatus currentStatus, out bool peta)
 		{
 			if (SelectMove != null)
 			{
 				ICard[] validMoves = _validCardsRule.GetValidMoves(currentStatus.PlayerCards(PlayerNumber),
 				                                                   currentStatus.CurrentHand);
-				return SelectMove(this, validMoves);
+				return SelectMove(this, validMoves,out peta);
 			}
 			throw new InvalidOperationException("The event SelectMove on human players need to have one suscriptor");
 		}

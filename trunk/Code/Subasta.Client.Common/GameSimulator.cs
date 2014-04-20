@@ -168,9 +168,9 @@ namespace Subasta.Client.Common
 			return OnDeclarationSelectionNeeded(source, availableDeclarations);
 		}
 
-		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves)
+		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves, out bool peta)
 		{
-			return OnMoveSelectionNeeded(source,validMoves);
+			return OnMoveSelectionNeeded(source,validMoves, out  peta);
 		}
 
 		private Declaration? OnDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
@@ -180,10 +180,10 @@ namespace Subasta.Client.Common
 			throw new InvalidOperationException("Subscription is mandatory");
 		}
 
-		private ICard OnMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
+		private ICard OnMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
 		{
 			if (HumanPlayerMoveSelectionNeeded != null)
-				return HumanPlayerMoveSelectionNeeded(source, validMoves);
+				return HumanPlayerMoveSelectionNeeded(source, validMoves,out peta);
 			throw new InvalidOperationException("Subscription is mandatory");
 		}
 

@@ -17,7 +17,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get
 			{
 				if(UsingAlternative)
-					return AlternativeSay;
+					return SecondarySay;
 				return PrimarySay;
 			}
 		}
@@ -27,15 +27,15 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get
 			{
 				if (UsingAlternative)
-					return AlternativePointsBet;
+					return SecondaryPointsBet;
 				return PrimaryPointsBet;
 			}
 		}
 
 		protected abstract SayKind PrimarySay { get; }
 
-		protected abstract SayKind AlternativeSay { get; }
-		protected abstract int AlternativePointsBet { get; }
+		protected abstract SayKind SecondarySay { get; }
+		protected abstract int SecondaryPointsBet { get; }
 		protected abstract int PrimaryPointsBet { get; }
 		private readonly List<ISayCard> _potentiallyMarkedCards = new List<ISayCard>();
 
@@ -112,7 +112,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		private int GetPotentialPointsBet(ISaysStatus saysStatus)
 		{
-			return !UsingAlternative ? saysStatus.PointsBet + PointsBet : saysStatus.PointsBet + AlternativePointsBet;
+			return !UsingAlternative ? saysStatus.PointsBet + PointsBet : saysStatus.PointsBet + SecondaryPointsBet;
 		}
 
 

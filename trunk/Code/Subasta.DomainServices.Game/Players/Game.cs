@@ -180,7 +180,8 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			var previousStatus = _status.Clone();
 			var playerMoves = _players[_status.Turn - 1];
-			var result = playerMoves.ChooseMove(_status);
+			bool peta;
+			var result = playerMoves.ChooseMove(_status, out peta);
 
 			//TODO: CREATE USER STATUS AND EXPLORATION STATUS types and encapsulate the logical complete as default
 			_status = result.Status.Clone();
@@ -203,6 +204,11 @@ namespace Subasta.DomainServices.Game.Players
 				previousStatus.CurrentHand.Add(previousStatus.Turn, result.Status.LastCompletedHand.CardsByPlaySequence().Last());
 				var declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 				_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
+			}
+
+			if (peta)
+			{
+				//TODO: EVENT TO just DISPLAY el PETE
 			}
 
 		}

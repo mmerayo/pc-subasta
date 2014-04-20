@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -17,9 +18,26 @@ namespace Subasta.DomainServices.Game.Players
 			FiguresSolver = figuresSolver;
 		}
 
-		public override NodeResult ChooseMove(IExplorationStatus currentStatus)
+		public override NodeResult ChooseMove(IExplorationStatus currentStatus, out bool peta)
 		{
-			return Simulator.GetBest(currentStatus);
+			NodeResult result = Simulator.GetBest(currentStatus);
+
+			ICard card = result.Hands.Last().CardsByPlaySequence().Last(x => x != null);
+			peta = ResolvePete(card,currentStatus);
+
+			return result;
+		}
+
+		private bool ResolvePete(ICard currentCard, IExplorationStatus currentStatus)
+		{
+			//marca que tiene la mas alta del palo que tira
+				//-toma todas las cartas que quedan por jugar del palo
+				//-verifica que es la mayor del palo
+
+			//marca que falla la siguiente
+				//- es la última que le queda del palo y no es triunfo
+
+			return false;
 		}
 
 		public override Domain.Declaration? ChooseDeclaration(IExplorationStatus previousStatus)
