@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.Doce; }
 		}
 
-		protected override SayKind AlternativeSay
+		protected override SayKind SecondarySay
 		{
 			get
 			{
@@ -28,7 +28,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return 12; }
 		}
 
-		protected override int AlternativePointsBet
+		protected override int SecondaryPointsBet
 		{
 			get
 			{

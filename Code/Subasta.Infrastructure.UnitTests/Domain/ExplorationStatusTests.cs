@@ -53,6 +53,23 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 		private static IEnumerable CanResolveDeclarables_TestCases()
 		{
+		//Error found:
+			// la primera hace baza el otro equipo
+			//la segunda hace baza el actual
+		yield return new TestCaseData(600, Copas,
+			new ICard[][]
+			{
+				new[] { new Card(Oros, 2), new Card(Oros, 1), new Card(Oros, 5), new Card(Oros, 6) },
+				new[] { new Card(Copas, 3), new Card(Copas, 2), new Card(Copas, 5), new Card(Copas, 6) },
+				new Card[] {null, null, null, null }
+			},
+			new Declaration?[] { null,null,null },
+			new[] { new Card(Copas, 11), new Card(Copas, 12) },
+			new[] { new Card(Oros, 11), new Card(Oros, 12) },
+			new[] { new Card(Espadas, 11), new Card(Espadas, 1) },
+			new[] { new Card(Bastos, 11), new Card(Bastos, 12) },
+			1).Returns(new Declaration[] {Declaration.Cuarenta });
+
 			//No completed hands
 			yield return new TestCaseData(10, Oros,
 				null,
@@ -66,8 +83,12 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			//No possible declarations
 			yield return new TestCaseData(20, Oros,
-				new ICard[][] {new[] {new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 4), new Card(Oros, 5)}},
-				new Declaration?[] {null},
+				new ICard[][]
+				{
+					new[] {new Card(Oros, 2), new Card(Oros, 3), new Card(Oros, 4), new Card(Oros, 5)},
+					new Card[] {null, null, null, null }
+				},
+				new Declaration?[] {null,null},
 				new[] {new Card(Oros, 11)},
 				new[] {new Card(Copas, 11)},
 				new[] {new Card(Espadas, 11)},
@@ -76,8 +97,12 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			//team player bet = declarable team 1
 			yield return new TestCaseData(30, Bastos,
-				new ICard[][] {new[] {new Card(Oros, 2), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 4)}},
-				new Declaration?[] {null},
+				new ICard[][]
+				{
+					new[] {new Card(Oros, 2), new Card(Oros, 5), new Card(Oros, 6), new Card(Oros, 4)}
+					,new Card[] {null, null, null, null }
+				},
+				new Declaration?[] {null,null},
 				new[] {new Card(Oros, 11), new Card(Oros, 12)},
 				new[] {new Card(Copas, 11), new Card(Copas, 12)},
 				new[] {new Card(Espadas, 11), new Card(Espadas, 12)},
@@ -86,8 +111,12 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			//no team player bet= no declarable team 2
 			yield return new TestCaseData(33, Oros,
-				new ICard[][] {new[] {new Card(Oros, 2), new Card(Oros, 4), new Card(Oros, 5), new Card(Oros, 6)}},
-				new Declaration?[] {null},
+				new ICard[][]
+				{
+					new[] {new Card(Oros, 2), new Card(Oros, 4), new Card(Oros, 5), new Card(Oros, 6)},
+					new Card[] {null, null, null, null }
+				},
+				new Declaration?[] {null,null},
 				new[] {new Card(Oros, 11), new Card(Oros, 12)},
 				new[] {new Card(Copas, 11), new Card(Copas, 12)},
 				new[] {new Card(Espadas, 11), new Card(Espadas, 12)},
@@ -96,8 +125,12 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			//no team player bet= no declarable --> cuarenta
 			yield return new TestCaseData(36, Oros,
-				new ICard[][] {new[] {new Card(Oros, 2), new Card(Oros, 4), new Card(Oros, 6), new Card(Oros, 5)}},
-				new Declaration?[] {null},
+				new ICard[][] {new[]
+				               {
+				               	new Card(Oros, 2), new Card(Oros, 4), new Card(Oros, 6), new Card(Oros, 5)
+				               },
+							   new Card[] {null, null, null, null }},
+				new Declaration?[] {null,null},
 				new[] {new Card(Oros, 11), new Card(Oros, 12)},
 				new[] {new Card(Copas, 11), new Card(Copas, 12)},
 				new[] {new Card(Espadas, 11), new Card(Espadas, 12)},
@@ -116,14 +149,17 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 					new[]
 					{
 						new Card(Espadas, 10), new Card(Espadas, 5), new Card(Espadas, 6),new Card(Espadas, 7)
-					}
+					},
+					new Card[] {null, null, null, null }
 				},
-				new Declaration?[] {Declaration.Cuarenta,null},
+				new Declaration?[] {Declaration.Cuarenta,null,null},
 				new[] {new Card(Oros, 11), new Card(Oros, 12)},
 				new[] {new Card(Copas, 11), new Card(Copas, 12)},
 				new[] {new Card(Espadas, 11), new Card(Espadas, 12)},
 				new[] {new Card(Bastos, 11), new Card(Bastos, 12)},
 				1).Returns(new[] {Declaration.ParejaEspadas});
+
+			
 
 			//when kings and more declarations is empty
 			yield return new TestCaseData(45, Oros,
@@ -136,9 +172,10 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 					new[]
 					{
 						new Card(Espadas, 10), new Card(Espadas, 5), new Card(Espadas, 6),new Card(Espadas, 7)
-					}
+					},
+					new Card[] {null, null, null, null }
 				},
-			   new Declaration?[] { Declaration.Reyes, null },
+			   new Declaration?[] { Declaration.Reyes, null,null },
 			   new[] { new Card(Copas, 12), new Card(Oros, 12), new Card(Espadas, 12), new Card(Bastos, 12) },
 			   new[] { new Card(Copas, 1), new Card(Copas, 2), new Card(Copas, 3), new Card(Copas, 4) },
 			   new[] { new Card(Copas, 11), new Card(Oros, 11), new Card(Espadas, 11), new Card(Bastos, 11) },
@@ -156,9 +193,10 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 					new[]
 					{
 						new Card(Espadas, 10), new Card(Espadas, 5), new Card(Espadas, 6),new Card(Espadas, 7)
-					}
+					},
+					new Card[] {null, null, null, null }
 				},
-			   new Declaration?[] { Declaration.Caballos, null },
+			   new Declaration?[] { Declaration.Caballos, null,null },
 			   new[] { new Card(Copas, 12), new Card(Oros, 12), new Card(Espadas, 12), new Card(Bastos, 12) },
 			   new[] { new Card(Copas, 1), new Card(Copas, 2), new Card(Copas, 3), new Card(Copas, 4) },
 			   new[] { new Card(Copas, 11), new Card(Oros, 11), new Card(Espadas, 11), new Card(Bastos, 11) },
@@ -172,9 +210,10 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 					new[]
 					{
 						new Card(Espadas, 1), new Card(Espadas, 2), new Card(Espadas, 3),new Card(Espadas, 4)
-					}
+					},
+					new Card[] {null, null, null, null }
 				},
-			   new Declaration?[] { null },
+			   new Declaration?[] { null ,null},
 			   new[] { new Card(Copas, 12), new Card(Oros, 12), new Card(Espadas, 12), new Card(Bastos, 12) },
 			   new[] { new Card(Copas, 1), new Card(Copas, 2), new Card(Copas, 3), new Card(Copas, 4) },
 			   new[] { new Card(Copas, 11), new Card(Oros, 11), new Card(Espadas, 11), new Card(Bastos, 11) },
@@ -192,9 +231,10 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 					new[]
 					{
 						new Card(Espadas, 10), new Card(Espadas, 5), new Card(Espadas, 6),new Card(Espadas, 7)
-					}
+					},
+					new Card[] {null, null, null, null }
 				},
-			   new Declaration?[] { null, null },
+			   new Declaration?[] { null, null ,null},
 			   new[] { new Card(Oros, 11), new Card(Oros, 12) },
 			   new[] { new Card(Copas, 11), new Card(Copas, 12) },
 			   new[] { new Card(Espadas, 11), new Card(Espadas, 12) },
@@ -204,6 +244,9 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			
 			//CurrentHand is empty and is the first throws exception
 			//If last completed hand wasnt done but the team bet returns empty 
+
+
+			
 		}
 
 		private class TestContext

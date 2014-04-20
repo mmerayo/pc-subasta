@@ -14,7 +14,7 @@ namespace Subasta.Domain.Game
 		string Name { get; set; }
 		int TeamNumber { get; set; }
 		int PlayerNumber { get; set; }
-		NodeResult ChooseMove(IExplorationStatus currentStatus);
+		NodeResult ChooseMove(IExplorationStatus currentStatus,out bool peta);
 
 		Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    void Reset();

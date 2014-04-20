@@ -3,7 +3,7 @@
 namespace Subasta.Domain.Game
 {
 
-	public delegate ICard MoveSelectionNeeded(IHumanPlayer source,ICard[] validMoves);
+	public delegate ICard MoveSelectionNeeded(IHumanPlayer source,ICard[] validMoves, out bool peta);
 	public delegate Declaration? DeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations); //TODO: same for declarations
 	public delegate IFigure SayNeededEvent(IHumanPlayer source);
 	public delegate ISuit TrumpNeededEvent(IHumanPlayer source);

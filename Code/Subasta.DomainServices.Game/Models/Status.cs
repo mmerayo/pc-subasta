@@ -41,12 +41,12 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			Debug.Assert(GameId != Guid.Empty);
 			var target = new Status( _cardsComparer, Trump, _declarationsChecker,LogicalComplete)
-			             	{
-			             		_turn = _turn, 
+							{
+								_turn = _turn, 
 								PlayerBets = PlayerBets,
 								PointsBet = PointsBet,
 								_gameCompleted = _gameCompleted
-			             	};
+							};
 			Array.Copy(_playerCards, target._playerCards, 4);
 			if (_hands != null)
 			{
@@ -76,10 +76,10 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-	    public int TotalMoves
-	    {
-	        get { return ((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null); }
-	    }
+		public int TotalMoves
+		{
+			get { return ((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null); }
+		}
 		//completes the game by logic even if not all the cards were played
 		public bool LogicalComplete { get; set; }
 
@@ -124,28 +124,30 @@ namespace Subasta.DomainServices.Game.Models
 
 		//expects the last hand to be completed before this request as 
 		//its expected to be invoked on completed hand
-	    public Declaration[] Declarables
-	    {
-	        get
-	        {
-	            //in the latest completed hand no se ha cantado 
-	            IHand hand = LastCompletedHand;
-	            if (hand == null
-	                || hand.Declaration.HasValue
-	                || Hands.Any(x => x.Declaration == Declaration.Reyes || x.Declaration == Declaration.Caballos))
-	                return new Declaration[0];
-                if(Hands.Count>1 && !Hands[1].IsEmpty && !Hands[0].Declaration.HasValue )
-                    return new Declaration[0];
-	            var candidates = GetDeclarationCandidates();
-	            //havent been applied yet 
-	            candidates.RemoveAll(
-	                y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
+		public Declaration[] Declarables
+		{
+			get
+			{
+				//in the latest completed hand no se ha cantado 
+				IHand hand = LastCompletedHand;
+				if (hand == null
+					|| hand.Declaration.HasValue
+					|| Hands.Any(x => x.Declaration == Declaration.Reyes || x.Declaration == Declaration.Caballos))
+					return new Declaration[0];
+				//si no canto en la ultima baza que tuvieron
+				if (Hands.Count(x=>x.TeamWinner==TeamBets &&!x.Declaration.HasValue) >= 2)
+					return new Declaration[0];
+			  
+				var candidates = GetDeclarationCandidates();
+				//havent been applied yet 
+				candidates.RemoveAll(
+					y => Hands.Where(x => x.Declaration.HasValue).Select(x => x.Declaration.Value).Contains(y));
 
-	            return candidates.ToArray();
-	        }
-	    }
+				return candidates.ToArray();
+			}
+		}
 
-	    private List<Declaration> GetDeclarationCandidates()
+		private List<Declaration> GetDeclarationCandidates()
 		{
 			var result = new List<Declaration>();
 			var last = LastCompletedHand;
@@ -187,10 +189,10 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-	    public Guid GameId
-	    {
-	        get { return _gameId; }
-	    }
+		public Guid GameId
+		{
+			get { return _gameId; }
+		}
 
 		public int PointsBet { get; private set; }
 		public bool IsCompleted

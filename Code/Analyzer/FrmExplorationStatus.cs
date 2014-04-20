@@ -112,9 +112,10 @@ namespace Analyzer
 			return parsedDeclaration;
 		}
 
-		private ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves)
+		private ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves,out bool peta)
 		{
-			if (validMoves.Length == 1) return validMoves[0];
+			ICard result;
+
 			string moves = string.Join("-", validMoves.Select(x => x.ToShortString()));
 			string moveSelected;
 			while (InputBox.Show(string.Format("Select move {0}", source.Name), moves, out moveSelected) != DialogResult.OK)
@@ -122,7 +123,13 @@ namespace Analyzer
 				MessageBox.Show(this, "must select a valid value");
 			}
 
-			return new Card(moveSelected);
+			result = new Card(moveSelected);
+
+			DialogResult dialogResult = MessageBox.Show(this,"Peta?","Petar",MessageBoxButtons.YesNo);
+
+			peta = dialogResult == DialogResult.Yes;
+
+			return result;
 		}
 
 		private void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)

@@ -12,7 +12,7 @@ namespace Subasta.DomainServices.Game.Players
 		public string Name { get; set; }
 		public int TeamNumber { get; set; }
 		public int PlayerNumber { get; set; }
-		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus);
+		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus, out bool peta);
 		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    public virtual void Reset(){}
 		public abstract IFigure ChooseSay(ISaysStatus saysStatus);
