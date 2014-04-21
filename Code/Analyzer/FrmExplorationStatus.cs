@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Subasta.Client.Common;
 using Subasta.Client.Common.Game;
+using Subasta.Client.Common.Images;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -21,10 +22,11 @@ namespace Analyzer
 		private DataTable _tableStatus;
 		private DataTable _tableSaysStatus;
 
-		public FrmExplorationStatus(IGameHandler GameHandler, IDeck deck,IFiguresCatalog figuresCatalog)
+		public FrmExplorationStatus(IGameHandler GameHandler, IDeck deck,IFiguresCatalog figuresCatalog,IImagesLoader imagesLoader)
 		{
+
 			InitializeComponent();
-			LoadImages(deck);
+			imagesLoader.LoadImages(deck, imageListCards, new Size(36, 54));
 			LoadPictureBoxControls();
 			_GameHandler = GameHandler;
 			_figuresCatalog = figuresCatalog;
@@ -183,25 +185,7 @@ namespace Analyzer
 			}
 		}
 
-		private void LoadImages(IDeck deck)
-		{
-			foreach (var card in deck.Cards.Cards)
-			{
-
-				string cardResourceName = GetCardResourceName(card);
-				using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(cardResourceName))
-					imageListCards.Images.Add(card.ToShortString(),
-					                          Image.FromStream(manifestResourceStream));
-			}
-			imageListCards.ImageSize = new Size(36, 54);
-
-		}
-
-		private string GetCardResourceName(ICard card)
-		{
-			return string.Format("Analyzer.Content.{0}_{1}s.jpg", card.Suit.Name.ToLower(), card.Number);
-		}
-
+		
 
 		private void _GameHandler_GameStarted(Subasta.Domain.Game.IExplorationStatus status)
 		{
