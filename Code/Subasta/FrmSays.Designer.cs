@@ -35,9 +35,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(640, 480);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FrmSays";
-			this.Text = "FrmGame";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.Text = "Marque";
 			this.ResumeLayout(false);
 
 			}

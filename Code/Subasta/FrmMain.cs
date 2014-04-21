@@ -19,11 +19,15 @@ namespace Subasta
 
 		public FrmMain(IGameSetHandler gameSetHandler,FrmGame frmGame,FrmSays frmSays)
 		{
+			InitializeComponent();
+
 			_gameSetHandler = gameSetHandler;
 			_frmGame = frmGame;
 			_frmSays = frmSays;
 
-			InitializeComponent();
+			_frmGame.MdiParent = this;
+			_frmSays.MdiParent = this;
+			
 			InitializePositionManagement();
 
 			SubscribeToGameSetEvents();
@@ -63,7 +67,7 @@ namespace Subasta
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
 		{
-			//_frmGame.Hide();
+			_frmGame.Hide();
 			_frmSays.Show();
 			_frmSays.BringToFront();
 		}
