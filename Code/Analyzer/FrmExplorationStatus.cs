@@ -26,7 +26,7 @@ namespace Analyzer
 		{
 
 			InitializeComponent();
-			imagesLoader.LoadImages(deck, imageListCards, new Size(36, 54));
+			imagesLoader.LoadImages(imageListCards, new Size(36, 54));
 			LoadPictureBoxControls();
 			_GameHandler = GameHandler;
 			_figuresCatalog = figuresCatalog;

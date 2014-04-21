@@ -18,6 +18,7 @@ namespace Subasta.Client.Common.Game
 		event GameSetCompletedHandler GameSetCompleted;
 		int PlayerDealerNumber { get; }
 		IGameHandler GameHandler { get; }
+		int FirstPlayer { get; }
 
 		void Start();
 		int GamePoints(int team);
