@@ -27,7 +27,6 @@ namespace Subasta.Client.Common
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		public event SayNeededEvent HumanPlayerSayNeeded;
 		public event TrumpNeededEvent HumanPlayerTrumpNeeded;
-		public event InputRequestedHandler InputRequested;
 		private ISaysStatus _saysStatus;
 
 		public GameSimulator(IGame game, IPlayerFactory playerFactory)
@@ -216,13 +215,7 @@ namespace Subasta.Client.Common
 			if (GameStatusChanged != null)
 				GameStatusChanged(_status, TimeSpan.Zero);
 		}
-
-
-		private void OnInputRequested()
-		{
-			if (InputRequested != null)
-				InputRequested();
-		}
+		
 
 		private void OnStart()
 		{

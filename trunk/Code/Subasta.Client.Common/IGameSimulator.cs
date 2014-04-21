@@ -20,7 +20,6 @@ namespace Subasta.Client.Common
 		int FirstPlayer { get; }
 		ISuit Trump { get; }
 		int TeamBets { get; }
-		event InputRequestedHandler InputRequested;
 		void Start(int depth=int.MinValue);
 		void Load(StoredGameData storedGame);
 		event StatusChangedHandler GameStarted;
