@@ -133,9 +133,9 @@ namespace Analyzer
 			return result;
 		}
 
-		private void _GameHandler_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
+		private void _GameHandler_GameCompleted(IExplorationStatus status)
 		{
-			_GameHandler_GameStatusChanged(status, timeTaken);
+			_GameHandler_GameStatusChanged(status);
 		}
 
 		private void LoadPictureBoxControls()
@@ -203,7 +203,7 @@ namespace Analyzer
 		}
 
 
-		private void _GameHandler_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
+		private void _GameHandler_GameStarted(Subasta.Domain.Game.IExplorationStatus status)
 		{
 			PaintCards(status);
 			_tableStatus.Rows.Clear();
@@ -242,25 +242,20 @@ namespace Analyzer
 			_tableStatus.Columns.Add("Points");
 			_tableStatus.Columns.Add("Declaration");
 			_tableStatus.Columns.Add("BrokeToTrump", typeof (bool));
-			_tableStatus.Columns.Add("T1");
-			_tableStatus.Columns.Add("T2");
-			_tableStatus.Columns.Add("T3");
-			_tableStatus.Columns.Add("T4");
+			
 		}
 
 
 		
 
-		private void _GameHandler_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
+		private void _GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
 
 			IHand lastCompletedHand = status.LastCompletedHand;
 			if (lastCompletedHand != null)
 			{
 				DataRow row = _tableStatus.Rows[lastCompletedHand.Sequence - 1];
-				for (int i = 1; i < 4; i++)
-					if (row["T" + i] == DBNull.Value)
-						row["T" + i] = timeTaken.ToString();
+				
 				row["Player" + lastCompletedHand.LastPlayer] = lastCompletedHand.CardsByPlaySequence().Last().ToShortString();
 
 				Declaration? declaration = lastCompletedHand.Declaration;
@@ -292,7 +287,6 @@ namespace Analyzer
 
 			int turn = status.Turn - 1;
 			if (turn == 0) turn = 4;
-			dataRow["T" + turn] = timeTaken.ToString();
 
 			dataRow["BrokeToTrump"] = currentHand.BrokeToTrump;
 

@@ -212,20 +212,20 @@ namespace Subasta.Client.Common.Game
 		private void OnStatusChanged()
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status, TimeSpan.Zero);
+				GameStatusChanged(_status);
 		}
 		
 
 		private void OnStart()
 		{
 			if (GameStarted != null)
-				GameStarted(_status, TimeSpan.Zero);
+				GameStarted(_status);
 		}
 
 		private void OnCompleted()
 		{
 			if (GameCompleted != null)
-				GameCompleted(_status, TimeSpan.Zero);
+				GameCompleted(_status);
 		}
 
 		private void OnSaysChanged()

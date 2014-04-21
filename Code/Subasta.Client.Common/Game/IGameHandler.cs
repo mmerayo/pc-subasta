@@ -5,8 +5,7 @@ using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common.Game
 {
-	public delegate void StatusChangedHandler(IExplorationStatus status,TimeSpan timeTaken);
-	public delegate string InputRequestedHandler();
+	public delegate void StatusChangedHandler(IExplorationStatus status);
 	public delegate void SaysStatusChangedHandler(ISaysStatus status);
 	
 	public interface IGameHandler
@@ -27,7 +26,6 @@ namespace Subasta.Client.Common.Game
 		event SaysStatusChangedHandler GameSaysStatusChanged;
 		event SaysStatusChangedHandler GameSaysStarted;
 		event SaysStatusChangedHandler GameSaysCompleted;
-
 		event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		event SayNeededEvent HumanPlayerSayNeeded;
