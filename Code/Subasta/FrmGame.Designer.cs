@@ -44,6 +44,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.ForestGreen;
 			this.ClientSize = new System.Drawing.Size(640, 480);
+			this.ControlBox = false;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FrmGame";
 			this.ShowIcon = false;

@@ -15,15 +15,17 @@ namespace Subasta
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly FrmGame _frmGame;
+		private readonly FrmSay _frmSay;
 
-		public FrmMain(IGameSetHandler gameSetHandler,FrmGame frmGame)
+		public FrmMain(IGameSetHandler gameSetHandler,FrmGame frmGame,FrmSay frmSay)
 		{
 			InitializeComponent();
 
 			_gameSetHandler = gameSetHandler;
 			_frmGame = frmGame;
+			_frmSay = frmSay;
 
-			_frmGame.MdiParent = this;
+			_frmGame.MdiParent =_frmSay.MdiParent= this;
 			
 			InitializePositionManagement();
 
@@ -47,6 +49,7 @@ namespace Subasta
 
 		private void _gameSet_GameStarted(Domain.Game.IExplorationStatus status)
 		{
+			
 			_frmGame.Show();
 			_frmGame.BringToFront();
 		}
@@ -64,11 +67,14 @@ namespace Subasta
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
 		{
 			_frmGame.Show();
+			_frmSay.Show();
+			_frmSay.BringToFront();
 			_frmGame.BringToFront();
 		}
 
 		private void _gameSet_GameSaysCompleted(Domain.Game.ISaysStatus status)
 		{
+			_frmSay.Hide();
 		}
 
 		private void _gameSet_GameCompleted(Domain.Game.IExplorationStatus status)
