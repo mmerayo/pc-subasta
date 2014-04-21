@@ -58,7 +58,6 @@
     <Compile Include="Game\INonFilteredCandidatesSelector.cs" />
     <Compile Include="Game\ISaysSimulator.cs" />
     <Compile Include="Game\ISimulator.cs" />
-    <Compile Include="Game\IGameGenerator.cs" />
     <Compile Include="Game\IPlayerDeclarationsChecker.cs" />
     <Compile Include="DataAccess\IResultStoreWritter.cs" />
     <Compile Include="Game\IValidCardsRule.cs" />

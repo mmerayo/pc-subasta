@@ -14,7 +14,6 @@ namespace Subasta.DomainServices.Game
 		public GameRegistry()
 		{
 			For<ICardComparer>().Use<CardComparer>();
-			For<IGameGenerator>().Use<GameGenerator>();
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
 			For<IDeckSuffler>().Use<DeckSuffler>();

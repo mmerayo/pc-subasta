@@ -10,7 +10,7 @@ namespace Subasta.Client.Common.Infrastructure
 		public RegisterClientCommonIoc()
 		{
 			For<IGameHandler>().Use<GameHandler>();
-			For<IGameSetHandler>().Use<GameSetHandler>();
+			For<IGameSetHandler>().Singleton().Use<GameSetHandler>();
 			For<IStoredGameReader>().Use<StoredGameReader>();
 			For<IStoredGamesCommands>().Use<StoredGamesCommands>();
 		}

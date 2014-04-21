@@ -13,13 +13,13 @@ namespace Subasta
 {
 	public partial class FrmMain : Form
 	{
-		private readonly IGameSetHandler _gameSet;
+		private readonly IGameSetHandler _gameSetHandler;
 		private readonly FrmGame _frmGame;
 		private readonly FrmSays _frmSays;
 
-		public FrmMain(IGameSetHandler gameSet,FrmGame frmGame,FrmSays frmSays)
+		public FrmMain(IGameSetHandler gameSetHandler,FrmGame frmGame,FrmSays frmSays)
 		{
-			_gameSet = gameSet;
+			_gameSetHandler = gameSetHandler;
 			_frmGame = frmGame;
 			_frmSays = frmSays;
 
@@ -31,14 +31,14 @@ namespace Subasta
 
 		private void SubscribeToGameSetEvents()
 		{
-			_gameSet.GameStarted += new StatusChangedHandler(_gameSet_GameStarted);
-			_gameSet.GameCompleted += new StatusChangedHandler(_gameSet_GameCompleted);
+			_gameSetHandler.GameStarted += new StatusChangedHandler(_gameSet_GameStarted);
+			_gameSetHandler.GameCompleted += new StatusChangedHandler(_gameSet_GameCompleted);
 
-			_gameSet.GameSaysCompleted += new SaysStatusChangedHandler(_gameSet_GameSaysCompleted);
-			_gameSet.GameSaysStarted += new SaysStatusChangedHandler(_gameSet_GameSaysStarted);
+			_gameSetHandler.GameSaysCompleted += new SaysStatusChangedHandler(_gameSet_GameSaysCompleted);
+			_gameSetHandler.GameSaysStarted += new SaysStatusChangedHandler(_gameSet_GameSaysStarted);
 
-			_gameSet.GameSetCompleted += new GameSetCompletedHandler(_gameSet_GameSetCompleted);
-			_gameSet.GameSetStarted += new GameSetStartedHandler(_gameSet_GameSetStarted);
+			_gameSetHandler.GameSetCompleted += new GameSetCompletedHandler(_gameSet_GameSetCompleted);
+			_gameSetHandler.GameSetStarted += new GameSetStartedHandler(_gameSet_GameSetStarted);
 
 			
 		}
@@ -110,7 +110,7 @@ namespace Subasta
 		{
 			try
 			{
-				_gameSet.Start();
+				_gameSetHandler.Start();
 			}
 			catch (Exception ex)
 			{

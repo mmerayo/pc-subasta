@@ -42,6 +42,11 @@ namespace Subasta.Client.Common.Game
 		public int PlayerDealerNumber { get; private set; }
 		public int FirstPlayer { get { return NextPlayer(PlayerDealerNumber); }}
 
+		public IGameHandler GameHandler
+		{
+			get { return _gameHandler; }
+		}
+
 		private int NextPlayer(int playerNumber)
 		{
 			if(++playerNumber>4)
@@ -74,11 +79,11 @@ namespace Subasta.Client.Common.Game
 
 		private void SubscribeToGameEvents()
 		{
-			_gameHandler.GameStarted += GameHandler_GameStarted;
-			_gameHandler.GameCompleted += GameHandler_GameCompleted;
+			GameHandler.GameStarted += GameHandler_GameStarted;
+			GameHandler.GameCompleted += GameHandler_GameCompleted;
 
-			_gameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
-			_gameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
+			GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
+			GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 
 		}
 
@@ -142,8 +147,8 @@ namespace Subasta.Client.Common.Game
 			              	Player4Cards = cards[3],
 			              };
 
-			_gameHandler.ConfigureNewGame(newGame);
-			_gameHandler.Start();
+			GameHandler.ConfigureNewGame(newGame);
+			GameHandler.Start();
 		}
 
 		private void GameHandler_GameStarted(IExplorationStatus status)
