@@ -16,7 +16,6 @@ namespace Analyzer
 
 			For<ISaysExplorationListener>().Singleton().Use<ExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
-			For<IViewLoader>().Use<ViewLoader>();
 		}
 	}
 }

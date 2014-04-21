@@ -6,10 +6,10 @@ namespace Subasta.Client.Common.Storage
 {
 	class StoredGamesCommands : IStoredGamesCommands
 	{
-		private readonly IGameSimulator _currentGameSimulation;
+		private readonly IGameHandler _currentGameSimulation;
 		private readonly IStoredGameReader _gameReader;
 
-		public StoredGamesCommands(IGameSimulator currentGameSimulation,IStoredGameReader gameReader)
+		public StoredGamesCommands(IGameHandler currentGameSimulation,IStoredGameReader gameReader)
 		{
 			_currentGameSimulation = currentGameSimulation;
 			_gameReader = gameReader;

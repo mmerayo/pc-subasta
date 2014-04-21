@@ -16,17 +16,17 @@ namespace Analyzer
 	{
 		private PictureBox[][] _pbCards = new PictureBox[4][];
 
-		private readonly IGameSimulator _gameSimulator;
+		private readonly IGameHandler _GameHandler;
 		private readonly IFiguresCatalog _figuresCatalog;
 		private DataTable _tableStatus;
 		private DataTable _tableSaysStatus;
 
-		public FrmExplorationStatus(IGameSimulator gameSimulator, IDeck deck,IFiguresCatalog figuresCatalog)
+		public FrmExplorationStatus(IGameHandler GameHandler, IDeck deck,IFiguresCatalog figuresCatalog)
 		{
 			InitializeComponent();
 			LoadImages(deck);
 			LoadPictureBoxControls();
-			_gameSimulator = gameSimulator;
+			_GameHandler = GameHandler;
 			_figuresCatalog = figuresCatalog;
 
 			SubscribeToGameEvents();
@@ -42,20 +42,20 @@ namespace Analyzer
 
 		private void SubscribeToGameEvents()
 		{
-			_gameSimulator.GameStatusChanged += _gameSimulator_GameStatusChanged;
-			_gameSimulator.GameStarted += _gameSimulator_GameStarted;
-			_gameSimulator.GameCompleted += _gameSimulator_GameCompleted;
+			_GameHandler.GameStatusChanged += _GameHandler_GameStatusChanged;
+			_GameHandler.GameStarted += _GameHandler_GameStarted;
+			_GameHandler.GameCompleted += _GameHandler_GameCompleted;
 
-			_gameSimulator.HumanPlayerMoveSelectionNeeded += _gameSimulator_HumanPlayerMoveSelectionNeeded;
-			_gameSimulator.HumanPlayerDeclarationSelectionNeeded += _gameSimulator_HumanPlayerDeclarationSelectionNeeded;
-			_gameSimulator.HumanPlayerSayNeeded += _gameSimulator_HumanPlayerSayNeeded;
-			_gameSimulator.HumanPlayerTrumpNeeded += _gameSimulator_HumanPlayerTrumpNeeded;
-			_gameSimulator.GameSaysStarted += _gameSimulator_GameSaysStarted;
-			_gameSimulator.GameSaysCompleted += _gameSimulator_GameSaysCompleted;
-			_gameSimulator.GameSaysStatusChanged += _gameSimulator_GameSaysStatusChanged;
+			_GameHandler.HumanPlayerMoveSelectionNeeded += _GameHandler_HumanPlayerMoveSelectionNeeded;
+			_GameHandler.HumanPlayerDeclarationSelectionNeeded += _GameHandler_HumanPlayerDeclarationSelectionNeeded;
+			_GameHandler.HumanPlayerSayNeeded += _GameHandler_HumanPlayerSayNeeded;
+			_GameHandler.HumanPlayerTrumpNeeded += _GameHandler_HumanPlayerTrumpNeeded;
+			_GameHandler.GameSaysStarted += _GameHandler_GameSaysStarted;
+			_GameHandler.GameSaysCompleted += _GameHandler_GameSaysCompleted;
+			_GameHandler.GameSaysStatusChanged += _GameHandler_GameSaysStatusChanged;
 		}
 
-		ISuit _gameSimulator_HumanPlayerTrumpNeeded(IHumanPlayer source)
+		ISuit _GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
 		{
 			ISuit result;
 			DialogResult dialogResult;
@@ -77,7 +77,7 @@ namespace Analyzer
 
 		}
 
-		IFigure _gameSimulator_HumanPlayerSayNeeded(IHumanPlayer source)
+		IFigure _GameHandler_HumanPlayerSayNeeded(IHumanPlayer source)
 		{
 			IFigure result;
 			DialogResult dialogResult;
@@ -99,7 +99,7 @@ namespace Analyzer
 		}
 
 
-		Declaration? _gameSimulator_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
+		Declaration? _GameHandler_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
 		{
 			string declarations = string.Join("-", availableDeclarations.Select(x => x.ToString()));
 			string declarationSelected;
@@ -113,7 +113,7 @@ namespace Analyzer
 			return parsedDeclaration;
 		}
 
-		private ICard _gameSimulator_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves,out bool peta)
+		private ICard _GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves,out bool peta)
 		{
 			ICard result;
 
@@ -133,9 +133,9 @@ namespace Analyzer
 			return result;
 		}
 
-		private void _gameSimulator_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
+		private void _GameHandler_GameCompleted(IExplorationStatus status, TimeSpan timeTaken)
 		{
-			_gameSimulator_GameStatusChanged(status, timeTaken);
+			_GameHandler_GameStatusChanged(status, timeTaken);
 		}
 
 		private void LoadPictureBoxControls()
@@ -203,14 +203,14 @@ namespace Analyzer
 		}
 
 
-		private void _gameSimulator_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
+		private void _GameHandler_GameStarted(Subasta.Domain.Game.IExplorationStatus status, TimeSpan t)
 		{
 			PaintCards(status);
 			_tableStatus.Rows.Clear();
 
-			lblFirstPlayer.Text = "First player #: " + _gameSimulator.FirstPlayer;
-			lblTrump.Text = "Trump: " + _gameSimulator.Trump.Name;
-			lblPlayerBets.Text = "Team Bets#: " + _gameSimulator.TeamBets;
+			lblFirstPlayer.Text = "First player #: " + _GameHandler.FirstPlayer;
+			lblTrump.Text = "Trump: " + _GameHandler.Trump.Name;
+			lblPlayerBets.Text = "Team Bets#: " + _GameHandler.TeamBets;
 			Invalidate(true);
 			Update();
 		}
@@ -251,7 +251,7 @@ namespace Analyzer
 
 		
 
-		private void _gameSimulator_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
+		private void _GameHandler_GameStatusChanged(IExplorationStatus status, TimeSpan timeTaken)
 		{
 
 			IHand lastCompletedHand = status.LastCompletedHand;
@@ -362,12 +362,12 @@ namespace Analyzer
 
 		
 
-		void _gameSimulator_GameSaysCompleted(ISaysStatus status)
+		void _GameHandler_GameSaysCompleted(ISaysStatus status)
 		{
 			MessageBox.Show(this, "Marque completado");
 		}
 
-		void _gameSimulator_GameSaysStarted(ISaysStatus status)
+		void _GameHandler_GameSaysStarted(ISaysStatus status)
 		{
 			PaintCards(status.OriginalStatus);
 
@@ -378,7 +378,7 @@ namespace Analyzer
 		}
 
 
-		void _gameSimulator_GameSaysStatusChanged(ISaysStatus status)
+		void _GameHandler_GameSaysStatusChanged(ISaysStatus status)
 		{
 			AddNewSaysRow();
 

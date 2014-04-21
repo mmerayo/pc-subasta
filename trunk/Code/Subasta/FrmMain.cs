@@ -13,9 +13,9 @@ namespace Subasta
 {
 	public partial class FrmMain : Form
 	{
-		private readonly IGameSet _gameSet;
+		private readonly IGameSetHandler _gameSet;
 
-		public FrmMain(IGameSet gameSet)
+		public FrmMain(IGameSetHandler gameSet)
 		{
 			InitializeComponent();
 			InitializePositionManagement();

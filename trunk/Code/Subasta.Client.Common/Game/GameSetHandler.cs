@@ -3,16 +3,14 @@ using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common.Game
 {
-	class GameSet : IGameSet
+	class GameSetHandler : IGameSetHandler
 	{
-		
-		private readonly IGame _game;
+		private readonly IGameHandler _gameHandler;
 
-		public GameSet(IGame game)
+		public GameSetHandler(IGameHandler gameHandler)
 		{
 			
-			_game = game;
-
+			_gameHandler = gameHandler;
 			SubscribeToGameEvents();
 		}
 

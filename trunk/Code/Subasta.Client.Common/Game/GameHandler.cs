@@ -8,7 +8,7 @@ using Subasta.DomainServices.Factories;
 
 namespace Subasta.Client.Common.Game
 {
-	public class GameSimulator : IGameSimulator
+	public class GameHandler : IGameHandler
 	{
 		private readonly IGame _game;
 		private readonly IPlayerFactory _playerFactory;
@@ -29,7 +29,7 @@ namespace Subasta.Client.Common.Game
 		public event TrumpNeededEvent HumanPlayerTrumpNeeded;
 		private ISaysStatus _saysStatus;
 
-		public GameSimulator(IGame game, IPlayerFactory playerFactory)
+		public GameHandler(IGame game, IPlayerFactory playerFactory)
 		{
 			_game = game;
 			_playerFactory = playerFactory;
@@ -141,7 +141,7 @@ namespace Subasta.Client.Common.Game
 				if (player.PlayerType == PlayerType.Human)
 				{
 					var humanPlayer = (IHumanPlayer)player;
-					humanPlayer.SelectMove += GameSimulator_SelectMove;
+					humanPlayer.SelectMove += GameHandler_SelectMove;
 					humanPlayer.SelectDeclaration += humanPlayer_SelectDeclaration;
 					humanPlayer.SelectSay += humanPlayer_SelectSay;
 					humanPlayer.ChooseTrumpRequest+=humanPlayer_ChooseTrumpRequest;
@@ -166,7 +166,7 @@ namespace Subasta.Client.Common.Game
 			return OnDeclarationSelectionNeeded(source, availableDeclarations);
 		}
 
-		ICard GameSimulator_SelectMove(IHumanPlayer source,ICard[]validMoves, out bool peta)
+		ICard GameHandler_SelectMove(IHumanPlayer source,ICard[]validMoves, out bool peta)
 		{
 			return OnMoveSelectionNeeded(source,validMoves, out  peta);
 		}
