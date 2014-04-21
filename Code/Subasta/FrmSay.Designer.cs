@@ -65,6 +65,7 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Info & Options";
+			this.Load += new System.EventHandler(this.FrmSay_Load);
 			this.VisibleChanged += new System.EventHandler(this.FrmSay_VisibleChanged);
 			this.grpPlayerTurn.ResumeLayout(false);
 			this.grpPlayerTurn.PerformLayout();

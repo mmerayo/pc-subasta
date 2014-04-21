@@ -31,6 +31,14 @@ namespace Subasta
 		private void GameHandler_GameSaysStatusChanged(Domain.Game.ISaysStatus status)
 		{
 			UpdateTurn(status);
+
+			UpdateMarques();
+
+		}
+
+		private void UpdateMarques()
+		{
+			AQUI
 		}
 
 		private void UpdateTurn(ISaysStatus status)
@@ -48,5 +56,10 @@ namespace Subasta
 			Left = _frmGame.Left + _frmGame.Width;
 			Top = _frmGame.Top;
 		}
+
+		private void FrmSay_Load(object sender, EventArgs e)
+			{
+
+			}
 	}
 }
