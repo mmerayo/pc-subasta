@@ -21,6 +21,8 @@ namespace Subasta.Client.Common.Game
 		public event SaysStatusChangedHandler GameSaysStatusChanged;
 		public event SaysStatusChangedHandler GameSaysStarted;
 		public event SaysStatusChangedHandler GameSaysCompleted;
+		
+
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
@@ -127,8 +129,6 @@ namespace Subasta.Client.Common.Game
 			OnStatusChanged();
 		}
 
-
-
 		public void Load(StoredGameData storedGame)
 		{
 			_players[0]= _playerFactory.CreatePlayer(1, storedGame);
@@ -150,6 +150,12 @@ namespace Subasta.Client.Common.Game
 
 			FirstPlayer = storedGame.FirstPlayer;
 		}
+
+		public void ConfigureNewGame(NewGameConfiguration gameConfiguration)
+		{
+			Load(gameConfiguration);
+		}
+
 
 		private ISuit humanPlayer_ChooseTrumpRequest(IHumanPlayer source)
 		{

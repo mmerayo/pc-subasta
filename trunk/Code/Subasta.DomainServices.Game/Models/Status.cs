@@ -311,6 +311,11 @@ namespace Subasta.DomainServices.Game.Models
 			return PlayerCards(1).Union(PlayerCards(2)).Union(PlayerCards(3)).Union(PlayerCards(4)).ToArray();
 		}
 
+		public int NormalizedPointsBet
+		{
+			get { return (int)Math.Truncate((double)(PointsBet/10)); }
+		}
+
 		public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();

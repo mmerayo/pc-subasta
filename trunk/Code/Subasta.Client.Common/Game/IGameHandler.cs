@@ -7,7 +7,7 @@ namespace Subasta.Client.Common.Game
 {
 	public delegate void StatusChangedHandler(IExplorationStatus status);
 	public delegate void SaysStatusChangedHandler(ISaysStatus status);
-	
+
 	public interface IGameHandler
 	{
 		bool IsFinished { get; set; }
@@ -20,6 +20,7 @@ namespace Subasta.Client.Common.Game
 		int TeamBets { get; }
 		void Start();
 		void Load(StoredGameData storedGame);
+		void ConfigureNewGame(NewGameConfiguration gameConfiguration);
 		event StatusChangedHandler GameStarted;
 		event StatusChangedHandler GameCompleted;
 		event StatusChangedHandler GameStatusChanged;

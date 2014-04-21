@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\GameSetHandler.cs" />
+    <Compile Include="Game\NewGameConfiguration.cs" />
     <Compile Include="Storage\StoredGameReader.cs" />
     <Compile Include="Storage\StoredGamesCommands.cs" />
     <Compile Include="Game\IGameSetHandler.cs" />
