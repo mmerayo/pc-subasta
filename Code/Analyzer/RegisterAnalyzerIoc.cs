@@ -1,5 +1,6 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.ApplicationServices;
+using Subasta.Client.Common.Infrastructure;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
 
@@ -15,6 +16,7 @@ namespace Analyzer
 
 			For<ISaysExplorationListener>().Singleton().Use<ExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
+			For<IViewLoader>().Use<ViewLoader>();
 		}
 	}
 }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using Subasta.Client.Common;
+using Subasta.Client.Common.Infrastructure;
 using Subasta.Infrastructure.IoC;
 
 namespace Subasta
@@ -25,7 +27,7 @@ namespace Subasta
 			                        	new RegisterClientCommonIoc(),
 			                        	new RegisterIoc()
 			                        });
-			Application.Run(new FrmMain());
+			Application.Run(ObjectFactory.GetInstance<FrmMain>());
 		}
 	}
 }

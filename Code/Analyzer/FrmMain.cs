@@ -9,7 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common;
-using Subasta.Client.Common.Games;
+using Subasta.Client.Common.Game;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Dal;
 using Subasta.Infrastructure.Domain;
@@ -66,15 +66,15 @@ namespace Analyzer
 
 		private void showToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			try
-			{
+			//try
+			//{
 
-				_frmExplorationStatus.Show();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Error: " + ex.Message);
-			}
+			//    _frmExplorationStatus.Show();
+			//}
+			//catch (Exception ex)
+			//{
+			//    MessageBox.Show("Error: " + ex.Message);
+			//}
 		}
 
 		private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
