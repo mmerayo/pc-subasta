@@ -108,55 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Icons\Subasta.ico" />
-    <Content Include="Content\Images\reverso.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_8s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_7s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_6s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_5s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_4s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_3s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_2s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_1s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_12s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_11s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_10s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_9s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_8s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_7s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_6s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_5s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_4s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_3s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_2s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_1s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_12s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_11s.jpg" />
-    <EmbeddedResource Include="Content\Images\espadas_10s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_9s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_8s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_7s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_6s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_5s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_4s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_3s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_2s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_1s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_12s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_11s.jpg" />
-    <EmbeddedResource Include="Content\Images\copas_10s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_9s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_8s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_7s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_6s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_5s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_4s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_3s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_2s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_1s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_12s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_11s.jpg" />
-    <EmbeddedResource Include="Content\Images\oros_9s.jpg" />
-    <EmbeddedResource Include="Content\Images\bastos_10s.jpg" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
