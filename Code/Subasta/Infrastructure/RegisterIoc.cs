@@ -16,7 +16,6 @@ namespace Subasta
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
 			For<FrmGame>().Singleton().Use<FrmGame>();
-			For<FrmSays>().Singleton().Use<FrmSays>();
 
 			For<ISaysExplorationListener>().Singleton().Use<NullExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();

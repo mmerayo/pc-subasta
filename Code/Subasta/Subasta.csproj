@@ -52,12 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmSays.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmSays.Designer.cs">
-      <DependentUpon>FrmSays.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,9 +69,6 @@
     <Compile Include="Infrastructure\NullExplorationListenerHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmSays.resx">
-      <DependentUpon>FrmSays.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmGame.resx">
       <DependentUpon>FrmGame.cs</DependentUpon>
     </EmbeddedResource>
