@@ -6,14 +6,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Subasta.Client.Common.Game;
 
 namespace Subasta
-	{
+{
 	public partial class FrmSays : Form
+	{
+		private readonly IGameSetHandler _gameSetHandler;
+
+		public FrmSays(IGameSetHandler gameSetHandler)
 		{
-		public FrmSays()
-			{
+			_gameSetHandler = gameSetHandler;
 			InitializeComponent();
-			}
 		}
 	}
+}

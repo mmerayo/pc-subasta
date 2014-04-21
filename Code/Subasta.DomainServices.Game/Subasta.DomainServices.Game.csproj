@@ -75,7 +75,6 @@
     <Compile Include="Utils\CardComparer.cs" />
     <Compile Include="Strategies\DeckSuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />
-    <Compile Include="Utils\GameGenerator.cs" />
     <Compile Include="Strategies\NonFilteredCandidatesSelector.cs" />
     <Compile Include="Strategies\PlayerDeclarationsChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
