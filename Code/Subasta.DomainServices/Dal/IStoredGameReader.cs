@@ -4,6 +4,6 @@ namespace Subasta.DomainServices.Dal
 {
 	public interface IStoredGameReader
 	{
-		StoredGameData Load(string file);
+		StoredGameData LoadFromFile(string file);
 	}
 }

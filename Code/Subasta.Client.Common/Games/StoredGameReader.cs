@@ -19,37 +19,41 @@ namespace Subasta.Client.Common.Games
 			_deck = deck;
 		}
 
-		public StoredGameData Load(string fileName)
+		public StoredGameData LoadFromFile(string fileName)
 		{
-			var result = new StoredGameData();
 
+			StoredGameData result;
 			Stream stream = null;
 			if ((stream = new FileStream(fileName, FileMode.Open, FileAccess.Read)) != null)
 			{
-
+				string fileData;
 				using (stream)
 				using (var sr = new StreamReader(stream))
-				{
-					var deserialized = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+					fileData = sr.ReadToEnd();
+				result = Load(fileData);
 
-					result.Player1Cards = ((string) deserialized.Player1Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player2Cards = ((string) deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player3Cards = ((string) deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-					result.Player4Cards = ((string) deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
-
-					result.Player1Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player1Type);
-					result.Player2Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player2Type);
-					result.Player3Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player3Type);
-					result.Player4Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player4Type);
-
-					result.ExplorationDepth = deserialized.ExplorationDepth;
-					result.FirstPlayer = deserialized.FirstPlayer;
-					result.Trump = Suit.FromId((char) deserialized.Trump);
-					result.TeamBets = deserialized.TeamBets;
-					result.PointsBet = deserialized.PointsBet;
-				}
-
+				return result;
 			}
+			throw new FileNotFoundException("File not found",fileName);
+		}
+
+		public StoredGameData Load(string data)
+		{
+			var result = new StoredGameData();
+			var deserialized = JsonConvert.DeserializeObject<dynamic>(data);
+
+			result.Player1Cards = ((string) deserialized.Player1Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+			result.Player2Cards = ((string) deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+			result.Player3Cards = ((string) deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+			result.Player4Cards = ((string) deserialized.Player4Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
+
+			result.Player1Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player1Type);
+			result.Player2Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player2Type);
+			result.Player3Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player3Type);
+			result.Player4Type = (PlayerType) Enum.Parse(typeof (PlayerType), (string) deserialized.Player4Type);
+
+			result.FirstPlayer = deserialized.FirstPlayer;
+			
 			ThrowIfNotValidData(result.Player1Cards, result.Player2Cards, result.Player3Cards, result.Player4Cards);
 
 			return result;

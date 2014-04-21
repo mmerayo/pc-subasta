@@ -7,9 +7,5 @@
 	"Player3Type": "Mcts",
     "Player4Cards": "C4 O7 E11 E10 B7 B1 C7 E12 B2 B12",
 	"Player4Type": "Mcts",
-	"ExplorationDepth": "2",
 	"FirstPlayer":"4",
-	"Trump":"E",
-	"TeamBets":"2",
-	"PointsBet":"110"
 }

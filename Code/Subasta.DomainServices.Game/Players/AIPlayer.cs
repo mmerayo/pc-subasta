@@ -22,8 +22,8 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			NodeResult result = Simulator.GetBest(currentStatus);
 
-			ICard card = result.Hands.Last().CardsByPlaySequence().Last(x => x != null);
-			peta = ResolvePete(card,currentStatus);
+			ICard card = result.Status.CurrentHand.CardsByPlaySequence().LastOrDefault(x => x != null);
+			peta = card!=null && ResolvePete(card,currentStatus);
 
 			return result;
 		}
