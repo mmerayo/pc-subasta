@@ -48,12 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Games\StoredGameReader.cs" />
-    <Compile Include="Games\StoredGamesCommands.cs" />
-    <Compile Include="IGameSimulator.cs" />
+    <Compile Include="Game\GameSet.cs" />
+    <Compile Include="Infrastructure\IViewLoader.cs" />
+    <Compile Include="Storage\StoredGameReader.cs" />
+    <Compile Include="Storage\StoredGamesCommands.cs" />
+    <Compile Include="Game\IGameSet.cs" />
+    <Compile Include="Game\IGameSimulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameSimulator.cs" />
-    <Compile Include="RegisterClientCommonIoc.cs" />
+    <Compile Include="Game\GameSimulator.cs" />
+    <Compile Include="Infrastructure\RegisterClientCommonIoc.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subasta.DomainServices.Game\Subasta.DomainServices.Game.csproj">

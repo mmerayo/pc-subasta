@@ -1,10 +1,9 @@
 ﻿using System;
-using Subasta.Client.Common.Games;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
-namespace Subasta.Client.Common
+namespace Subasta.Client.Common.Game
 {
 	public delegate void StatusChangedHandler(IExplorationStatus status,TimeSpan timeTaken);
 	public delegate string InputRequestedHandler();
@@ -20,7 +19,7 @@ namespace Subasta.Client.Common
 		int FirstPlayer { get; }
 		ISuit Trump { get; }
 		int TeamBets { get; }
-		void Start(int depth=int.MinValue);
+		void Start();
 		void Load(StoredGameData storedGame);
 		event StatusChangedHandler GameStarted;
 		event StatusChangedHandler GameCompleted;

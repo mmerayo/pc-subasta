@@ -1,7 +1,8 @@
+using Subasta.Client.Common.Game;
 using Subasta.Domain.DalModels;
 using Subasta.DomainServices.Dal;
 
-namespace Subasta.Client.Common.Games
+namespace Subasta.Client.Common.Storage
 {
 	class StoredGamesCommands : IStoredGamesCommands
 	{

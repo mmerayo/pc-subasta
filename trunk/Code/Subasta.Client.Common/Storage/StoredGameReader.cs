@@ -8,7 +8,7 @@ using Subasta.Domain.Deck;
 using Subasta.DomainServices.Dal;
 using Subasta.Infrastructure.Domain;
 
-namespace Subasta.Client.Common.Games
+namespace Subasta.Client.Common.Storage
 {
 	internal class StoredGameReader : IStoredGameReader
 	{

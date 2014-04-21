@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
+using Subasta.Client.Common.Infrastructure;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Factories;
 
-namespace Subasta.Client.Common
+namespace Subasta.Client.Common.Game
 {
 	public class GameSimulator : IGameSimulator
 	{
@@ -63,7 +63,7 @@ namespace Subasta.Client.Common
 
 		public int TeamBets { get { return _status.TeamBets; } }
 
-		public void Start(int depth = int.MinValue)
+		public void Start()
 		{
 			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer);
 			
@@ -88,6 +88,7 @@ namespace Subasta.Client.Common
 		{
 			_saysStatus = status;
 			OnSaysCompleted();
+
 		}
 
 		
@@ -111,6 +112,7 @@ namespace Subasta.Client.Common
 		{
 			_status = status;
 			OnCompleted();
+			
 		}
 
 		void _game_GameStarted(IExplorationStatus status)

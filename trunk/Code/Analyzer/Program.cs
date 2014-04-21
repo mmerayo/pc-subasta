@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using Subasta.Client.Common;
+using Subasta.Client.Common.Infrastructure;
 using Subasta.Infrastructure.IoC;
 
 namespace Analyzer

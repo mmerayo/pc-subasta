@@ -52,6 +52,7 @@
 			this.nuevoJuegoToolStripMenuItem.Name = "nuevoJuegoToolStripMenuItem";
 			this.nuevoJuegoToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
 			this.nuevoJuegoToolStripMenuItem.Text = "&Nuevo Juego";
+			this.nuevoJuegoToolStripMenuItem.Click += new System.EventHandler(this.nuevoJuegoToolStripMenuItem_Click);
 			// 
 			// acercaDeToolStripMenuItem
 			// 
@@ -64,7 +65,7 @@
 			// autorToolStripMenuItem
 			// 
 			this.autorToolStripMenuItem.Name = "autorToolStripMenuItem";
-			this.autorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.autorToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
 			this.autorToolStripMenuItem.Text = "A&utor";
 			// 
 			// FrmMain

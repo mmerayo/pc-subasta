@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StructureMap.Configuration.DSL;
+using Subasta.Client.Common.Infrastructure;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
+using Subasta.Infrastructure;
 
 namespace Subasta
 {
@@ -13,9 +15,12 @@ namespace Subasta
 		public RegisterIoc()
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
+			For<FrmGame>().Singleton().Use<FrmGame>();
+			For<FrmSays>().Singleton().Use<FrmSays>();
 
 			For<ISaysExplorationListener>().Singleton().Use<NullExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
+			For<IViewLoader>().Singleton().Use<ViewLoader>();
 		}
 	}
 }
