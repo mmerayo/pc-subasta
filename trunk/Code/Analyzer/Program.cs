@@ -16,13 +16,15 @@ namespace Analyzer
 		[STAThread]
 		static void Main()
 		{
+			
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
 			IoCRegistrator.Register(new List<Registry>
 				{
 					new RegisterClientCommonIoc(),
 					new RegisterAnalyzerIoc()
 				});
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(ObjectFactory.GetInstance<FrmMain>());
 		}
 	}
