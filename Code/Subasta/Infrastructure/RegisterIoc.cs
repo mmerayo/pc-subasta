@@ -20,7 +20,6 @@ namespace Subasta
 
 			For<ISaysExplorationListener>().Singleton().Use<NullExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
-			For<IViewLoader>().Singleton().Use<ViewLoader>();
 		}
 	}
 }

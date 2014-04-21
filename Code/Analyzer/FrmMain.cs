@@ -20,14 +20,14 @@ namespace Analyzer
 	{
 		private readonly IStoredGamesCommands _storedGamesCommands;
 		private readonly FrmExplorationStatus _frmExplorationStatus;
-		public IGameSimulator CurrentSimulation { get; private set; }
+		public IGameHandler CurrentSimulation { get; private set; }
 
-		public FrmMain(IGameSimulator gameSimulator, IStoredGamesCommands storedGamesCommands,
+		public FrmMain(IGameHandler gameHandler, IStoredGamesCommands storedGamesCommands,
 		               FrmExplorationStatus frmExplorationStatus)
 		{
 			InitializeComponent();
 
-			CurrentSimulation = gameSimulator;
+			CurrentSimulation = gameHandler;
 			_storedGamesCommands = storedGamesCommands;
 
 			_frmExplorationStatus = frmExplorationStatus;

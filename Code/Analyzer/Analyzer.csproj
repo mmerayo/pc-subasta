@@ -76,7 +76,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterAnalyzerIoc.cs" />
     <Compile Include="ExplorationListenerHandler.cs" />
-    <Compile Include="ViewLoader.cs" />
     <EmbeddedResource Include="FrmExplorationStatus.resx">
       <DependentUpon>FrmExplorationStatus.cs</DependentUpon>
     </EmbeddedResource>

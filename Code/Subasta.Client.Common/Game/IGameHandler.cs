@@ -9,7 +9,7 @@ namespace Subasta.Client.Common.Game
 	public delegate string InputRequestedHandler();
 	public delegate void SaysStatusChangedHandler(ISaysStatus status);
 	
-	public interface IGameSimulator
+	public interface IGameHandler
 	{
 		bool IsFinished { get; set; }
 		IPlayer Player1 { get; }

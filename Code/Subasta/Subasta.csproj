@@ -75,7 +75,6 @@
     <Compile Include="Infrastructure\NullExplorationListenerHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Infrastructure\ViewLoader.cs" />
     <EmbeddedResource Include="FrmSays.resx">
       <DependentUpon>FrmSays.cs</DependentUpon>
     </EmbeddedResource>
