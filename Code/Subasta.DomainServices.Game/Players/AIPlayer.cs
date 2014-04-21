@@ -30,13 +30,27 @@ namespace Subasta.DomainServices.Game.Players
 
 		private bool ResolvePete(ICard currentCard, IExplorationStatus currentStatus)
 		{
-			//marca que tiene la mas alta del palo que tira
-				//-toma todas las cartas que quedan por jugar del palo
-				//-verifica que es la mayor del palo
-
-			//marca que falla la siguiente
-				//- es la última que le queda del palo y no es triunfo
-
+			//get highest
+			var highestPlayerCard = currentStatus.PlayerCards(PlayerNumber).Where(x => x.Suit.Equals(currentCard.Suit))
+				.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).FirstOrDefault();
+			if (highestPlayerCard == null)
+				{
+				if (!currentCard.Suit.Equals(currentStatus.Trump))
+					//marca que falla la siguiente
+					return true;
+				
+				}
+			else
+			{
+				var existing = currentStatus.GetCardsNotYetPlayed()
+					.Where(x => x.Suit.Equals(currentCard.Suit) && x != currentCard)
+					.OrderByDescending(x => x.Value)
+					.ThenByDescending(x => x.Number)
+					.FirstOrDefault();
+				//marca que tiene la mas alta del palo que tira
+				if (existing==null||!highestPlayerCard.IsAbsSmallerThan(existing))
+					return true;
+			}
 			return false;
 		}
 

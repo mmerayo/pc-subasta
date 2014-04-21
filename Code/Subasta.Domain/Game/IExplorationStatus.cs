@@ -48,5 +48,6 @@ namespace Subasta.Domain.Game
 		void RemovePlayerCard(int playerPosition, ICard card);
 		bool IsInTeamBets(int playerPosition);
 		int PlayerMateOf(int playerWinner);
+		ICard[] GetCardsNotYetPlayed();
 	}
 }

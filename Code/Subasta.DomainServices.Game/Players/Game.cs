@@ -25,6 +25,7 @@ namespace Subasta.DomainServices.Game.Players
 		public event GameStatusChangedHandler GameStatusChanged;
 		public event GameStatusChangedHandler GameStarted;
 		public event GameStatusChangedHandler GameCompleted;
+		public event GamePlayerPetaHandler GamePlayerPeta;
 		public event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		public event GameSaysStatusChangedHandler GameSaysStarted;
 		public event GameSaysStatusChangedHandler GameSaysCompleted;
@@ -85,9 +86,13 @@ namespace Subasta.DomainServices.Game.Players
 			GameStarted = null;
 			GameStatusChanged = null;
 
+			GamePlayerPeta = null;
+
 			GameSaysStarted = null;
 			GameSaysCompleted = null;
 			GameSaysStatusChanged = null;
+
+
 		}
 
 
@@ -202,11 +207,17 @@ namespace Subasta.DomainServices.Game.Players
 				_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 			}
 
+			
 			if (peta)
 			{
-				//TODO: EVENT TO just DISPLAY el PETE
+				OnPlayerPeta(playerMoves);
 			}
+		}
 
+		private void OnPlayerPeta(IPlayer playerMoves)
+		{
+			if(GamePlayerPeta!=null)
+				GamePlayerPeta(playerMoves, _status);
 		}
 
 
