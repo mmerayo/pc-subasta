@@ -51,12 +51,14 @@ namespace Subasta
 			_frmGame.BringToFront();
 		}
 
-		private void _gameSet_GameSetStarted()
+		private void _gameSet_GameSetStarted(IGameSetHandler sender)
 		{
+			MessageBox.Show(this, "STARTED");
 		}
 
-		private void _gameSet_GameSetCompleted()
+		private void _gameSet_GameSetCompleted(IGameSetHandler sender)
 		{
+			MessageBox.Show(this, "COMPLETED");
 		}
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
