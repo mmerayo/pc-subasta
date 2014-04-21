@@ -16,7 +16,7 @@ namespace Subasta.Client.Common.Games
 
 		public void RestoreGame(string fileName)
 		{
-			StoredGameData storedGame=_gameReader.Load(fileName);
+			StoredGameData storedGame=_gameReader.LoadFromFile(fileName);
 			_currentGameSimulation.Load(storedGame);
 		
 			

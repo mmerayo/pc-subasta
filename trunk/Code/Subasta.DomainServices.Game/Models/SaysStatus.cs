@@ -236,6 +236,8 @@ namespace Subasta.DomainServices.Game.Models
 		{
 			var result = _status.Clone();
 			result.SetTrump(Suit.FromName(suitName));
+			//its for the exploration
+			result.SetPlayerBet(1,250);
 			return result;
 		}
 

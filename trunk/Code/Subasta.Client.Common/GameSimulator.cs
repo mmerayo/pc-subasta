@@ -57,15 +57,15 @@ namespace Subasta.Client.Common
 
 
 
-		public ISuit Trump { get; private set; }
-		public int PointsBet { get; private set; }
+		public ISuit Trump { get { return _status.Trump; } }
+		public int PointsBet { get { return _status.PointsBet; } }
 
 
-		public int TeamBets { get; private set; }
+		public int TeamBets { get { return _status.TeamBets; } }
 
 		public void Start(int depth = int.MinValue)
 		{
-			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer, TeamBets, Trump, PointsBet);
+			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer);
 			
 			SubscribeToEvents();
 
@@ -147,9 +147,6 @@ namespace Subasta.Client.Common
 			}
 
 			FirstPlayer = storedGame.FirstPlayer;
-			Trump = storedGame.Trump;
-			PointsBet = storedGame.PointsBet;
-			TeamBets = storedGame.TeamBets;
 		}
 
 		private ISuit humanPlayer_ChooseTrumpRequest(IHumanPlayer source)

@@ -65,18 +65,14 @@ namespace Subasta.DomainServices.Game.Players
 			_saysRunner = saysSimulator;
 		}
 
-		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump,
-		                        int pointsBet)
+		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer)
 		{
 			_players[0] = p1;
 			_players[1] = p2;
 			_players[2] = p3;
 			_players[3] = p4;
 
-			Trump = trump;
-			TeamBets = teamBets;
 			FirstPlayer = firstPlayer;
-			PointsBet = pointsBet;
 
 			_status = GetInitialStatus();
 			_saysStatus = GetInitialSaysStatus();
@@ -102,7 +98,7 @@ namespace Subasta.DomainServices.Game.Players
 			status.SetCards(2, Player2.Cards);
 			status.SetCards(3, Player3.Cards);
 			status.SetCards(4, Player4.Cards);
-			status.SetPlayerBet(TeamBets, PointsBet);
+			//status.SetPlayerBet(TeamBets, PointsBet);
 			status.Turn = FirstPlayer;
 
 			return status;

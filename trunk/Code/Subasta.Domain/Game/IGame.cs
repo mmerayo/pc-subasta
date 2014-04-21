@@ -25,6 +25,6 @@ namespace Subasta.Domain.Game
 		event GameSaysStatusChangedHandler GameSaysCompleted;
 
 		void StartGame();
-		void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer, int teamBets, ISuit trump, int pointsBet);
+		void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer);
 	}
 }
