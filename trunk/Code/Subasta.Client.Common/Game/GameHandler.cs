@@ -57,6 +57,10 @@ namespace Subasta.Client.Common.Game
 			get { return _players[3]; }
 		}
 
+		public IPlayer GetPlayer(int playerNum)
+		{
+			return _players[playerNum - 1];
+		}
 
 
 		public ISuit Trump { get { return _status.Trump; } }
