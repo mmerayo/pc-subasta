@@ -84,7 +84,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\reverso.jpg" />
+    <EmbeddedResource Include="Content\Images\reverso.jpg" />
     <EmbeddedResource Include="Content\Images\oros_9s.jpg" />
     <EmbeddedResource Include="Content\Images\oros_8s.jpg" />
     <EmbeddedResource Include="Content\Images\oros_7s.jpg" />

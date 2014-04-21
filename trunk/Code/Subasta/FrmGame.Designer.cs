@@ -28,12 +28,21 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
+			this.components = new System.ComponentModel.Container();
+			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
+			// 
+			// imageList
+			// 
+			this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.imageList.ImageSize = new System.Drawing.Size(16, 16);
+			this.imageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// FrmGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.ForestGreen;
 			this.ClientSize = new System.Drawing.Size(640, 480);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FrmGame";
@@ -45,5 +54,7 @@
 			}
 
 		#endregion
+
+		private System.Windows.Forms.ImageList imageList;
 		}
 	}
