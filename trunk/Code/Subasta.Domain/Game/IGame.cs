@@ -9,6 +9,8 @@ namespace Subasta.Domain.Game
 	public delegate void GameStatusChangedHandler(IExplorationStatus status);
 	public delegate void GameSaysStatusChangedHandler(ISaysStatus status);
 
+	public delegate void GamePlayerPetaHandler(IPlayer player, IExplorationStatus status);
+
 	public interface IGame
 	{
 		IPlayer Player1 { get; }
@@ -19,6 +21,9 @@ namespace Subasta.Domain.Game
 		event GameStatusChangedHandler GameStatusChanged;
 		event GameStatusChangedHandler GameStarted;
 		event GameStatusChangedHandler GameCompleted;
+
+		event GamePlayerPetaHandler GamePlayerPeta;
+
 
 		event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		event GameSaysStatusChangedHandler GameSaysStarted;

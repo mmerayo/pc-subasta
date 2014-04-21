@@ -306,6 +306,11 @@ namespace Subasta.DomainServices.Game.Models
 			return matePlayer;
 		}
 
+		public ICard[] GetCardsNotYetPlayed()
+		{
+			return PlayerCards(1).Union(PlayerCards(2)).Union(PlayerCards(3)).Union(PlayerCards(4)).ToArray();
+		}
+
 		public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();
