@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
@@ -18,17 +17,17 @@ namespace Subasta
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private IImagesLoader _imagesLoader;
-		DataTable tblMarques = new DataTable();
+		private DataTable tblMarques = new DataTable();
 
-		List<PictureBox> _pbs=new List<PictureBox>(40); 
+		private List<PictureBox> _pbs = new List<PictureBox>(40);
 
 		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader)
 		{
 			_gameSetHandler = gameSetHandler;
 			InitializeComponent();
-			
+
 			LoadImages(imagesLoader);
-			
+
 			InitializeTableMarques();
 
 			SuscribeToEvents();
@@ -42,9 +41,7 @@ namespace Subasta
 
 		private void SuscribeToEvents()
 		{
-			_gameSetHandler.GameHandler.GameSaysStatusChanged += GameHandler_GameSaysStatusChanged;
-			_gameSetHandler.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
-			_gameSetHandler.GameHandler.HumanPlayerTrumpNeeded += SelectTrump;
+			
 			_gameSetHandler.GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 			_gameSetHandler.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 		}
@@ -66,7 +63,7 @@ namespace Subasta
 			switch (player.PlayerNumber)
 			{
 				case 1:
-					startPoint = new Point(sizeV.Width,Size.Height - 30 - sizeH.Height);
+					startPoint = new Point(sizeV.Width, Size.Height - 30 - sizeH.Height);
 					break;
 
 				case 2:
@@ -78,7 +75,7 @@ namespace Subasta
 					break;
 
 				case 4:
-					startPoint = new Point(20, sizeH.Height+20);
+					startPoint = new Point(20, sizeH.Height + 20);
 					break;
 			}
 			Image imgReverso = imageList.Images["reverso"];
@@ -93,7 +90,7 @@ namespace Subasta
 				{
 					case 1:
 					case 3:
-					location.X += (sizeH.Width) * index;
+						location.X += (sizeH.Width)*index;
 						size = sizeH;
 						break;
 
@@ -107,14 +104,14 @@ namespace Subasta
 
 				var card = player.Cards[index];
 				PictureBox current = new PictureBox
-				                     {
-				                     	Location = location,
-				                     	Size = size,
-				                     	Name = card.ToShortString(),
-				                     	Image = player.PlayerNumber == 1 ? (Image)imageList.Images[card.ToShortString()].Clone() : imgReverso,
-				                     	SizeMode = PictureBoxSizeMode.StretchImage,
+				{
+					Location = location,
+					Size = size,
+					Name = card.ToShortString(),
+					Image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso,
+					SizeMode = PictureBoxSizeMode.StretchImage,
 
-				                     };
+				};
 
 				_pbs.Add(current);
 				Controls.Add(current);
@@ -128,7 +125,7 @@ namespace Subasta
 
 		private void GameHandler_GameSaysCompleted(ISaysStatus status)
 		{
-			throw new NotImplementedException();
+			//TODO:?
 		}
 
 		private void GameHandler_GameSaysStarted(ISaysStatus status)
@@ -146,40 +143,13 @@ namespace Subasta
 		{
 		}
 
-		private ISuit SelectTrump(IHumanPlayer source)
-		{
-			throw new NotImplementedException();
-		}
-
-		private IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source)
-		{
-			throw new NotImplementedException();
-		}
-
-		private void GameHandler_GameSaysStatusChanged(ISaysStatus status)
-		{
-			ISay say = status.Says.Last();
-			tblMarques.Rows.Add(say.PlayerNum, NormalizeSay(say.Figure.Say), status.PointsBet);
-
-			PaintStatusMarque();
-
-			Application.DoEvents();
-
-		}
-
-		private void PaintStatusMarque()
-		{
-			throw new NotImplementedException();
-		}
+		
 
 		private string NormalizeSay(SayKind say)
 		{
-			return string.Join(" ", SplitCamelCase(say.ToString()));
+			return say.ToString().SeparateCamelCase(" ");
 		}
 
-		private string[] SplitCamelCase(string source)
-		{
-			return Regex.Split(source, @"(?<!^)(?=[A-Z])");
-		}
+
 	}
 }
