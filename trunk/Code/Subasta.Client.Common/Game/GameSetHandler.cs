@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -55,13 +56,36 @@ namespace Subasta.Client.Common.Game
 			return playerNumber;
 		}
 
-		WaitHandle 
+		readonly ManualResetEvent _startWaitHandle = new ManualResetEvent(true);
+		private Task _startTask;
+		CancellationTokenSource tokenSource = new CancellationTokenSource();
 
 		public void Start()
 		{
-			Reset();
+			try
+			{
 
-			OnGameSetStarted();
+
+				_startTask = Task.Factory.StartNew(() =>
+				{
+					try
+					{
+						if (!_startWaitHandle.WaitOne())
+							throw new Exception();
+						Reset();
+						OnGameSetStarted();
+					}
+					finally
+					{
+						_startWaitHandle.Set();
+					}
+				}, tokenSource.Token);
+			}
+			catch (Exception ex)
+			{
+				tokenSource.Cancel(true);
+				throw;
+			}
 
 		}
 
