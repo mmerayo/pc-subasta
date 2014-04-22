@@ -1,6 +1,6 @@
 ﻿namespace Subasta
 	{
-	partial class FrmSay
+	partial class FrmGameInfo
 		{
 		/// <summary>
 		/// Required designer variable.
@@ -53,20 +53,19 @@
 			this.lblTurn.TabIndex = 0;
 			this.lblTurn.Text = "lblTurn";
 			// 
-			// FrmSay
+			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 317);
 			this.ControlBox = false;
 			this.Controls.Add(this.grpPlayerTurn);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FrmSay";
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.Name = "FrmGameInfo";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Info & Options";
 			this.Load += new System.EventHandler(this.FrmSay_Load);
-			this.VisibleChanged += new System.EventHandler(this.FrmSay_VisibleChanged);
 			this.grpPlayerTurn.ResumeLayout(false);
 			this.grpPlayerTurn.PerformLayout();
 			this.ResumeLayout(false);

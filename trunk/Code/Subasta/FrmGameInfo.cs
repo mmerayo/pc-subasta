@@ -11,12 +11,12 @@ using Subasta.Domain.Game;
 
 namespace Subasta
 {
-	public partial class FrmSay : Form
+	public partial class FrmGameInfo : Form
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly FrmGame _frmGame;
 
-		public FrmSay(IGameSetHandler gameSetHandler,FrmGame frmGame)
+		public FrmGameInfo(IGameSetHandler gameSetHandler,FrmGame frmGame)
 		{
 			_gameSetHandler = gameSetHandler;
 			_frmGame = frmGame;
@@ -38,7 +38,7 @@ namespace Subasta
 
 		private void UpdateMarques()
 		{
-			AQUI
+			
 		}
 
 		private void UpdateTurn(ISaysStatus status)
@@ -51,11 +51,7 @@ namespace Subasta
 			UpdateTurn(status);
 		}
 
-		private void FrmSay_VisibleChanged(object sender, EventArgs e)
-		{
-			Left = _frmGame.Left + _frmGame.Width;
-			Top = _frmGame.Top;
-		}
+		
 
 		private void FrmSay_Load(object sender, EventArgs e)
 			{
