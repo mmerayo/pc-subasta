@@ -81,7 +81,7 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			if (SelectSay != null)
 			{
-				return SelectSay(this);
+				return SelectSay(this,saysStatus);
 			}
 			throw new InvalidOperationException("The event SelectSay on human players need to have one suscriptor");
 		}

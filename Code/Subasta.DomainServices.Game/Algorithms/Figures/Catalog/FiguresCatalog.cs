@@ -23,7 +23,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 				_figures.Add(new FigureAs());
 		}
 
-		public IFigure Get(int points)
+		public IFigure GetFigureJustPoints(int points)
 		{
 			if(points==0)
 				return new FigurePaso();

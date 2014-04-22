@@ -166,9 +166,9 @@ namespace Subasta.Client.Common.Game
 			return OnTrumpSelectionNeeded(source);
 		}
 
-		IFigure humanPlayer_SelectSay(IHumanPlayer source)
+		IFigure humanPlayer_SelectSay(IHumanPlayer source,ISaysStatus saysStatus)
 		{
-			return OnSaySelectionNeeded(source);
+			return OnSaySelectionNeeded(source,saysStatus);
 		}
 
 		Declaration? humanPlayer_SelectDeclaration(IHumanPlayer source, Declaration[] availableDeclarations)
@@ -195,10 +195,10 @@ namespace Subasta.Client.Common.Game
 			throw new InvalidOperationException("Subscription is mandatory");
 		}
 
-		private IFigure OnSaySelectionNeeded(IHumanPlayer source)
+		private IFigure OnSaySelectionNeeded(IHumanPlayer source, ISaysStatus saysStatus)
 		{
 			if (HumanPlayerSayNeeded != null)
-				return HumanPlayerSayNeeded(source);
+				return HumanPlayerSayNeeded(source,saysStatus);
 			throw new InvalidOperationException("Subscription is mandatory");
 		}
 

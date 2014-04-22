@@ -120,7 +120,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 				if(saysStatus.PointsBet<points)
 				{
-					IFigure figure = _figuresCatalog.Get(points);
+					IFigure figure = _figuresCatalog.GetFigureJustPoints(points);
 					candidateFigures.Add(figure);
 				}
 			}

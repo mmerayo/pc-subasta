@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
@@ -14,70 +15,85 @@ namespace Subasta
 {
 	public partial class FrmSays : Form
 	{
-		private const int SemGame = 0;
-		private const int SemPlayer = 1;
-		private readonly Mutex[] _mutexes= new Mutex[2]; 
+		private EventWaitHandle _semGame;
+		private EventWaitHandle _semPlayer;
 		private readonly IGameSetHandler _gameSet;
+		private readonly IFiguresCatalog _figuresCatalog;
 
-		public FrmSays(IGameSetHandler gameSet)
+		public FrmSays(IGameSetHandler gameSet,IFiguresCatalog figuresCatalog)
 		{
 			_gameSet = gameSet;
-			_gameSet.GameHandler.GameSaysStarted +=new SaysStatusChangedHandler(GameHandler_GameSaysStarted);
-			_gameSet.GameHandler.GameSaysCompleted += new SaysStatusChangedHandler(GameHandler_GameSaysCompleted);
+			_figuresCatalog = figuresCatalog;
+			_gameSet.GameHandler.GameSaysStarted +=GameHandler_GameSaysStarted;
+			_gameSet.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
+			_gameSet.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
+
 			InitializeComponent();
 
 			EnableInteraction(false);
 			
 			
-			_gameSet.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
 		}
 
 		void GameHandler_GameSaysCompleted(ISaysStatus status)
 		{
-			_mutexes[SemGame].Dispose();
-			_mutexes[SemPlayer].Dispose();
+			_semGame.Dispose();
+			_semPlayer.Dispose();
 		}
 
 		void GameHandler_GameSaysStarted(ISaysStatus status)
 		{
-			_mutexes[SemGame] = new Mutex(true);
-			_mutexes[SemPlayer] = new Mutex(true);
+			_semGame =new ManualResetEvent(false);
+			_semPlayer = new ManualResetEvent(false);
 		}
 
-	
-		IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source)
+		private IFigure LastSay { get; set; }
+
+		IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source,ISaysStatus saysStatus)
 		{
-			return OnSayNeeded(source);
+			return OnSayNeeded(source,saysStatus);
 		}
 
-		private IFigure OnSayNeeded(IHumanPlayer source)
+		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
 		{
-			LoadSayKinds();
+			LoadSayKinds(saysStatus);
 			EnableInteraction(true);
-			_mutexes[SemPlayer].ReleaseMutex();
-			_mutexes[SemGame].WaitOne();
-
-			throw new NotImplementedException();
-			//TODO: PICK SELECTED VALUE
+			using (Task doEventsTask = Task.Factory.StartNew(() =>
+			{
+				while (true)
+				{
+					Application.DoEvents();
+					Thread.Sleep(250);
+				}
+			}))
+			{
+				_semPlayer.Set();
+				if (!_semGame.WaitOne())
+					throw new Exception();
+			}
+			return LastSay;
 		}
 
-		private void LoadSayKinds()
+		private void LoadSayKinds(ISaysStatus saysStatus)
 		{
-			IEnumerable<SayKind> sayKinds = Enum.GetValues(typeof(SayKind)).Cast<SayKind>();
+			IEnumerable<SayKind> sayKinds =
+				Enum.GetValues(typeof (SayKind))
+					.Cast<SayKind>()
+					.Where(x => (int) x > saysStatus.PointsBet || x == SayKind.Paso || (saysStatus.PointsBet<25 && x== SayKind.UnaMas));
 			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
 
 			cmbSays.DataSource = new BindingSource(source, null);
 			cmbSays.ValueMember = "Key";
 			cmbSays.DisplayMember = "Value";
-
-			//TODO:eliminar los ya pasados que solo se usen como primary say por las figuras
 		}
 
 		private void btnSelect_Click(object sender, EventArgs e)
 		{
-			_mutexes[SemPlayer].WaitOne();
-			//TODO: store selection
-			_mutexes[SemGame].ReleaseMutex();
+			if (!_semPlayer.WaitOne())
+				throw new Exception();
+			LastSay = _figuresCatalog.GetFigureJustPoints((int) cmbSays.SelectedValue);
+			EnableInteraction(false);
+			_semGame.Set();
 		}
 
 		private void EnableInteraction(bool enable)
