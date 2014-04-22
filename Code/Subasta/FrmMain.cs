@@ -15,21 +15,48 @@ namespace Subasta
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly FrmGame _frmGame;
-		private readonly FrmSay _frmSay;
+		private readonly FrmGameInfo _frmGameInfo;
+		private readonly FrmGameSetInfo _frmGameSetInfo;
+		private readonly FrmSays _frmSays;
 
-		public FrmMain(IGameSetHandler gameSetHandler,FrmGame frmGame,FrmSay frmSay)
+		public FrmMain(IGameSetHandler gameSetHandler, FrmGame frmGame, FrmGameInfo frmGameInfo,FrmGameSetInfo frmGameSetInfo,FrmSays frmSays)
 		{
 			InitializeComponent();
 
 			_gameSetHandler = gameSetHandler;
 			_frmGame = frmGame;
-			_frmSay = frmSay;
+			_frmGameInfo = frmGameInfo;
+			_frmGameSetInfo = frmGameSetInfo;
+			_frmSays = frmSays;
 
-			_frmGame.MdiParent =_frmSay.MdiParent= this;
+			_frmGame.MdiParent =_frmGameInfo.MdiParent=_frmGameSetInfo.MdiParent=frmSays.MdiParent= this;
 			
 			InitializePositionManagement();
 
 			SubscribeToGameSetEvents();
+
+
+
+		}
+
+		private void UpdateFormsLocationsAndSizes()
+		{
+			_frmGameSetInfo.Left =_frmGameSetInfo.Top= 0;
+
+			_frmGame.Location = new Point(_frmGameSetInfo.Location.X + _frmGameSetInfo.Size.Width, _frmGameSetInfo.Location.Y);
+
+			//_frmSays.Left = _frmGame.Left;
+			_frmSays.Location =new Point(_frmGame.Location.X, _frmGame.Top + _frmGame.Height);
+
+			_frmGameInfo.Left = _frmGame.Left + _frmGame.Width;
+			_frmGameInfo.Top = _frmGame.Top;
+			_frmGameInfo.Height = _frmGame.Height;
+
+			_frmSays.Width = _frmGame.Width + _frmGameInfo.Width;
+
+			_frmGameSetInfo.Height = _frmGame.Height+_frmSays.Height;
+
+
 		}
 
 		private void SubscribeToGameSetEvents()
@@ -50,31 +77,34 @@ namespace Subasta
 		private void _gameSet_GameStarted(Domain.Game.IExplorationStatus status)
 		{
 			
-			_frmGame.Show();
-			_frmGame.BringToFront();
+
 		}
 
 		private void _gameSet_GameSetStarted(IGameSetHandler sender)
 		{
-			MessageBox.Show(this, "STARTED");
+			_frmGameSetInfo.Show();
+			_frmGame.Show();
+			_frmGameInfo.Show();
+			_frmSays.Show();
+			UpdateFormsLocationsAndSizes();
+			
+			_frmGameSetInfo.BringToFront();
+			_frmGame.BringToFront();
+			_frmGameInfo.BringToFront();
+			_frmSays.BringToFront();
 		}
 
 		private void _gameSet_GameSetCompleted(IGameSetHandler sender)
 		{
-			MessageBox.Show(this, "COMPLETED");
 		}
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
 		{
-			_frmGame.Show();
-			_frmSay.Show();
-			_frmSay.BringToFront();
-			_frmGame.BringToFront();
+			
 		}
 
 		private void _gameSet_GameSaysCompleted(Domain.Game.ISaysStatus status)
 		{
-			_frmSay.Hide();
 		}
 
 		private void _gameSet_GameCompleted(Domain.Game.IExplorationStatus status)
@@ -122,5 +152,7 @@ namespace Subasta
 				//TODO: SEND ERROR
 			}
 		}
+
+
 	}
 }
