@@ -79,7 +79,7 @@ namespace Analyzer
 
 		}
 
-		IFigure _GameHandler_HumanPlayerSayNeeded(IHumanPlayer source)
+		IFigure _GameHandler_HumanPlayerSayNeeded(IHumanPlayer source,ISaysStatus saysStatus)
 		{
 			IFigure result;
 			DialogResult dialogResult;
@@ -89,7 +89,7 @@ namespace Analyzer
 				dialogResult = InputBox.Show(string.Format("Select points {0}", source.Name), "Values:[0-25]", out stringResult);
 				try
 				{
-					result = _figuresCatalog.Get(int.Parse(stringResult));
+					result = _figuresCatalog.GetFigureJustPoints(int.Parse(stringResult));
 				}
 				catch
 				{
