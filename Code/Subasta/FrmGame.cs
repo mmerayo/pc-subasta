@@ -10,6 +10,7 @@ using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.Extensions;
 
 namespace Subasta
 {
@@ -114,7 +115,7 @@ namespace Subasta
 				};
 
 				_pbs.Add(current);
-				Controls.Add(current);
+				this.PerformSafely(x=>x.Controls.Add(current));
 			}
 
 

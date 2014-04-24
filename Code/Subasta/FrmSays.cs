@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
+using Subasta.Extensions;
 
 namespace Subasta
 {
@@ -71,7 +72,9 @@ namespace Subasta
 				if (!_semGame.WaitOne())
 					throw new Exception();
 			}
-			return LastSay;
+			var result = LastSay;
+			LastSay = null;
+			return result;
 		}
 
 		private void LoadSayKinds(ISaysStatus saysStatus)
@@ -83,8 +86,8 @@ namespace Subasta
 			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
 
 			cmbSays.DataSource = new BindingSource(source, null);
-			cmbSays.ValueMember = "Key";
-			cmbSays.DisplayMember = "Value";
+			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
+			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
 		}
 
 		private void btnSelect_Click(object sender, EventArgs e)
@@ -98,7 +101,8 @@ namespace Subasta
 
 		private void EnableInteraction(bool enable)
 		{
-			btnSelect.Enabled = cmbSays.Enabled= enable;
+			btnSelect.PerformSafely(x=>x.Enabled = enable);
+			cmbSays.PerformSafely(x => x.Enabled = enable);
 		}
 	}
 }

@@ -44,17 +44,17 @@ namespace Subasta
 		{
 			_frmGameSetInfo.Left =_frmGameSetInfo.Top= 0;
 
-			_frmGame.PerformSafely(()=>_frmGame.Location=new Point(_frmGameSetInfo.Location.X + _frmGameSetInfo.Size.Width, _frmGameSetInfo.Location.Y));
+			_frmGame.PerformSafely((x)=>x.Location=new Point(_frmGameSetInfo.Location.X + _frmGameSetInfo.Size.Width, _frmGameSetInfo.Location.Y));
 
 			//_frmSays.Left = _frmGame.Left;
-			_frmSays.PerformSafely(()=>_frmSays.Location=new Point(_frmGame.Location.X, _frmGame.Top + _frmGame.Height));
+			_frmSays.PerformSafely((x)=>x.Location=new Point(_frmGame.Location.X, _frmGame.Top + _frmGame.Height));
 
-			_frmGameInfo.PerformSafely(()=>_frmGameInfo.Location=new Point( _frmGame.Left + _frmGame.Width, _frmGame.Top));
-			_frmGameInfo.Height = _frmGame.Height;
+			_frmGameInfo.PerformSafely((x)=>x.Location=new Point( _frmGame.Left + _frmGame.Width, _frmGame.Top));
+			_frmGameInfo.PerformSafely(x=>x.Height = _frmGame.Height);
 
-			_frmSays.Width = _frmGame.Width + _frmGameInfo.Width;
+			_frmSays.PerformSafely(x=>x.Width = _frmGame.Width + _frmGameInfo.Width);
 
-			_frmGameSetInfo.Height = _frmGame.Height+_frmSays.Height;
+			_frmGameSetInfo.PerformSafely(x=>x.Height = _frmGame.Height+_frmSays.Height);
 
 
 		}
@@ -82,16 +82,16 @@ namespace Subasta
 
 		private void _gameSet_GameSetStarted(IGameSetHandler sender)
 		{
-			_frmGameSetInfo.PerformSafely(() => _frmGameSetInfo.Show());
-			_frmGame.PerformSafely(() => _frmGame.Show());
-			_frmGameInfo.PerformSafely(() => _frmGameInfo.Show());
-			_frmSays.PerformSafely(() => _frmSays.Show());
+			_frmGameSetInfo.PerformSafely((x) => x.Show());
+			_frmGame.PerformSafely((x) => x.Show());
+			_frmGameInfo.PerformSafely((x) => x.Show());
+			_frmSays.PerformSafely((x) => x.Show());
 			UpdateFormsLocationsAndSizes();
 			
-			_frmGameSetInfo.BringToFront();
-			_frmGame.BringToFront();
-			_frmGameInfo.BringToFront();
-			_frmSays.BringToFront();
+			_frmGameSetInfo.PerformSafely(x=>x.BringToFront());
+			_frmGame.PerformSafely(x=>x.BringToFront());
+			_frmGameInfo.PerformSafely(x=>x.BringToFront());
+			_frmSays.PerformSafely(x=>x.BringToFront());
 		}
 
 		private void _gameSet_GameSetCompleted(IGameSetHandler sender)

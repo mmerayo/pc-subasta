@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
+using Subasta.Extensions;
 
 namespace Subasta
 {
@@ -43,15 +44,14 @@ namespace Subasta
 
 		private void UpdateTurn(ISaysStatus status)
 		{
-			this.lblTurn.Text = _gameSetHandler.GameHandler.GetPlayer(status.Turn).Name;
+			if (!status.IsCompleted)
+				lblTurn.PerformSafely(x => x.Text = _gameSetHandler.GameHandler.GetPlayer(status.Turn).Name);
 		}
 
 		private void _gameSetHandler_GameSaysStarted(Domain.Game.ISaysStatus status)
 		{
 			UpdateTurn(status);
 		}
-
-		
 
 		private void FrmSay_Load(object sender, EventArgs e)
 			{
