@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -10,24 +11,30 @@ namespace Subasta.Extensions
 	{
 
 
-		delegate void ControlShowSafeCallback(Form form);
-		public static void ControlShowSafe(Form form)
+		public static void PerformSafely(this Control target, Action action)
 		{
-			if (form.InvokeRequired)
+			if (target.InvokeRequired)
 			{
-				var d = new ControlShowSafeCallback(ControlShowSafe);
-				form.Invoke(d, new object[] { form});
+				target.Invoke(action);
 			}
 			else
 			{
-				form.Show();
+				action();
 			}
 		}
 
-		public static void ShowSafe(this Form form)
+		public static void PerformSafely<T1>(this Control target, Action<T1> action,T1 parameter)
 		{
-			ControlShowSafe(form);
+			if (target.InvokeRequired)
+			{
+				target.Invoke(action, parameter);
+			}
+			else
+			{
+				action(parameter);
+			}
 		}
+
 
 	}
 }
