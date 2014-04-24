@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Subasta.Client.Common;
 using Subasta.Client.Common.Game;
+using Subasta.Extensions;
 
 namespace Subasta
 {
@@ -82,10 +83,10 @@ namespace Subasta
 
 		private void _gameSet_GameSetStarted(IGameSetHandler sender)
 		{
-			_frmGameSetInfo.Show();
-			_frmGame.Show();
-			_frmGameInfo.Show();
-			_frmSays.Show();
+			_frmGameSetInfo.ShowSafe();
+			_frmGame.ShowSafe();
+			_frmGameInfo.ShowSafe();
+			_frmSays.ShowSafe();
 			UpdateFormsLocationsAndSizes();
 			
 			_frmGameSetInfo.BringToFront();

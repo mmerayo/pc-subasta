@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CrossThreadExtensions.cs" />
     <Compile Include="FrmGame.cs">
       <SubType>Form</SubType>
     </Compile>
