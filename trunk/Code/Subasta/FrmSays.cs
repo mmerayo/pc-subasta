@@ -59,19 +59,11 @@ namespace Subasta
 		{
 			LoadSayKinds(saysStatus);
 			EnableInteraction(true);
-			//using (Task doEventsTask = Task.Factory.StartNew(() =>
-			//{
-			//    while (true)
-			//    {
-			//        Application.DoEvents();
-			//        //Thread.Sleep(250);
-			//    }
-			//}))
-			{
-				_semPlayer.Set();
-				if (!_semGame.WaitOne())
-					throw new Exception();
-			}
+			
+			_semPlayer.Set();
+			if (!_semGame.WaitOne())
+				throw new Exception();
+
 			var result = LastSay;
 			LastSay = null;
 			return result;
