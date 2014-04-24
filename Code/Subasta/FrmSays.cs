@@ -9,8 +9,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
+using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Extensions;
+using Subasta.Infrastructure.Domain;
 using Subasta.Interaction;
 
 namespace Subasta
@@ -30,11 +32,16 @@ namespace Subasta
 			_gameSet.GameHandler.GameSaysStarted +=GameHandler_GameSaysStarted;
 			_gameSet.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 			_gameSet.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
-
+			_gameSet.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
 			InitializeComponent();
 
-			EnableInteraction(false);
+			EnableSayInteraction(false);
+			EnableTrumpInteraction(false);
+			LoadSuits();
 		}
+
+		
+
 
 		void GameHandler_GameSaysCompleted(ISaysStatus status)
 		{
@@ -47,6 +54,7 @@ namespace Subasta
 		}
 
 		private IFigure LastSay { get; set; }
+		private ISuit Trump { get; set; }
 
 		IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source,ISaysStatus saysStatus)
 		{
@@ -56,12 +64,22 @@ namespace Subasta
 		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
 		{
 			LoadSayKinds(saysStatus);
-			EnableInteraction(true);
+			EnableSayInteraction(true);
 
 			_interactionManager.WaitUserInput();
 
 			var result = LastSay;
 			LastSay = null;
+			return result;
+		}
+
+		ISuit GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
+		{
+			EnableTrumpInteraction(true);
+			_interactionManager.WaitUserInput();
+
+			var result = Trump;
+			Trump = null;
 			return result;
 		}
 
@@ -77,22 +95,47 @@ namespace Subasta
 			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
 			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
 		}
+		private void LoadSuits()
+		{
+			var source = Suit.Suits.ToDictionary(value => value, value => value.Name);
+
+			cmbSuits.DataSource = new BindingSource(source, null);
+			cmbSuits.PerformSafely(x => cmbSays.ValueMember = "Key");
+			cmbSuits.PerformSafely(x => cmbSays.DisplayMember = "Value");
+		}
 
 		private void btnSelect_Click(object sender, EventArgs e)
 		{
 			_interactionManager.InputProvided(() =>
 			{
 				LastSay = _figuresCatalog.GetFigureJustPoints((int)cmbSays.SelectedValue);
-				EnableInteraction(false);
+				EnableSayInteraction(false);
 			});
-			
-		
 		}
 
-		private void EnableInteraction(bool enable)
+		private void btnSelectTrump_Click(object sender, EventArgs e)
+		{
+			_interactionManager.InputProvided(() =>
+			{
+				Trump =(ISuit) cmbSuits.SelectedValue;
+				EnableTrumpInteraction(false);
+			});
+		}
+
+		private void EnableSayInteraction(bool enable)
 		{
 			btnSelect.PerformSafely(x=>x.Enabled = enable);
 			cmbSays.PerformSafely(x => x.Enabled = enable);
+			grpSayOptions.PerformSafely(x => x.Visible = enable);
 		}
+
+		private void EnableTrumpInteraction(bool enable)
+		{
+			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
+			cmbSuits.PerformSafely(x => x.Enabled = enable);
+			grpTrumpOptions.PerformSafely(x => x.Visible = enable);
+		}
+
+		
 	}
 }

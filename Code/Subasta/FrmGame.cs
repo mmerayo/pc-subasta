@@ -42,9 +42,7 @@ namespace Subasta
 
 		private void SuscribeToEvents()
 		{
-			
 			_gameSetHandler.GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
-			_gameSetHandler.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 		}
 
 		private void InitializeTableMarques()
@@ -124,10 +122,7 @@ namespace Subasta
 			Invalidate();
 		}
 
-		private void GameHandler_GameSaysCompleted(ISaysStatus status)
-		{
-			//TODO:?
-		}
+		
 
 		private void GameHandler_GameSaysStarted(ISaysStatus status)
 		{
