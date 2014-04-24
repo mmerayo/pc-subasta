@@ -7,6 +7,7 @@ using Subasta.Client.Common.Infrastructure;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
 using Subasta.Infrastructure;
+using Subasta.Interaction;
 
 namespace Subasta
 {
@@ -22,6 +23,8 @@ namespace Subasta
 
 			For<ISaysExplorationListener>().Singleton().Use<NullExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
+
+			For<IUserInteractionManager>().Use<UserInteractionManager>();
 		}
 	}
 }
