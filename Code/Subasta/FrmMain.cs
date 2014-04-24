@@ -44,12 +44,12 @@ namespace Subasta
 		{
 			_frmGameSetInfo.Left =_frmGameSetInfo.Top= 0;
 
-			_frmGame.SetLocationSafe(_frmGameSetInfo.Location.X + _frmGameSetInfo.Size.Width, _frmGameSetInfo.Location.Y);
+			_frmGame.PerformSafely(()=>_frmGame.Location=new Point(_frmGameSetInfo.Location.X + _frmGameSetInfo.Size.Width, _frmGameSetInfo.Location.Y));
 
 			//_frmSays.Left = _frmGame.Left;
-			_frmSays.SetLocationSafe(_frmGame.Location.X, _frmGame.Top + _frmGame.Height);
+			_frmSays.PerformSafely(()=>_frmSays.Location=new Point(_frmGame.Location.X, _frmGame.Top + _frmGame.Height));
 
-			_frmGameInfo.SetLocationSafe( _frmGame.Left + _frmGame.Width,_frmGame.Top);
+			_frmGameInfo.PerformSafely(()=>_frmGameInfo.Location=new Point( _frmGame.Left + _frmGame.Width, _frmGame.Top));
 			_frmGameInfo.Height = _frmGame.Height;
 
 			_frmSays.Width = _frmGame.Width + _frmGameInfo.Width;
@@ -83,9 +83,9 @@ namespace Subasta
 		private void _gameSet_GameSetStarted(IGameSetHandler sender)
 		{
 			_frmGameSetInfo.PerformSafely(() => _frmGameSetInfo.Show());
-			_frmGame.ShowSafe();
-			_frmGameInfo.ShowSafe();
-			_frmSays.ShowSafe();
+			_frmGame.PerformSafely(() => _frmGame.Show());
+			_frmGameInfo.PerformSafely(() => _frmGameInfo.Show());
+			_frmSays.PerformSafely(() => _frmSays.Show());
 			UpdateFormsLocationsAndSizes();
 			
 			_frmGameSetInfo.BringToFront();
