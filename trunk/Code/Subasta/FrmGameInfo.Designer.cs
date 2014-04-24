@@ -30,7 +30,9 @@
 			{
 			this.grpPlayerTurn = new System.Windows.Forms.GroupBox();
 			this.lblTurn = new System.Windows.Forms.Label();
+			this.dgvSays = new System.Windows.Forms.DataGridView();
 			this.grpPlayerTurn.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvSays)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// grpPlayerTurn
@@ -53,12 +55,21 @@
 			this.lblTurn.TabIndex = 0;
 			this.lblTurn.Text = "lblTurn";
 			// 
+			// dgvSays
+			// 
+			this.dgvSays.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvSays.Location = new System.Drawing.Point(12, 77);
+			this.dgvSays.Name = "dgvSays";
+			this.dgvSays.Size = new System.Drawing.Size(197, 228);
+			this.dgvSays.TabIndex = 1;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 317);
 			this.ControlBox = false;
+			this.Controls.Add(this.dgvSays);
 			this.Controls.Add(this.grpPlayerTurn);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGameInfo";
@@ -68,6 +79,7 @@
 			this.Load += new System.EventHandler(this.FrmSay_Load);
 			this.grpPlayerTurn.ResumeLayout(false);
 			this.grpPlayerTurn.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvSays)).EndInit();
 			this.ResumeLayout(false);
 
 			}
@@ -76,5 +88,6 @@
 
 		private System.Windows.Forms.GroupBox grpPlayerTurn;
 		private System.Windows.Forms.Label lblTurn;
+		private System.Windows.Forms.DataGridView dgvSays;
 		}
 	}

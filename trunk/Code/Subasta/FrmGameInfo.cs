@@ -15,31 +15,40 @@ namespace Subasta
 	public partial class FrmGameInfo : Form
 	{
 		private readonly IGameSetHandler _gameSetHandler;
-		private readonly FrmGame _frmGame;
-
-		public FrmGameInfo(IGameSetHandler gameSetHandler,FrmGame frmGame)
+		private DataTable _tblSays;
+		public FrmGameInfo(IGameSetHandler gameSetHandler)
 		{
 			_gameSetHandler = gameSetHandler;
-			_frmGame = frmGame;
 			InitializeComponent();
+
+			InitializeSaysData();
 
 			_gameSetHandler.GameSaysStarted += new SaysStatusChangedHandler(_gameSetHandler_GameSaysStarted);
 			_gameSetHandler.GameHandler.GameSaysStatusChanged += new SaysStatusChangedHandler(GameHandler_GameSaysStatusChanged);
 		}
 
-	
+		private void InitializeSaysData()
+		{
+			_tblSays = new DataTable();
+			_tblSays.Columns.Add("Jug");
+			_tblSays.Columns.Add("Marque");
+
+		}
+
 
 		private void GameHandler_GameSaysStatusChanged(Domain.Game.ISaysStatus status)
 		{
 			UpdateTurn(status);
 
-			UpdateMarques();
+			UpdateMarques(status);
 
 		}
 
-		private void UpdateMarques()
+		private void UpdateMarques(ISaysStatus status)
 		{
-			
+			_tblSays.Rows.Add(status.LastSayPlayer, status.Says.Last().Figure.Say.ToString().SeparateCamelCase());
+			dgvSays.PerformSafely(x=>dgvSays.DataSource = _tblSays);
+			Application.DoEvents();
 		}
 
 		private void UpdateTurn(ISaysStatus status)
@@ -50,12 +59,13 @@ namespace Subasta
 
 		private void _gameSetHandler_GameSaysStarted(Domain.Game.ISaysStatus status)
 		{
+			_tblSays.Rows.Clear();
 			UpdateTurn(status);
 		}
 
 		private void FrmSay_Load(object sender, EventArgs e)
-			{
+		{
 
-			}
+		}
 	}
 }
