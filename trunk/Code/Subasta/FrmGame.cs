@@ -32,7 +32,6 @@ namespace Subasta
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly IUserInteractionManager _userInteractionManager;
 		private IImagesLoader _imagesLoader;
-		private DataTable tblMarques = new DataTable();
 		Size _sizePbs13 = new Size(50, 70);
 		Size _sizePbs24 = new Size(70, 50);
 
@@ -45,8 +44,6 @@ namespace Subasta
 			InitializeComponent();
 
 			LoadImages(imagesLoader);
-
-			InitializeTableMarques();
 
 			SuscribeToEvents();
 		}
@@ -68,10 +65,14 @@ namespace Subasta
 
 		void GameHandler_HandCompleted(IExplorationStatus status)
 		{
-			throw new NotImplementedException();
-			//TODO: CLEAN TABLE
-			//CREATE BAZA
-
+			//CLEAN TABLE
+			IEnumerable<ICard> cardsByPlaySequence = status.LastCompletedHand.CardsByPlaySequence();
+			foreach (var card in cardsByPlaySequence)
+			{
+				var control = (PictureBox)Controls.Cast<Control>().Single(x => x.Name == card.ToShortString());
+				RemovePictureBox(control);
+			}
+			//TODO:CREATE BAZA
 		}
 
 		void GameHandler_GameStatusChanged(IExplorationStatus status)
@@ -79,12 +80,6 @@ namespace Subasta
 			MoveCard(status.LastPlayerMoved,status.LastCardPlayed);
 		}
 		
-		private void InitializeTableMarques()
-		{
-			tblMarques.Columns.Add("Jugador");
-			tblMarques.Columns.Add("Marque");
-			tblMarques.Columns.Add("Suma");
-		}
 
 		private void InitializePictureBoxes(IPlayer player)
 		{
@@ -136,7 +131,7 @@ namespace Subasta
 
 				var card = player.Cards[index];
 				Image image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso;
-				var control = CreatePictureBoxControl(location, size, card, image);
+				var control = CreatePictureBoxControl(location, size, card, image, player.PlayerNumber == 1);
 
 				_pbs.Add(control);
 
@@ -148,7 +143,7 @@ namespace Subasta
 			Invalidate();
 		}
 
-		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image)
+		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image,bool hookPlayerEvents)
 		{
 			var current = new PictureBox
 			{
@@ -157,10 +152,34 @@ namespace Subasta
 				Name = card.ToShortString(),
 				Image = image,
 				SizeMode = PictureBoxSizeMode.StretchImage,
+				Tag=card
 			};
 
 			this.PerformSafely(x => x.Controls.Add(current));
+
+			if (hookPlayerEvents)
+			{
+				HookPlayerEventsToPictureBox(current);
+			}
+
 			return current;
+		}
+
+		private void HookPlayerEventsToPictureBox(PictureBox target)
+		{
+			target.MouseUp += PbCard_MouseUp;
+		}
+
+		void PbCard_MouseUp(object sender, MouseEventArgs e)
+		{
+			var pictureBox = (PictureBox) sender;
+			bool peta = e.Button == MouseButtons.Right;
+			
+			_userInteractionManager.InputProvided(() =>
+			{
+				EnableMoves(_gameSetHandler.GameHandler.Player1,false);
+				return new UserCardSelection((ICard)pictureBox.Tag, peta);
+			});
 		}
 
 
@@ -171,8 +190,6 @@ namespace Subasta
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player2);
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player3);
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player4);
-
-			PaintFirstPlayer();
 
 		}
 
@@ -189,11 +206,8 @@ namespace Subasta
 		private void RemovePictureBox(PictureBox pictureBox)
 		{
 			this.PerformSafely(x => x.Controls.Remove(pictureBox));
-			_pbs.Remove(pictureBox);
-		}
-
-		private void PaintFirstPlayer()
-		{
+			if(_pbs.Contains(pictureBox))
+				_pbs.Remove(pictureBox);
 		}
 
 		ICard GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
@@ -209,13 +223,14 @@ namespace Subasta
 		private void MoveCard(int playerNumber, ICard card)
 		{
 
-			PictureBox pbCard = PaintCardPlayed(playerNumber, card);// _pbs.Single(x => x.Name == card.ToShortString());
-			
 			//Remove from hand
-			RemovePictureBox( _pbs.Single(x => x.Name == card.ToShortString()));
+			RemovePictureBox(_pbs.Single(x => x.Name == card.ToShortString()));
 			//PAINT REMAINING CARDS
 			CompactPlayerCards(playerNumber);
-			// WAIT TIME SO THE USER CAN SEE THEM
+
+			PictureBox pbCard = PaintCardPlayed(playerNumber, card);
+			
+			// WAIT TIME SO THE USER CAN SEE it
 			Thread.Sleep(TimeSpan.FromSeconds(1));
 
 		}
@@ -275,8 +290,7 @@ namespace Subasta
 					break;
 			}
 
-			var result = CreatePictureBoxControl(destination, playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13,
-				card, image);
+			var result = CreatePictureBoxControl(destination, playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card, image,false);
 
 			return result;
 		}
@@ -297,12 +311,6 @@ namespace Subasta
 					source.Enabled = true;
 				}
 			}
-		}
-
-
-		private string NormalizeSay(SayKind say)
-		{
-			return say.ToString().SeparateCamelCase(" ");
 		}
 
 
