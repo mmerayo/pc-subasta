@@ -11,20 +11,34 @@ using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Extensions;
+using Subasta.Interaction;
 
 namespace Subasta
 {
 	public partial class FrmGame : Form
 	{
+		private class UserCardSelection
+		{
+			public UserCardSelection(ICard card, bool peta)
+			{
+				Card = card;
+				Peta = peta;
+			}
+			public ICard Card { get; private set; }
+			public bool Peta { get; private set; }
+		}
+
 		private readonly IGameSetHandler _gameSetHandler;
+		private readonly IUserInteractionManager _userInteractionManager;
 		private IImagesLoader _imagesLoader;
 		private DataTable tblMarques = new DataTable();
 
 		private List<PictureBox> _pbs = new List<PictureBox>(40);
 
-		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader)
+		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader,IUserInteractionManager userInteractionManager)
 		{
 			_gameSetHandler = gameSetHandler;
+			_userInteractionManager = userInteractionManager;
 			InitializeComponent();
 
 			LoadImages(imagesLoader);
@@ -43,8 +57,25 @@ namespace Subasta
 		private void SuscribeToEvents()
 		{
 			_gameSetHandler.GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
+			_gameSetHandler.GameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
+			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
+			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
+			
 		}
 
+		void GameHandler_HandCompleted(IExplorationStatus status)
+		{
+			throw new NotImplementedException();
+			//TODO: CLEAN TABLE
+			//CREATE BAZA
+
+		}
+
+		void GameHandler_GameStatusChanged(IExplorationStatus status)
+		{
+			MoveCard(status.LastPlayerMoved,status.LastCardPlayed);
+		}
+		
 		private void InitializeTableMarques()
 		{
 			tblMarques.Columns.Add("Jugador");
@@ -139,7 +170,31 @@ namespace Subasta
 		{
 		}
 
-		
+		ICard GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
+		{
+			EnableMoves(source,true, validMoves);
+			var selection=_userInteractionManager.WaitUserInput<UserCardSelection>();
+			MoveCard(source.PlayerNumber, selection.Card);
+			EnableMoves(source, false);
+			peta = selection.Peta;
+			return selection.Card;
+		}
+
+		private void MoveCard(int playerNumber, ICard card)
+		{
+			throw new NotImplementedException();
+			//TODO: MOVE
+			//TODO:PAINT REMAINING CARDS
+			//TODO: WAIT TIME SO THE USER CAN SEE THEM
+			
+		}
+
+		private void EnableMoves(IPlayer player, bool enable, ICard[] moves = null)
+		{
+			//GET PBS PLAYER
+			//if moves !=null disable/enable all otherwise only moves
+		}
+
 
 		private string NormalizeSay(SayKind say)
 		{

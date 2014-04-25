@@ -58,9 +58,6 @@ namespace Subasta
 			
 		}
 
-		private IFigure LastSay { get; set; }
-		private ISuit Trump { get; set; }
-
 		IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source,ISaysStatus saysStatus)
 		{
 			return OnSayNeeded(source,saysStatus);
@@ -71,20 +68,16 @@ namespace Subasta
 			LoadSayKinds(saysStatus);
 			EnableSayInteraction(true);
 
-			_interactionManager.WaitUserInput();
+			var result=_interactionManager.WaitUserInput<IFigure>();
 
-			var result = LastSay;
-			LastSay = null;
 			return result;
 		}
 
 		ISuit GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
 		{
 			EnableTrumpInteraction(true);
-			_interactionManager.WaitUserInput();
+			var result= _interactionManager.WaitUserInput<ISuit>();
 
-			var result = Trump;
-			Trump = null;
 			return result;
 		}
 
@@ -114,8 +107,9 @@ namespace Subasta
 		{
 			_interactionManager.InputProvided(() =>
 			{
-				LastSay = _figuresCatalog.GetFigureJustPoints((int)cmbSays.SelectedValue);
+				var result= _figuresCatalog.GetFigureJustPoints((int)cmbSays.SelectedValue);
 				EnableSayInteraction(false);
+				return result;
 			});
 		}
 
@@ -123,8 +117,9 @@ namespace Subasta
 		{
 			_interactionManager.InputProvided(() =>
 			{
-				Trump =(ISuit) cmbSuits.SelectedValue;
+				var result=(ISuit) cmbSuits.SelectedValue;
 				EnableTrumpInteraction(false);
+				return result;
 			});
 		}
 

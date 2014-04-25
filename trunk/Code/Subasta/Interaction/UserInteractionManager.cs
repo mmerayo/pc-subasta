@@ -10,7 +10,7 @@ namespace Subasta.Interaction
 	{
 		private readonly EventWaitHandle _semGame;
 		private readonly EventWaitHandle _semPlayer;
-
+		private object _lastInput = null;
 		public UserInteractionManager()
 		{
 			_semGame = new AutoResetEvent(false);
@@ -23,18 +23,22 @@ namespace Subasta.Interaction
 			_semPlayer.Reset();
 		}
 
-		public void WaitUserInput()
+		public TInput WaitUserInput<TInput>()
 		{
 			_semPlayer.Set();
 			if (!_semGame.WaitOne())
 				throw new Exception();
+
+			var result=  (TInput) _lastInput;
+			_lastInput = null;
+			return result;
 		}
 
-		public void InputProvided(Action action)
+		public void InputProvided<TInput>(Func<TInput> action)
 		{
 			if (!_semPlayer.WaitOne())
 				throw new Exception();
-			action();
+			_lastInput=action();
 			_semGame.Set();
 		}
 	}
