@@ -301,14 +301,14 @@ namespace Subasta
 			var playerCards = _pbs.Where(x => player.Cards.Any(y=>y.ToShortString()==x.Name));
 			foreach (var playerCard in playerCards)
 			{
-				playerCard.Enabled = false;
+				playerCard.PerformSafely(x=>x.Enabled = false);
 			}
 			if (enable && moves != null)
 			{
 				IEnumerable<PictureBox> pictureBoxs = playerCards.Where(x=>moves.Any(y=>y.ToShortString()==x.Name));
 				foreach (var source in pictureBoxs)
 				{
-					source.Enabled = true;
+					source.PerformSafely(x=>x.Enabled =true);
 				}
 			}
 		}

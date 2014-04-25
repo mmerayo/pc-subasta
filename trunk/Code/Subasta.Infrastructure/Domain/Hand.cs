@@ -93,7 +93,23 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
-		public int LastPlayerPlayed { get{} }
+		public int LastPlayerPlayed
+		{
+			get
+			{
+				ThrowIfEmpty();
+				int currPlayer = FirstPlayer;
+
+				do
+				{
+
+					currPlayer = NextPlayer(currPlayer);
+				} while (PlayerCard(currPlayer) != null && currPlayer != FirstPlayer);
+				return PreviousPlayer(currPlayer);
+			}
+		}
+
+		
 
 		public bool IsStartedByTrump
 		{
@@ -251,6 +267,13 @@ namespace Subasta.Infrastructure.Domain
 		{
 			if (++currentPlayer > 4)
 				currentPlayer = 1;
+			return currentPlayer;
+		}
+
+		private int PreviousPlayer(int currentPlayer)
+		{
+			if (--currentPlayer < 1)
+				currentPlayer = 4;
 			return currentPlayer;
 		}
 
