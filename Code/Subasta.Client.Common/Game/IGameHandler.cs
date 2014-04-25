@@ -32,5 +32,6 @@ namespace Subasta.Client.Common.Game
 		event SayNeededEvent HumanPlayerSayNeeded;
 		event TrumpNeededEvent HumanPlayerTrumpNeeded;
 		IPlayer GetPlayer(int playerNum);
+		event StatusChangedHandler HandCompleted;
 	}
 }

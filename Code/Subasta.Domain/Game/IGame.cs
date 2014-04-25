@@ -21,7 +21,7 @@ namespace Subasta.Domain.Game
 		event GameStatusChangedHandler GameStatusChanged;
 		event GameStatusChangedHandler GameStarted;
 		event GameStatusChangedHandler GameCompleted;
-
+		event GameStatusChangedHandler HandCompleted;
 		event GamePlayerPetaHandler GamePlayerPeta;
 
 

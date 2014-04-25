@@ -25,6 +25,8 @@ namespace Subasta.Domain.Game
 	    int TotalMoves { get; }
 		bool LogicalComplete { get; set; }
 		int NormalizedPointsBet { get; }
+		int LastPlayerMoved { get; }
+		ICard LastCardPlayed { get; }
 		void AddNewHand();
 		ICard[] PlayerCards(int playerPosition);
 		void SetCards(int playerPosition, ICard[] cards);

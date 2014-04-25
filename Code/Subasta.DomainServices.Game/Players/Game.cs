@@ -25,6 +25,7 @@ namespace Subasta.DomainServices.Game.Players
 		public event GameStatusChangedHandler GameStatusChanged;
 		public event GameStatusChangedHandler GameStarted;
 		public event GameStatusChangedHandler GameCompleted;
+		public event GameStatusChangedHandler HandCompleted;
 		public event GamePlayerPetaHandler GamePlayerPeta;
 		public event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		public event GameSaysStatusChangedHandler GameSaysStarted;
@@ -190,8 +191,9 @@ namespace Subasta.DomainServices.Game.Players
 
 			//if its the last card of the hand AND
 			//the current hand winner has a human in the team
-			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3 &&
-			    _players.Any(
+			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3)
+			{
+			if(_players.Any(
 			    	x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value))
 			{
 				_status.LastCompletedHand.SetDeclaration(null);
@@ -206,12 +208,20 @@ namespace Subasta.DomainServices.Game.Players
 				var declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 				_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 			}
+				OnHandCompleted(_status);
+			}
 
 			
 			if (peta)
 			{
 				OnPlayerPeta(playerMoves);
 			}
+		}
+
+		private void OnHandCompleted(IExplorationStatus status)
+		{
+			if (HandCompleted != null)
+				HandCompleted(status);
 		}
 
 		private void OnPlayerPeta(IPlayer playerMoves)
