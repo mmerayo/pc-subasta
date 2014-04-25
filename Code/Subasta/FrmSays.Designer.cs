@@ -40,6 +40,7 @@
 			// 
 			// cmbSays
 			// 
+			this.cmbSays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbSays.FormattingEnabled = true;
 			this.cmbSays.Location = new System.Drawing.Point(44, 19);
 			this.cmbSays.Name = "cmbSays";
@@ -58,10 +59,9 @@
 			// 
 			// grpSayOptions
 			// 
-			this.grpSayOptions.Controls.Add(this.grpTrumpOptions);
 			this.grpSayOptions.Controls.Add(this.btnSelect);
 			this.grpSayOptions.Controls.Add(this.cmbSays);
-			this.grpSayOptions.Location = new System.Drawing.Point(13, 3);
+			this.grpSayOptions.Location = new System.Drawing.Point(12, 0);
 			this.grpSayOptions.Name = "grpSayOptions";
 			this.grpSayOptions.Size = new System.Drawing.Size(584, 76);
 			this.grpSayOptions.TabIndex = 2;
@@ -72,7 +72,7 @@
 			// 
 			this.grpTrumpOptions.Controls.Add(this.btnSelectTrump);
 			this.grpTrumpOptions.Controls.Add(this.cmbSuits);
-			this.grpTrumpOptions.Location = new System.Drawing.Point(0, 0);
+			this.grpTrumpOptions.Location = new System.Drawing.Point(12, 92);
 			this.grpTrumpOptions.Name = "grpTrumpOptions";
 			this.grpTrumpOptions.Size = new System.Drawing.Size(584, 76);
 			this.grpTrumpOptions.TabIndex = 3;
@@ -91,6 +91,7 @@
 			// 
 			// cmbSuits
 			// 
+			this.cmbSuits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbSuits.FormattingEnabled = true;
 			this.cmbSuits.Location = new System.Drawing.Point(44, 19);
 			this.cmbSuits.Name = "cmbSuits";
@@ -101,9 +102,10 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(621, 83);
+			this.ClientSize = new System.Drawing.Size(613, 81);
 			this.ControlBox = false;
 			this.Controls.Add(this.grpSayOptions);
+			this.Controls.Add(this.grpTrumpOptions);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmSays";
 			this.ShowIcon = false;

@@ -29,11 +29,16 @@ namespace Subasta
 			_gameSet = gameSet;
 			_figuresCatalog = figuresCatalog;
 			_interactionManager = interactionManager;
-			_gameSet.GameHandler.GameSaysStarted +=GameHandler_GameSaysStarted;
+			
+			InitializeComponent();
+
+			grpTrumpOptions.Location = grpSayOptions.Location;
+			grpSayOptions.BringToFront();
+
+			_gameSet.GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 			_gameSet.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 			_gameSet.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
 			_gameSet.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
-			InitializeComponent();
 
 			EnableSayInteraction(false);
 			EnableTrumpInteraction(false);
@@ -88,20 +93,21 @@ namespace Subasta
 			IEnumerable<SayKind> sayKinds =
 				Enum.GetValues(typeof (SayKind))
 					.Cast<SayKind>()
-					.Where(x => (int) x > saysStatus.PointsBet || x == SayKind.Paso || (saysStatus.PointsBet<25 && x== SayKind.UnaMas));
+					.Where(x => (int) x > saysStatus.PointsBet || x == SayKind.Paso || (saysStatus.PointsBet>0 && saysStatus.PointsBet<25 && x== SayKind.UnaMas));
 			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
-
-			cmbSays.DataSource = new BindingSource(source, null);
+			
+			cmbSays.PerformSafely(x =>cmbSays.DataSource = new BindingSource(source, null));
 			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
 			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
+			
 		}
 		private void LoadSuits()
 		{
 			var source = Suit.Suits.ToDictionary(value => value, value => value.Name);
 
 			cmbSuits.DataSource = new BindingSource(source, null);
-			cmbSuits.PerformSafely(x => cmbSays.ValueMember = "Key");
-			cmbSuits.PerformSafely(x => cmbSays.DisplayMember = "Value");
+			cmbSuits.PerformSafely(x => cmbSuits.ValueMember = "Key");
+			cmbSuits.PerformSafely(x => cmbSuits.DisplayMember = "Value");
 		}
 
 		private void btnSelect_Click(object sender, EventArgs e)
@@ -124,16 +130,26 @@ namespace Subasta
 
 		private void EnableSayInteraction(bool enable)
 		{
-			btnSelect.PerformSafely(x=>x.Enabled = enable);
-			cmbSays.PerformSafely(x => x.Enabled = enable);
-			grpSayOptions.PerformSafely(x => x.Visible = enable);
+			//grpSayOptions.PerformSafely(x => x.Visible = enable);
+			grpSayOptions.PerformSafely(x => x.BringToFront());
+			btnSelect.PerformSafely(x=>x.Enabled= enable);
+			cmbSays.PerformSafely(x => x.Enabled= enable);
+		
+			Application.DoEvents();
 		}
 
 		private void EnableTrumpInteraction(bool enable)
 		{
+			//grpTrumpOptions.PerformSafely(x => grpTrumpOptions.Visible = enable);
+			grpTrumpOptions.PerformSafely(x => x.BringToFront());
+
 			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
+			//btnSelectTrump.PerformSafely(x => x.Visible = enable);
+			//cmbSuits.PerformSafely(x => x.Visible = enable);
 			cmbSuits.PerformSafely(x => x.Enabled = enable);
-			grpTrumpOptions.PerformSafely(x => x.Visible = enable);
+			
+			this.PerformSafely(x=>x.Invalidate());
+			Application.DoEvents();
 		}
 
 		
