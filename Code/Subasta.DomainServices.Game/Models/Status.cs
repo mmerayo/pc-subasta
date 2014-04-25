@@ -316,6 +316,35 @@ namespace Subasta.DomainServices.Game.Models
 			get { return (int)Math.Truncate((double)(PointsBet/10)); }
 		}
 
+		public int LastPlayerMoved
+		{
+			get {
+				ThrowIfEmpty();
+				return CurrentHand.LastPlayerPlayed;
+			}
+		}
+
+		private void ThrowIfEmpty()
+		{
+		
+			if (IsEmpty)
+				throw new InvalidOperationException();
+		}
+
+		public bool IsEmpty
+		{
+			get { return Hands.Count == 0 || Hands[0].IsEmpty; }
+		}
+
+		public ICard LastCardPlayed
+		{
+			get
+			{
+				ThrowIfEmpty();
+				return CurrentHand.CardsByPlaySequence().LastOrDefault(x => x != null);
+			}
+		}
+
 		public void AddNewHand()
 		{
 			ThrowIfNotPlayerBetSet();

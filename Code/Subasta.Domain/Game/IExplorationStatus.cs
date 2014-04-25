@@ -27,6 +27,7 @@ namespace Subasta.Domain.Game
 		int NormalizedPointsBet { get; }
 		int LastPlayerMoved { get; }
 		ICard LastCardPlayed { get; }
+		bool IsEmpty { get; }
 		void AddNewHand();
 		ICard[] PlayerCards(int playerPosition);
 		void SetCards(int playerPosition, ICard[] cards);

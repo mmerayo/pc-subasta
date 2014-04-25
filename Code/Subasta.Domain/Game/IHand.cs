@@ -34,6 +34,7 @@ namespace Subasta.Domain.Game
 
         int Sequence { get; }
 	    int DeclarationValue { get; }
+	    int LastPlayerPlayed { get; }
 	    ICard PlayerCard(int playerPosition);
 
 		IHand Clone();

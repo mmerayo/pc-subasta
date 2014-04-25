@@ -93,6 +93,8 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
+		public int LastPlayerPlayed { get{} }
+
 		public bool IsStartedByTrump
 		{
 			get
