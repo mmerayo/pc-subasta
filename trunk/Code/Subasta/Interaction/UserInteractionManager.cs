@@ -13,8 +13,8 @@ namespace Subasta.Interaction
 
 		public UserInteractionManager()
 		{
-			_semGame = new ManualResetEvent(false);
-			_semPlayer = new ManualResetEvent(false);
+			_semGame = new AutoResetEvent(false);
+			_semPlayer = new AutoResetEvent(false);
 		}
 
 		public void Reset()
