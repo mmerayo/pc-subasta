@@ -73,11 +73,21 @@ namespace Subasta
 			//TODO:CREATE BAZA
 		}
 
+
+		private ICard _lastCardPlayed = null;
 		void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
-			MoveCard(status.LastPlayerMoved,status.LastCardPlayed);
+			ICard lastCardPlayed = status.LastCardPlayed;
+			if (lastCardPlayed!=_lastCardPlayed) //due to defect  as the event is triggered twice
+			{
+				MoveCard(status, status.LastPlayerMoved, lastCardPlayed);
+				_lastCardPlayed = lastCardPlayed;
+				// WAIT TIME SO THE USER CAN SEE it
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+
+			}
 		}
-		
+
 
 		private void InitializePictureBoxes(IPlayer player)
 		{
@@ -85,24 +95,7 @@ namespace Subasta
 
 			Point startPoint = Point.Empty;
 
-			switch (player.PlayerNumber)
-			{
-				case 1:
-					startPoint = new Point(_sizePbs24.Width, Size.Height - 30 - _sizePbs13.Height);
-					break;
-
-				case 2:
-					startPoint = new Point(Width - _sizePbs24.Width - 12, _sizePbs13.Height + 20);
-					break;
-
-				case 3:
-					startPoint = new Point(_sizePbs24.Width, 12);
-					break;
-
-				case 4:
-					startPoint = new Point(20, _sizePbs13.Height + 20);
-					break;
-			}
+			startPoint = GetPlayerCardsStartPaintingPoint(player);
 			Image imgReverso = imageList.Images["reverso"];
 			Image imgReversoV = (Image) imgReverso.Clone();
 			imgReversoV.RotateFlip(RotateFlipType.Rotate90FlipX);
@@ -129,7 +122,7 @@ namespace Subasta
 
 				var card = player.Cards[index];
 				Image image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso;
-				var control = CreatePictureBoxControl(location, size, card, image, player.PlayerNumber == 1);
+				var control = CreatePictureBoxControl(location, size, card, image);
 
 			}
 
@@ -139,7 +132,34 @@ namespace Subasta
 			Invalidate();
 		}
 
-		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image,bool hookPlayerEvents)
+		private Point GetPlayerCardsStartPaintingPoint(IPlayer player)
+		{
+			Point startPoint;
+			switch (player.PlayerNumber)
+			{
+				case 1:
+					startPoint = new Point(_sizePbs24.Width, Size.Height - 30 - _sizePbs13.Height);
+					break;
+
+				case 2:
+					startPoint = new Point(Width - _sizePbs24.Width - 12, _sizePbs13.Height + 20);
+					break;
+
+				case 3:
+					startPoint = new Point(_sizePbs24.Width, 12);
+					break;
+
+				case 4:
+					startPoint = new Point(20, _sizePbs13.Height + 20);
+					break;
+				default:
+				throw new ArgumentOutOfRangeException();
+
+			}
+			return startPoint;
+		}
+
+		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image)
 		{
 			var current = new PictureBox
 			{
@@ -153,17 +173,17 @@ namespace Subasta
 
 			this.PerformSafely(x => x.Controls.Add(current));
 
-			if (hookPlayerEvents)
-			{
-				HookPlayerEventsToPictureBox(current);
-			}
-
 			return current;
 		}
 
-		private void HookPlayerEventsToPictureBox(PictureBox target)
+		private void HookPlayerEventsToPictureBox(PictureBox target,bool hook)
 		{
-			target.MouseUp += PbCard_MouseUp;
+			if(hook)
+				target.MouseUp += PbCard_MouseUp;
+			else
+			{
+				target.MouseUp -= PbCard_MouseUp;
+			}
 		}
 
 		void PbCard_MouseUp(object sender, MouseEventArgs e)
@@ -191,7 +211,7 @@ namespace Subasta
 
 		private void ClearAllPictureBoxControls()
 		{
-			var pbs = this.FindControls(x => x is PictureBox && x.Tag!=null && x.Tag is ICard).ToArray();
+			var pbs = this.FindControls<PictureBox>(x => x.Tag!=null && x.Tag is ICard).ToArray();
 			foreach (var pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
@@ -201,7 +221,7 @@ namespace Subasta
 
 		private void RemovePictureBoxesByCard(ICard card)
 		{
-			IEnumerable<Control> pbs = this.FindControls(x => x is PictureBox && x.Tag == card).ToArray();
+			IEnumerable<Control> pbs = this.FindControls<PictureBox>(x =>  x.Tag == card).ToArray();
 			foreach (var pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
@@ -219,24 +239,49 @@ namespace Subasta
 			return selection.Card;
 		}
 
-		private void MoveCard(int playerNumber, ICard card)
+		private void MoveCard(IExplorationStatus status, int playerNumber, ICard card)
 		{
 
 			//Remove from hand
 			RemovePictureBoxesByCard(card);
 			//PAINT REMAINING CARDS
-			CompactPlayerCards(playerNumber);
+			CompactPlayerCards(status,playerNumber,card);
 
 			PictureBox pbCard = PaintCardPlayed(playerNumber, card);
 			
-			// WAIT TIME SO THE USER CAN SEE it
-			Thread.Sleep(TimeSpan.FromSeconds(1));
-
 		}
 
-		private void CompactPlayerCards(int playerNumber)
+		private void CompactPlayerCards(IExplorationStatus status, int playerNumber, ICard cardPlayed)
 		{
-			//TODO:
+			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(playerNumber);
+			var startPoint = GetPlayerCardsStartPaintingPoint(player);
+			int index = 0;
+			ICard[] playerCards = status.PlayerCards(playerNumber);
+			foreach(var card in playerCards)
+			{
+				Point location = startPoint;
+
+				switch (player.PlayerNumber)
+				{
+					case 1:
+					case 3:
+						location.X += (_sizePbs13.Width)*index;
+						break;
+
+					case 2:
+					case 4:
+						location.Y += (_sizePbs24.Height/2)*index;
+						break;
+				}
+
+				PictureBox pictureBox = this.FindControls<PictureBox>(x => x.Tag == card).First();
+				pictureBox.PerformSafely(x=>
+				                         {
+				                         	x.Location = location;
+											x.BringToFront();
+				                         });
+				index++;
+			}
 		}
 
 		private PictureBox PaintCardPlayed(int playerNumber, ICard card)
@@ -282,14 +327,14 @@ namespace Subasta
 					image.RotateFlip(RotateFlipType.Rotate270FlipY);
 					break;
 				case 3:
-					image.RotateFlip(RotateFlipType.Rotate180FlipY);
+					image.RotateFlip(RotateFlipType.Rotate180FlipX);
 					break;
 				case 4:
 					image.RotateFlip(RotateFlipType.Rotate90FlipY);
 					break;
 			}
 
-			var result = CreatePictureBoxControl(destination, playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card, image,false);
+			var result = CreatePictureBoxControl(destination, playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card, image);
 
 			return result;
 		}
@@ -297,9 +342,10 @@ namespace Subasta
 		private void EnableMoves(IPlayer player, bool enable, ICard[] moves = null)
 		{
 			//GET PBS PLAYER
-			var playerCards = this.FindControls(x=>x is PictureBox && player.Cards.Any(y=>y==x.Tag));
+			var playerCards = this.FindControls<PictureBox>(x=>player.Cards.Any(y=>y==x.Tag));
 			foreach (var playerCard in playerCards)
 			{
+				HookPlayerEventsToPictureBox(playerCard, false);
 				playerCard.PerformSafely(x=>x.Enabled = false);
 			}
 			if (enable && moves != null)
@@ -307,6 +353,8 @@ namespace Subasta
 				var pictureBoxs = playerCards.Where(x=>moves.Any(y=>y==x.Tag));
 				foreach (var source in pictureBoxs)
 				{
+					HookPlayerEventsToPictureBox(source,true);
+
 					source.PerformSafely(x=>x.Enabled =true);
 				}
 			}
