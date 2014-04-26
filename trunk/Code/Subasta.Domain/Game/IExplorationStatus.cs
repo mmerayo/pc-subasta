@@ -53,5 +53,6 @@ namespace Subasta.Domain.Game
 		bool IsInTeamBets(int playerPosition);
 		int PlayerMateOf(int playerWinner);
 		ICard[] GetCardsNotYetPlayed();
+		IEnumerable<Declaration> GetPlayerDeclarables(int playerNumber);
 	}
 }

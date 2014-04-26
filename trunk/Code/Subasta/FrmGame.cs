@@ -35,7 +35,6 @@ namespace Subasta
 		Size _sizePbs13 = new Size(50, 70);
 		Size _sizePbs24 = new Size(70, 50);
 
-		private List<PictureBox> _pbs = new List<PictureBox>(40);
 
 		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader,IUserInteractionManager userInteractionManager)
 		{
@@ -69,8 +68,7 @@ namespace Subasta
 			IEnumerable<ICard> cardsByPlaySequence = status.LastCompletedHand.CardsByPlaySequence();
 			foreach (var card in cardsByPlaySequence)
 			{
-				var control = (PictureBox)Controls.Cast<Control>().Single(x => x.Name == card.ToShortString());
-				RemovePictureBox(control);
+				RemovePictureBoxesByCard(card);
 			}
 			//TODO:CREATE BAZA
 		}
@@ -133,8 +131,6 @@ namespace Subasta
 				Image image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso;
 				var control = CreatePictureBoxControl(location, size, card, image, player.PlayerNumber == 1);
 
-				_pbs.Add(control);
-
 			}
 
 
@@ -195,26 +191,29 @@ namespace Subasta
 
 		private void ClearAllPictureBoxControls()
 		{
-			PictureBox[] pictureBoxs = _pbs.ToArray();
-			foreach (var pictureBox in pictureBoxs)
+			var pbs = this.FindControls(x => x is PictureBox && x.Tag!=null && x.Tag is ICard).ToArray();
+			foreach (var pb in pbs)
 			{
-				RemovePictureBox(pictureBox);
+				this.PerformSafely(x => x.Controls.Remove(pb));
 			}
 
 		}
 
-		private void RemovePictureBox(PictureBox pictureBox)
+		private void RemovePictureBoxesByCard(ICard card)
 		{
-			this.PerformSafely(x => x.Controls.Remove(pictureBox));
-			if(_pbs.Contains(pictureBox))
-				_pbs.Remove(pictureBox);
+			IEnumerable<Control> pbs = this.FindControls(x => x is PictureBox && x.Tag == card).ToArray();
+			foreach (var pb in pbs)
+			{
+				this.PerformSafely(x => x.Controls.Remove(pb));
+			}
+			
 		}
 
 		ICard GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
 		{
 			EnableMoves(source,true, validMoves);
 			var selection=_userInteractionManager.WaitUserInput<UserCardSelection>();
-			MoveCard(source.PlayerNumber, selection.Card);
+			//MoveCard(source.PlayerNumber, selection.Card);
 			EnableMoves(source, false);
 			peta = selection.Peta;
 			return selection.Card;
@@ -224,7 +223,7 @@ namespace Subasta
 		{
 
 			//Remove from hand
-			RemovePictureBox(_pbs.Single(x => x.Name == card.ToShortString()));
+			RemovePictureBoxesByCard(card);
 			//PAINT REMAINING CARDS
 			CompactPlayerCards(playerNumber);
 
@@ -252,10 +251,10 @@ namespace Subasta
 				case 3:
 					destination.X = centerPoint.X - (_sizePbs13.Width/2);
 					break;
-				case 2:
+				case 4:
 					destination.X = centerPoint.X - (_sizePbs13.Width/2) - _sizePbs24.Width;
 					break;
-				case 4:
+				case 2:
 					destination.X = centerPoint.X + (_sizePbs13.Width/2);
 					break;
 			}
@@ -280,13 +279,13 @@ namespace Subasta
 			switch (playerNumber)
 			{
 				case 2:
-					image.RotateFlip(RotateFlipType.Rotate90FlipY);
+					image.RotateFlip(RotateFlipType.Rotate270FlipY);
 					break;
 				case 3:
 					image.RotateFlip(RotateFlipType.Rotate180FlipY);
 					break;
 				case 4:
-					image.RotateFlip(RotateFlipType.Rotate270FlipY);
+					image.RotateFlip(RotateFlipType.Rotate90FlipY);
 					break;
 			}
 
@@ -298,14 +297,14 @@ namespace Subasta
 		private void EnableMoves(IPlayer player, bool enable, ICard[] moves = null)
 		{
 			//GET PBS PLAYER
-			var playerCards = _pbs.Where(x => player.Cards.Any(y=>y.ToShortString()==x.Name));
+			var playerCards = this.FindControls(x=>x is PictureBox && player.Cards.Any(y=>y==x.Tag));
 			foreach (var playerCard in playerCards)
 			{
 				playerCard.PerformSafely(x=>x.Enabled = false);
 			}
 			if (enable && moves != null)
 			{
-				IEnumerable<PictureBox> pictureBoxs = playerCards.Where(x=>moves.Any(y=>y.ToShortString()==x.Name));
+				var pictureBoxs = playerCards.Where(x=>moves.Any(y=>y==x.Tag));
 				foreach (var source in pictureBoxs)
 				{
 					source.PerformSafely(x=>x.Enabled =true);
