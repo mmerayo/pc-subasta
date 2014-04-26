@@ -2,15 +2,16 @@
 
 namespace Subasta.Domain
 {
+//sorted by value
 	public enum Declaration
 	{
 		Reyes=1,
 		Caballos,
+		Cuarenta,
 		ParejaOros,
 		ParejaCopas,
 		ParejaEspadas,
 		ParejaBastos,
-		Cuarenta
 	}
 
 	public static class DeclarationValues

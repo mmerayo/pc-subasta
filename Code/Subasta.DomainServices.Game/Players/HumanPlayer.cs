@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
@@ -10,15 +12,19 @@ namespace Subasta.DomainServices.Game.Players
 	{
 		private readonly ICandidatePlayer _candidatePlayer;
 		private readonly IValidCardsRule _validCardsRule;
+		private readonly IPlayerDeclarationsChecker _playerDeclarationsChecker;
 		public event MoveSelectionNeeded SelectMove;
 		public event DeclarationSelectionNeeded SelectDeclaration;
 		public event SayNeededEvent SelectSay;
 		public event TrumpNeededEvent ChooseTrumpRequest;
+		
 
-		public HumanPlayer(ICandidatePlayer candidatePlayer,IValidCardsRule validCardsRule)
+
+		public HumanPlayer(ICandidatePlayer candidatePlayer,IValidCardsRule validCardsRule,IPlayerDeclarationsChecker playerDeclarationsChecker)
 		{
 			_candidatePlayer = candidatePlayer;
 			_validCardsRule = validCardsRule;
+			_playerDeclarationsChecker = playerDeclarationsChecker;
 		}
 
 		public override PlayerType PlayerType
@@ -53,6 +59,11 @@ namespace Subasta.DomainServices.Game.Players
 			return OnTrumpChoiceRequired(saysStatus);
 		}
 
+		public IEnumerable<Declaration> GetUserDeclarables(IExplorationStatus status)
+		{
+			return status.GetPlayerDeclarables(PlayerNumber);
+		}
+
 		private Declaration? OnDeclarationSelectionNeeded(IExplorationStatus status)
 		{
 			var declarables = status.Declarables;
@@ -60,7 +71,7 @@ namespace Subasta.DomainServices.Game.Players
 
 			if (SelectDeclaration != null)
 			{
-				return SelectDeclaration(this, declarables);
+				return SelectDeclaration(this, declarables,status);
 			}
 			throw new InvalidOperationException("The event SelectDeclaration on human players need to have one suscriptor");
 		}

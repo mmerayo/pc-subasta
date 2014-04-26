@@ -101,7 +101,7 @@ namespace Analyzer
 		}
 
 
-		Declaration? _GameHandler_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations)
+		Declaration? _GameHandler_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Declaration[] availableDeclarations, IExplorationStatus status)
 		{
 			string declarations = string.Join("-", availableDeclarations.Select(x => x.ToString()));
 			string declarationSelected;

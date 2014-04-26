@@ -147,6 +147,15 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
+		public IEnumerable<Declaration> GetPlayerDeclarables(int playerNumber)
+		{
+			//	TODO: USE IPLAYER INSTEAD OF ARRAYS AND THE PLAYER TO KEEP DE INFO
+			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
+
+			return declarables.Where(
+				x => _declarationsChecker.HasDeclarable(x, Trump, _playerCards[playerNumber - 1]));
+		}
+
 		private List<Declaration> GetDeclarationCandidates()
 		{
 			var result = new List<Declaration>();
@@ -166,13 +175,10 @@ namespace Subasta.DomainServices.Game.Models
 				teamPlayers[1] = 4;
 			}
 
-			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
 			
 			for (int i = 0; i < 2; i++)
-			{
-				var declarations = declarables.Where(
-					x => _declarationsChecker.HasDeclarable(x, Trump, _playerCards[teamPlayers[i] - 1]));
-				result.AddRange(declarations);
+			{	
+				result.AddRange(GetPlayerDeclarables(teamPlayers[i]));
 			}
 
 			return result;
@@ -311,6 +317,8 @@ namespace Subasta.DomainServices.Game.Models
 			return PlayerCards(1).Union(PlayerCards(2)).Union(PlayerCards(3)).Union(PlayerCards(4)).ToArray();
 		}
 
+	
+
 		public int NormalizedPointsBet
 		{
 			get { return (int)Math.Truncate((double)(PointsBet/10)); }
@@ -318,9 +326,11 @@ namespace Subasta.DomainServices.Game.Models
 
 		public int LastPlayerMoved
 		{
-			get {
+			get
+			{
 				ThrowIfEmpty();
-				return CurrentHand.LastPlayerPlayed;
+				var source = CurrentHand.IsEmpty ? LastCompletedHand : CurrentHand;
+				return source.LastPlayerPlayed;
 			}
 		}
 
@@ -341,7 +351,8 @@ namespace Subasta.DomainServices.Game.Models
 			get
 			{
 				ThrowIfEmpty();
-				return CurrentHand.CardsByPlaySequence().LastOrDefault(x => x != null);
+				var source = CurrentHand.IsEmpty ? LastCompletedHand : CurrentHand;
+				return source.CardsByPlaySequence().LastOrDefault(x => x != null);
 			}
 		}
 
