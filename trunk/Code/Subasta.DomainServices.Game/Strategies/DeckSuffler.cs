@@ -9,7 +9,7 @@ namespace Subasta.DomainServices.Game.Strategies
 		{
 			var cards = deck.Cards.Cards;
 
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 250; i++)
 			{
 				var idx = GetRandomIndex(deck);
 				var lenght = GetRandomLength(cards.Count - idx - 1);

@@ -68,14 +68,14 @@ namespace Subasta
 
 		private void LoadDeclarables(IEnumerable<Declaration?> declarables, bool loadMateChooseOption)
 		{
-			var source = declarables.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
+			var source = declarables.ToDictionary(value => value.ToString(), value => value.ToString().SeparateCamelCase());
 
 			if(loadMateChooseOption)
-				source.Add(null,"(Que cante el compañero)");
-
-			cmbDeclarations.PerformSafely(x => cmbSays.DataSource = new BindingSource(source, null));
-			cmbDeclarations.PerformSafely(x => cmbSays.ValueMember = "Key");
-			cmbDeclarations.PerformSafely(x => cmbSays.DisplayMember = "Value");
+				source.Add("Mate","(Que cante el compañero)");
+				
+			cmbDeclarations.PerformSafely(x => x.DataSource = new BindingSource(source, null));
+			cmbDeclarations.PerformSafely(x => x.ValueMember = "Key");
+			cmbDeclarations.PerformSafely(x => x.DisplayMember = "Value");
 		}
 
 
@@ -124,8 +124,8 @@ namespace Subasta
 			var source = Suit.Suits.ToDictionary(value => value, value => value.Name);
 
 			cmbSuits.DataSource = new BindingSource(source, null);
-			cmbSuits.PerformSafely(x => cmbSuits.ValueMember = "Key");
-			cmbSuits.PerformSafely(x => cmbSuits.DisplayMember = "Value");
+			cmbSuits.PerformSafely(x => x.ValueMember = "Key");
+			cmbSuits.PerformSafely(x => x.DisplayMember = "Value");
 		}
 
 		private void btnSelect_Click(object sender, EventArgs e)
@@ -152,7 +152,8 @@ namespace Subasta
 		{
 			_interactionManager.InputProvided(() =>
 			                                  {
-			                                  	var result = (Declaration?) cmbDeclarations.SelectedValue;
+			                                  	var selectedValue = (string)cmbDeclarations.SelectedValue;
+			                                  	var result = selectedValue == "Mate"?null:(Declaration?) Enum.Parse(typeof(Declaration), selectedValue);
 			                                  	EnableDeclarationsInteraction(false);
 			                                  	return result;
 			                                  });
