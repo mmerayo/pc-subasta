@@ -19,19 +19,19 @@ namespace Subasta.Infrastructure.DomainServices.Factories
 			switch (playerNumber)
 			{
 				case 1:
-					result = CreatePlayer(source.Player1Type, source.Player1Cards, "Player 1");
+					result = CreatePlayer(source.Player1Type, source.Player1Cards, "Jugador 1");
 					result.TeamNumber = 1;
 					break;
 				case 2:
-					result = CreatePlayer(source.Player2Type, source.Player2Cards, "Player 2");
+					result = CreatePlayer(source.Player2Type, source.Player2Cards, "Jugador 2");
 					result.TeamNumber = 2;
 					break;
 				case 3:
-					result = CreatePlayer(source.Player3Type, source.Player3Cards, "Player 3");
+					result = CreatePlayer(source.Player3Type, source.Player3Cards, "Jugador 3");
 					result.TeamNumber = 1;
 					break;
 				case 4:
-					result = CreatePlayer(source.Player4Type, source.Player4Cards, "Player 4");
+					result = CreatePlayer(source.Player4Type, source.Player4Cards, "Jugador 4");
 					result.TeamNumber = 2;
 					break;
 				default:

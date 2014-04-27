@@ -38,6 +38,7 @@ namespace Subasta.Client.Common.Game
 		{
 			_game = game;
 			_playerFactory = playerFactory;
+
 		}
 		
 		public IPlayer Player1 //I PLAYER TO BE KEPT IN DOMAIN and holds the style
@@ -75,15 +76,23 @@ namespace Subasta.Client.Common.Game
 		public void Start()
 		{
 			_game.SetGameInfo(Player1, Player2, Player3, Player4, FirstPlayer);
-			
 			SubscribeToEvents();
-
-
+			
 			_game.StartGame();
 		}
 
 		private void SubscribeToEvents()
 		{
+			//unscribe
+			_game.GameStatusChanged -= _game_GameStatusChanged;
+			_game.GameStarted -= _game_GameStarted;
+			_game.GameCompleted -= _game_GameCompleted;
+			_game.HandCompleted -= _game_HandCompleted;
+
+			_game.GameSaysStatusChanged -= _game_GameSaysStatusChanged;
+			_game.GameSaysStarted -= _game_GameSaysStarted;
+			_game.GameSaysCompleted -= _game_GameSaysCompleted;
+			//subscribe
 			_game.GameStatusChanged += _game_GameStatusChanged;
 			_game.GameStarted += _game_GameStarted;
 			_game.GameCompleted += _game_GameCompleted;

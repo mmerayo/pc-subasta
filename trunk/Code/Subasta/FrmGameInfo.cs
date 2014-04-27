@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
@@ -24,13 +25,13 @@ namespace Subasta
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
 		}
 
-		private int _lastHandsNumber = int.MinValue;
+		//private int _lastHandsNumber = int.MinValue;
 		void GameHandler_HandCompleted(IExplorationStatus status)
 		{
 			//TODO: defect, it seems to be suscribed severaltimes, one per game played
-			if(_lastHandsNumber==status.Hands.Count)
-				return;
-			_lastHandsNumber = status.Hands.Count;
+			//if(_lastHandsNumber==status.Hands.Count)
+			//	return;
+			//_lastHandsNumber = status.Hands.Count;
 
 			string t1="---", t2="---";
 			if(status.LastCompletedHand.Declaration.HasValue)
@@ -74,6 +75,8 @@ namespace Subasta
 			if (!status.IsCompleted)
 				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
 			UpdateMarques(status);
+
+			Thread.Sleep(TimeSpan.FromSeconds(0.5));
 		}
 
 		private void UpdateMarques(ISaysStatus status)
