@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Subasta.Client.Common;
+using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
-using Subasta.Extensions;
 
 namespace Subasta
 {
