@@ -96,6 +96,7 @@ namespace Subasta
 
 		private void _gameSet_GameSetCompleted(IGameSetHandler sender)
 		{
+		nuevoJuegoToolStripMenuItem.Enabled = true;
 		}
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
@@ -145,6 +146,7 @@ namespace Subasta
 		{
 			try
 			{
+				nuevoJuegoToolStripMenuItem.Enabled = false;
 				_gameSetHandler.Start();
 			}
 			catch (Exception ex)

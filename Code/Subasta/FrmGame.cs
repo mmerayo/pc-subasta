@@ -61,7 +61,18 @@ namespace Subasta
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
 
 			_gameSetHandler.GameHandler.GameCompleted += GameHandler_GameCompleted;
+			_gameSetHandler.GameHandler.TurnChanged += GameHandler_TurnChanged;
 			
+		}
+
+		void GameHandler_TurnChanged(int turn)
+		{
+			foreach (var pb in this.FindControls<PictureBox>(x=>x.Name.StartsWith("pb")))
+			{
+				pb.PerformSafely(x=>x.Visible=false);
+			}
+			this.FindControls<PictureBox>(x => x.Name == "pb" + turn).First().PerformSafely(x=>x.Visible=true);
+
 		}
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)

@@ -7,7 +7,7 @@ namespace Subasta.Client.Common.Game
 {
 	public delegate void StatusChangedHandler(IExplorationStatus status);
 	public delegate void SaysStatusChangedHandler(ISaysStatus status);
-
+	public delegate void TurnChangedHandler(int turn);
 	public interface IGameHandler
 	{
 		bool IsFinished { get; set; }
@@ -34,6 +34,7 @@ namespace Subasta.Client.Common.Game
 		event TrumpNeededEvent HumanPlayerTrumpNeeded;
 		IPlayer GetPlayer(int playerNum);
 		event StatusChangedHandler HandCompleted;
-		
+		event TurnChangedHandler TurnChanged;
+
 	}
 }

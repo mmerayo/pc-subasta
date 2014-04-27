@@ -25,7 +25,8 @@ namespace Subasta.Client.Common.Game
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
 		public event StatusChangedHandler HandCompleted;
-		
+		public event TurnChangedHandler TurnChanged;
+
 
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
@@ -120,9 +121,7 @@ namespace Subasta.Client.Common.Game
 			_saysStatus = status;
 			OnSaysChanged();
 		}
-
 		
-
 		void _game_GameCompleted(IExplorationStatus status)
 		{
 			OnCompleted();
@@ -233,6 +232,7 @@ namespace Subasta.Client.Common.Game
 		{
 			if (GameStatusChanged != null)
 				GameStatusChanged(Status);
+			OnTurnChanged();
 		}
 		
 
@@ -240,29 +240,51 @@ namespace Subasta.Client.Common.Game
 		{
 			if (GameStarted != null)
 				GameStarted(Status);
+			OnTurnChanged();
 		}
 
 		private void OnCompleted()
 		{
 			if (GameCompleted != null)
 				GameCompleted(Status);
+			OnTurnChanged();
+
 		}
 
 		private void OnSaysChanged()
 		{
+			
 			if (GameSaysStatusChanged != null)
 				GameSaysStatusChanged(_saysStatus);
+			OnTurnChanged();
 		}
 
 		private void OnSaysCompleted()
 		{
+			
 			if (GameSaysCompleted != null)
 				GameSaysCompleted(_saysStatus);
+			OnTurnChanged();
 		}
 		private void OnSaysStarted()
 		{
+			
 			if (GameSaysStarted != null)
 				GameSaysStarted(_saysStatus);
+			OnTurnChanged();
+		}
+
+		private int _lastTurn = int.MinValue;
+		private void OnTurnChanged()
+		{
+			int turn = !_saysStatus.IsCompleted ? _saysStatus.Turn : Status.Turn;
+
+			if (_lastTurn != turn)
+			{
+				_lastTurn = turn;
+				if (TurnChanged != null)
+					TurnChanged(_lastTurn);
+			}
 		}
 	}
 }
