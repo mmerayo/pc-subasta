@@ -96,7 +96,7 @@ namespace Subasta
 
 		private void _gameSet_GameSetCompleted(IGameSetHandler sender)
 		{
-		nuevoJuegoToolStripMenuItem.Enabled = true;
+			this.PerformSafely(x=>nuevoJuegoToolStripMenuItem.Enabled = true);
 		}
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
