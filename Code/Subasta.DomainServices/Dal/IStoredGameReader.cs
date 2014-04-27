@@ -6,4 +6,10 @@ namespace Subasta.DomainServices.Dal
 	{
 		StoredGameData LoadFromFile(string file);
 	}
+
+	public interface IStoredGameWritter
+	{
+		void Write(StoredGameData source);
+	}
+
 }

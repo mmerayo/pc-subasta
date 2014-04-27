@@ -54,10 +54,10 @@ namespace Subasta.Infrastructure.ApplicationServices.IO
 		}
 
 
-		public string GetApplicationFolderPathForFile(string folderPath, string fileName, bool createIfNotExists = false)
+		public string GetApplicationFolderPathForFile(string folderName, string fileName, bool createIfNotExists = false)
 		{
 
-			return Path.Combine(GetApplicationFolderPath(folderPath, createIfNotExists), fileName);
+			return Path.Combine(GetApplicationFolderPath(folderName, createIfNotExists), fileName);
 		}
 
 		public void CopyFolder(string sourceFolder, string destFolder, bool deleteIfExists = true)

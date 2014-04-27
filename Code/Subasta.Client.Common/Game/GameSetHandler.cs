@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
+using Subasta.DomainServices.Dal;
 using Subasta.DomainServices.Game;
 
 namespace Subasta.Client.Common.Game
@@ -16,14 +17,16 @@ namespace Subasta.Client.Common.Game
 		private readonly IGameHandler _gameHandler;
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
+		private readonly IStoredGameWritter _storedGameWritter;
 
 		private readonly int[] _currentPoints = new int[2] {0, 0};
 		
-		public GameSetHandler(IGameHandler gameHandler,IDeck deck,IDeckSuffler suffler)
+		public GameSetHandler(IGameHandler gameHandler,IDeck deck,IDeckSuffler suffler,IStoredGameWritter storedGameWritter)
 		{
 			_gameHandler = gameHandler;
 			_deck = deck;
 			_suffler = suffler;
+			_storedGameWritter = storedGameWritter;
 			SubscribeToGameEvents();
 			PlayerDealerNumber = new Random((int) DateTime.UtcNow.Ticks).Next(1, 4);
 			Reset();
@@ -185,8 +188,27 @@ namespace Subasta.Client.Common.Game
 
 		private void OnGameStarted(IExplorationStatus status)
 		{
+			_storedGameWritter.Write(GetStoredGameObject(status));
+
 			if (GameStarted != null)
 				GameStarted(status);
+		}
+
+		private StoredGameData GetStoredGameObject(IExplorationStatus status)
+		{
+			return new StoredGameData
+			             {
+			             	FirstPlayer = status.Turn,
+			             	Player1Cards = status.PlayerCards(1),
+			             	Player1Type = _gameHandler.GetPlayer(1).PlayerType,
+			             	Player2Cards = status.PlayerCards(2),
+			             	Player2Type = _gameHandler.GetPlayer(2).PlayerType,
+			             	Player3Cards = status.PlayerCards(3),
+			             	Player3Type = _gameHandler.GetPlayer(3).PlayerType,
+			             	Player4Cards = status.PlayerCards(4),
+			             	Player4Type = _gameHandler.GetPlayer(4).PlayerType
+			             };
+
 		}
 
 		private void OnGameSetCompleted()

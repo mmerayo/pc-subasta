@@ -349,24 +349,33 @@ namespace Subasta
 		private void EnableMoves(IPlayer player, bool enable, ICard[] moves = null)
 		{
 			//GET PBS PLAYER
-			var playerCards = this.FindControls<PictureBox>(x=>player.Cards.Any(y=>y==x.Tag));
+			var playerCards = this.FindControls<PictureBox>(x => player.Cards.Any(y => y == x.Tag));
 			Point playerCardsStartPaintingPoint = GetPlayerCardsStartPaintingPoint(player);
 
 			foreach (var playerCard in playerCards)
 			{
 				HookPlayerEventsToPictureBox(playerCard, false);
-				playerCard.PerformSafely(x=>x.Enabled = false);
-				playerCard.PerformSafely(x => x.Top = playerCardsStartPaintingPoint.Y);
+				playerCard.PerformSafely(x =>
+				                         {
+				                         	x.Enabled = false;
+				                         	x.Top = playerCardsStartPaintingPoint.Y;
+				                         	x.Cursor = Cursors.Default;
+				                         });
+
 			}
 			if (enable && moves != null)
 			{
-				var pictureBoxs = playerCards.Where(x=>moves.Any(y=>y==x.Tag));
+				var pictureBoxs = playerCards.Where(x => moves.Any(y => y == x.Tag));
 				foreach (var source in pictureBoxs)
 				{
-					HookPlayerEventsToPictureBox(source,true);
+					HookPlayerEventsToPictureBox(source, true);
 
-					source.PerformSafely(x=>x.Enabled =true);
-					source.PerformSafely(x => x.Top = playerCardsStartPaintingPoint.Y-20);
+					source.PerformSafely(x =>
+					                     {
+					                     	x.Enabled = true;
+					                     	x.Top = playerCardsStartPaintingPoint.Y - 20;
+					                     	x.Cursor = Cursors.Hand;
+					                     });
 				}
 			}
 		}
