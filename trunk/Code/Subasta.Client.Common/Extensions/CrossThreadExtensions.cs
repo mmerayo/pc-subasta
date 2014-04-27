@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
-namespace Subasta.Extensions
+namespace Subasta.Client.Common.Extensions
 {
-	internal static class CrossThreadExtensions
+	public static class CrossThreadExtensions
 	{
 		public static void PerformSafely<T>(this T target, Action<T> action) where T : Control
 		{
@@ -24,7 +22,7 @@ namespace Subasta.Extensions
 
 	}
 
-	internal static class ControlExtensions
+	public static class ControlExtensions
 	{
 		 public static IEnumerable<TControl> FindControls<TControl>(this Control root, Func<Control, bool> isMatch)
 		{

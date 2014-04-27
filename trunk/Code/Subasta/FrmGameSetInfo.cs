@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
-using Subasta.Extensions;
 
 namespace Subasta
 {

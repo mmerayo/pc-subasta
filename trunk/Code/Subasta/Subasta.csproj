@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\CrossThreadExtensions.cs" />
     <Compile Include="FrmGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,7 +89,6 @@
     <Compile Include="Interaction\UserInteractionManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <EmbeddedResource Include="FrmGame.resx">
       <DependentUpon>FrmGame.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,10 +131,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Balloon.NET\Balloon.NET.csproj">
-      <Project>{0E6F1B58-B832-4D96-9BE9-A61DDAA18C4C}</Project>
-      <Name>Balloon.NET</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>

@@ -34,6 +34,7 @@
 			this.pb4 = new System.Windows.Forms.PictureBox();
 			this.pb3 = new System.Windows.Forms.PictureBox();
 			this.pb1 = new System.Windows.Forms.PictureBox();
+			this.balloonInfo = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
@@ -86,6 +87,15 @@
 			this.pb1.TabStop = false;
 			this.pb1.Visible = false;
 			// 
+			// balloonInfo
+			// 
+			this.balloonInfo.AutomaticDelay = 1000;
+			this.balloonInfo.AutoPopDelay = 1000;
+			this.balloonInfo.InitialDelay = 0;
+			this.balloonInfo.IsBalloon = true;
+			this.balloonInfo.ReshowDelay = 0;
+			this.balloonInfo.ShowAlways = true;
+			// 
 			// FrmGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -117,5 +127,6 @@
 		private System.Windows.Forms.PictureBox pb4;
 		private System.Windows.Forms.PictureBox pb3;
 		private System.Windows.Forms.PictureBox pb1;
+		private System.Windows.Forms.ToolTip balloonInfo;
 		}
 	}

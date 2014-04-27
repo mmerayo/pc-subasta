@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
-using Subasta.Extensions;
 
 namespace Subasta
 {
@@ -76,7 +76,7 @@ namespace Subasta
 				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
 			UpdateMarques(status);
 
-			Thread.Sleep(TimeSpan.FromSeconds(0.5));
+			Thread.Sleep(TimeSpan.FromSeconds(0.5));//TODO: TO CONFIGURATION source
 		}
 
 		private void UpdateMarques(ISaysStatus status)

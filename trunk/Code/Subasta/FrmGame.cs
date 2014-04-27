@@ -1,43 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Balloon.NET;
+using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.Extensions;
 using Subasta.Interaction;
 
 namespace Subasta
 {
 	public partial class FrmGame : Form
 	{
-		private class UserCardSelection
-		{
-			public UserCardSelection(ICard card, bool peta)
-			{
-				Card = card;
-				Peta = peta;
-			}
-			public ICard Card { get; private set; }
-			public bool Peta { get; private set; }
-		}
-
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly IUserInteractionManager _userInteractionManager;
 		private IImagesLoader _imagesLoader;
-		Size _sizePbs13 = new Size(50, 70);
-		Size _sizePbs24 = new Size(70, 50);
+		private ICard _lastCardPlayed;
+		private Size _sizePbs13 = new Size(50, 70);
+		private Size _sizePbs24 = new Size(70, 50);
 
 
-		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader,IUserInteractionManager userInteractionManager)
+		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader,
+		               IUserInteractionManager userInteractionManager)
 		{
 			_gameSetHandler = gameSetHandler;
 			_userInteractionManager = userInteractionManager;
@@ -49,6 +36,7 @@ namespace Subasta
 
 			ConfigureUserPictureBoxes();
 		}
+
 
 		private void ConfigureUserPictureBoxes()
 		{
@@ -79,33 +67,34 @@ namespace Subasta
 			gameHandler.GameCompleted += GameHandler_GameCompleted;
 			gameHandler.TurnChanged += GameHandler_TurnChanged;
 
-			gameHandler.GameSaysStatusChanged += new SaysStatusChangedHandler(gameHandler_GameSaysStatusChanged);
-			
+			gameHandler.GameSaysStatusChanged += gameHandler_GameSaysStatusChanged;
 		}
 
-		void gameHandler_GameSaysStatusChanged(ISaysStatus status)
+		private void gameHandler_GameSaysStatusChanged(ISaysStatus status)
 		{
 			ISay last = status.Says.Last();
 
-			var balloonHelp = new BalloonHelp
-			                  {
-			                  	Caption = last.Figure.Say.ToString().SeparateCamelCase() + "!!",
-								EnableTimeout = true,
-								Timeout=2000
-			                  };
+			PictureBox target = this.FindControls<PictureBox>(x => x.Name == "pb" + last.PlayerNum).First();
 
-			var target = this.FindControls<PictureBox>(x => x.Name == "pb" + last.PlayerNum).First();
-			balloonHelp.PerformSafely(x=>x.ShowBalloon(target));
+			string text = last.Figure.Say.ToString().SeparateCamelCase() + "!!";
+			ShowBalloon(target, text, TimeSpan.FromSeconds(2));
 		}
 
-		void GameHandler_TurnChanged(int turn)
+		private void ShowBalloon(PictureBox target, string text, TimeSpan showLenght)
 		{
-			foreach (var pb in this.FindControls<PictureBox>(x=>x.Name.StartsWith("pb")))
-			{
-				pb.PerformSafely(x=>x.Visible=false);
-			}
-			this.FindControls<PictureBox>(x => x.Name == "pb" + turn).First().PerformSafely(x=>x.Visible=true);
+			this.PerformSafely(x=> balloonInfo.Show(text,(IWin32Window)target));
+			
+			Thread.Sleep(showLenght);
+			this.PerformSafely(x => balloonInfo.Hide(target));
+		}
 
+		private void GameHandler_TurnChanged(int turn)
+		{
+			foreach (PictureBox pb in this.FindControls<PictureBox>(x => x.Name.StartsWith("pb")))
+			{
+				pb.PerformSafely(x => x.Visible = false);
+			}
+			this.FindControls<PictureBox>(x => x.Name == "pb" + turn).First().PerformSafely(x => x.Visible = true);
 		}
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
@@ -113,11 +102,11 @@ namespace Subasta
 			Thread.Sleep(TimeSpan.FromSeconds(5));
 		}
 
-		void GameHandler_HandCompleted(IExplorationStatus status)
+		private void GameHandler_HandCompleted(IExplorationStatus status)
 		{
 			//CLEAN TABLE
 			IEnumerable<ICard> cardsByPlaySequence = status.LastCompletedHand.CardsByPlaySequence();
-			foreach (var card in cardsByPlaySequence)
+			foreach (ICard card in cardsByPlaySequence)
 			{
 				RemovePictureBoxesByCard(card);
 			}
@@ -125,30 +114,26 @@ namespace Subasta
 		}
 
 
-		private ICard _lastCardPlayed = null;
-		void GameHandler_GameStatusChanged(IExplorationStatus status)
+		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
 			ICard lastCardPlayed = status.LastCardPlayed;
-			if (lastCardPlayed!=_lastCardPlayed) //due to defect  as the event is triggered twice
+			if (lastCardPlayed != _lastCardPlayed) //due to defect  as the event is triggered twice
 			{
 				MoveCard(status, status.LastPlayerMoved, lastCardPlayed);
 				_lastCardPlayed = lastCardPlayed;
 				// WAIT TIME SO THE USER CAN SEE it
 				Thread.Sleep(TimeSpan.FromSeconds(1));
-
 			}
 		}
 
 
 		private void InitializePictureBoxes(IPlayer player)
 		{
-			
-
 			Point startPoint = Point.Empty;
 
 			startPoint = GetPlayerCardsStartPaintingPoint(player, player.Cards.Length);
 			Image imgReverso = imageList.Images["reverso"];
-			Image imgReversoV = (Image) imgReverso.Clone();
+			var imgReversoV = (Image) imgReverso.Clone();
 			imgReversoV.RotateFlip(RotateFlipType.Rotate90FlipX);
 			for (int index = 0; index < player.Cards.Length; index++)
 			{
@@ -171,10 +156,9 @@ namespace Subasta
 						break;
 				}
 
-				var card = player.Cards[index];
+				ICard card = player.Cards[index];
 				Image image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso;
-				var control = CreatePictureBoxControl(location, size, card, image);
-
+				PictureBox control = CreatePictureBoxControl(location, size, card, image);
 			}
 
 
@@ -186,27 +170,26 @@ namespace Subasta
 		private Point GetPlayerCardsStartPaintingPoint(IPlayer player, int numCards)
 		{
 			Point startPoint;
-			Point centerPoint=new Point(Width/2, Height/2);
+			var centerPoint = new Point(Width/2, Height/2);
 			switch (player.PlayerNumber)
 			{
 				case 1:
-					startPoint = new Point(centerPoint.X - (_sizePbs13.Width * numCards) / 2, Size.Height - pb1.Height - _sizePbs13.Height);
+					startPoint = new Point(centerPoint.X - (_sizePbs13.Width*numCards)/2, Size.Height - pb1.Height - _sizePbs13.Height);
 					break;
 
 				case 2:
-					startPoint = new Point(Width - _sizePbs24.Width -pb2.Width, centerPoint.Y - ((_sizePbs24.Height) * numCards) / 2);
+					startPoint = new Point(Width - _sizePbs24.Width - pb2.Width, centerPoint.Y - ((_sizePbs24.Height)*numCards)/2);
 					break;
 
 				case 3:
-					startPoint = new Point(centerPoint.X - (_sizePbs13.Width * numCards) / 2, pb3.Height);
+					startPoint = new Point(centerPoint.X - (_sizePbs13.Width*numCards)/2, pb3.Height);
 					break;
 
 				case 4:
-					startPoint = new Point(pb4.Width, centerPoint.Y - ((_sizePbs24.Height) * numCards) / 2);
+					startPoint = new Point(pb4.Width, centerPoint.Y - ((_sizePbs24.Height)*numCards)/2);
 					break;
 				default:
-				throw new ArgumentOutOfRangeException();
-
+					throw new ArgumentOutOfRangeException();
 			}
 			return startPoint;
 		}
@@ -214,23 +197,23 @@ namespace Subasta
 		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image)
 		{
 			var current = new PictureBox
-			{
-				Location = location,
-				Size = size,
-				Name = card.ToShortString(),
-				Image = image,
-				SizeMode = PictureBoxSizeMode.StretchImage,
-				Tag=card
-			};
+			              {
+			              	Location = location,
+			              	Size = size,
+			              	Name = card.ToShortString(),
+			              	Image = image,
+			              	SizeMode = PictureBoxSizeMode.StretchImage,
+			              	Tag = card
+			              };
 
 			this.PerformSafely(x => x.Controls.Add(current));
 
 			return current;
 		}
 
-		private void HookPlayerEventsToPictureBox(PictureBox target,bool hook)
+		private void HookPlayerEventsToPictureBox(PictureBox target, bool hook)
 		{
-			if(hook)
+			if (hook)
 				target.MouseUp += PbCard_MouseUp;
 			else
 			{
@@ -238,16 +221,16 @@ namespace Subasta
 			}
 		}
 
-		void PbCard_MouseUp(object sender, MouseEventArgs e)
+		private void PbCard_MouseUp(object sender, MouseEventArgs e)
 		{
 			var pictureBox = (PictureBox) sender;
 			bool peta = e.Button == MouseButtons.Right;
-			
+
 			_userInteractionManager.InputProvided(() =>
-			{
-				EnableMoves(_gameSetHandler.GameHandler.Player1,false);
-				return new UserCardSelection((ICard)pictureBox.Tag, peta);
-			});
+			                                      {
+			                                      	EnableMoves(_gameSetHandler.GameHandler.Player1, false);
+			                                      	return new UserCardSelection((ICard) pictureBox.Tag, peta);
+			                                      });
 		}
 
 
@@ -258,33 +241,30 @@ namespace Subasta
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player2);
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player3);
 			InitializePictureBoxes(_gameSetHandler.GameHandler.Player4);
-
 		}
 
 		private void ClearAllPictureBoxControls()
 		{
-			var pbs = this.FindControls<PictureBox>(x => x.Tag!=null && x.Tag is ICard).ToArray();
-			foreach (var pb in pbs)
+			PictureBox[] pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
+			foreach (PictureBox pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
 			}
-
 		}
 
 		private void RemovePictureBoxesByCard(ICard card)
 		{
-			IEnumerable<Control> pbs = this.FindControls<PictureBox>(x =>  x.Tag == card).ToArray();
-			foreach (var pb in pbs)
+			IEnumerable<Control> pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
+			foreach (Control pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
 			}
-			
 		}
 
-		ICard GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
+		private ICard GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves, out bool peta)
 		{
-			EnableMoves(source,true, validMoves);
-			var selection=_userInteractionManager.WaitUserInput<UserCardSelection>();
+			EnableMoves(source, true, validMoves);
+			var selection = _userInteractionManager.WaitUserInput<UserCardSelection>();
 			//MoveCard(source.PlayerNumber, selection.Card);
 			EnableMoves(source, false);
 			peta = selection.Peta;
@@ -293,23 +273,21 @@ namespace Subasta
 
 		private void MoveCard(IExplorationStatus status, int playerNumber, ICard card)
 		{
-
 			//Remove from hand
 			RemovePictureBoxesByCard(card);
 			//PAINT REMAINING CARDS
-			CompactPlayerCards(status,playerNumber);
+			CompactPlayerCards(status, playerNumber);
 
 			PictureBox pbCard = PaintCardPlayed(playerNumber, card);
-			
 		}
 
 		private void CompactPlayerCards(IExplorationStatus status, int playerNumber)
 		{
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(playerNumber);
 			ICard[] playerCards = status.PlayerCards(playerNumber);
-			var startPoint = GetPlayerCardsStartPaintingPoint(player,playerCards.Count());
+			Point startPoint = GetPlayerCardsStartPaintingPoint(player, playerCards.Count());
 			int index = 0;
-			foreach(var card in playerCards)
+			foreach (ICard card in playerCards)
 			{
 				Point location = startPoint;
 
@@ -327,10 +305,10 @@ namespace Subasta
 				}
 
 				PictureBox pictureBox = this.FindControls<PictureBox>(x => x.Tag == card).First();
-				pictureBox.PerformSafely(x=>
+				pictureBox.PerformSafely(x =>
 				                         {
 				                         	x.Location = location;
-											x.BringToFront();
+				                         	x.BringToFront();
 				                         });
 				index++;
 			}
@@ -338,8 +316,8 @@ namespace Subasta
 
 		private PictureBox PaintCardPlayed(int playerNumber, ICard card)
 		{
-			Point centerPoint=new Point(this.Width/2,this.Height/2);
-			Point destination=new Point(0,0);
+			var centerPoint = new Point(Width/2, Height/2);
+			var destination = new Point(0, 0);
 
 			//set x
 			switch (playerNumber)
@@ -359,16 +337,15 @@ namespace Subasta
 			switch (playerNumber)
 			{
 				case 1:
-					destination.Y = centerPoint.Y + (_sizePbs24.Height / 2);
+					destination.Y = centerPoint.Y + (_sizePbs24.Height/2);
 					break;
 				case 3:
-					destination.Y = centerPoint.Y - (_sizePbs24.Height / 2) - _sizePbs13.Height;
+					destination.Y = centerPoint.Y - (_sizePbs24.Height/2) - _sizePbs13.Height;
 					break;
 				case 2:
 				case 4:
-					destination.Y = centerPoint.Y - (_sizePbs24.Height / 2);
+					destination.Y = centerPoint.Y - (_sizePbs24.Height/2);
 					break;
-				
 			}
 
 			//image
@@ -386,7 +363,9 @@ namespace Subasta
 					break;
 			}
 
-			var result = CreatePictureBoxControl(destination, playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card, image);
+			PictureBox result = CreatePictureBoxControl(destination,
+			                                            playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card,
+			                                            image);
 
 			return result;
 		}
@@ -394,10 +373,10 @@ namespace Subasta
 		private void EnableMoves(IPlayer player, bool enable, ICard[] moves = null)
 		{
 			//GET PBS PLAYER
-			var playerCards = this.FindControls<PictureBox>(x => player.Cards.Any(y => y == x.Tag));
+			IEnumerable<PictureBox> playerCards = this.FindControls<PictureBox>(x => player.Cards.Any(y => y == x.Tag));
 			Point playerCardsStartPaintingPoint = GetPlayerCardsStartPaintingPoint(player, playerCards.Count());
 
-			foreach (var playerCard in playerCards)
+			foreach (PictureBox playerCard in playerCards)
 			{
 				HookPlayerEventsToPictureBox(playerCard, false);
 				playerCard.PerformSafely(x =>
@@ -406,12 +385,11 @@ namespace Subasta
 				                         	x.Top = playerCardsStartPaintingPoint.Y;
 				                         	x.Cursor = Cursors.Default;
 				                         });
-
 			}
 			if (enable && moves != null)
 			{
-				var pictureBoxs = playerCards.Where(x => moves.Any(y => y == x.Tag));
-				foreach (var source in pictureBoxs)
+				IEnumerable<PictureBox> pictureBoxs = playerCards.Where(x => moves.Any(y => y == x.Tag));
+				foreach (PictureBox source in pictureBoxs)
 				{
 					HookPlayerEventsToPictureBox(source, true);
 
@@ -425,6 +403,20 @@ namespace Subasta
 			}
 		}
 
+		#region Nested type: UserCardSelection
 
+		private class UserCardSelection
+		{
+			public UserCardSelection(ICard card, bool peta)
+			{
+				Card = card;
+				Peta = peta;
+			}
+
+			public ICard Card { get; private set; }
+			public bool Peta { get; private set; }
+		}
+
+		#endregion
 	}
 }

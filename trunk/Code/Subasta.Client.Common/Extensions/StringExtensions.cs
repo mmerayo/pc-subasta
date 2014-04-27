@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Subasta
+namespace Subasta.Client.Common.Extensions
 {
 	public static class StringExtensions
 	{
