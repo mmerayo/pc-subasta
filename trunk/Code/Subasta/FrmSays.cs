@@ -132,7 +132,9 @@ namespace Subasta
 		{
 			_interactionManager.InputProvided(() =>
 			                                  {
-			                                  	var result = _figuresCatalog.GetFigureJustPoints((int) cmbSays.SelectedValue);
+			                                  	var selectedValue = (SayKind) cmbSays.SelectedValue;
+
+			                                  	var result = _figuresCatalog.GetFigureJustPoints(selectedValue!=SayKind.UnaMas? (int) selectedValue:1);
 			                                  	EnableSayInteraction(false);
 			                                  	return result;
 			                                  });

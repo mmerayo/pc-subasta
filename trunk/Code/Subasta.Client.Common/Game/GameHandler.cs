@@ -13,7 +13,6 @@ namespace Subasta.Client.Common.Game
 		private readonly IGame _game;
 		private readonly IPlayerFactory _playerFactory;
 		private readonly IPlayer[] _players = new IPlayer[4];
-		private IExplorationStatus _status;
 		private int _firstPlayer = 1;
 
 
@@ -64,11 +63,11 @@ namespace Subasta.Client.Common.Game
 		}
 
 
-		public ISuit Trump { get { return _status.Trump; } }
-		public int PointsBet { get { return _status.PointsBet; } }
+		public ISuit Trump { get { return Status.Trump; } }
+		public int PointsBet { get { return Status.PointsBet; } }
 
 
-		public int TeamBets { get { return _status.TeamBets; } }
+		public int TeamBets { get { return Status.TeamBets; } }
 
 		public void Start()
 		{
@@ -124,20 +123,17 @@ namespace Subasta.Client.Common.Game
 
 		void _game_GameCompleted(IExplorationStatus status)
 		{
-			_status = status;
 			OnCompleted();
 			
 		}
 
 		void _game_GameStarted(IExplorationStatus status)
 		{
-			_status = status;
 			OnStart();
 		}
 
 		void _game_GameStatusChanged(IExplorationStatus status)
 		{
-			_status = status;
 			OnStatusChanged();
 		}
 
@@ -225,25 +221,29 @@ namespace Subasta.Client.Common.Game
 			private set { _firstPlayer = value; }
 		}
 
+		public IExplorationStatus Status
+		{
+			get { return _game.Status; }
+		}
 
 
 		private void OnStatusChanged()
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status);
+				GameStatusChanged(Status);
 		}
 		
 
 		private void OnStart()
 		{
 			if (GameStarted != null)
-				GameStarted(_status);
+				GameStarted(Status);
 		}
 
 		private void OnCompleted()
 		{
 			if (GameCompleted != null)
-				GameCompleted(_status);
+				GameCompleted(Status);
 		}
 
 		private void OnSaysChanged()

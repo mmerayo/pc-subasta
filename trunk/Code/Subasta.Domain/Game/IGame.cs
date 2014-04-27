@@ -17,6 +17,7 @@ namespace Subasta.Domain.Game
 		IPlayer Player2 { get; }
 		IPlayer Player3 { get; }
 		IPlayer Player4 { get; }
+		IExplorationStatus Status { get; }
 
 		event GameStatusChangedHandler GameStatusChanged;
 		event GameStatusChangedHandler GameStarted;

@@ -18,6 +18,7 @@ namespace Subasta.Client.Common.Game
 		int FirstPlayer { get; }
 		ISuit Trump { get; }
 		int TeamBets { get; }
+		IExplorationStatus Status { get; }
 		void Start();
 		void Load(StoredGameData storedGame);
 		void ConfigureNewGame(NewGameConfiguration gameConfiguration);
