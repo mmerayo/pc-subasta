@@ -133,6 +133,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Balloon.NET\Balloon.NET.csproj">
+      <Project>{0E6F1B58-B832-4D96-9BE9-A61DDAA18C4C}</Project>
+      <Name>Balloon.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>

@@ -19,7 +19,7 @@ namespace Subasta.Client.Common.Images
 			_deck = deck;
 		}
 
-		public void LoadImages(ImageList imageListCards, Size size, string resourceNamespace = null)
+		public void LoadCardImages(ImageList imageListCards, Size size, string resourceNamespace = null)
 		{
 			if (resourceNamespace == null)
 				resourceNamespace = string.Format("{0}.Content.Images", Assembly.GetAssembly(GetType()).GetName().Name);
@@ -36,9 +36,34 @@ namespace Subasta.Client.Common.Images
 
 		private void LoadSingleImage(ImageList imageListCards, string imageId, string resourceName)
 		{
+		Image image = GetImageFromResourceFullName(resourceName);
+			imageListCards.Images.Add(imageId,
+										  image);
+		}
+
+		private Image GetImageFromResourceFullName(string resourceName)
+		{
+			Image image;
 			using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(resourceName))
-				imageListCards.Images.Add(imageId,
-				                          Image.FromStream(manifestResourceStream));
+			{
+				image = Image.FromStream(manifestResourceStream);
+			}
+			return image;
+		}
+
+
+		public Image GetImage(string fileName, string resourceNamespace = null)
+		{
+			if (resourceNamespace == null)
+				resourceNamespace = string.Format("{0}.Content.Images", Assembly.GetAssembly(GetType()).GetName().Name);
+			{
+				Image image;
+				using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(resourceNamespace+"."+fileName))
+				{
+					image = Image.FromStream(manifestResourceStream);
+				}
+				return image;
+			}
 		}
 
 		private string GetCardResourceName(string resourceNamespace, ICard card)
