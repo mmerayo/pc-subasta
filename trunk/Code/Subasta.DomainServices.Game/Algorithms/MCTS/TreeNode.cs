@@ -344,14 +344,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void Dispose(bool disposing)
 		{
-			Parent = null;
-			if (Children != null)
-			{
-				Children.ForEach(x => x.Dispose());
-				Children.Clear();
-			}
 			lock (_syncLock)
+			{
+
+				Parent = null;
+				if (Children != null)
+				{
+					Children.ForEach(x => x.Dispose());
+					Children.Clear();
+				}
 				_disposed = true;
+
+			}
+
 		}
 
 		~TreeNode()
