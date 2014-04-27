@@ -59,7 +59,14 @@ namespace Subasta
 			_gameSetHandler.GameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
+
+			_gameSetHandler.GameHandler.GameCompleted += GameHandler_GameCompleted;
 			
+		}
+
+		private void GameHandler_GameCompleted(IExplorationStatus status)
+		{
+			MessageBox.Show(this, "Juego completado","Info");
 		}
 
 		void GameHandler_HandCompleted(IExplorationStatus status)
@@ -343,10 +350,13 @@ namespace Subasta
 		{
 			//GET PBS PLAYER
 			var playerCards = this.FindControls<PictureBox>(x=>player.Cards.Any(y=>y==x.Tag));
+			Point playerCardsStartPaintingPoint = GetPlayerCardsStartPaintingPoint(player);
+
 			foreach (var playerCard in playerCards)
 			{
 				HookPlayerEventsToPictureBox(playerCard, false);
 				playerCard.PerformSafely(x=>x.Enabled = false);
+				playerCard.PerformSafely(x => x.Top = playerCardsStartPaintingPoint.Y);
 			}
 			if (enable && moves != null)
 			{
@@ -356,6 +366,7 @@ namespace Subasta
 					HookPlayerEventsToPictureBox(source,true);
 
 					source.PerformSafely(x=>x.Enabled =true);
+					source.PerformSafely(x => x.Top = playerCardsStartPaintingPoint.Y-20);
 				}
 			}
 		}

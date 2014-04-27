@@ -61,7 +61,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 								  Thread.CurrentThread.Name = string.Format("MctsSaysRunner - {0}", root.ExplorationStatus.Trump.Name);
 									int count = 0;
 									//while not enough explorations
-									while (root.GetNodeInfo(1).NumberVisits<120000)
+									while (true)
 									{
 										try
 										{

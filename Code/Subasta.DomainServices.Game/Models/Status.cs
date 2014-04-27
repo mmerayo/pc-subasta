@@ -238,7 +238,7 @@ namespace Subasta.DomainServices.Game.Models
 			{
 				ThrowIfNotCompleted();
 
-				if (SumTotalTeam(PlayerBets) >= PointsBet)
+				if (SumTotalTeam(TeamBets) >= PointsBet)
 					return TeamBets;
 
 				if (TeamBets == 1)
@@ -257,7 +257,7 @@ namespace Subasta.DomainServices.Game.Models
 			if (LogicalComplete)
 			{
 				if (!CurrentHand.IsCompleted && !CurrentHand.IsEmpty) return;
-				if (SumTotalTeam(PlayerBets) >= PointsBet)
+				if (SumTotalTeam(TeamBets) >= PointsBet)
 					_gameCompleted = true;
 				else
 				{
@@ -274,11 +274,16 @@ namespace Subasta.DomainServices.Game.Models
 						}
 					maxPotential += Hands.Where(x => x.Declaration.HasValue).Sum(x => DeclarationValues.ValueOf(x.Declaration.Value));
 
-					int sumTotalTeam = SumTotalTeam(other);
+					int sumTotalTeam = SumTotalTeam(PlayerTeam(other));
 					if (sumTotalTeam >= maxPotential - PointsBet + 1)
 						_gameCompleted = true;
 				}
 			}
+		}
+
+		private int PlayerTeam(int playerNumber)
+		{
+			return playerNumber == 1 || playerNumber == 3 ? 1 : 2;
 		}
 
 		public bool IsInTeamBets(int playerPosition)
@@ -413,14 +418,15 @@ namespace Subasta.DomainServices.Game.Models
 			return result;
 		}
 
-		public int SumTotalTeam(int playerPosition)
+		public int SumTotalTeam(int teamNumber)
 		{
-			ThrowIfNotValidPlayerPosition(playerPosition);
+			ThrowIfNotValidTeamNumber(teamNumber);
 
-			if (playerPosition == 1 || playerPosition == 3)
+			if (teamNumber == 1 || teamNumber == 3)
 				return SumTotal(1) + SumTotal(3);
 			return SumTotal(2) + SumTotal(4);
 		}
+
 
 		public void RemovePlayerCard(int playerPosition, ICard card)
 		{
@@ -436,6 +442,11 @@ namespace Subasta.DomainServices.Game.Models
 				throw new ArgumentOutOfRangeException(argName);
 		}
 
+		private void ThrowIfNotValidTeamNumber(int teamNumber)
+		{
+			if (teamNumber < 1 || teamNumber > 2)
+				throw new ArgumentOutOfRangeException("teamNumber");
+		}
 
 		public void SetPlayerBet(int playerPosition, int pointsBet)
 		{

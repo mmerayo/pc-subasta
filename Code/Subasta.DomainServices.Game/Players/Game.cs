@@ -18,7 +18,6 @@ namespace Subasta.DomainServices.Game.Players
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private readonly ISaysSimulator _saysRunner;
 		private ISaysStatus _saysStatus;
-		private IExplorationStatus _status;
 
 		public Game(ICardComparer cardComparer,
 		            IPlayerDeclarationsChecker declarationsChecker,
@@ -68,6 +67,8 @@ namespace Subasta.DomainServices.Game.Players
 			get { return _players[3]; }
 		}
 
+		public IExplorationStatus Status { get; private set; }
+
 		public void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer)
 		{
 			_players[0] = p1;
@@ -77,7 +78,7 @@ namespace Subasta.DomainServices.Game.Players
 
 			FirstPlayer = firstPlayer;
 
-			_status = GetInitialStatus();
+			Status = GetInitialStatus();
 			_saysStatus = GetInitialSaysStatus();
 			ResetEvents();
 		}
@@ -122,7 +123,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		private ISaysStatus GetInitialSaysStatus()
 		{
-			return new SaysStatus(_status.Clone(), FirstPlayer);
+			return new SaysStatus(Status.Clone(), FirstPlayer);
 		}
 
 		private TreeNode RunSays()
@@ -139,8 +140,8 @@ namespace Subasta.DomainServices.Game.Players
 			ISuit chooseTrump = _players[playerBets - 1].ChooseTrump(_saysStatus);
 			int pointsBet = _saysStatus.PointsBet*10;
 
-			_status.SetPlayerBet(playerBets, pointsBet);
-			_status.SetTrump(chooseTrump);
+			Status.SetPlayerBet(playerBets, pointsBet);
+			Status.SetTrump(chooseTrump);
 
 			var result = (TreeNode) _saysRunner.GetRoot(chooseTrump);
 			_saysRunner.Reset(result);
@@ -167,9 +168,9 @@ namespace Subasta.DomainServices.Game.Players
 			root = null;
 			//TODO:end TODO
 
-			AiSimulator.Start(_status, root);
+			AiSimulator.Start(Status, root);
 			OnGameStarted();
-			while (!_status.IsCompleted)
+			while (!Status.IsCompleted)
 			{
 				NextMove();
 				OnGameStatusChanged();
@@ -180,14 +181,14 @@ namespace Subasta.DomainServices.Game.Players
 
 		private void NextMove()
 		{
-			IExplorationStatus previousStatus = _status.Clone();
-			IPlayer playerMoves = _players[_status.Turn - 1];
+			IExplorationStatus previousStatus = Status.Clone();
+			IPlayer playerMoves = _players[Status.Turn - 1];
 			bool peta;
-			NodeResult result = playerMoves.ChooseMove(_status, out peta);
+			NodeResult result = playerMoves.ChooseMove(Status, out peta);
 
 			//TODO: CREATE USER STATUS AND EXPLORATION STATUS types and encapsulate the logical complete as default
-			_status = result.Status.Clone();
-			_status.LogicalComplete = true;
+			Status = result.Status.Clone();
+			Status.LogicalComplete = true;
 			OnGameStatusChanged();
 			if (peta)
 			{
@@ -201,8 +202,8 @@ namespace Subasta.DomainServices.Game.Players
 				if (_players.Any(
 					x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value))
 				{
-					var calculatedDeclarationByMachine = _status.LastCompletedHand.Declaration;
-					_status.LastCompletedHand.SetDeclaration(null);
+					var calculatedDeclarationByMachine = Status.LastCompletedHand.Declaration;
+					Status.LastCompletedHand.SetDeclaration(null);
 					OnGameStatusChanged();
 					//always the first
 					IPlayer player =
@@ -217,7 +218,7 @@ namespace Subasta.DomainServices.Game.Players
 					//if the user didnt select any then the machine selects while is on its hand
 					if (!declarationChosenByHuman.HasValue &&
 						calculatedDeclarationByMachine.HasValue)
-						if (_status.GetPlayerDeclarables(_status.PlayerMateOf(player.PlayerNumber)).Contains(calculatedDeclarationByMachine.Value))
+						if (Status.GetPlayerDeclarables(Status.PlayerMateOf(player.PlayerNumber)).Contains(calculatedDeclarationByMachine.Value))
 						{
 							declarationChosenByHuman = calculatedDeclarationByMachine;
 						}
@@ -225,11 +226,11 @@ namespace Subasta.DomainServices.Game.Players
 						{
 							//choose the first
 							declarationChosenByHuman =
-								_status.GetPlayerDeclarables(_status.PlayerMateOf(player.PlayerNumber)).OrderBy(x => x).FirstOrDefault();
+								Status.GetPlayerDeclarables(Status.PlayerMateOf(player.PlayerNumber)).OrderBy(x => x).FirstOrDefault();
 						}
-					_status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
+					Status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 				}
-				OnHandCompleted(_status);
+				OnHandCompleted(Status);
 			}
 
 		}
@@ -243,26 +244,26 @@ namespace Subasta.DomainServices.Game.Players
 		private void OnPlayerPeta(IPlayer playerMoves)
 		{
 			if (GamePlayerPeta != null)
-				GamePlayerPeta(playerMoves, _status);
+				GamePlayerPeta(playerMoves, Status);
 		}
 
 
 		private void OnGameStatusChanged()
 		{
 			if (GameStatusChanged != null)
-				GameStatusChanged(_status);
+				GameStatusChanged(Status);
 		}
 
 		private void OnGameStarted()
 		{
 			if (GameStarted != null)
-				GameStarted(_status);
+				GameStarted(Status);
 		}
 
 		private void OnGameCompleted()
 		{
 			if (GameCompleted != null)
-				GameCompleted(_status);
+				GameCompleted(Status);
 		}
 
 		private void OnSaysStart()
