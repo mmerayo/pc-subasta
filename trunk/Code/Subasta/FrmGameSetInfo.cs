@@ -31,7 +31,7 @@ namespace Subasta
 			//remove previous line
 			txtGameSetStatus.PerformSafely(x=>x.Text = txtGameSetStatus.Text.Remove(txtGameSetStatus.Text.LastIndexOf(Environment.NewLine)));
 			if (status.TeamWinner == 1)
-				WriteGameLine(_gameSetHandler.GamePoints(1).ToString(), " " + status.PointsBet.ToString() + " ", "---");
+				WriteGameLine(_gameSetHandler.GamePoints(1).ToString(), " " + status.NormalizedPointsBet.ToString() + " ", "---");
 			else
 				WriteGameLine("---"," "+ status.NormalizedPointsBet.ToString()+" ", _gameSetHandler.GamePoints(2).ToString());
 		}
@@ -48,8 +48,12 @@ namespace Subasta
 
 		private void WriteGameLine(string infoT1, string infoCenter, string infoT2)
 		{
-			txtGameSetStatus.PerformSafely(x=>x.Text += string.Format("{0}|{1}|{2}{3}", infoT1.PadLeft(8), infoCenter.PadLeft(5), infoT2.PadRight(8),
-			                                       Environment.NewLine));
+			txtGameSetStatus.PerformSafely(x=>
+			                               {
+										   x.Text += Environment.NewLine;
+			                               	x.Text += string.Format("{0}|{1}|{2}", infoT1.PadLeft(8, ' '),
+			                               	                        infoCenter.PadLeft(5, ' '), infoT2.PadRight(8, ' '));
+			                               });
 		}
 	}
 }
