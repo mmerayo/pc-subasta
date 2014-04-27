@@ -167,7 +167,7 @@ namespace Subasta.Client.Common.Game
 			var newGame = new NewGameConfiguration
 			              {
 			              	FirstPlayer = FirstPlayer,
-			              	Player1Type = PlayerType.Human,
+			              	Player1Type = PlayerType.Mcts,
 			              	Player2Type = PlayerType.Mcts,
 			              	Player3Type = PlayerType.Mcts,
 			              	Player4Type = PlayerType.Mcts,
