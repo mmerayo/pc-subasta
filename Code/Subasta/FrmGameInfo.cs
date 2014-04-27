@@ -24,8 +24,14 @@ namespace Subasta
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
 		}
 
+		private int _lastHandsNumber = int.MinValue;
 		void GameHandler_HandCompleted(IExplorationStatus status)
 		{
+			//TODO: defect, it seems to be suscribed severaltimes, one per game played
+			if(_lastHandsNumber==status.Hands.Count)
+				return;
+			_lastHandsNumber = status.Hands.Count;
+
 			string t1="---", t2="---";
 			if(status.LastCompletedHand.Declaration.HasValue)
 			{

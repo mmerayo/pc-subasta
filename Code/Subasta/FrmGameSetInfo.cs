@@ -29,11 +29,26 @@ namespace Subasta
 		private void gameSetHandler_GameCompleted(IExplorationStatus status)
 		{
 			//remove previous line
-			txtGameSetStatus.PerformSafely(x=>x.Text = txtGameSetStatus.Text.Remove(txtGameSetStatus.Text.LastIndexOf(Environment.NewLine)));
+			txtGameSetStatus.PerformSafely(
+				x => x.Text = txtGameSetStatus.Text.Remove(txtGameSetStatus.Text.LastIndexOf(Environment.NewLine)));
+
+			string center = " " + status.NormalizedPointsBet.ToString() + " ";
+			string left, right;
 			if (status.TeamWinner == 1)
-				WriteGameLine(_gameSetHandler.GamePoints(1).ToString(), " " + status.NormalizedPointsBet.ToString() + " ", "---");
+			{
+				left = _gameSetHandler.GamePoints(1).ToString();
+				right = "---";
+			}
 			else
-				WriteGameLine("---"," "+ status.NormalizedPointsBet.ToString()+" ", _gameSetHandler.GamePoints(2).ToString());
+			{
+				left = "---";
+				right = _gameSetHandler.GamePoints(2).ToString();
+			}
+			if (status.TeamBets == 1)
+				left += "*";
+			else 
+				right = "*" + right;
+			WriteGameLine(left, center, right);
 		}
 
 		private void gameSetHandler_GameSaysCompleted(ISaysStatus status)
