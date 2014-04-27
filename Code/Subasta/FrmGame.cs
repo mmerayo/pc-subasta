@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Balloon.NET;
 using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
@@ -45,24 +46,56 @@ namespace Subasta
 			LoadImages(imagesLoader);
 
 			SuscribeToEvents();
+
+			ConfigureUserPictureBoxes();
+		}
+
+		private void ConfigureUserPictureBoxes()
+		{
+			pb1.Location = new Point((Width/2) - pb1.Width/2, Height - pb1.Height);
+			pb3.Location = new Point((Width/2) - pb3.Width/2, 0);
+			pb2.Location = new Point(Width - pb2.Width, (Height/2) - pb2.Height/2);
+			pb4.Location = new Point(0, (Height/2) - pb4.Height/2);
+
+			Image image = _imagesLoader.GetImage("Player.png");
+			pb1.Image = pb2.Image = pb3.Image = pb4.Image = image;
+			pb1.SizeMode = pb2.SizeMode = pb3.SizeMode = pb4.SizeMode = PictureBoxSizeMode.StretchImage;
 		}
 
 		private void LoadImages(IImagesLoader imagesLoader)
 		{
 			_imagesLoader = imagesLoader;
-			_imagesLoader.LoadImages(imageList, new Size(50, 70));
+			_imagesLoader.LoadCardImages(imageList, new Size(50, 70));
 		}
 
 		private void SuscribeToEvents()
 		{
-			_gameSetHandler.GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
-			_gameSetHandler.GameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
-			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
-			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
+			IGameHandler gameHandler = _gameSetHandler.GameHandler;
+			gameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
+			gameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
+			gameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
+			gameHandler.HandCompleted += GameHandler_HandCompleted;
 
-			_gameSetHandler.GameHandler.GameCompleted += GameHandler_GameCompleted;
-			_gameSetHandler.GameHandler.TurnChanged += GameHandler_TurnChanged;
+			gameHandler.GameCompleted += GameHandler_GameCompleted;
+			gameHandler.TurnChanged += GameHandler_TurnChanged;
+
+			gameHandler.GameSaysStatusChanged += new SaysStatusChangedHandler(gameHandler_GameSaysStatusChanged);
 			
+		}
+
+		void gameHandler_GameSaysStatusChanged(ISaysStatus status)
+		{
+			ISay last = status.Says.Last();
+
+			var balloonHelp = new BalloonHelp
+			                  {
+			                  	Caption = last.Figure.Say.ToString().SeparateCamelCase() + "!!",
+								EnableTimeout = true,
+								Timeout=2000
+			                  };
+
+			var target = this.FindControls<PictureBox>(x => x.Name == "pb" + last.PlayerNum).First();
+			balloonHelp.PerformSafely(x=>x.ShowBalloon(target));
 		}
 
 		void GameHandler_TurnChanged(int turn)
@@ -77,7 +110,7 @@ namespace Subasta
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
 		{
-			MessageBox.Show(this, "Juego completado","Info");
+			Thread.Sleep(TimeSpan.FromSeconds(5));
 		}
 
 		void GameHandler_HandCompleted(IExplorationStatus status)
@@ -113,7 +146,7 @@ namespace Subasta
 
 			Point startPoint = Point.Empty;
 
-			startPoint = GetPlayerCardsStartPaintingPoint(player);
+			startPoint = GetPlayerCardsStartPaintingPoint(player, player.Cards.Length);
 			Image imgReverso = imageList.Images["reverso"];
 			Image imgReversoV = (Image) imgReverso.Clone();
 			imgReversoV.RotateFlip(RotateFlipType.Rotate90FlipX);
@@ -132,7 +165,7 @@ namespace Subasta
 
 					case 2:
 					case 4:
-						location.Y += (_sizePbs24.Height/2)*index;
+						location.Y += (_sizePbs24.Height)*index;
 						size = _sizePbs24;
 						imgReverso = imgReversoV;
 						break;
@@ -150,25 +183,26 @@ namespace Subasta
 			Invalidate();
 		}
 
-		private Point GetPlayerCardsStartPaintingPoint(IPlayer player)
+		private Point GetPlayerCardsStartPaintingPoint(IPlayer player, int numCards)
 		{
 			Point startPoint;
+			Point centerPoint=new Point(Width/2, Height/2);
 			switch (player.PlayerNumber)
 			{
 				case 1:
-					startPoint = new Point(_sizePbs24.Width, Size.Height - 30 - _sizePbs13.Height);
+					startPoint = new Point(centerPoint.X - (_sizePbs13.Width * numCards) / 2, Size.Height - pb1.Height - _sizePbs13.Height);
 					break;
 
 				case 2:
-					startPoint = new Point(Width - _sizePbs24.Width - 12, _sizePbs13.Height + 20);
+					startPoint = new Point(Width - _sizePbs24.Width -pb2.Width, centerPoint.Y - ((_sizePbs24.Height) * numCards) / 2);
 					break;
 
 				case 3:
-					startPoint = new Point(_sizePbs24.Width, 12);
+					startPoint = new Point(centerPoint.X - (_sizePbs13.Width * numCards) / 2, pb3.Height);
 					break;
 
 				case 4:
-					startPoint = new Point(20, _sizePbs13.Height + 20);
+					startPoint = new Point(pb4.Width, centerPoint.Y - ((_sizePbs24.Height) * numCards) / 2);
 					break;
 				default:
 				throw new ArgumentOutOfRangeException();
@@ -263,18 +297,18 @@ namespace Subasta
 			//Remove from hand
 			RemovePictureBoxesByCard(card);
 			//PAINT REMAINING CARDS
-			CompactPlayerCards(status,playerNumber,card);
+			CompactPlayerCards(status,playerNumber);
 
 			PictureBox pbCard = PaintCardPlayed(playerNumber, card);
 			
 		}
 
-		private void CompactPlayerCards(IExplorationStatus status, int playerNumber, ICard cardPlayed)
+		private void CompactPlayerCards(IExplorationStatus status, int playerNumber)
 		{
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(playerNumber);
-			var startPoint = GetPlayerCardsStartPaintingPoint(player);
-			int index = 0;
 			ICard[] playerCards = status.PlayerCards(playerNumber);
+			var startPoint = GetPlayerCardsStartPaintingPoint(player,playerCards.Count());
+			int index = 0;
 			foreach(var card in playerCards)
 			{
 				Point location = startPoint;
@@ -288,7 +322,7 @@ namespace Subasta
 
 					case 2:
 					case 4:
-						location.Y += (_sizePbs24.Height/2)*index;
+						location.Y += (_sizePbs24.Height)*index;
 						break;
 				}
 
@@ -361,7 +395,7 @@ namespace Subasta
 		{
 			//GET PBS PLAYER
 			var playerCards = this.FindControls<PictureBox>(x => player.Cards.Any(y => y == x.Tag));
-			Point playerCardsStartPaintingPoint = GetPlayerCardsStartPaintingPoint(player);
+			Point playerCardsStartPaintingPoint = GetPlayerCardsStartPaintingPoint(player, playerCards.Count());
 
 			foreach (var playerCard in playerCards)
 			{
