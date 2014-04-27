@@ -143,14 +143,15 @@
 			this.txtBazas.Multiline = true;
 			this.txtBazas.Name = "txtBazas";
 			this.txtBazas.ReadOnly = true;
-			this.txtBazas.Size = new System.Drawing.Size(197, 69);
+			this.txtBazas.Size = new System.Drawing.Size(197, 175);
 			this.txtBazas.TabIndex = 3;
+			this.txtBazas.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
 			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(221, 317);
+			this.ClientSize = new System.Drawing.Size(221, 518);
 			this.ControlBox = false;
 			this.Controls.Add(this.txtBazas);
 			this.Controls.Add(this.grpPuntos24);
