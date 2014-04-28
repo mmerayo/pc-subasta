@@ -4,7 +4,7 @@ namespace Subasta
 {
 	internal class NugetConfigurationBasedModuleDownloader : ModuleDownloader
 	{
-		public override void GetLatest()
+		public override bool GetLatest()
 		{
 			throw new NotImplementedException();
 		}
