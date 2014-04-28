@@ -6,7 +6,7 @@ using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
 
-namespace Subasta
+namespace Subasta.Lib
 {
 	public partial class FrmGameInfo : Form
 	{

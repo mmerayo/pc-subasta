@@ -2,7 +2,7 @@ using Subasta.Domain.Deck;
 using Subasta.Domain.Game.Algorithms;
 using Subasta.Domain.Game.Analysis;
 
-namespace Subasta
+namespace Subasta.Lib.Infrastructure
 {
 	class NullExplorationListenerHandler:ISaysExplorationListener
 	{
