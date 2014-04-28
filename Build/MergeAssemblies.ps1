@@ -107,7 +107,7 @@ try
 		$mvcAssemblies = Get-Mvc3Dependencies
 		$inArgument = "$inArgument $mvcAssemblies"
 	}
-	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument"
+	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\Subasta.Lib.dll"""
  
 	if ($internalize)
 	{
