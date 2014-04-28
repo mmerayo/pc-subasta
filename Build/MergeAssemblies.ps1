@@ -30,6 +30,7 @@ param(
     $buildConfiguration = "",
     $targetPlatform = "v4,c:\windows\Microsoft.NET\Framework\v4.0.30319",
 	$targetMergeKind="dll",
+	$sourcePropertiesFileName,
     [switch] $mvc3,
     [switch] $internalize
 )
@@ -81,7 +82,7 @@ try
 	$scriptDirectory = new-object System.IO.DirectoryInfo $scriptPath
 	$solutionDirectory = $scriptDirectory.Parent
 	$solutionDirectoryFullName = $solutionDirectory.FullName
- 
+	
  
 	$ilMergeAssembly = "$scriptDirectory\.ilmerge\IlMerge\IlMerge.exe"
 	$publishDirectory = "$solutionDirectoryFullName\Publish"
@@ -107,7 +108,7 @@ try
 		$mvcAssemblies = Get-Mvc3Dependencies
 		$inArgument = "$inArgument $mvcAssemblies"
 	}
-	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\Subasta.Lib.dll"""
+	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\$sourcePropertiesFileName"""
  
 	if ($internalize)
 	{
@@ -153,8 +154,9 @@ try
 		Exit 0;
 	}
 }
-catch
-{
+catch 
+ {
+	write-output $_.Exception.Message
 	throw
 	Exit -1
 }
