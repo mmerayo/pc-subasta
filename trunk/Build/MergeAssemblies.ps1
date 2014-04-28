@@ -108,7 +108,7 @@ try
 		$mvcAssemblies = Get-Mvc3Dependencies
 		$inArgument = "$inArgument $mvcAssemblies"
 	}
-	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\$sourcePropertiesFileName"""
+	$cmd = "$ilMergeAssembly /log:log.txt /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\$sourcePropertiesFileName"""
  
 	if ($internalize)
 	{
