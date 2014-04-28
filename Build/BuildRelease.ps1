@@ -5,8 +5,8 @@ function prompt
 
 try{
 	prompt
-	#C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild .\..\Code\Subasta\Subasta.csproj /p:Configuration=Release
-	.\MergeAssemblies.ps1 -targetProject "Code\Subasta" -buildConfiguration "Release" -outputAssembly "Subasta.exe" -targetMergeKind "winexe" #.{library, exe, winexe} # -internalize
+	C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild .\..\Code\Subasta\Subasta.csproj /p:Configuration=Release
+	.\MergeAssemblies.ps1 -targetProject "Code\Subasta.Lib" -buildConfiguration "Release" -outputAssembly "Subasta.dll" -targetMergeKind "library" -internalize #.{library, exe, winexe} # -internalize
 }
 catch
 {
