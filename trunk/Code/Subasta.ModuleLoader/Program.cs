@@ -10,14 +10,7 @@ namespace Subasta
 		[STAThread]
 		static void Main()
 		{
-			ModuleLoader.Instance.GetLatest();
+			ModuleDownloader.Instance.GetLatest();
 		}
-	}
-
-	internal class ModuleLoader
-	{
-		private ModuleLoader(){}
-		public static readonly ModuleLoader _instance=new ModuleLoader();
-
 	}
 }
