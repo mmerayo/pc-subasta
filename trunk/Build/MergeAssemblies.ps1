@@ -30,7 +30,7 @@ param(
     $buildConfiguration = "",
     $targetPlatform = "v4,c:\windows\Microsoft.NET\Framework\v4.0.30319",
 	$targetMergeKind="dll",
-	$sourcePropertiesFileName,
+	$primaryAssembly,
     [switch] $mvc3,
     [switch] $internalize
 )
@@ -55,11 +55,11 @@ function Get-Mvc3Dependencies()
  
 function Get-InputAssemblyNames($buildDirectory)
 {
-	$assemblyNames = dir -path $buildDirectory -Include @("*.dll","*.exe") -rec | ForEach-Object { """" + $_.FullName + """" }
+	$assemblyNames = dir -path $buildDirectory -Include @("*.dll","*.exe") -Exclude @("$primaryAssembly") -rec | ForEach-Object { """" + $_.FullName + """" }
     #$assemblyNames = Get-ChildItem -Path $buildDirectory -Filter *.dll *.exe | ForEach-Object { """" + $_.FullName + """" }
 	write-host "Assemblies to merge: $assemblyNames"
  
-    $inArgument = [System.String]::Join(" ", $assemblyNames)
+    $inArgument = "$buildDirectory\$primaryAssembly" + " " + [System.String]::Join(" ", $assemblyNames)
     return $inArgument
 }
  
@@ -108,7 +108,7 @@ try
 		$mvcAssemblies = Get-Mvc3Dependencies
 		$inArgument = "$inArgument $mvcAssemblies"
 	}
-	$cmd = "$ilMergeAssembly /log:log.txt /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\$sourcePropertiesFileName"""
+	$cmd = "$ilMergeAssembly /log:log.txt /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument /attr:""$buildDirectory\$primaryAssembly"""
  
 	if ($internalize)
 	{
