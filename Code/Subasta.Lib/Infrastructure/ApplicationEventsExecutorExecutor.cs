@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using Subasta.DomainServices;
 
-namespace Subasta
+namespace Subasta.Lib.Infrastructure
 {
 	class ApplicationEventsExecutorExecutor : IApplicationEventsExecutor
 	{

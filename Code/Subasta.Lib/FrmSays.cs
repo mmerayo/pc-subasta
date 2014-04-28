@@ -8,9 +8,9 @@ using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.Domain;
-using Subasta.Interaction;
+using Subasta.Lib.Interaction;
 
-namespace Subasta
+namespace Subasta.Lib
 {
 	public partial class FrmSays : Form
 	{

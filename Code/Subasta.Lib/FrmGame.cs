@@ -9,9 +9,9 @@ using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.Interaction;
+using Subasta.Lib.Interaction;
 
-namespace Subasta
+namespace Subasta.Lib
 {
 	public partial class FrmGame : Form
 	{

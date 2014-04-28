@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Subasta.Client.Common;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 
-namespace Subasta
+namespace Subasta.Lib
 {
 	public partial class FrmMain : Form
 	{
@@ -118,7 +112,7 @@ namespace Subasta
 			this.LocationChanged += this.FrmMain_LocationChanged;
 			this.Resize += this.FrmMain_Resize;
 			this.StartPosition = FormStartPosition.Manual;
-			this.Location = Properties.Settings.Default.FrmMainLocation;
+			this.Location = Subasta.Lib.Properties.Settings.Default.FrmMainLocation;
 			this.WindowState = Properties.Settings.Default.FrmMainState;
 			if (this.WindowState == FormWindowState.Normal)
 				this.Size = Properties.Settings.Default.FrmMainSize;

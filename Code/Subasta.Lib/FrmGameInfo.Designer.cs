@@ -1,4 +1,4 @@
-﻿namespace Subasta
+﻿namespace Subasta.Lib
 	{
 	partial class FrmGameInfo
 		{

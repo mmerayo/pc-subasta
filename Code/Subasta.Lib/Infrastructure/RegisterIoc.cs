@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StructureMap.Configuration.DSL;
-using Subasta.Client.Common.Infrastructure;
+﻿using StructureMap.Configuration.DSL;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
-using Subasta.Infrastructure;
-using Subasta.Interaction;
+using Subasta.Lib.Interaction;
 
-namespace Subasta
+namespace Subasta.Lib.Infrastructure
 {
 	internal class RegisterIoc : Registry
 	{

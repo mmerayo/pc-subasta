@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Subasta.Interaction
+namespace Subasta.Lib.Interaction
 {
 	public interface IUserInteractionManager
 	{
