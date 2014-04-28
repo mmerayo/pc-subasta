@@ -35,15 +35,17 @@ function Update-SourceVersion
   Param ([string]$Version)
   $NewVersion = 'AssemblyVersion("' + $Version + '")';
   $NewFileVersion = 'AssemblyFileVersion("' + $Version + '")';
-
+  $NewNuSpecVersion='<version>'+$Version+'</version>';
   foreach ($o in $input) 
   {
+	
     Write-output $o.FullName
     $TmpFile = $o.FullName + ".tmp"
-
+	
      get-content $o.FullName | 
         %{$_ -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $NewVersion } |
-        %{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $NewFileVersion }  > $TmpFile
+        %{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $NewFileVersion } |
+		%{$_ -replace '<version>[0-9]+(\.([0-9]+|\*)){1,3}</version>', $NewNuSpecVersion } > $TmpFile
 
      move-item $TmpFile $o.FullName -force
   }
@@ -52,7 +54,7 @@ function Update-SourceVersion
 
 function Update-AllAssemblyInfoFiles ( $version )
 {
-  foreach ($file in "AssemblyInfo.cs", "AssemblyInfo.vb" ) 
+  foreach ($file in "AssemblyInfo.cs", "AssemblyInfo.vb","Subasta.Lib.nuspec" ) 
   {
     get-childitem -Path $solutionDirectoryFullName -recurse |? {$_.Name -eq $file} | Update-SourceVersion $version ;
   }
