@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
-namespace Subasta.ModuleLoader
+namespace Subasta
 {
 	static class Program
 	{
@@ -13,7 +10,14 @@ namespace Subasta.ModuleLoader
 		[STAThread]
 		static void Main()
 		{
-			
+			ModuleLoader.Instance.GetLatest();
 		}
+	}
+
+	internal class ModuleLoader
+	{
+		private ModuleLoader(){}
+		public static readonly ModuleLoader _instance=new ModuleLoader();
+
 	}
 }

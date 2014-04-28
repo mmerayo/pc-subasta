@@ -112,7 +112,7 @@
     <Compile Include="Infrastructure\NullExplorationListenerHandler.cs" />
     <Compile Include="Interaction\IUserInteractionManager.cs" />
     <Compile Include="Interaction\UserInteractionManager.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="LibStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmGame.resx">
       <DependentUpon>FrmGame.cs</DependentUpon>

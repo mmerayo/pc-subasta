@@ -24,7 +24,7 @@ namespace Subasta.Infrastructure.IoC
 				lock (_syncLock)
 					if (!_initialized)
 					{
-
+					
 						ObjectFactory.Initialize(
 							c =>
 								{
@@ -35,20 +35,22 @@ namespace Subasta.Infrastructure.IoC
 									if (clientRegistries != null)
 										clientRegistries.ForEach(c.AddRegistry);
 								});
-
+								
 						_container = ObjectFactory.Container;
-						_container.Configure(x => x.For<IContainer>().Use(_container));
+						_container.Configure(x =>  x.For<IContainer>().Use(_container));
 
 						foreach (var strap in _container.GetAllInstances<IBootstrap>())
 							strap.Execute();
 
 
 #if DEBUG
+						ObjectFactory.AssertConfigurationIsValid();
 						ExtractInjectionReport();
 #endif
 						_initialized = true;
 
 					}
+
 		}
 
 		public static
