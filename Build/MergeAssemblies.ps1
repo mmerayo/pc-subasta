@@ -29,6 +29,7 @@ param(
     $outputAssembly = "$targetProject.dll", 
     $buildConfiguration = "",
     $targetPlatform = "v4,c:\windows\Microsoft.NET\Framework\v4.0.30319",
+	$targetMergeKind="dll",
     [switch] $mvc3,
     [switch] $internalize
 )
@@ -53,7 +54,8 @@ function Get-Mvc3Dependencies()
  
 function Get-InputAssemblyNames($buildDirectory)
 {
-    $assemblyNames = Get-ChildItem -Path $buildDirectory -Filter *.dll | ForEach-Object { """" + $_.FullName + """" }
+	$assemblyNames = dir -path $buildDirectory -Include @("*.dll","*.exe") -rec | ForEach-Object { """" + $_.FullName + """" }
+    #$assemblyNames = Get-ChildItem -Path $buildDirectory -Filter *.dll *.exe | ForEach-Object { """" + $_.FullName + """" }
 	write-host "Assemblies to merge: $assemblyNames"
  
     $inArgument = [System.String]::Join(" ", $assemblyNames)
@@ -81,7 +83,7 @@ try
 	$solutionDirectoryFullName = $solutionDirectory.FullName
  
  
-	$ilMergeAssembly = "$solutionDirectoryFullName\.ilmerge\IlMerge\IlMerge.exe"
+	$ilMergeAssembly = "$scriptDirectory\.ilmerge\IlMerge\IlMerge.exe"
 	$publishDirectory = "$solutionDirectoryFullName\Publish"
 	$outputAssemblyFullPath = "$publishDirectory\$outputAssembly"
  
@@ -105,7 +107,7 @@ try
 		$mvcAssemblies = Get-Mvc3Dependencies
 		$inArgument = "$inArgument $mvcAssemblies"
 	}
-	$cmd = "$ilMergeAssembly /t:library /targetPlatform:""$targetPlatform"" $outArgument $inArgument"
+	$cmd = "$ilMergeAssembly /t:$targetMergeKind /targetPlatform:""$targetPlatform"" $outArgument $inArgument"
  
 	if ($internalize)
 	{
@@ -114,7 +116,7 @@ try
  
  
 	"Installing ilmerge"
-	nuget install IlMerge -outputDirectory .ilmerge -ExcludeVersion
+	.\nuget install IlMerge -outputDirectory .ilmerge -ExcludeVersion
  
 	"Ensuring that publication directory exists"
 	if ([System.IO.Directory]::Exists($publishDirectory) -eq $false)
@@ -124,7 +126,7 @@ try
  
 	"Running Command: $cmd"
 	$result = Invoke-Expression $cmd
- 
+	"result " + $result
 	"Getting assembly info for $outputAssemblyFullPath"
  
 	$outputAssemblyInfo = New-Object System.IO.FileInfo $outputAssemblyFullPath
