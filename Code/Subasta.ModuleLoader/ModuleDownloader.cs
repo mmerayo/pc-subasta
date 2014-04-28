@@ -19,6 +19,10 @@
 			}
 		}
 
-		public abstract void GetLatest();
+		/// <summary>
+		/// returns false if the assembly is not ready to be loaded
+		/// </summary>
+		/// <returns></returns>
+		public abstract bool GetLatest();
 	}
 }
