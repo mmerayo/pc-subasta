@@ -14,11 +14,11 @@
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="Subasta.SetUp" />
+				<Directory Id="INSTALLFOLDER" Name="Subasta" />
 			</Directory>
-			<Directory Id="ProgramMenuFolder">
+			<!--<Directory Id="ProgramMenuFolder">
 				<Directory Id="ApplicationProgramsFolder" Name="Subasta"/>
-			</Directory>
+			</Directory>-->
 		</Directory>
 
 		<DirectoryRef Id="TARGETDIR">
@@ -28,25 +28,29 @@
 			<Component Id="subasta.lib.dll" Guid="891709D8-F80A-4762-87F4-45F48EEB3D2B">
 				<File Id="subasta.lib.dll" Source="./../../Publish/subasta.lib.dll" KeyPath="yes" Checksum="yes"/>
 			</Component>
-		</DirectoryRef>
+			<Component Id="subasta.config" Guid="1E4E0175-7CDD-45A6-9B36-3B860F30B30A">
+				<File Id="subasta.config" Source="./../Subasta.ModuleLoader/app.config" KeyPath="yes" Checksum="yes" Name="subasta.exe.config"/>
+			</Component>
+		<!--</DirectoryRef>
 
 		
 
-		<!--Start menu link-->
-		<DirectoryRef Id="ApplicationProgramsFolder">
+		--><!--Start menu link--><!--
+		<DirectoryRef Id="ApplicationProgramsFolder">-->
 			<Component Id="StartMenuShortcut" Guid="47E3CB77-C595-4686-A781-C5914525A589">
 				<Shortcut Id="ApplicationStartMenuShortcut"
 						  Name="Subasta"
 						  Description="El juego de la subasta"
 						  Target="[#subasta.exe]"
-						  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+						  WorkingDirectory="TARGETDIR"/>
 				<Shortcut Id="UninstallProduct"
                           Name="Desinstalar subasta"
                           Description="Desinstala el juego de la subasta"
                           Target="[System64Folder]msiexec.exe"
                           Arguments="/x [ProductCode]"/>
 				<RegistryValue Root="HKCU" Key="Software\Microsoft\Subasta" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+
 			</Component>
 		</DirectoryRef>
 
@@ -55,6 +59,8 @@
 			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 			<!-- <Component Id="ProductComponent"> -->
 			<ComponentRef Id="subasta.exe" />
+			<ComponentRef Id="subasta.config" />
+			
 			<ComponentRef Id="subasta.lib.dll" />
 			<ComponentRef Id="StartMenuShortcut" />
 			<!-- </Component> -->
