@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Subasta
@@ -13,9 +14,10 @@ namespace Subasta
 
 		public static void Initialize()
 		{
-			Assembly.LoadFrom(TargetLibFile);
-
-			Type.GetType("Subasta.Lib.LibStarter").GetMethod("Start", BindingFlags.Static | BindingFlags.Public).Invoke(null,null);
+			Assembly assembly = Assembly.LoadFrom(TargetLibFile);
+			Type type = assembly.GetTypes().Single(x => x.Name == "LibStarter");
+			MethodInfo methodInfo = type.GetMethod("Start", BindingFlags.Static | BindingFlags.Public);
+			methodInfo.Invoke(null,null);
 
 		}
 
