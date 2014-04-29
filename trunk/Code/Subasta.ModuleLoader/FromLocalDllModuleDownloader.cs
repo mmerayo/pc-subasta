@@ -11,8 +11,6 @@ namespace Subasta
 		public override bool Update()
 		{
 
-
-
 			try
 			{
 				string sourceFileName = Path.Combine(Source, "Subasta.Lib.dll");
