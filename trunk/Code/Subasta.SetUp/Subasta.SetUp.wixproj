@@ -23,14 +23,6 @@
   <ItemGroup>
     <Compile Include="Product.wxs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\Publish\subasta.exe">
-      <Link>subasta.exe</Link>
-    </Content>
-    <Content Include="..\..\Publish\Subasta.Lib.dll">
-      <Link>Subasta.Lib.dll</Link>
-    </Content>
-  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -10,27 +10,24 @@ namespace Subasta
 	internal class NugetConfigurationBasedModuleDownloader : ModuleDownloader
 	{
 		private const string PackageId = "Subasta.Lib";
+
 		public override bool Update()
 		{
-			try
-			{
-				string repoUrl = ConfigurationManager.AppSettings["nuGetRepositoryUrl"];
-				var repo = PackageRepositoryFactory.Default.CreateRepository(repoUrl);
-				var latest = repo.FindPackagesById(PackageId).OrderByDescending(x => x.Version).First();
-				if (!LibInvoker.TargetExists|| latest.Version.Version > LibInvoker.TargetLibVersion)
-				{
-					string currentPath = Utils.GetCurrentPath();
-					DeletePreviousInstallations(currentPath);
-					InstallPackage(repo, currentPath, latest);
 
-					ReplaceLibrary(currentPath, latest);
-					DeleteFolder(GetDeploymentFolder(currentPath, latest.Version.Version.ToString()));
-				}
-			}
-			catch
+			string repoUrl = ConfigurationManager.AppSettings["nuGetRepositoryUrl"];
+			var repo = PackageRepositoryFactory.Default.CreateRepository(repoUrl);
+			var latest = repo.FindPackagesById(PackageId).OrderByDescending(x => x.Version).First();
+			if (!LibInvoker.TargetExists || latest.Version.Version > LibInvoker.TargetLibVersion)
 			{
-				return false;
+				string currentPath = Utils.GetCurrentPath();
+				DeletePreviousInstallations(currentPath);
+				InstallPackage(repo, currentPath, latest);
+
+				ReplaceLibrary(currentPath, latest);
+				DeleteFolder(GetDeploymentFolder(currentPath, latest.Version.Version.ToString()));
 			}
+
+
 
 			return true;
 		}

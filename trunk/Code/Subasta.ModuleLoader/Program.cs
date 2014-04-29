@@ -22,27 +22,27 @@ namespace Subasta
 			try
 			{
 				if(!ModuleDownloader.Instance.Update())
-					ShowCouldNotupdateMessage();
+					ShowCouldNotupdateMessage(string.Empty);
 			}
-			catch
+			catch(Exception ex)
 			{
-				ShowCouldNotupdateMessage();
+				ShowCouldNotupdateMessage(ex.ToString());
 			}
 			try
 			{
 				LibInvoker.Initialize();
 			}
-			catch
+			catch(Exception ex)
 			{
-				MessageBox.Show("No se ha podido iniciar la aplicacion.", "Subasta:Error", MessageBoxButtons.OK,
+				MessageBox.Show("No se ha podido iniciar la aplicacion. Error original:"+ ex, "Subasta:Error", MessageBoxButtons.OK,
 					MessageBoxIcon.Stop);
 			}
 			finally { Mutex.ReleaseMutex(); }
 		}
 
-		private static void ShowCouldNotupdateMessage()
+		private static void ShowCouldNotupdateMessage(string exception)
 		{
-			MessageBox.Show("No se ha podido comprobar actualizaciones del juego, Verifique su conexion a internet.",
+			MessageBox.Show("No se ha podido comprobar actualizaciones del juego, Verifique su conexion a internet. " + exception,
 				"Subasta:Error", MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 		}
