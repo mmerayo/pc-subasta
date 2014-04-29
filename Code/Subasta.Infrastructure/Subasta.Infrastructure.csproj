@@ -49,8 +49,6 @@
     <Compile Include="ApplicationServices\IO\PathUtils.cs" />
     <Compile Include="ApplicationServices\Queues\ProducerParallelConsumerQueue.cs" />
     <Compile Include="ApplicationServices\Queues\ProducerSequentialConsumerQueue.cs" />
-    <Compile Include="DomainServices\DataAccess\GameDataAllocator.cs" />
-    <Compile Include="DomainServices\DataAccess\NullStoreWritter.cs" />
     <Compile Include="DomainServices\DomainServicesRegistry.cs" />
     <Compile Include="DomainServices\Factories\PlayerFactory.cs" />
     <Compile Include="Domain\Card.cs" />

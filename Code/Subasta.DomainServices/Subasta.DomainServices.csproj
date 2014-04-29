@@ -45,11 +45,6 @@
   <ItemGroup>
     <Compile Include="Dal\IStoredGameReader.cs" />
     <Compile Include="Dal\IStoredGamesCommands.cs" />
-    <Compile Include="DataAccess\IGameDataHelper.cs" />
-    <Compile Include="DataAccess\IGameDataWritter.cs" />
-    <Compile Include="DataAccess\IGameSettingsStoreWritter.cs" />
-    <Compile Include="DataAccess\IQueuedResultStoreWritter.cs" />
-    <Compile Include="DataAccess\IUnitOfWork.cs" />
     <Compile Include="Factories\IPlayerFactory.cs" />
     <Compile Include="Game\ICandidatePlayer.cs" />
     <Compile Include="Game\ICandidatesSelector.cs" />
@@ -59,7 +54,6 @@
     <Compile Include="Game\ISaysSimulator.cs" />
     <Compile Include="Game\ISimulator.cs" />
     <Compile Include="Game\IPlayerDeclarationsChecker.cs" />
-    <Compile Include="DataAccess\IResultStoreWritter.cs" />
     <Compile Include="Game\IValidCardsRule.cs" />
     <Compile Include="IApplicationEventsExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
