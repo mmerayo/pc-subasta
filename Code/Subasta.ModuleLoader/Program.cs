@@ -19,10 +19,17 @@ namespace Subasta
 				MessageBox.Show("Existe otra instancia del juego de la subasta funcionando!", "", MessageBoxButtons.OK);
 				return;
 			}
-
 			try
 			{
-				ModuleDownloader.Instance.Update();
+				if(!ModuleDownloader.Instance.Update())
+					ShowCouldNotupdateMessage();
+			}
+			catch
+			{
+				ShowCouldNotupdateMessage();
+			}
+			try
+			{
 				LibInvoker.Initialize();
 			}
 			catch
@@ -31,6 +38,13 @@ namespace Subasta
 					MessageBoxIcon.Stop);
 			}
 			finally { Mutex.ReleaseMutex(); }
+		}
+
+		private static void ShowCouldNotupdateMessage()
+		{
+			MessageBox.Show("No se ha podido comprobar actualizaciones del juego, Verifique su conexion a internet.",
+				"Subasta:Error", MessageBoxButtons.OK,
+				MessageBoxIcon.Information);
 		}
 	}
 }

@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Subasta
 {
@@ -9,7 +11,23 @@ namespace Subasta
 	{
 		public static string TargetLibFile
 		{
-			get { return Path.Combine(Utils.GetAssemblyPath(), "Subasta.Lib.dll"); }
+			get { return Path.Combine(Utils.GetCurrentPath(), TargetLibFileName); }
+		}
+
+		public static string TargetLibFileName { get { return "Subasta.Lib.dll"; }}
+
+		public static Version TargetLibVersion
+		{
+			get
+			{
+				string productVersion = FileVersionInfo.GetVersionInfo(TargetLibFile).ProductVersion;
+				return new Version(productVersion);
+			}
+		}
+
+		public static bool TargetExists
+		{
+			get { return File.Exists(TargetLibFile); }
 		}
 
 		public static void Initialize()
