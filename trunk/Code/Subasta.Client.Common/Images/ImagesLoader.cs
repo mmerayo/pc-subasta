@@ -19,16 +19,15 @@ namespace Subasta.Client.Common.Images
 			_deck = deck;
 		}
 
-		public void LoadCardImages(ImageList imageListCards, Size size, string resourceNamespace = null)
+		public void LoadCardImages(ImageList imageListCards, Size size)
 		{
-			if (resourceNamespace == null)
-				resourceNamespace = string.Format("{0}.Content.Images", Assembly.GetAssembly(GetType()).GetName().Name);
+			
 			foreach (var card in _deck.Cards.Cards)
 			{
-				string cardResourceName = GetCardResourceName(resourceNamespace, card);
+				string cardResourceName = GetResourceName(GetCardFileName(card));
 				LoadSingleImage(imageListCards, card.ToShortString(), cardResourceName);
 			}
-			LoadSingleImage(imageListCards, "reverso",string.Format("{0}.reverso.jpg", resourceNamespace));
+			LoadSingleImage(imageListCards, "reverso",GetResourceName("reverso.jpg"));
 
 			imageListCards.ImageSize = size;
 
@@ -52,13 +51,11 @@ namespace Subasta.Client.Common.Images
 		}
 
 
-		public Image GetImage(string fileName, string resourceNamespace = null)
+		public Image GetImage(string fileName)
 		{
-			if (resourceNamespace == null)
-				resourceNamespace = string.Format("{0}.Content.Images", Assembly.GetAssembly(GetType()).GetName().Name);
 			{
 				Image image;
-				using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(resourceNamespace+"."+fileName))
+				using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(GetResourceName(fileName)))
 				{
 					image = Image.FromStream(manifestResourceStream);
 				}
@@ -66,9 +63,19 @@ namespace Subasta.Client.Common.Images
 			}
 		}
 
-		private string GetCardResourceName(string resourceNamespace, ICard card)
+		private string GetResourceName(string fileName)
 		{
-			return string.Format("{0}.{1}_{2}s.jpg", resourceNamespace, card.Suit.Name.ToLower(), card.Number);
+			return
+				Assembly.GetExecutingAssembly()
+					.GetManifestResourceNames()
+					.Single(x => x.EndsWith(fileName, StringComparison.InvariantCultureIgnoreCase));
+
+
+		}
+
+		private string GetCardFileName(ICard card)
+		{
+			return string.Format("{0}_{1}s.jpg",  card.Suit.Name.ToLower(), card.Number);
 		}
 
 

@@ -6,7 +6,7 @@ namespace Subasta.Client.Common.Images
 {
 	public interface IImagesLoader
 	{
-		void LoadCardImages( ImageList imageListCardsTarget, Size size,string resourceNamespace=null);
-		Image GetImage(string fileName, string resourceNamespace = null);
+		void LoadCardImages(ImageList imageListCardsTarget, Size size);
+		Image GetImage(string fileName);
 	}
 }
