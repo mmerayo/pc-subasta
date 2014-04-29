@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*" Name="Subasta.SetUp" Language="1033" Version="1.0.0.0" Manufacturer="Miguel Merayo" UpgradeCode="9db211ac-3478-4ace-9232-0890e56d117b">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
+		<Media Id="1" Cabinet="subasta.cab" EmbedCab="yes" />
 		<MajorUpgrade DowngradeErrorMessage="Ya hay instalada una version mas nueva de Subasta." />
-		<MediaTemplate />
+		<!--<MediaTemplate />-->
 
 		<Feature Id="ProductFeature" Title="Subasta.SetUp" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
