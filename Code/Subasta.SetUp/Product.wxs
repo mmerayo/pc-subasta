@@ -16,6 +16,9 @@
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLFOLDER" Name="Subasta.SetUp" />
 			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Subasta"/>
+			</Directory>
 		</Directory>
 
 		<DirectoryRef Id="TARGETDIR">
@@ -27,11 +30,33 @@
 			</Component>
 		</DirectoryRef>
 
+		
+
+		<!--Start menu link-->
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="StartMenuShortcut" Guid="47E3CB77-C595-4686-A781-C5914525A589">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+						  Name="Subasta"
+						  Description="El juego de la subasta"
+						  Target="[#subasta.exe]"
+						  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+				<Shortcut Id="UninstallProduct"
+                          Name="Desinstalar subasta"
+                          Description="Desinstala el juego de la subasta"
+                          Target="[System64Folder]msiexec.exe"
+                          Arguments="/x [ProductCode]"/>
+				<RegistryValue Root="HKCU" Key="Software\Microsoft\Subasta" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
+
+
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 			<!-- <Component Id="ProductComponent"> -->
 			<ComponentRef Id="subasta.exe" />
 			<ComponentRef Id="subasta.lib.dll" />
+			<ComponentRef Id="StartMenuShortcut" />
 			<!-- </Component> -->
 		</ComponentGroup>
 	</Product>
