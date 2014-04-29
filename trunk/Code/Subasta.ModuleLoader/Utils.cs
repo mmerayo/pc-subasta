@@ -6,7 +6,7 @@ namespace Subasta
 {
 	public static class Utils
 	{
-		public static string GetAssemblyPath()
+		public static string GetCurrentPath()
 		{
 			string codeBase = Assembly.GetExecutingAssembly().CodeBase;
 			var uri = new UriBuilder(codeBase);
