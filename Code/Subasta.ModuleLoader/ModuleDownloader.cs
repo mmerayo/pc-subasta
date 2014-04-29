@@ -1,4 +1,6 @@
-﻿namespace Subasta
+﻿using NuGet;
+
+namespace Subasta
 {
 	internal abstract class ModuleDownloader
 	{
@@ -13,7 +15,12 @@
 					lock(SyncLock)
 						if (_instance == null)
 						{
-							_instance= new FromLocalDllModuleDownloader();
+							
+							#if(DEBUG)
+							_instance = new NugetConfigurationBasedModuleDownloader();// new FromLocalDllModuleDownloader();
+							#else
+								_instance= new NugetConfigurationBasedModuleDownloader();
+#endif
 						}
 				return _instance;
 			}
