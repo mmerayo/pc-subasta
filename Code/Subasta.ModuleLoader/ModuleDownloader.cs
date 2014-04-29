@@ -13,7 +13,7 @@
 					lock(SyncLock)
 						if (_instance == null)
 						{
-							_instance= new NugetConfigurationBasedModuleDownloader();
+							_instance= new FromLocalDllModuleDownloader();
 						}
 				return _instance;
 			}
@@ -23,6 +23,6 @@
 		/// returns false if the assembly is not ready to be loaded
 		/// </summary>
 		/// <returns></returns>
-		public abstract bool GetLatest();
+		public abstract bool Update();
 	}
 }

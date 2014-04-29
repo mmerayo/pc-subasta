@@ -31,6 +31,7 @@ param(
     $targetPlatform = "v4,c:\windows\Microsoft.NET\Framework\v4.0.30319",
 	$targetMergeKind="dll",
 	$primaryAssembly,
+	$buildDirectory,
     [switch] $mvc3,
     [switch] $internalize
 )
@@ -62,7 +63,16 @@ function Get-InputAssemblyNames($buildDirectory)
     $inArgument = "$buildDirectory\$primaryAssembly" + " " + [System.String]::Join(" ", $assemblyNames)
     return $inArgument
 }
- 
+
+function Create-BuildDirectory($target){
+if ([System.IO.Directory]::Exists($target) -eq $false)
+	{
+		[System.IO.Directory]::CreateDirectory($target)
+	}
+}
+
+
+<# 
 function Get-BuildDirectory($solutionDirectoryFullName)
 {
  
@@ -74,7 +84,7 @@ function Get-BuildDirectory($solutionDirectoryFullName)
     }
 	return $result
 }
- 
+#>
 try
 {
  
@@ -88,7 +98,7 @@ try
 	$publishDirectory = "$solutionDirectoryFullName\Publish"
 	$outputAssemblyFullPath = "$publishDirectory\$outputAssembly"
  
-	$buildDirectory = Get-BuildDirectory $solutionDirectoryFullName
+	#$buildDirectory = Get-BuildDirectory $solutionDirectoryFullName
  
 	"Script Directory  : $scriptPath"
 	"Solution Directory: $solutionDirectoryFullName"
@@ -119,12 +129,10 @@ try
 	"Installing ilmerge"
 	.\nuget install IlMerge -outputDirectory .ilmerge -ExcludeVersion
  
-	"Ensuring that publication directory exists"
-	if ([System.IO.Directory]::Exists($publishDirectory) -eq $false)
-	{
-		[System.IO.Directory]::CreateDirectory($publishDirectory)
-	}
- 
+	"Ensuring that directories exists"
+	Create-BuildDirectory($publishDirectory)
+	
+	 
 	"Running Command: $cmd"
 	$result = Invoke-Expression $cmd
 	"result " + $result
@@ -137,7 +145,7 @@ try
 	}
  
 	$outputAssemblyInfo
- 
+	
 	if ($outputAssemblyInfo.Exists -eq $false)
 	{
 		throw "Output assembly not created by ilmerge script."
