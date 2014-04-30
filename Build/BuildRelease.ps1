@@ -26,15 +26,18 @@ try{
 	$buildDirectory="$scriptLocation\..\Output"
 	$buildDirectoryLib="$buildDirectory\Lib"
 	$buildDirectoryExe="$buildDirectory\Exe"
+	$buildDirectoryInstaller="$buildDirectory\Installer"
 	
 	"publishDirectory=$publishDirectory"
 	"buildDirectory=$buildDirectory"
 	Remove-Dir($publishDirectory)
 	Remove-Dir($buildDirectoryLib)
 	Remove-Dir($buildDirectoryExe)
+	Remove-Dir($buildDirectoryInstaller)
 	
 	Create-BuildDirectory($buildDirectoryLib)
 	Create-BuildDirectory($buildDirectoryExe)
+	Create-BuildDirectory($buildDirectoryInstaller)
 	
 	"Setting version"
 	$version = Get-Date -format 0.yyyy.MMdd.HHmm
@@ -48,6 +51,9 @@ try{
 	"Creating the loader"
 	C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild .\..\Code\Subasta.ModuleLoader\Subasta.ModuleLoader.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="$buildDirectoryExe"
 	.\MergeAssemblies.ps1 -targetProject "Code\Subasta.ModuleLoader" -buildDirectory $buildDirectoryExe -primaryAssembly "Subasta.exe" -buildConfiguration "Release" -outputAssembly "subasta.exe" -targetMergeKind winexe #-internalize #.{library, exe, winexe} # -internalize
+	
+	"Creating the installer"
+	C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild .\..\Code\Subasta.SetUp\Subasta.SetUp.wixproj /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="$buildDirectoryInstaller"
 }
 catch
 {
