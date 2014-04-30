@@ -1,28 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<!-- Platform specific variables -->
+
+<?define ProductName = "Subasta" ?>
+<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+              xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	<Product Id="*" Name="Subasta.SetUp" Language="1033" Version="1.0.0.0" Manufacturer="Miguel Merayo" UpgradeCode="9db211ac-3478-4ace-9232-0890e56d117b">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-		<Media Id="1" Cabinet="subasta.cab" EmbedCab="yes" />
+		<Media Id="1" Cabinet="subasta1.cab" EmbedCab="yes" />
 		<MajorUpgrade DowngradeErrorMessage="Ya hay instalada una version mas nueva de Subasta." />
-		<!--<MediaTemplate />-->
+		
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="$(var.PlatformProgramFilesFolder)">
+				<Directory Id="INSTALLLOCATION" Name="Subasta">
+					<Directory Id="ProgramMenuFolder">
+						<Directory Id="ApplicationProgramsFolder" Name="Subasta"/>
+					</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="20BC8446-684B-44F5-A1E3-AF6010EAF37C">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+							Name="Subasta"
+							Description="Subasta"
+							Target="[INSTALLLOCATION]Subasta.exe"
+							WorkingDirectory="INSTALLLOCATION"/>
+				<Shortcut Id="UninstallProduct"
+							Name="Uninstall Subasta"
+							Target="[SystemFolder]msiexec.exe"
+							Arguments="/x [ProductCode]"
+							Description="Uninstalls Subasta" />
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU"   Key="Software\Miguel Merayo\Subasta" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
 
-		<Feature Id="ProductFeature" Title="Subasta.SetUp" Level="1">
+		<Feature Id="ProductFeature" Title="Subasta" Level="1">
+			<ComponentRef Id="ApplicationShortcut" />
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+		<UIRef Id="WixUI_InstallDir" />
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" 
+		   Value="Ejecutar Subasta" />
+		<Property Id="WixShellExecTarget"
+		  Value="[INSTALLLOCATION]Subasta.exe" />
+		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" 
+			DllEntry="WixShellExec" Impersonate="yes" />
+		<UI>
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" 
+				Value="LaunchApplication">
+					 WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+		</UI>
+		<WixVariable Id="WixUIBannerBmp" Value="Banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="Dialog.bmp" />
+		
+		
+		<ComponentGroup Id="ProductComponents" Directory="TARGETDIR">
+			
+			<ComponentRef Id="subasta.exe" />
+			<ComponentRef Id="subasta.config" />
 
-
-
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="Subasta" />
-			</Directory>
-			<!--<Directory Id="ProgramMenuFolder">
-				<Directory Id="ApplicationProgramsFolder" Name="Subasta"/>
-			</Directory>-->
-		</Directory>
-
-		<DirectoryRef Id="TARGETDIR">
+			<ComponentRef Id="subasta.lib.dll" />
+			
+		</ComponentGroup>
+		 <DirectoryRef Id="INSTALLLOCATION">
 			<Component Id="subasta.exe" Guid="194A7FF6-72B5-4060-9B15-ED796B0DB9B2">
+				<CreateFolder Directory="INSTALLLOCATION"/>
 				<File Id="subasta.exe" Source="./../../Publish/subasta.exe" KeyPath="yes" Checksum="yes"/>
 			</Component>
 			<Component Id="subasta.lib.dll" Guid="891709D8-F80A-4762-87F4-45F48EEB3D2B">
@@ -31,39 +78,19 @@
 			<Component Id="subasta.config" Guid="1E4E0175-7CDD-45A6-9B36-3B860F30B30A">
 				<File Id="subasta.config" Source="./../Subasta.ModuleLoader/app.config" KeyPath="yes" Checksum="yes" Name="subasta.exe.config"/>
 			</Component>
-		<!--</DirectoryRef>
-
-		
-
-		--><!--Start menu link--><!--
-		<DirectoryRef Id="ApplicationProgramsFolder">-->
-			<Component Id="StartMenuShortcut" Guid="47E3CB77-C595-4686-A781-C5914525A589">
-				<Shortcut Id="ApplicationStartMenuShortcut"
-						  Name="Subasta"
-						  Description="El juego de la subasta"
-						  Target="[#subasta.exe]"
-						  WorkingDirectory="TARGETDIR"/>
-				<Shortcut Id="UninstallProduct"
-                          Name="Desinstalar subasta"
-                          Description="Desinstala el juego de la subasta"
-                          Target="[System64Folder]msiexec.exe"
-                          Arguments="/x [ProductCode]"/>
-				<RegistryValue Root="HKCU" Key="Software\Microsoft\Subasta" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-
-			</Component>
 		</DirectoryRef>
-
-
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-			<ComponentRef Id="subasta.exe" />
-			<ComponentRef Id="subasta.config" />
-			
-			<ComponentRef Id="subasta.lib.dll" />
-			<ComponentRef Id="StartMenuShortcut" />
-			<!-- </Component> -->
-		</ComponentGroup>
-	</Product>
+     </Product>
 </Wix>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
