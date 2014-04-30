@@ -26,7 +26,7 @@ try{
 	$buildDirectory="$scriptLocation\..\Output"
 	$buildDirectoryLib="$buildDirectory\Lib"
 	$buildDirectoryExe="$buildDirectory\Exe"
-	$buildDirectoryInstaller="$buildDirectory\Installer"
+	$buildDirectoryInstaller="$publishDirectory\Installer"
 	
 	"publishDirectory=$publishDirectory"
 	"buildDirectory=$buildDirectory"
