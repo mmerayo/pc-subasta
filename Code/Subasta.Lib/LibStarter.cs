@@ -17,7 +17,6 @@ namespace Subasta.Lib
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			
 			//TODO: move to module
 			IoCRegistrator.Register(new List<Registry>
 			                        {
