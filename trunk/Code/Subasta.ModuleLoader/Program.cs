@@ -14,6 +14,8 @@ namespace Subasta
 		[STAThread]
 		static void Main()
 		{
+			
+
 			if (!Mutex.WaitOne(TimeSpan.FromSeconds(2), false))
 			{
 				MessageBox.Show("Existe otra instancia del juego de la subasta funcionando!", "", MessageBoxButtons.OK);
@@ -21,13 +23,14 @@ namespace Subasta
 			}
 			try
 			{
-				if(!ModuleDownloader.Instance.Update())
-					ShowCouldNotupdateMessage(string.Empty);
+				if (!ModuleDownloader.Instance.Update())
+					ShowCouldNotupdateMessage(String.Empty);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				ShowCouldNotupdateMessage(ex.ToString());
 			}
+			
 			try
 			{
 				LibInvoker.Initialize();
@@ -40,6 +43,9 @@ namespace Subasta
 			finally { Mutex.ReleaseMutex(); }
 		}
 
+		
+		
+
 		private static void ShowCouldNotupdateMessage(string exception)
 		{
 			MessageBox.Show("No se ha podido comprobar actualizaciones del juego, Verifique su conexion a internet. " + exception,
@@ -47,4 +53,5 @@ namespace Subasta
 				MessageBoxIcon.Information);
 		}
 	}
+
 }
