@@ -107,12 +107,13 @@ namespace Analyzer
 			string declarationSelected;
 			Declaration parsedDeclaration;
 			while (InputBox.Show(string.Format("Select declaration {0}", source.Name), declarations, out declarationSelected) !=
-				   DialogResult.OK || !Enum.TryParse( declarationSelected,true,out parsedDeclaration))
+				   DialogResult.OK || (!Enum.TryParse( declarationSelected,true,out parsedDeclaration)&& declarationSelected!="Mate" ) )
 			{
 				MessageBox.Show(this, "must select a valid value");
 			}
 
-			return parsedDeclaration;
+			return declarationSelected == "Mate" ? null : (Declaration?) parsedDeclaration;
+
 		}
 
 		private ICard _GameHandler_HumanPlayerMoveSelectionNeeded(IHumanPlayer source, ICard[] validMoves,out bool peta)
