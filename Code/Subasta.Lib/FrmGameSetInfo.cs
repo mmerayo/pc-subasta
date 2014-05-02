@@ -45,9 +45,9 @@ namespace Subasta.Lib
 				right = _gameSetHandler.GamePoints(2).ToString();
 			}
 			if (status.TeamBets == 1)
-				left += "*";
+				center = "*" + center;
 			else 
-				right = "*" + right;
+				center += "*";
 			WriteGameLine(left, center, right);
 		}
 
