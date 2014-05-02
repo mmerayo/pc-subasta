@@ -1,0 +1,15 @@
+﻿{
+	"Player1Cards": "C5 C3 C12 C10 C2 O6 C6 O11 C11 O10",
+	"Player1Type": "Mcts",
+	"Player2Cards": "B10 O3 E5 O5 O2 C1 O12 B1 B11 O4",
+	"Player2Type": "Mcts",
+	"Player3Cards": "B2 B5 E6 E4 B6 E3 O1 B4 E7 E1",
+	"Player3Type": "Mcts",
+	"Player4Cards": "C4 O7 E11 E10 B7 E2 C7 E12 B3 B12",
+	"Player4Type": "Mcts",
+	"ExplorationDepth": "2",
+	"FirstPlayer":"2",
+	"Trump":"C",
+	"TeamBets":"1",
+	"PointsBet":"130"
+}

@@ -26,6 +26,7 @@ namespace Subasta.Infrastructure.Domain
 					}
 				}
 				cards = cards.OrderBy(x => x.Suit.Name).ThenBy(x=>x.Value).ThenBy(x => x.Number).ToArray();
+
 				return new Deck(new Pack(cards));
 			}
 		}

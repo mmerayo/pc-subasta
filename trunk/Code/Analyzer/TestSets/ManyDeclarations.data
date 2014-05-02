@@ -1,0 +1,11 @@
+﻿{
+	"Player1Cards": "C11 C12 O11 O12 E11 E12 E3 E1 E2 E4",
+	"Player1Type": "Human",
+	"Player2Cards": "O1 O2 O3 O4 O5 O6 O7 O10 E10 E5",
+	"Player2Type": "Mcts",
+	"Player3Cards": "B11 B12 B3 B1 B10 B7 B6 B5 B4 B2",
+	"Player3Type": "Mcts",
+	"Player4Cards": "C1 C2 C3 C4 C5 C6 C7 C10 E6 E7",
+	"Player4Type": "Mcts",
+	"FirstPlayer":"1",
+}
