@@ -38,6 +38,7 @@
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.pbPetar = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
@@ -102,11 +103,11 @@
 			// 
 			// lblInfo
 			// 
-			this.lblInfo.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblInfo.ForeColor = System.Drawing.Color.Maroon;
-			this.lblInfo.Location = new System.Drawing.Point(-3, -1);
+			this.lblInfo.Location = new System.Drawing.Point(-3, 19);
 			this.lblInfo.Name = "lblInfo";
-			this.lblInfo.Size = new System.Drawing.Size(170, 42);
+			this.lblInfo.Size = new System.Drawing.Size(210, 37);
 			this.lblInfo.TabIndex = 4;
 			this.lblInfo.Text = "Use el boton derecho del ratón para petar en la mesa";
 			this.lblInfo.Visible = false;
@@ -132,6 +133,17 @@
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Subasta (Alpha Version) (Autoactualizable)";
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.DarkKhaki;
+			this.label2.Location = new System.Drawing.Point(405, 3);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(313, 16);
+			this.label2.TabIndex = 7;
+			this.label2.Text = "Resolución recomendada (Desarrollo) >= 1280x800";
+			// 
 			// FrmGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -139,6 +151,7 @@
 			this.BackColor = System.Drawing.Color.ForestGreen;
 			this.ClientSize = new System.Drawing.Size(720, 720);
 			this.ControlBox = false;
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pbPetar);
 			this.Controls.Add(this.lblInfo);
@@ -172,5 +185,6 @@
 		private System.Windows.Forms.Label lblInfo;
 		private System.Windows.Forms.PictureBox pbPetar;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
 		}
 	}
