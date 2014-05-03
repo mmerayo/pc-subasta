@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace Subasta.Lib
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 
-		public FrmGameInfo(IGameSetHandler gameSetHandler)
+		public FrmGameInfo(IGameSetHandler gameSetHandler,IFiguresCatalog figuresCatalog)
 		{
 			_gameSetHandler = gameSetHandler;
 			InitializeComponent();
@@ -23,6 +24,25 @@ namespace Subasta.Lib
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
+
+			PaintFigures(figuresCatalog);
+
+		}
+
+		private void PaintFigures(IFiguresCatalog figuresCatalog)
+		{
+			figuresCatalog.Init();
+			var figures = figuresCatalog.Figures.Take(figuresCatalog.Figures.Count()-3);
+			string text = string.Empty;
+			int i = 1;
+			foreach (var figure in figures)
+			{
+				text += string.Format("{3}.{0}-{1}{2}", figure.Say.ToString().SeparateCamelCase(),
+				                      figure.GetType().Name.SeparateCamelCase().Replace("Figure ", string.Empty),
+				                      Environment.NewLine, i++);
+			}
+
+			txtMarques.Text = text;
 		}
 
 		//private int _lastHandsNumber = int.MinValue;
@@ -96,7 +116,11 @@ namespace Subasta.Lib
 
 		private void _gameSetHandler_GameSaysStarted(ISaysStatus status)
 		{
-			this.PerformSafely(x => grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = false);
+			this.PerformSafely(x =>
+			                   {
+			                   	grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = false;
+			                   	txtMarques.Visible = true;
+			                   });
 			txtSays.PerformSafely(x =>
 			                      {
 			                      	x.Visible = true;
@@ -122,8 +146,9 @@ namespace Subasta.Lib
 			                   	                              	_gameSetHandler.GameHandler.Status.PlayerBets).
 			                   	                              	Name, _gameSetHandler.GameHandler.Status.NormalizedPointsBet);
 			                   	lblTrump.Visible = true;
-
+			                   	txtMarques.Visible = false;
 			                   });
+
 		}
 
 		private static string WriteBaza(string infoT1, string infoT2)

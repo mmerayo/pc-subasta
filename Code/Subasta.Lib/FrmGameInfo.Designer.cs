@@ -38,6 +38,7 @@
 			this.grpPuntos24 = new System.Windows.Forms.GroupBox();
 			this.lblPuntos24 = new System.Windows.Forms.Label();
 			this.txtBazas = new System.Windows.Forms.TextBox();
+			this.txtMarques = new System.Windows.Forms.TextBox();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
@@ -147,12 +148,26 @@
 			this.txtBazas.TabIndex = 3;
 			this.txtBazas.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
 			// 
+			// txtMarques
+			// 
+			this.txtMarques.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtMarques.Location = new System.Drawing.Point(12, 236);
+			this.txtMarques.Multiline = true;
+			this.txtMarques.Name = "txtMarques";
+			this.txtMarques.ReadOnly = true;
+			this.txtMarques.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtMarques.Size = new System.Drawing.Size(197, 175);
+			this.txtMarques.TabIndex = 4;
+			this.txtMarques.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
+			this.txtMarques.Visible = false;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 518);
 			this.ControlBox = false;
+			this.Controls.Add(this.txtMarques);
 			this.Controls.Add(this.txtBazas);
 			this.Controls.Add(this.grpPuntos24);
 			this.Controls.Add(this.grpPtos13);
@@ -190,5 +205,6 @@
 		private System.Windows.Forms.GroupBox grpPuntos24;
 		private System.Windows.Forms.Label lblPuntos24;
 		private System.Windows.Forms.TextBox txtBazas;
+		private System.Windows.Forms.TextBox txtMarques;
 		}
 	}

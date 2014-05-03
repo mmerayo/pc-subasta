@@ -49,6 +49,10 @@ namespace Subasta.Lib
 			pb1.Image = pb2.Image = pb3.Image = pb4.Image = image;
 			pb1.SizeMode = pb2.SizeMode = pb3.SizeMode = pb4.SizeMode = PictureBoxSizeMode.StretchImage;
 
+			pbPetar.Image = _imagesLoader.GetImage("petar.jpg");
+			pbPetar.SizeMode = PictureBoxSizeMode.StretchImage;
+			pbPetar.Visible = false;
+
 			this.lblInfo.Left = 0;
 			lblInfo.Top = this.Height - lblInfo.Height;
 			
@@ -62,7 +66,7 @@ namespace Subasta.Lib
 
 		private void SuscribeToEvents()
 		{
-		_gameSetHandler.GameStarted += new StatusChangedHandler(_gameSetHandler_GameStarted);
+			_gameSetHandler.GameStarted += new StatusChangedHandler(_gameSetHandler_GameStarted);
 
 			IGameHandler gameHandler = _gameSetHandler.GameHandler;
 			gameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
@@ -79,11 +83,40 @@ namespace Subasta.Lib
 		void _gameSetHandler_GameStarted(IExplorationStatus status)
 		{
 			
-		} 
+		}
+
+		private int _lastPlayerPeta = int.MinValue;
 
 		void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
+			Point location=new Point();
+			switch(player.PlayerNumber)
+			{
+				case 1:
+					location.X = pb1.Left + pb1.Width;
+					location.Y = pb1.Top;
+					break;
+				case 2:
+					location.X = pb2.Left;
+					location.Y = pb2.Top + pb2.Height;
+					break;
+				case 3:
+					location.X = pb3.Left + pb3.Width;
+					location.Y = 0;
+					break;
+				case 4:
+					location.X = 0;
+					location.Y = pb4.Top+pb4.Height;
+					break;
+			}
 			
+			pbPetar.PerformSafely(x=>
+			                      {
+			                      	x.Location = location;
+			                      	x.Visible = true;
+									x.Update();
+			                      });
+
 		}
 
 		void gameHandler_DeclarationEmit(IPlayer player, Domain.Declaration declaration)
@@ -140,13 +173,16 @@ namespace Subasta.Lib
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
+
 			ICard lastCardPlayed = status.LastCardPlayed;
-			if (lastCardPlayed != _lastCardPlayed) //due to defect  as the event is triggered twice
+			if (lastCardPlayed != _lastCardPlayed) //TODO: THIS MIGHT BE ALREADY FIXED: due to defect  as the event is triggered twice
 			{
 				MoveCard(status, status.LastPlayerMoved, lastCardPlayed);
 				_lastCardPlayed = lastCardPlayed;
 				// WAIT TIME SO THE USER CAN SEE it
 				Thread.Sleep(TimeSpan.FromSeconds(1));
+				if(_lastPlayerPeta!=status.LastPlayerMoved)
+					pbPetar.PerformSafely(x => x.Visible = false);
 			}
 		}
 

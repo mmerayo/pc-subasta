@@ -2,7 +2,7 @@ using Subasta.Domain.Game;
 
 namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
-	internal class FigureNoSeguraSinDominarPalo : FigureParejaNoSegura
+	internal class FigureParejaNoSeguraSinDominarPalo : FigureParejaNoSegura
 	{
 		protected override int PrimaryPointsBet
 		{

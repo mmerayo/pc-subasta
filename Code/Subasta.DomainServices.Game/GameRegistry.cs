@@ -35,7 +35,7 @@ namespace Subasta.DomainServices.Game
 			For<IFigure>().Use<FigureParejaNoSegura>();
 			For<IFigure>().Use<FigureCaballos>();
 			For<IFigure>().Use<FigureTreses>();
-			For<IFigure>().Use<FigureNoSeguraSinDominarPalo>();
+			For<IFigure>().Use<FigureParejaNoSeguraSinDominarPalo>();
 			For<IFigure>().Use<FigurePaloCorrido>();
 			For<IFigure>().Use<FigureReyes>();
 			For<IFiguresCatalog>().Use<FiguresCatalog>();

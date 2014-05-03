@@ -36,10 +36,13 @@
 			this.pb1 = new System.Windows.Forms.PictureBox();
 			this.balloonInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.lblInfo = new System.Windows.Forms.Label();
+			this.pbPetar = new System.Windows.Forms.PictureBox();
+			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbPetar)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// imageList
@@ -108,6 +111,27 @@
 			this.lblInfo.Text = "Use el boton derecho del ratón para petar en la mesa";
 			this.lblInfo.Visible = false;
 			// 
+			// pbPetar
+			// 
+			this.pbPetar.BackColor = System.Drawing.Color.Transparent;
+			this.pbPetar.Location = new System.Drawing.Point(332, 325);
+			this.pbPetar.Name = "pbPetar";
+			this.pbPetar.Size = new System.Drawing.Size(40, 40);
+			this.pbPetar.TabIndex = 5;
+			this.pbPetar.TabStop = false;
+			this.pbPetar.Visible = false;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.DarkKhaki;
+			this.label1.Location = new System.Drawing.Point(-4, -1);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(205, 20);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "Subasta (Alpha Version)";
+			// 
 			// FrmGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,6 +139,8 @@
 			this.BackColor = System.Drawing.Color.ForestGreen;
 			this.ClientSize = new System.Drawing.Size(720, 720);
 			this.ControlBox = false;
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.pbPetar);
 			this.Controls.Add(this.lblInfo);
 			this.Controls.Add(this.pb1);
 			this.Controls.Add(this.pb3);
@@ -129,7 +155,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.pb4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbPetar)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 			}
 
@@ -142,5 +170,7 @@
 		private System.Windows.Forms.PictureBox pb1;
 		private System.Windows.Forms.ToolTip balloonInfo;
 		private System.Windows.Forms.Label lblInfo;
+		private System.Windows.Forms.PictureBox pbPetar;
+		private System.Windows.Forms.Label label1;
 		}
 	}

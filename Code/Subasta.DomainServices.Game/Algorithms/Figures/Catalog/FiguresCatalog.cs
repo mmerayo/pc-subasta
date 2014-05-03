@@ -13,11 +13,17 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		public IEnumerable<IFigure> Figures
 		{
-			get { return _figures; }
+			get
+			{
+				if(_figures==null)
+					throw new InvalidOperationException("Invoke init first");
+				return _figures;
+			}
 		}
 
 		public void Init()
 		{
+			
 			_figures = ObjectFactory.GetAllInstances<IFigure>().ToList();
 			for (int i = 0; i < 3; i++) //hay 4 ases
 				_figures.Add(new FigureAs());
