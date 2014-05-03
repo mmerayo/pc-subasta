@@ -1,5 +1,4 @@
 ﻿using System;
-using Subasta.Client.Common.Infrastructure;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
@@ -32,6 +31,7 @@ namespace Subasta.Client.Common.Game
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		public event SayNeededEvent HumanPlayerSayNeeded;
 		public event TrumpNeededEvent HumanPlayerTrumpNeeded;
+		public event GamePlayerPetaHandler GamePlayerPeta;
 		private ISaysStatus _saysStatus;
 
 		public GameHandler(IGame game, IPlayerFactory playerFactory)
@@ -103,6 +103,12 @@ namespace Subasta.Client.Common.Game
 			_game.GameSaysCompleted += _game_GameSaysCompleted;
 
 			_game.PlayerDeclarationEmitted += new GamePlayerDeclaration(_game_PlayerDeclarationEmitted);
+			_game.GamePlayerPeta += new GamePlayerPetaHandler(_game_GamePlayerPeta	);
+		}
+
+		void _game_GamePlayerPeta(IPlayer player, IExplorationStatus status)
+		{
+			OnPlayerPeta(player, status);
 		}
 
 		void _game_PlayerDeclarationEmitted(IPlayer player, Declaration declaration)
@@ -304,6 +310,12 @@ namespace Subasta.Client.Common.Game
 				if (TurnChanged != null)
 					TurnChanged(_lastTurn);
 			}
+		}
+
+		private void OnPlayerPeta(IPlayer player, IExplorationStatus status)
+		{
+			if(GamePlayerPeta!=null)
+				GamePlayerPeta(player, status);
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace Subasta.Lib
 
 			this.lblInfo.Left = 0;
 			lblInfo.Top = this.Height - lblInfo.Height;
-
+			
 		}
 
 		private void LoadImages(IImagesLoader imagesLoader)
@@ -62,6 +62,8 @@ namespace Subasta.Lib
 
 		private void SuscribeToEvents()
 		{
+		_gameSetHandler.GameStarted += new StatusChangedHandler(_gameSetHandler_GameStarted);
+
 			IGameHandler gameHandler = _gameSetHandler.GameHandler;
 			gameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 			gameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
@@ -70,8 +72,18 @@ namespace Subasta.Lib
 			gameHandler.DeclarationEmit += gameHandler_DeclarationEmit;
 			gameHandler.GameCompleted += GameHandler_GameCompleted;
 			gameHandler.TurnChanged += GameHandler_TurnChanged;
-
+			gameHandler.GamePlayerPeta += gameHandler_GamePlayerPeta;
 			gameHandler.GameSaysStatusChanged += gameHandler_GameSaysStatusChanged;
+		}
+
+		void _gameSetHandler_GameStarted(IExplorationStatus status)
+		{
+			
+		} 
+
+		void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
+		{
+			
 		}
 
 		void gameHandler_DeclarationEmit(IPlayer player, Domain.Declaration declaration)
@@ -395,7 +407,7 @@ namespace Subasta.Lib
 				                         {
 				                         	x.Enabled = false;
 				                         	x.Top = playerCardsStartPaintingPoint.Y;
-				                         	x.Cursor = Cursors.Default;
+				                         	x.Cursor = Cursors.WaitCursor;
 				                         });
 			}
 			if (enable && moves != null)
