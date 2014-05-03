@@ -40,6 +40,7 @@
 			this.IsMdiContainer = true;
 			this.Name = "FrmMain";
 			this.Text = "Subasta";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.FrmMain_Load);
 			this.ResumeLayout(false);
 
