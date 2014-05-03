@@ -190,11 +190,11 @@ namespace Subasta.DomainServices.Game.Players
 			//TODO: CREATE USER STATUS AND EXPLORATION STATUS types and encapsulate the logical complete as default
 			Status = result.Status.Clone();
 			Status.LogicalComplete = true;
-			OnGameStatusChanged();
 			if (peta)
 			{
 				OnPlayerPeta(playerMoves);
 			}
+			OnGameStatusChanged();
 
 			//if its the last card of the hand AND
 			//the current hand winner has a human in the team
