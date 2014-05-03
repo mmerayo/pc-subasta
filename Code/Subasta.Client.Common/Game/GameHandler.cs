@@ -101,7 +101,15 @@ namespace Subasta.Client.Common.Game
 			_game.GameSaysStatusChanged += _game_GameSaysStatusChanged;
 			_game.GameSaysStarted += _game_GameSaysStarted;
 			_game.GameSaysCompleted += _game_GameSaysCompleted;
+
+			_game.PlayerDeclarationEmitted += new GamePlayerDeclaration(_game_PlayerDeclarationEmitted);
 		}
+
+		void _game_PlayerDeclarationEmitted(IPlayer player, Declaration declaration)
+			{
+			if(DeclarationEmit!=null)
+				DeclarationEmit(player, declaration);
+			}
 
 		void _game_HandCompleted(IExplorationStatus status)
 		{
@@ -173,6 +181,8 @@ namespace Subasta.Client.Common.Game
 		{
 			Load(gameConfiguration);
 		}
+
+		public event GamePlayerDeclaration DeclarationEmit;
 
 
 		private ISuit humanPlayer_ChooseTrumpRequest(IHumanPlayer source)

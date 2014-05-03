@@ -67,11 +67,19 @@ namespace Subasta.Lib
 			gameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
 			gameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 			gameHandler.HandCompleted += GameHandler_HandCompleted;
-
+			gameHandler.DeclarationEmit += gameHandler_DeclarationEmit;
 			gameHandler.GameCompleted += GameHandler_GameCompleted;
 			gameHandler.TurnChanged += GameHandler_TurnChanged;
 
 			gameHandler.GameSaysStatusChanged += gameHandler_GameSaysStatusChanged;
+		}
+
+		void gameHandler_DeclarationEmit(IPlayer player, Domain.Declaration declaration)
+		{
+			PictureBox target = this.FindControls<PictureBox>(x => x.Name == "pb" + player.PlayerNumber).First();
+
+			string text = declaration.ToString().SeparateCamelCase() + "!!";
+			ShowBalloon(target, text, TimeSpan.FromSeconds(2));
 		}
 
 		private void gameHandler_GameSaysStatusChanged(ISaysStatus status)
