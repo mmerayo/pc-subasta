@@ -142,7 +142,8 @@ namespace Subasta.Client.Common.Game
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
 		{
-			Sets.Last().Add(status);
+			if(Sets.Any())
+				Sets.Last().Add(status);
 			UpdatePoints(status);
 			OnGameCompleted(status);
 

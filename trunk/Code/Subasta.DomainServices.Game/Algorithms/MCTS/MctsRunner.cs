@@ -126,21 +126,41 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode IterateToCurrentPrunning(IExplorationStatus currentStatus)
 		{
+			bool prune = currentStatus.LastCompletedHand != null && !currentStatus.LastCompletedHand.Declaration.HasValue;
 			TreeNode current = _root;
+			bool found = false;
 			foreach (var hand in currentStatus.Hands)
 			{
 				var cardsByPlaySequence = hand.CardsByPlaySequence();
 				int cardNum = 0;
 				foreach (var card in cardsByPlaySequence)
 				{
-					if (card == null) return current;
+					if (card == null)
+					{
+						found = true;
+						break;
+					};
 					//prunes those paths that have been passed so they are not used in future navigations
 					EnsureNodeIsExpanded(currentStatus.TurnTeam,current);
-					
-					DisposeObsoleteTreeItems(hand,card, current, ++cardNum==4);
-					
-					current = current.Children.Single();
+					bool checkDeclarationPath = ++cardNum == 4;
+					//only prunnes when tehre are not declarations
+					if(prune)
+					{
+						DisposeObsoleteTreeItems(hand, card, current, checkDeclarationPath);
+						current = current.Children.Single();
+					}
+					else
+					{
+						
+						current = current.Children.Single(
+							x =>
+							(
+								Equals(x.CardPlayed,card) && (!checkDeclarationPath ||
+								(x.DeclarationPlayed == hand.Declaration))
+							));
+					}
 				}
+				if(found) break;
 			}
 			return current;
 		}

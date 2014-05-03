@@ -309,9 +309,12 @@ namespace Analyzer
 				{
 					var playerStarts = int.Parse(row.Cells["FirstPlayer"].Value.ToString());
 					if (playerStarts < 1) break;
-
-					row.Cells["Player" + playerStarts].Style.BackColor =
-						row.Cells["T" + playerStarts].Style.BackColor = Color.LightPink;
+					try
+						{
+						row.Cells["Player" + playerStarts].Style.BackColor =
+							row.Cells["T" + playerStarts].Style.BackColor = Color.LightPink;
+						}
+					catch { }
 				}
 
 				if (row.Cells["TrickWinner"].Value != null && row.Cells["TrickWinner"].Value != DBNull.Value)
