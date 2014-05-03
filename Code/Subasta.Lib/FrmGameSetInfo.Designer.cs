@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-		this.txtGameSetStatus = new System.Windows.Forms.TextBox();
 		this.grpSayOptions = new System.Windows.Forms.GroupBox();
 		this.btnSelect = new System.Windows.Forms.Button();
 		this.cmbSays = new System.Windows.Forms.ComboBox();
@@ -38,21 +37,11 @@
 		this.grpTrumpOptions = new System.Windows.Forms.GroupBox();
 		this.btnSelectTrump = new System.Windows.Forms.Button();
 		this.cmbSuits = new System.Windows.Forms.ComboBox();
+		this.tabs = new System.Windows.Forms.TabControl();
 		this.grpSayOptions.SuspendLayout();
 		this.grpDeclarations.SuspendLayout();
 		this.grpTrumpOptions.SuspendLayout();
 		this.SuspendLayout();
-		// 
-		// txtGameSetStatus
-		// 
-		this.txtGameSetStatus.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		this.txtGameSetStatus.Location = new System.Drawing.Point(13, 13);
-		this.txtGameSetStatus.Multiline = true;
-		this.txtGameSetStatus.Name = "txtGameSetStatus";
-		this.txtGameSetStatus.ReadOnly = true;
-		this.txtGameSetStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-		this.txtGameSetStatus.Size = new System.Drawing.Size(195, 381);
-		this.txtGameSetStatus.TabIndex = 0;
 		// 
 		// grpSayOptions
 		// 
@@ -146,16 +135,24 @@
 		this.cmbSuits.Size = new System.Drawing.Size(115, 21);
 		this.cmbSuits.TabIndex = 0;
 		// 
+		// tabs
+		// 
+		this.tabs.Location = new System.Drawing.Point(2, 0);
+		this.tabs.Name = "tabs";
+		this.tabs.SelectedIndex = 0;
+		this.tabs.Size = new System.Drawing.Size(206, 395);
+		this.tabs.TabIndex = 6;
+		// 
 		// FrmGameSetInfo
 		// 
 		this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 		this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 		this.ClientSize = new System.Drawing.Size(214, 670);
 		this.ControlBox = false;
+		this.Controls.Add(this.tabs);
 		this.Controls.Add(this.grpDeclarations);
 		this.Controls.Add(this.grpTrumpOptions);
 		this.Controls.Add(this.grpSayOptions);
-		this.Controls.Add(this.txtGameSetStatus);
 		this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 		this.Name = "FrmGameSetInfo";
 		this.ShowIcon = false;
@@ -165,13 +162,11 @@
 		this.grpDeclarations.ResumeLayout(false);
 		this.grpTrumpOptions.ResumeLayout(false);
 		this.ResumeLayout(false);
-		this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TextBox txtGameSetStatus;
 		private System.Windows.Forms.GroupBox grpSayOptions;
 		private System.Windows.Forms.Button btnSelect;
 		private System.Windows.Forms.ComboBox cmbSays;
@@ -181,5 +176,6 @@
 		private System.Windows.Forms.GroupBox grpDeclarations;
 		private System.Windows.Forms.Button btnDeclarations;
 		private System.Windows.Forms.ComboBox cmbDeclarations;
+		private System.Windows.Forms.TabControl tabs;
 	}
 }

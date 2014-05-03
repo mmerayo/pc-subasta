@@ -83,7 +83,7 @@ namespace Subasta.Lib
 
 		private void _gameSet_GameSetCompleted(IGameSetHandler sender)
 		{
-			this.PerformSafely(x=>nuevoJuegoToolStripMenuItem.Enabled = true);
+			StartSet();
 		}
 
 		private void _gameSet_GameSaysStarted(Domain.Game.ISaysStatus status)
@@ -129,17 +129,21 @@ namespace Subasta.Lib
 			Properties.Settings.Default.Save();
 		}
 
-		private void nuevoJuegoToolStripMenuItem_Click(object sender, EventArgs e)
+		private void StartSet()
 		{
 			try
 			{
-				nuevoJuegoToolStripMenuItem.Enabled = false;
 				_gameSetHandler.Start();
 			}
 			catch (Exception ex)
 			{
 				//TODO: SEND ERROR
 			}
+		}
+
+		private void FrmMain_Load(object sender, EventArgs e)
+		{
+			StartSet();
 		}
 
 

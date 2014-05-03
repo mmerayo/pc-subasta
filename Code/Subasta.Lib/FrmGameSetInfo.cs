@@ -196,17 +196,70 @@ namespace Subasta.Lib
 
 		private void gameSetHandler_GameSetStarted(IGameSetHandler sender)
 		{
-			txtGameSetStatus.Text = string.Empty;
+			CreateSetTab();
+			
 			WriteGameLine("Nosotros", " 100 ", "Ellos");
 		}
 
+		private void CreateSetTab()
+		{
+			
+			this.tabs.SuspendLayout();
+			var sets = _gameSetHandler.Sets;
+			
+			//create the tab
+			var newTab = new TabPage
+			             {
+			             	Location = new System.Drawing.Point(4, 22),
+			             	Name = "tabGameSet" + sets.Count,
 
+			             	Padding = new System.Windows.Forms.Padding(3),
+			             	Size = new System.Drawing.Size(198, 369),
+			             	TabIndex = sets.Count - 1,
+			             	Text = "Juego" + sets.Count,
+			             	UseVisualStyleBackColor = true
+			             };
+			tabs.PerformSafely(x =>
+			                   {
+			                   	x.Controls.Add(newTab);
+								x.SelectedIndex = x.TabCount - 1;
+			                   });
+			CreateSetTabControls(newTab);
+
+
+			tabs.ResumeLayout(false);
+		}
+
+		private void CreateSetTabControls(TabPage newTab)
+		{
+			var newTxt = new TextBox
+			             {
+			             	Font =
+			             		new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular,
+			             		                        System.Drawing.GraphicsUnit.Point, ((byte) (0))),
+			             	Location = new System.Drawing.Point(7, 3),
+			             	Multiline = true,
+			             	Name = "txtGameSetStatus" + newTab.TabIndex,
+			             	ReadOnly = true,
+			             	ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
+			             	Size = new System.Drawing.Size(191, 360),
+
+			             };
+			newTab.PerformSafely(x=>x.Controls.Add(newTxt));
+		}
+
+		private TextBox GetCurrentTextBoxTarget()
+		{
+			return this.FindControls<TextBox>(x => x.Name == string.Format("txtGameSetStatus{0}", (_gameSetHandler.Sets.Count - 1))).
+				Single();
+		}
 
 		private void gameSetHandler_GameCompleted(IExplorationStatus status)
 		{
 			//remove previous line
-			txtGameSetStatus.PerformSafely(
-				x => x.Text = txtGameSetStatus.Text.Remove(txtGameSetStatus.Text.LastIndexOf(Environment.NewLine)));
+			TextBox txtBox = GetCurrentTextBoxTarget();
+			txtBox.PerformSafely(
+				x => x.Text = txtBox.Text.Remove(txtBox.Text.LastIndexOf(Environment.NewLine)));
 
 			string center = " " + status.NormalizedPointsBet.ToString() + " ";
 			string left, right;
@@ -239,7 +292,8 @@ namespace Subasta.Lib
 
 		private void WriteGameLine(string infoT1, string infoCenter, string infoT2)
 		{
-			txtGameSetStatus.PerformSafely(x=>
+			TextBox txtBox = GetCurrentTextBoxTarget();
+			txtBox.PerformSafely(x =>
 			                               {
 										   x.Text += Environment.NewLine;
 			                               	x.Text += string.Format("{0}|{1}|{2}", infoT1.PadLeft(8, ' '),
