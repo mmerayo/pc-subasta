@@ -34,11 +34,11 @@ namespace Subasta.Lib
 
 			SuscribeToEvents();
 
-			ConfigureUserPictureBoxes();
+			ConfigureControlsAndLocations();
 		}
 
 
-		private void ConfigureUserPictureBoxes()
+		private void ConfigureControlsAndLocations()
 		{
 			pb1.Location = new Point((Width/2) - pb1.Width/2, Height - pb1.Height);
 			pb3.Location = new Point((Width/2) - pb3.Width/2, 0);
@@ -48,6 +48,10 @@ namespace Subasta.Lib
 			Image image = _imagesLoader.GetImage("Player.png");
 			pb1.Image = pb2.Image = pb3.Image = pb4.Image = image;
 			pb1.SizeMode = pb2.SizeMode = pb3.SizeMode = pb4.SizeMode = PictureBoxSizeMode.StretchImage;
+
+			this.lblInfo.Left = 0;
+			lblInfo.Top = this.Height - lblInfo.Height;
+
 		}
 
 		private void LoadImages(IImagesLoader imagesLoader)
@@ -401,6 +405,8 @@ namespace Subasta.Lib
 					                     });
 				}
 			}
+
+			lblInfo.PerformSafely(x=>x.Visible=enable);
 		}
 
 		#region Nested type: UserCardSelection
