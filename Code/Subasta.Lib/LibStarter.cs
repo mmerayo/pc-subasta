@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -17,6 +19,9 @@ namespace Subasta.Lib
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
+			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 			//TODO: move to module
 			IoCRegistrator.Register(new List<Registry>
 			                        {

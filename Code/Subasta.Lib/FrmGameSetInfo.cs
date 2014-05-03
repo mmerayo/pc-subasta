@@ -184,10 +184,11 @@ namespace Subasta.Lib
 
 		private void EnableDeclarationsInteraction(bool enable)
 		{
-			grpDeclarations.PerformSafely(x => x.Visible = enable);
-			grpDeclarations.PerformSafely(x => x.BringToFront());
 			btnDeclarations.PerformSafely(x => x.Enabled = enable);
 			cmbDeclarations.PerformSafely(x => x.Enabled = enable);
+			grpDeclarations.PerformSafely(x => x.Visible = enable);
+			grpDeclarations.PerformSafely(x => x.BringToFront());
+			
 			Application.DoEvents();
 		}
 
