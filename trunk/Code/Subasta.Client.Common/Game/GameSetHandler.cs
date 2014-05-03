@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Subasta.Client.Common.Game
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
 		private readonly IStoredGameWritter _storedGameWritter;
+		private readonly List<List<IExplorationStatus>> _sets = new List<List<IExplorationStatus>>();
 
 		private readonly int[] _currentPoints = new int[2] {0, 0};
 		
@@ -31,6 +33,7 @@ namespace Subasta.Client.Common.Game
 			PlayerDealerNumber = new Random((int) DateTime.UtcNow.Ticks).Next(1, 4);
 			Reset();
 		}
+
 
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
@@ -50,6 +53,11 @@ namespace Subasta.Client.Common.Game
 		public IGameHandler GameHandler
 		{
 			get { return _gameHandler; }
+		}
+
+		public List<List<IExplorationStatus>> Sets
+		{
+			get { return _sets; }
 		}
 
 		private int NextPlayer(int playerNumber)
@@ -99,9 +107,14 @@ namespace Subasta.Client.Common.Game
 
 		private void OnGameSetStarted()
 		{
+			//add set to record
+			Sets.Add(new List<IExplorationStatus>());
+			
 			if (GameSetStarted != null)
 				GameSetStarted(this);
+			
 			ConfigureNewGame();
+			
 		}
 
 		
@@ -129,8 +142,12 @@ namespace Subasta.Client.Common.Game
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
 		{
+			Sets.Last().Add(status);
 			UpdatePoints(status);
 			OnGameCompleted(status);
+
+			//records the status in the current set
+			
 
 			if (_currentPoints.Any(x => x >= GameSetTargetPoints))
 			{
@@ -150,6 +167,8 @@ namespace Subasta.Client.Common.Game
 
 		private void ConfigureNewGame()
 		{
+			
+
 			PlayerDealerNumber = NextPlayer(PlayerDealerNumber);
 			_deck = _suffler.Suffle(_deck);
 

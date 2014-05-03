@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Subasta.Domain.Game;
 
 namespace Subasta.Client.Common.Game
@@ -19,6 +20,7 @@ namespace Subasta.Client.Common.Game
 		int PlayerDealerNumber { get; }
 		IGameHandler GameHandler { get; }
 		int FirstPlayer { get; }
+		List<List<IExplorationStatus>> Sets { get; }
 
 		void Start();
 		int GamePoints(int team);
