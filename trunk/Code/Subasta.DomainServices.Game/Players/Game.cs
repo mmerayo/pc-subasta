@@ -43,6 +43,7 @@ namespace Subasta.DomainServices.Game.Players
 		public event GameStatusChangedHandler GameCompleted;
 		public event GameStatusChangedHandler HandCompleted;
 		public event GamePlayerPetaHandler GamePlayerPeta;
+		public event GamePlayerDeclaration PlayerDeclarationEmitted;
 		public event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		public event GameSaysStatusChangedHandler GameSaysStarted;
 		public event GameSaysStatusChangedHandler GameSaysCompleted;
@@ -214,11 +215,14 @@ namespace Subasta.DomainServices.Game.Players
 					previousStatus.CurrentHand.Add(previousStatus.Turn, result.Status.LastCompletedHand.CardsByPlaySequence().Last());
 					Declaration? declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 
+
 					//AS-IS NOW: The human player must select a declaration
 					//if the user didnt select any then the machine selects while is on its hand
 					if (!declarationChosenByHuman.HasValue &&
 						calculatedDeclarationByMachine.HasValue)
-						if (Status.GetPlayerDeclarables(Status.PlayerMateOf(player.PlayerNumber)).Contains(calculatedDeclarationByMachine.Value))
+					{
+						int playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
+						if (Status.GetPlayerDeclarables(playerMateOf).Contains(calculatedDeclarationByMachine.Value))
 						{
 							declarationChosenByHuman = calculatedDeclarationByMachine;
 						}
@@ -226,10 +230,13 @@ namespace Subasta.DomainServices.Game.Players
 						{
 							//choose the first
 							declarationChosenByHuman =
-								Status.GetPlayerDeclarables(Status.PlayerMateOf(player.PlayerNumber)).OrderBy(x => x).FirstOrDefault();
+								Status.GetPlayerDeclarables(playerMateOf).OrderBy(x => x).FirstOrDefault();
 						}
+					}
 					Status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 				}
+
+
 				OnHandCompleted(Status);
 			}
 
@@ -237,6 +244,17 @@ namespace Subasta.DomainServices.Game.Players
 
 		private void OnHandCompleted(IExplorationStatus status)
 		{
+			Declaration? declaration = status.LastCompletedHand.Declaration;
+			if(declaration.HasValue)
+			foreach (var player in _players)
+			{
+				if(_declarationsChecker.HasDeclarable(declaration.Value, status.Trump, player.Cards))
+				{
+					OnPlayerDeclarationEmitted(player,declaration.Value);
+					break;
+				}
+			}
+
 			if (HandCompleted != null)
 				HandCompleted(status);
 		}
@@ -284,5 +302,11 @@ namespace Subasta.DomainServices.Game.Players
 			if (GameSaysStatusChanged != null)
 				GameSaysStatusChanged(_saysStatus);
 		}
+		private void OnPlayerDeclarationEmitted(IPlayer player, Declaration declaration)
+			{
+			if (PlayerDeclarationEmitted != null)
+				PlayerDeclarationEmitted(player,declaration);
+			}
+
 	}
 }
