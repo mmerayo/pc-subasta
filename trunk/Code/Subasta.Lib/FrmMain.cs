@@ -24,7 +24,7 @@ namespace Subasta.Lib
 
 			_frmGame.MdiParent =_frmGameInfo.MdiParent=_frmGameSetInfo.MdiParent= this;
 			
-			InitializePositionManagement();
+			//InitializePositionManagement();
 
 			SubscribeToGameSetEvents();
 
