@@ -35,6 +35,7 @@
 			this.pb3 = new System.Windows.Forms.PictureBox();
 			this.pb1 = new System.Windows.Forms.PictureBox();
 			this.balloonInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.lblInfo = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pb2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).BeginInit();
@@ -96,6 +97,17 @@
 			this.balloonInfo.ReshowDelay = 0;
 			this.balloonInfo.ShowAlways = true;
 			// 
+			// lblInfo
+			// 
+			this.lblInfo.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblInfo.ForeColor = System.Drawing.Color.Maroon;
+			this.lblInfo.Location = new System.Drawing.Point(-3, -1);
+			this.lblInfo.Name = "lblInfo";
+			this.lblInfo.Size = new System.Drawing.Size(170, 42);
+			this.lblInfo.TabIndex = 4;
+			this.lblInfo.Text = "Use el boton derecho del ratón para petar en la mesa";
+			this.lblInfo.Visible = false;
+			// 
 			// FrmGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -103,6 +115,7 @@
 			this.BackColor = System.Drawing.Color.ForestGreen;
 			this.ClientSize = new System.Drawing.Size(720, 720);
 			this.ControlBox = false;
+			this.Controls.Add(this.lblInfo);
 			this.Controls.Add(this.pb1);
 			this.Controls.Add(this.pb3);
 			this.Controls.Add(this.pb4);
@@ -128,5 +141,6 @@
 		private System.Windows.Forms.PictureBox pb3;
 		private System.Windows.Forms.PictureBox pb1;
 		private System.Windows.Forms.ToolTip balloonInfo;
+		private System.Windows.Forms.Label lblInfo;
 		}
 	}
