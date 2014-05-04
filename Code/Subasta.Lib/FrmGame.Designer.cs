@@ -129,20 +129,20 @@
 			this.label1.ForeColor = System.Drawing.Color.DarkKhaki;
 			this.label1.Location = new System.Drawing.Point(-4, -1);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(356, 20);
+			this.label1.Size = new System.Drawing.Size(205, 20);
 			this.label1.TabIndex = 6;
-			this.label1.Text = "Subasta (Alpha Version) (Autoactualizable)";
+			this.label1.Text = "Subasta (Alpha Version)";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.DarkKhaki;
-			this.label2.Location = new System.Drawing.Point(405, 3);
+			this.label2.Location = new System.Drawing.Point(479, 3);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(313, 16);
+			this.label2.Size = new System.Drawing.Size(239, 16);
 			this.label2.TabIndex = 7;
-			this.label2.Text = "Resolución recomendada (Desarrollo) >= 1280x800";
+			this.label2.Text = "Resolución recomendada >= 1280x800";
 			// 
 			// FrmGame
 			// 
