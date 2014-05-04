@@ -15,19 +15,17 @@ namespace Subasta.Lib
 	public partial class FrmGameSetInfo : Form
 	{
 		private readonly IGameSetHandler _gameSetHandler;
-		private readonly IFiguresCatalog _figuresCatalog;
 		private readonly IUserInteractionManager _interactionManager;
 
-		public FrmGameSetInfo(IGameSetHandler gameSetHandler, IFiguresCatalog figuresCatalog, IUserInteractionManager interactionManager)
+		public FrmGameSetInfo(IGameSetHandler gameSetHandler, IUserInteractionManager interactionManager)
 		{
 			_gameSetHandler = gameSetHandler;
-			_figuresCatalog = figuresCatalog;
 			_interactionManager = interactionManager;
 
 			InitializeComponent();
 
-			grpDeclarations.Location = grpTrumpOptions.Location = grpSayOptions.Location;
-			grpSayOptions.BringToFront();
+			grpTrumpOptions.Location = grpDeclarations.Location;
+			
 
 			gameSetHandler.GameSaysCompleted += gameSetHandler_GameSaysCompleted;
 			gameSetHandler.GameCompleted += gameSetHandler_GameCompleted;
@@ -36,11 +34,10 @@ namespace Subasta.Lib
 			//as copied from frmSays
 
 			_gameSetHandler.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
-			_gameSetHandler.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
 			_gameSetHandler.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
 			_gameSetHandler.GameHandler.HumanPlayerDeclarationSelectionNeeded += GameHandler_HumanPlayerDeclarationSelectionNeeded;
 
-			EnableSayInteraction(false);
+			
 			EnableTrumpInteraction(false);
 			EnableDeclarationsInteraction(false);
 			LoadSuits();
@@ -80,20 +77,8 @@ namespace Subasta.Lib
 		}
 
 
-		private IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
-		{
-			return OnSayNeeded(source, saysStatus);
-		}
 
-		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
-		{
-			LoadSayKinds(saysStatus);
-			EnableSayInteraction(true);
-
-			var result = _interactionManager.WaitUserInput<IFigure>();
-
-			return result;
-		}
+		
 
 		private ISuit GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
 		{
@@ -103,22 +88,7 @@ namespace Subasta.Lib
 			return result;
 		}
 
-		private void LoadSayKinds(ISaysStatus saysStatus)
-		{
-			IEnumerable<SayKind> sayKinds =
-				Enum.GetValues(typeof(SayKind))
-					.Cast<SayKind>()
-					.Where(
-						x =>
-						(int)x > saysStatus.PointsBet || x == SayKind.Paso ||
-						(saysStatus.PointsBet > 0 && saysStatus.PointsBet < 25 && x == SayKind.UnaMas));
-			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
-
-			cmbSays.PerformSafely(x => cmbSays.DataSource = new BindingSource(source, null));
-			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
-			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
-
-		}
+		
 
 		private void LoadSuits()
 		{
@@ -129,17 +99,7 @@ namespace Subasta.Lib
 			cmbSuits.PerformSafely(x => x.DisplayMember = "Value");
 		}
 
-		private void btnSelect_Click(object sender, EventArgs e)
-		{
-			_interactionManager.InputProvided(() =>
-			{
-				var selectedValue = (SayKind)cmbSays.SelectedValue;
-
-				var result = _figuresCatalog.GetFigureJustPoints(selectedValue != SayKind.UnaMas ? (int)selectedValue : 1);
-				EnableSayInteraction(false);
-				return result;
-			});
-		}
+		
 
 		private void btnSelectTrump_Click(object sender, EventArgs e)
 		{
@@ -162,23 +122,12 @@ namespace Subasta.Lib
 			});
 		}
 
-		private void EnableSayInteraction(bool enable)
-		{
-			grpSayOptions.PerformSafely(x => x.Visible = enable);
-
-			grpSayOptions.PerformSafely(x => x.BringToFront());
-			btnSelect.PerformSafely(x => x.Enabled = enable);
-			cmbSays.PerformSafely(x => x.Enabled = enable);
-			Application.DoEvents();
-		}
-
 		private void EnableTrumpInteraction(bool enable)
 		{
 			grpTrumpOptions.PerformSafely(x => x.Visible = enable);
 			grpTrumpOptions.PerformSafely(x => x.BringToFront());
 			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
 			cmbSuits.PerformSafely(x => x.Enabled = enable);
-			Application.DoEvents();
 		}
 
 
@@ -189,7 +138,6 @@ namespace Subasta.Lib
 			grpDeclarations.PerformSafely(x => x.Visible = enable);
 			grpDeclarations.PerformSafely(x => x.BringToFront());
 			
-			Application.DoEvents();
 		}
 
 		#endregion

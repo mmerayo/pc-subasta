@@ -28,8 +28,6 @@ namespace Subasta.Lib
 
 			SubscribeToGameSetEvents();
 
-
-
 		}
 
 		private void UpdateFormsLocationsAndSizes()
@@ -45,6 +43,15 @@ namespace Subasta.Lib
 
 			_frmGameSetInfo.PerformSafely(x=>x.Height = _frmGame.Height);
 
+			this.PerformSafely(x =>
+			                   {
+			                   	Rectangle screenRectangle = RectangleToScreen(this.ClientRectangle);
+			                   	int titleHeight = screenRectangle.Top - this.Top;
+			                   	const int borderSize = 10;
+			                   	x.Width = _frmGameInfo.Width + _frmGameSetInfo.Width + _frmGame.Width+borderSize;
+			                   	x.Height = _frmGame.Height + titleHeight +borderSize;
+			                   }
+							   );
 
 		}
 
