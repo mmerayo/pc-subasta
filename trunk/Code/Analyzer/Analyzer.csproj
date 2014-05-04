@@ -128,6 +128,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestSets\P1CantaVariasVecesParejaBastos.data" />
     <None Include="TestSets\ErrorAlCantarOrosCantaCuarenta.data" />
     <None Include="TestSets\ManyDeclarations.data" />
     <None Include="TestSets\Sample2.data" />

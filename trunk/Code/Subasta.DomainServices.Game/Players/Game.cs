@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
@@ -241,6 +244,8 @@ namespace Subasta.DomainServices.Game.Players
 			}
 
 		}
+
+		
 
 		private void OnHandCompleted(IExplorationStatus status)
 		{
