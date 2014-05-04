@@ -292,6 +292,61 @@ namespace Subasta.Infrastructure.Domain
 			return _hand[index].ToString();
 		}
 
-		
+
+		public override bool Equals(Object obj)
+			{
+			if (obj == null)
+				{
+				return false;
+				}
+
+			var other = obj as Hand;
+			if (other == null)
+				{
+				return false;
+				}
+			return Equals(other);
+
+			}
+
+		public bool Equals(Hand other)
+		{
+			if ((object) other == null)
+			{
+				return false;
+			}
+
+			var cards = CardsByPlaySequence().ToArray();
+			ICard[] otherCards = other.CardsByPlaySequence().ToArray();
+
+			for (int index = 0; index < cards.Length; index++)
+			{
+				var card = cards[index];
+				var otherCard = otherCards[index];
+				if(card!=otherCard)
+					return false;
+			}
+			return (Declaration == other.Declaration);
+
+		}
+
+
+
+		public static bool operator ==(Hand a, Hand b)
+			{
+			if (ReferenceEquals(a, b))
+				return true;
+
+			if (((object)a == null) || ((object)b == null))
+				return false;
+
+			return a.Equals(b);
+			}
+
+		public static bool operator !=(Hand a, Hand b)
+			{
+			return !(a == b);
+			}
+
 	}
 }

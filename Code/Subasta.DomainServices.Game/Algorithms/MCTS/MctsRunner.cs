@@ -126,7 +126,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private TreeNode IterateToCurrentPrunning(IExplorationStatus currentStatus)
 		{
-			bool prune = currentStatus.LastCompletedHand != null && !currentStatus.LastCompletedHand.Declaration.HasValue;
+			bool prune = currentStatus.LastCompletedHand != null &&
+						 !currentStatus.LastCompletedHand.Declaration.HasValue;
 			TreeNode current = _root;
 			bool found = false;
 			foreach (var hand in currentStatus.Hands)

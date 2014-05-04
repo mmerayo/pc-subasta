@@ -142,7 +142,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public Declaration? DeclarationPlayed
 		{
-			get { return _declarationPlayed; }
+			get
+			{
+				
+				return _declarationPlayed;
+			}
 			private set { _declarationPlayed = value; }
 		}
 
@@ -210,11 +214,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 								foreach (var declarable in declarables)
 								{
-									newStatus.LastCompletedHand.SetDeclaration(declarable);
+									IExplorationStatus explorationStatus = newStatus.Clone();
+									explorationStatus.LastCompletedHand.SetDeclaration(declarable);
 									var treeNode = new TreeNode(_candidatesSelector, _candidatePlayer)
 									{
 										CardPlayed = candidate,
-										_explorationStatus = newStatus,
+										_explorationStatus = explorationStatus,
 										DeclarationPlayed = declarable,
 										Parent = this
 
