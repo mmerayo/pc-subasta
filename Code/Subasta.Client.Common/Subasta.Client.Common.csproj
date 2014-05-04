@@ -53,6 +53,7 @@
     <Compile Include="Extensions\CrossThreadExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game\GameSetHandler.cs" />
+    <Compile Include="Game\GameSetHandlerDebug.cs" />
     <Compile Include="Game\NewGameConfiguration.cs" />
     <Compile Include="Images\ImagesLoader.cs" />
     <Compile Include="Images\IImagesLoader.cs" />
