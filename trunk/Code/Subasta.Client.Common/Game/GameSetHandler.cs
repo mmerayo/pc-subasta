@@ -19,16 +19,19 @@ namespace Subasta.Client.Common.Game
 		private IDeck _deck;
 		private readonly IDeckSuffler _suffler;
 		private readonly IStoredGameWritter _storedGameWritter;
+		
 		private readonly List<List<IExplorationStatus>> _sets = new List<List<IExplorationStatus>>();
 
 		private readonly int[] _currentPoints = new int[2] {0, 0};
 		
-		public GameSetHandler(IGameHandler gameHandler,IDeck deck,IDeckSuffler suffler,IStoredGameWritter storedGameWritter)
+		public GameSetHandler(IGameHandler gameHandler,IDeck deck,
+		IDeckSuffler suffler,IStoredGameWritter storedGameWritter)
 		{
 			_gameHandler = gameHandler;
 			_deck = deck;
 			_suffler = suffler;
 			_storedGameWritter = storedGameWritter;
+			
 			SubscribeToGameEvents();
 			PlayerDealerNumber = new Random((int) DateTime.UtcNow.Ticks).Next(1, 4);
 			Reset();
@@ -166,10 +169,9 @@ namespace Subasta.Client.Common.Game
 			_currentPoints[status.TeamWinner - 1] += status.NormalizedPointsBet;
 		}
 
-		private void ConfigureNewGame()
+		protected virtual void ConfigureNewGame()
 		{
 			
-
 			PlayerDealerNumber = NextPlayer(PlayerDealerNumber);
 			_deck = _suffler.Suffle(_deck);
 
