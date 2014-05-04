@@ -26,6 +26,7 @@ namespace Subasta.Client.Common.Game
 		public event StatusChangedHandler HandCompleted;
 		public event TurnChangedHandler TurnChanged;
 
+		public event GamePlayerDeclaration DeclarationEmit;
 
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
@@ -92,6 +93,9 @@ namespace Subasta.Client.Common.Game
 			_game.GameSaysStatusChanged -= _game_GameSaysStatusChanged;
 			_game.GameSaysStarted -= _game_GameSaysStarted;
 			_game.GameSaysCompleted -= _game_GameSaysCompleted;
+			_game.PlayerDeclarationEmitted -= _game_PlayerDeclarationEmitted;
+			_game.GamePlayerPeta -= _game_GamePlayerPeta;
+
 			//subscribe
 			_game.GameStatusChanged += _game_GameStatusChanged;
 			_game.GameStarted += _game_GameStarted;
@@ -102,8 +106,8 @@ namespace Subasta.Client.Common.Game
 			_game.GameSaysStarted += _game_GameSaysStarted;
 			_game.GameSaysCompleted += _game_GameSaysCompleted;
 
-			_game.PlayerDeclarationEmitted += new GamePlayerDeclaration(_game_PlayerDeclarationEmitted);
-			_game.GamePlayerPeta += new GamePlayerPetaHandler(_game_GamePlayerPeta	);
+			_game.PlayerDeclarationEmitted += _game_PlayerDeclarationEmitted;
+			_game.GamePlayerPeta += _game_GamePlayerPeta;
 		}
 
 		void _game_GamePlayerPeta(IPlayer player, IExplorationStatus status)
@@ -188,7 +192,6 @@ namespace Subasta.Client.Common.Game
 			Load(gameConfiguration);
 		}
 
-		public event GamePlayerDeclaration DeclarationEmit;
 
 
 		private ISuit humanPlayer_ChooseTrumpRequest(IHumanPlayer source)

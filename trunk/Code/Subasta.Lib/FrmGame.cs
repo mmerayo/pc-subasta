@@ -66,9 +66,10 @@ namespace Subasta.Lib
 
 		private void SuscribeToEvents()
 		{
-			_gameSetHandler.GameStarted += new StatusChangedHandler(_gameSetHandler_GameStarted);
-
 			IGameHandler gameHandler = _gameSetHandler.GameHandler;
+
+			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
+
 			gameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 			gameHandler.HumanPlayerMoveSelectionNeeded += GameHandler_HumanPlayerMoveSelectionNeeded;
 			gameHandler.GameStatusChanged += GameHandler_GameStatusChanged;

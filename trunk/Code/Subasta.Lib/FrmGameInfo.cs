@@ -6,16 +6,23 @@ using System.Windows.Forms;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
+using Subasta.Lib.Interaction;
 
 namespace Subasta.Lib
 {
 	public partial class FrmGameInfo : Form
 	{
 		private readonly IGameSetHandler _gameSetHandler;
+		private readonly IFiguresCatalog _figuresCatalog;
+		private readonly IUserInteractionManager _interactionManager;
 
-		public FrmGameInfo(IGameSetHandler gameSetHandler,IFiguresCatalog figuresCatalog)
+		public FrmGameInfo(IGameSetHandler gameSetHandler,
+		IFiguresCatalog figuresCatalog
+		, IUserInteractionManager interactionManager)
 		{
 			_gameSetHandler = gameSetHandler;
+			_figuresCatalog = figuresCatalog;
+			_interactionManager = interactionManager;
 			InitializeComponent();
 
 			_gameSetHandler.GameSaysStarted += _gameSetHandler_GameSaysStarted;
@@ -24,10 +31,64 @@ namespace Subasta.Lib
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
-
+			_gameSetHandler.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
+			
+			grpSayOptions.BringToFront();
 			PaintFigures(figuresCatalog);
-
+			EnableSayInteraction(false);
 		}
+
+		#region Says
+		private void EnableSayInteraction(bool enable)
+			{
+			grpSayOptions.PerformSafely(x => x.Visible = enable);
+
+			grpSayOptions.PerformSafely(x => x.BringToFront());
+			btnSelect.PerformSafely(x => x.Enabled = enable);
+			cmbSays.PerformSafely(x => x.Enabled = enable);
+			}
+		private void btnSelect_Click(object sender, EventArgs e)
+			{
+			_interactionManager.InputProvided(() =>
+			{
+				var selectedValue = (SayKind)cmbSays.SelectedValue;
+
+				var result = _figuresCatalog.GetFigureJustPoints(selectedValue != SayKind.UnaMas ? (int)selectedValue : 1);
+				EnableSayInteraction(false);
+				return result;
+			});
+			}
+		private IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
+			{
+			return OnSayNeeded(source, saysStatus);
+			}
+		private void LoadSayKinds(ISaysStatus saysStatus)
+			{
+			IEnumerable<SayKind> sayKinds =
+				Enum.GetValues(typeof(SayKind))
+					.Cast<SayKind>()
+					.Where(
+						x =>
+						(int)x > saysStatus.PointsBet || x == SayKind.Paso ||
+						(saysStatus.PointsBet > 0 && saysStatus.PointsBet < 25 && x == SayKind.UnaMas));
+			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
+
+			cmbSays.PerformSafely(x => cmbSays.DataSource = new BindingSource(source, null));
+			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
+			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
+
+			}
+		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
+			{
+			LoadSayKinds(saysStatus);
+			EnableSayInteraction(true);
+
+			var result = _interactionManager.WaitUserInput<IFigure>();
+
+			return result;
+			}
+
+		#endregion
 
 		private void PaintFigures(IFiguresCatalog figuresCatalog)
 		{
@@ -45,14 +106,9 @@ namespace Subasta.Lib
 			txtMarques.Text = text;
 		}
 
-		//private int _lastHandsNumber = int.MinValue;
 		void GameHandler_HandCompleted(IExplorationStatus status)
 		{
-			//TODO: defect, it seems to be suscribed severaltimes, one per game played
-			//if(_lastHandsNumber==status.Hands.Count)
-			//	return;
-			//_lastHandsNumber = status.Hands.Count;
-
+			
 			string t1="---", t2="---";
 			if(status.LastCompletedHand.Declaration.HasValue)
 			{

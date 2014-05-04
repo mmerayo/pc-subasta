@@ -28,9 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-		this.grpSayOptions = new System.Windows.Forms.GroupBox();
-		this.btnSelect = new System.Windows.Forms.Button();
-		this.cmbSays = new System.Windows.Forms.ComboBox();
 		this.grpDeclarations = new System.Windows.Forms.GroupBox();
 		this.btnDeclarations = new System.Windows.Forms.Button();
 		this.cmbDeclarations = new System.Windows.Forms.ComboBox();
@@ -38,41 +35,9 @@
 		this.btnSelectTrump = new System.Windows.Forms.Button();
 		this.cmbSuits = new System.Windows.Forms.ComboBox();
 		this.tabs = new System.Windows.Forms.TabControl();
-		this.grpSayOptions.SuspendLayout();
 		this.grpDeclarations.SuspendLayout();
 		this.grpTrumpOptions.SuspendLayout();
 		this.SuspendLayout();
-		// 
-		// grpSayOptions
-		// 
-		this.grpSayOptions.Controls.Add(this.btnSelect);
-		this.grpSayOptions.Controls.Add(this.cmbSays);
-		this.grpSayOptions.Location = new System.Drawing.Point(13, 400);
-		this.grpSayOptions.Name = "grpSayOptions";
-		this.grpSayOptions.Size = new System.Drawing.Size(195, 122);
-		this.grpSayOptions.TabIndex = 3;
-		this.grpSayOptions.TabStop = false;
-		this.grpSayOptions.Text = "Opciones de marque";
-		this.grpSayOptions.Visible = false;
-		// 
-		// btnSelect
-		// 
-		this.btnSelect.Location = new System.Drawing.Point(15, 65);
-		this.btnSelect.Name = "btnSelect";
-		this.btnSelect.Size = new System.Drawing.Size(161, 28);
-		this.btnSelect.TabIndex = 1;
-		this.btnSelect.Text = "Marca";
-		this.btnSelect.UseVisualStyleBackColor = true;
-		this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
-		// 
-		// cmbSays
-		// 
-		this.cmbSays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-		this.cmbSays.FormattingEnabled = true;
-		this.cmbSays.Location = new System.Drawing.Point(6, 19);
-		this.cmbSays.Name = "cmbSays";
-		this.cmbSays.Size = new System.Drawing.Size(181, 21);
-		this.cmbSays.TabIndex = 0;
 		// 
 		// grpDeclarations
 		// 
@@ -108,9 +73,9 @@
 		// 
 		this.grpTrumpOptions.Controls.Add(this.btnSelectTrump);
 		this.grpTrumpOptions.Controls.Add(this.cmbSuits);
-		this.grpTrumpOptions.Location = new System.Drawing.Point(12, 401);
+		this.grpTrumpOptions.Location = new System.Drawing.Point(2, 401);
 		this.grpTrumpOptions.Name = "grpTrumpOptions";
-		this.grpTrumpOptions.Size = new System.Drawing.Size(196, 81);
+		this.grpTrumpOptions.Size = new System.Drawing.Size(206, 81);
 		this.grpTrumpOptions.TabIndex = 4;
 		this.grpTrumpOptions.TabStop = false;
 		this.grpTrumpOptions.Text = "Seleccion de triunfo";
@@ -118,7 +83,7 @@
 		// 
 		// btnSelectTrump
 		// 
-		this.btnSelectTrump.Location = new System.Drawing.Point(6, 46);
+		this.btnSelectTrump.Location = new System.Drawing.Point(41, 47);
 		this.btnSelectTrump.Name = "btnSelectTrump";
 		this.btnSelectTrump.Size = new System.Drawing.Size(115, 28);
 		this.btnSelectTrump.TabIndex = 1;
@@ -130,7 +95,7 @@
 		// 
 		this.cmbSuits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 		this.cmbSuits.FormattingEnabled = true;
-		this.cmbSuits.Location = new System.Drawing.Point(6, 19);
+		this.cmbSuits.Location = new System.Drawing.Point(41, 19);
 		this.cmbSuits.Name = "cmbSuits";
 		this.cmbSuits.Size = new System.Drawing.Size(115, 21);
 		this.cmbSuits.TabIndex = 0;
@@ -152,13 +117,11 @@
 		this.Controls.Add(this.tabs);
 		this.Controls.Add(this.grpDeclarations);
 		this.Controls.Add(this.grpTrumpOptions);
-		this.Controls.Add(this.grpSayOptions);
 		this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 		this.Name = "FrmGameSetInfo";
 		this.ShowIcon = false;
 		this.ShowInTaskbar = false;
 		this.Text = "Partida";
-		this.grpSayOptions.ResumeLayout(false);
 		this.grpDeclarations.ResumeLayout(false);
 		this.grpTrumpOptions.ResumeLayout(false);
 		this.ResumeLayout(false);
@@ -167,9 +130,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox grpSayOptions;
-		private System.Windows.Forms.Button btnSelect;
-		private System.Windows.Forms.ComboBox cmbSays;
 		private System.Windows.Forms.GroupBox grpTrumpOptions;
 		private System.Windows.Forms.Button btnSelectTrump;
 		private System.Windows.Forms.ComboBox cmbSuits;

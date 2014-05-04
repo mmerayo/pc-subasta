@@ -39,10 +39,14 @@
 			this.lblPuntos24 = new System.Windows.Forms.Label();
 			this.txtBazas = new System.Windows.Forms.TextBox();
 			this.txtMarques = new System.Windows.Forms.TextBox();
+			this.grpSayOptions = new System.Windows.Forms.GroupBox();
+			this.btnSelect = new System.Windows.Forms.Button();
+			this.cmbSays = new System.Windows.Forms.ComboBox();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
 			this.grpPuntos24.SuspendLayout();
+			this.grpSayOptions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// grpPlayerTurn
@@ -161,12 +165,44 @@
 			this.txtMarques.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
 			this.txtMarques.Visible = false;
 			// 
+			// grpSayOptions
+			// 
+			this.grpSayOptions.Controls.Add(this.btnSelect);
+			this.grpSayOptions.Controls.Add(this.cmbSays);
+			this.grpSayOptions.Location = new System.Drawing.Point(14, 417);
+			this.grpSayOptions.Name = "grpSayOptions";
+			this.grpSayOptions.Size = new System.Drawing.Size(195, 122);
+			this.grpSayOptions.TabIndex = 5;
+			this.grpSayOptions.TabStop = false;
+			this.grpSayOptions.Text = "Opciones de marque";
+			this.grpSayOptions.Visible = false;
+			// 
+			// btnSelect
+			// 
+			this.btnSelect.Location = new System.Drawing.Point(15, 65);
+			this.btnSelect.Name = "btnSelect";
+			this.btnSelect.Size = new System.Drawing.Size(161, 28);
+			this.btnSelect.TabIndex = 1;
+			this.btnSelect.Text = "Marca";
+			this.btnSelect.UseVisualStyleBackColor = true;
+			this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+			// 
+			// cmbSays
+			// 
+			this.cmbSays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbSays.FormattingEnabled = true;
+			this.cmbSays.Location = new System.Drawing.Point(6, 19);
+			this.cmbSays.Name = "cmbSays";
+			this.cmbSays.Size = new System.Drawing.Size(181, 21);
+			this.cmbSays.TabIndex = 0;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 518);
 			this.ControlBox = false;
+			this.Controls.Add(this.grpSayOptions);
 			this.Controls.Add(this.txtMarques);
 			this.Controls.Add(this.txtBazas);
 			this.Controls.Add(this.grpPuntos24);
@@ -188,6 +224,7 @@
 			this.grpPtos13.PerformLayout();
 			this.grpPuntos24.ResumeLayout(false);
 			this.grpPuntos24.PerformLayout();
+			this.grpSayOptions.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -206,5 +243,8 @@
 		private System.Windows.Forms.Label lblPuntos24;
 		private System.Windows.Forms.TextBox txtBazas;
 		private System.Windows.Forms.TextBox txtMarques;
+		private System.Windows.Forms.GroupBox grpSayOptions;
+		private System.Windows.Forms.Button btnSelect;
+		private System.Windows.Forms.ComboBox cmbSays;
 		}
 	}
