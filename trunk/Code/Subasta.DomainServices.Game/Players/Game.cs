@@ -215,7 +215,12 @@ namespace Subasta.DomainServices.Game.Players
 							x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value);
 
 					//Add the hand to chose a declaration
-					previousStatus.CurrentHand.Add(previousStatus.Turn, result.Status.LastCompletedHand.CardsByPlaySequence().Last());
+					ICard lastCardMoved = result.Status.LastCompletedHand.CardsByPlaySequence().Last();
+					
+					//TODO: this is redundant
+					previousStatus.CurrentHand.Add(previousStatus.Turn, lastCardMoved);
+					previousStatus.RemovePlayerCard(result.Status.LastPlayerMoved,lastCardMoved);
+					
 					Declaration? declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 
 
