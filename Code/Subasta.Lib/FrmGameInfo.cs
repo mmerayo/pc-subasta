@@ -161,7 +161,7 @@ namespace Subasta.Lib
 			txtSays.PerformSafely(
 				x =>
 				x.Text +=
-				string.Format("Jugador {0}:{1}{2}", last.PlayerNum, last.Figure.ToString().SeparateCamelCase(), Environment.NewLine));
+				string.Format("Jugador {0}:{1}, Van:{3}{2}", last.PlayerNum, last.Figure.ToString().SeparateCamelCase(), Environment.NewLine,status.PointsBet));
 		}
 
 		private void UpdateTurn(IPlayer player)
