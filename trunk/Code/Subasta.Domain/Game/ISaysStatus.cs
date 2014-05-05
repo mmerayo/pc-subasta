@@ -23,6 +23,7 @@ namespace Subasta.Domain.Game
 		bool IsEmpty { get; }
 		IExplorationStatus OriginalStatus { get; }
 		int OtherTeam { get; }
+		int FirstPlayer { get; }
 		ISaysStatus Clone();
 		void Add(int playerNumber, IFigure figure);
 	    ISayCard[] GetPlayerCards(int playerNum);
