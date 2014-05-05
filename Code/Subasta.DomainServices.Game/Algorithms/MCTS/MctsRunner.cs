@@ -15,7 +15,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 	{
 		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private TreeNode _root;
+		private const int MaxNumberExplorations = 240000; //to preserve memory
 		private readonly object _rootLocker=new object();
+		private CancellationTokenSource _tokenSource ;
+		private Task _task;
+
 		public MctsRunner(IApplicationEventsExecutor eventsExecutor)
 		{
 			_eventsExecutor = eventsExecutor;
@@ -32,44 +36,73 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			{
 				_root = ObjectFactory.GetInstance<TreeNode>();
 				_root.Initialize(explorationStatus);
-			}else
+			}
+			else
 			{
 				_root = (TreeNode) root;
 			}
-			Task.Factory.StartNew(() =>
-			                      {
-								  Thread.CurrentThread.Name = "MctsRunner";
-			                      	int count = 0;
-			                      	while (true)
-			                      	{
-			                      		try
-			                      		{
-			                      			using (var mfp = new MemoryFailPoint(4))
-			                      			{
-			                      				lock (_rootLocker)
-			                      				{
-			                      					if (_root == null)
-			                      						return;
-			                      					_root.Select((++count%2) + 1);
+			_tokenSource = new CancellationTokenSource();
+			_task = Task.Factory.StartNew(() =>
+			                              {
+										  CancellationToken ct = _tokenSource.Token;
+			                              	Thread.CurrentThread.Name = "MctsRunner";
+			                              	int count = 0;
+			                              	while (_root.GetNodeInfo(1).NumberVisits <= MaxNumberExplorations)
+			                              	{
+			                              		if (ct.IsCancellationRequested)
+			                              		{
+			                              			break;
+			                              		}
+			                              		try
+			                              		{
+			                              			using (var mfp = new MemoryFailPoint(4))
+			                              			{
+			                              				lock (_rootLocker)
+			                              				{
+			                              					if (_root == null)
+			                              						return;
+			                              					_root.Select((++count%2) + 1);
 
-			                      				}
-			                      			}
-			                      		}
-			                      		catch (InsufficientMemoryException)
-			                      		{
-			                      			//log
-			                      		}
-			                      		catch (NullReferenceException)
-			                      		{
-			                      			return;
-			                      		}
-			                      	}
-			                      });
+			                              				}
+			                              			}
+			                              		}
+			                              		catch (InsufficientMemoryException)
+			                              		{
+			                              			//log
+			                              		}
+			                              		catch (NullReferenceException)
+			                              		{
+			                              			return;
+			                              		}
+			                              	}
+			                              	GC.Collect(1, GCCollectionMode.Optimized);
+			                              }, _tokenSource.Token);
 
 		}
 
 		public void Reset()
 		{
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel();
+				try
+				{
+					_task.Wait(TimeSpan.FromSeconds(20));
+				}
+				catch (Exception ex)
+				{
+					//TODO:log
+				}
+				finally
+				{
+					_task.Dispose();
+					_task = null;
+					_tokenSource.Dispose();
+					_tokenSource = null;
+
+				}
+			}
+
 			if (_root != null)
 				lock (_rootLocker)
 					if (_root != null)
@@ -198,7 +231,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private bool _disposed = false;
 
-		
+
 		public void Dispose()
 		{
 			Dispose(true);

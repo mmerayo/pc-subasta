@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
 using System.Threading;
@@ -19,92 +18,100 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private const int ROOT_COPAS = 1;
 		private const int ROOT_ESPADAS = 2;
 		private const int ROOT_BASTOS = 3;
-		private readonly object _rootLocker = new object();
-		private TreeNode[] _roots;
-		private IApplicationEventsExecutor _eventsExecutor;
+		private const int MaxNumberExplorations = 120000; //to preserve memory
+		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private readonly ISaysExplorationListener _explorationListener;
+		private readonly object _rootLocker = new object();
 
-		public MctsSaysRunner(IApplicationEventsExecutor eventsExecutor,ISaysExplorationListener explorationListener)
+		private readonly Task[] _tasks = new Task[4];
+		private TreeNode[] _roots;
+		private CancellationTokenSource _tokenSource;
+
+		public MctsSaysRunner(IApplicationEventsExecutor eventsExecutor, ISaysExplorationListener explorationListener)
 		{
 			_eventsExecutor = eventsExecutor;
 			_explorationListener = explorationListener;
 		}
 
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+
+		#region IMctsSaysRunner Members
+
 		public void Start(ISaysStatus sourceStatus)
 		{
 			Reset(null);
 			_roots = new[]
-					 {
-						ObjectFactory.GetInstance<TreeNode>(), 
-						ObjectFactory.GetInstance<TreeNode>(),
-						ObjectFactory.GetInstance<TreeNode>(), 
-						ObjectFactory.GetInstance<TreeNode>()
-					 };
+			         {
+			         	ObjectFactory.GetInstance<TreeNode>(),
+			         	ObjectFactory.GetInstance<TreeNode>(),
+			         	ObjectFactory.GetInstance<TreeNode>(),
+			         	ObjectFactory.GetInstance<TreeNode>()
+			         };
 			_roots[ROOT_OROS].Initialize(sourceStatus.ExplorationStatusForOros());
 			_roots[ROOT_COPAS].Initialize(sourceStatus.ExplorationStatusForCopas());
 			_roots[ROOT_ESPADAS].Initialize(sourceStatus.ExplorationStatusForEspadas());
 			_roots[ROOT_BASTOS].Initialize(sourceStatus.ExplorationStatusForBastos());
 
-			StartExploration(ROOT_OROS);
-			StartExploration(ROOT_COPAS);
-			StartExploration(ROOT_ESPADAS);
-			StartExploration(ROOT_BASTOS);
+			_tokenSource = new CancellationTokenSource();
+			CancellationToken ct = _tokenSource.Token;
 
-		}
-
-		private void StartExploration(int rootIdx)
-		{
-
-			Task.Factory.StartNew(() =>
-								  {
-								  TreeNode root = _roots[rootIdx];
-								  Thread.CurrentThread.Name = string.Format("MctsSaysRunner - {0}", root.ExplorationStatus.Trump.Name);
-									int count = 0;
-									//while not enough explorations
-									while (true)
-									{
-										try
-										{
-											using (var mfp = new MemoryFailPoint(4))
-											{
-
-												if (_roots == null)
-													return;
-												//Debug.WriteLine("rootIdx: {0} - Visits: team1: {1}, team2: {2}",rootIdx,root.GetNodeInfo(1).NumberVisits,root.GetNodeInfo(2).NumberVisits);
-												root.Select((++count%2) + 1);
-											}
-										}
-										catch (InsufficientMemoryException)
-										{
-											//log
-										}
-										catch (NullReferenceException)
-										{
-											return;
-										}
-									}
-								  });
+			StartExploration(ROOT_OROS, ct);
+			StartExploration(ROOT_COPAS, ct);
+			StartExploration(ROOT_ESPADAS, ct);
+			StartExploration(ROOT_BASTOS, ct);
 		}
 
 		public void Reset(object rootToNotToReset)
 		{
-			TreeNode avoidRoot = rootToNotToReset as TreeNode;
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel();
+
+				foreach (Task task in _tasks)
+				{
+					try
+					{
+						task.Wait(TimeSpan.FromSeconds(20));
+					}
+					catch
+					{
+					}
+				}
+
+				for (int index = 0; index < _tasks.Length; index++)
+				{
+					Task task = _tasks[index];
+					task.Dispose();
+					_tasks[index] = null;
+				}
+				_tokenSource.Dispose();
+				_tokenSource = null;
+			}
+			var avoidRoot = rootToNotToReset as TreeNode;
 
 			if (_roots != null)
 				lock (_rootLocker)
 					if (_roots != null)
 					{
+
+
 						IEnumerable<TreeNode> treeNodes = _roots.Where(x => x != avoidRoot);
-						foreach (var root in treeNodes)
+						foreach (TreeNode root in treeNodes)
 						{
 							root.Dispose();
-
 						}
 						_roots = null;
 					}
 		}
 
-		
 		public ISuit ChooseTrump(int teamNumber)
 		{
 			return _roots.OrderByDescending(x => x.GetNodeInfo(teamNumber).AvgPoints).First().ExplorationStatus.Trump;
@@ -117,9 +124,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public int GetMaxExplorationFor(int teamNumber, int minNumberExplorations, double maxRiskPercentage)
 		{
+			if (minNumberExplorations > MaxNumberExplorations)
+				minNumberExplorations = MaxNumberExplorations;
 			//ensure explorations
 			DateTime limit = DateTime.UtcNow.AddSeconds(5);
-			while(DateTime.UtcNow<=limit && _roots.Any(x=>x.GetNodeInfo(teamNumber).NumberVisits<minNumberExplorations))
+			while (DateTime.UtcNow <= limit && _roots.Any(x => x.GetNodeInfo(teamNumber).NumberVisits < minNumberExplorations))
 			{
 				Thread.Sleep(250);
 				_eventsExecutor.Execute();
@@ -127,7 +136,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 
 			//gets the max points in all suits while the percentage of success is higher than the specified
-			IEnumerable<int> candidates = _roots.Select(x => x.GetNodeInfo(teamNumber).GetMaxPointsWithMinimumChances(maxRiskPercentage));
+			IEnumerable<int> candidates =
+				_roots.Select(x => x.GetNodeInfo(teamNumber).GetMaxPointsWithMinimumChances(maxRiskPercentage));
 			return candidates.Max();
 
 			//return
@@ -138,23 +148,60 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		public void UpdateExplorationListeners()
 		{
-		_explorationListener.Update(Suit.FromId('O'), _roots[ROOT_OROS].GetNodeInfo(1), _roots[ROOT_OROS].GetNodeInfo(2));
+			_explorationListener.Update(Suit.FromId('O'), _roots[ROOT_OROS].GetNodeInfo(1), _roots[ROOT_OROS].GetNodeInfo(2));
 			_explorationListener.Update(Suit.FromId('C'), _roots[ROOT_COPAS].GetNodeInfo(1), _roots[ROOT_COPAS].GetNodeInfo(2));
-			_explorationListener.Update(Suit.FromId('E'), _roots[ROOT_ESPADAS].GetNodeInfo(1), _roots[ROOT_ESPADAS].GetNodeInfo(2));
+			_explorationListener.Update(Suit.FromId('E'), _roots[ROOT_ESPADAS].GetNodeInfo(1),
+			                            _roots[ROOT_ESPADAS].GetNodeInfo(2));
 			_explorationListener.Update(Suit.FromId('B'), _roots[ROOT_BASTOS].GetNodeInfo(1), _roots[ROOT_BASTOS].GetNodeInfo(2));
 		}
 
+		#endregion
 
-		public void Dispose()
+		private void StartExploration(int rootIdx, CancellationToken ct)
 		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
+			_tasks[rootIdx] = Task.Factory.StartNew(() =>
+			                                        {
+			                                        	TreeNode root = _roots[rootIdx];
+			                                        	Thread.CurrentThread.Name = string.Format("MctsSaysRunner - {0}",
+			                                        	                                          root.ExplorationStatus.Trump.Name);
+			                                        	int count = 0;
+			                                        	//while not enough explorations
+			                                        	while (root.GetNodeInfo(1).NumberVisits <= MaxNumberExplorations)
+			                                        	{
+			                                        		if (ct.IsCancellationRequested)
+			                                        		{
+			                                        			break;
+			                                        		}
+
+			                                        		try
+			                                        		{
+			                                        			using (var mfp = new MemoryFailPoint(4))
+			                                        			{
+			                                        				if (_roots == null)
+			                                        					return;
+			                                        				//Debug.WriteLine("rootIdx: {0} - Visits: team1: {1}, team2: {2}",rootIdx,root.GetNodeInfo(1).NumberVisits,root.GetNodeInfo(2).NumberVisits);
+			                                        				root.Select((++count%2) + 1);
+			                                        			}
+			                                        		}
+			                                        		catch (InsufficientMemoryException)
+			                                        		{
+			                                        			//log
+			                                        		}
+			                                        		catch (NullReferenceException)
+			                                        		{
+			                                        			return;
+			                                        		}
+			                                        	}
+														GC.Collect(1, GCCollectionMode.Optimized);
+			                                        }, _tokenSource.Token);
 		}
+
+
 		private void Dispose(bool disposing)
 		{
 			Reset(null);
-			
 		}
+
 		~MctsSaysRunner()
 		{
 			Dispose(false);
