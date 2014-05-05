@@ -51,8 +51,10 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FrmChangeList";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Registro de actualizaciones";
+			this.Text = "El juego se ha actualizado";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

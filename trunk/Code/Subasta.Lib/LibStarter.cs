@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
@@ -23,7 +24,8 @@ namespace Subasta.Lib
 			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 
-			MessageBox.Show("Gracias por testear esta versión en estado de desarrollo(Alpha). Esta versión no es estable por lo que se espera que pueda haber errores, estos se notifican al desarrollador automáticamente. Las actualizaciones automaticas incluirán bug fixtures progresivamente. La configuración mínima probada es 2GB RAM con CPU de 4 hilos, aún así funciona en máquinas inferiores, esto es debido a que la inteligencia artificial implementada requiere optimizaciones.","Subasta para PC",MessageBoxButtons.OK,MessageBoxIcon.Information);
+			string text = string.Format("Gracias por testear esta versión en estado de desarrollo(Alpha).{0} Esta versión no es estable por lo que se espera que pueda haber errores, estos se notifican al desarrollador automáticamente.{0} Las actualizaciones automaticas incluirán bug fixtures progresivamente.{0} La configuración mínima probada es 2GB RAM con CPU de 4 hilos, aún así funciona en máquinas inferiores, esto es debido a que la inteligencia artificial implementada requiere optimizaciones.",Environment.NewLine);
+			MessageBox.Show(text,"Subasta para PC",MessageBoxButtons.OK,MessageBoxIcon.Information);
 
 			//TODO: move to module
 			IoCRegistrator.Register(new List<Registry>
