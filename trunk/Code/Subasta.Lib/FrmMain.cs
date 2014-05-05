@@ -12,8 +12,10 @@ namespace Subasta.Lib
 		private readonly FrmGame _frmGame;
 		private readonly FrmGameInfo _frmGameInfo;
 		private readonly FrmGameSetInfo _frmGameSetInfo;
+		private readonly FrmChangeList _frmChangeList;
 
-		public FrmMain(IGameSetHandler gameSetHandler, FrmGame frmGame, FrmGameInfo frmGameInfo,FrmGameSetInfo frmGameSetInfo)
+		public FrmMain(IGameSetHandler gameSetHandler, FrmGame frmGame,
+		 FrmGameInfo frmGameInfo,FrmGameSetInfo frmGameSetInfo,FrmChangeList frmChangeList)
 		{
 			InitializeComponent();
 
@@ -21,6 +23,7 @@ namespace Subasta.Lib
 			_frmGame = frmGame;
 			_frmGameInfo = frmGameInfo;
 			_frmGameSetInfo = frmGameSetInfo;
+			_frmChangeList = frmChangeList;
 
 			_frmGame.MdiParent =_frmGameInfo.MdiParent=_frmGameSetInfo.MdiParent= this;
 			
@@ -150,6 +153,8 @@ namespace Subasta.Lib
 
 		private void FrmMain_Load(object sender, EventArgs e)
 		{
+			_frmChangeList.ShowDialog(this);
+
 			StartSet();
 		}
 

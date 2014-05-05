@@ -17,13 +17,13 @@ namespace Subasta.Lib
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly IUserInteractionManager _userInteractionManager;
-		private IImagesLoader _imagesLoader;
+		private IResourceReadingUtils _imagesLoader;
 		private ICard _lastCardPlayed;
 		private Size _sizePbs13 = new Size(50, 70);
 		private Size _sizePbs24 = new Size(70, 50);
 
 
-		public FrmGame(IGameSetHandler gameSetHandler, IImagesLoader imagesLoader,
+		public FrmGame(IGameSetHandler gameSetHandler, IResourceReadingUtils imagesLoader,
 		               IUserInteractionManager userInteractionManager)
 		{
 			_gameSetHandler = gameSetHandler;
@@ -58,7 +58,7 @@ namespace Subasta.Lib
 			
 		}
 
-		private void LoadImages(IImagesLoader imagesLoader)
+		private void LoadImages(IResourceReadingUtils imagesLoader)
 		{
 			_imagesLoader = imagesLoader;
 			_imagesLoader.LoadCardImages(imageList, new Size(50, 70));

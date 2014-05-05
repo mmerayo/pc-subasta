@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
@@ -10,11 +11,15 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.Client.Common.Images
 {
-	internal class ImagesLoader : IImagesLoader
+	internal class ResourceReadingUtils : IResourceReadingUtils
 	{
 		private readonly IDeck _deck;
+		private static readonly string[] _manifestResourceNames=Assembly.GetExecutingAssembly()
+				.GetManifestResourceNames();
 
-		public ImagesLoader(IDeck deck)
+		
+
+		public ResourceReadingUtils(IDeck deck)
 		{
 			_deck = deck;
 		}
@@ -63,14 +68,23 @@ namespace Subasta.Client.Common.Images
 			}
 		}
 
-		private string GetResourceName(string fileName)
+		public string GetText(string fileName)
 		{
+			{
+				string result;
+				using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(GetResourceName(fileName)))
+					using ( var sr=new StreamReader(manifestResourceStream))
+						result=sr.ReadToEnd();
+				return result;
+			}
+		}
+
+		public string GetResourceName(string fileName)
+		{
+			
 			return
-				Assembly.GetExecutingAssembly()
-					.GetManifestResourceNames()
+				_manifestResourceNames
 					.Single(x => x.EndsWith(fileName, StringComparison.InvariantCultureIgnoreCase));
-
-
 		}
 
 		private string GetCardFileName(ICard card)

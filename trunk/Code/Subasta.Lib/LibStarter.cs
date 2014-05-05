@@ -29,7 +29,7 @@ namespace Subasta.Lib
 			IoCRegistrator.Register(new List<Registry>
 			                        {
 			                        	new RegisterClientCommonIoc(),
-			                        	new RegisterIoc()
+			                        	new RegisterLibIoc()
 			                        });
 			Application.Run(ObjectFactory.GetInstance<FrmMain>());
 		}

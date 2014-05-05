@@ -92,8 +92,8 @@ namespace Subasta.DomainServices.Game.Players
 			TreeNode root = RunSays();
 			if (_saysStatus.PointsBet == 0)
 				return; //TODO: DONE
-
 			RunGame(root);
+			
 		}
 
 		#endregion

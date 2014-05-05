@@ -159,6 +159,7 @@
 			this.Controls.Add(this.pb3);
 			this.Controls.Add(this.pb4);
 			this.Controls.Add(this.pb2);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGame";
 			this.ShowIcon = false;
