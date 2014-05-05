@@ -66,6 +66,7 @@
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -158,6 +159,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Subasta.ApplicationServices\Subasta.ApplicationServices.csproj">
+      <Project>{92CF3196-0EBB-4C8C-8E6A-EE07FC3556F7}</Project>
+      <Name>Subasta.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subasta.Client.Common\Subasta.Client.Common.csproj">
       <Project>{0E6B1007-B57B-4AEC-8EB7-CC9177F08BE7}</Project>
       <Name>Subasta.Client.Common</Name>
