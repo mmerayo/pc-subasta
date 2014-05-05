@@ -174,13 +174,15 @@ namespace Subasta.Lib
 		{
 			this.PerformSafely(x =>
 			                   {
-			                   	grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = false;
+							   grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = grpPlayerBets.Visible = grpPuntos.Visible = false;
 			                   	txtMarques.Visible = true;
 			                   });
 			txtSays.PerformSafely(x =>
 			                      {
 			                      	x.Visible = true;
 			                      	x.Clear();
+			                      	lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
+
 			                      });
 			UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
 		}
@@ -194,13 +196,15 @@ namespace Subasta.Lib
 			                      });
 			this.PerformSafely(x =>
 			                   {
-			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible = txtBazas.Visible = true;
+			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible = txtBazas.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
 								txtBazas.Text = WriteBaza("J1&3","J2&4");
 			                   	lblPuntos13.Text = lblPuntos24.Text = "0";
-			                   	lblTrump.Text = string.Format("{1} pone {2} a {0}", _gameSetHandler.GameHandler.Trump.Name,
-			                   	                              _gameSetHandler.GameHandler.GetPlayer(
-			                   	                              	_gameSetHandler.GameHandler.Status.PlayerBets).
-			                   	                              	Name, _gameSetHandler.GameHandler.Status.NormalizedPointsBet);
+			                   	lblTrump.Text = _gameSetHandler.GameHandler.Trump.Name;
+			                   	lblPlayerBets.Text = _gameSetHandler.GameHandler.GetPlayer(
+			                   		_gameSetHandler.GameHandler.Status.PlayerBets).
+			                   		Name;
+			                   	lblPuntos.Text = _gameSetHandler.GameHandler.Status.NormalizedPointsBet.ToString();
+
 			                   	lblTrump.Visible = true;
 			                   	txtMarques.Visible = false;
 			                   });
