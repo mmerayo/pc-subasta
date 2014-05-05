@@ -77,7 +77,7 @@ namespace Subasta.DomainServices.Game.Models
 				do
 				{
 					if (_says.Count == 0)
-						result = _firstPlayer;
+						result = FirstPlayer;
 					else if (result == int.MinValue)
 						result = NextPlayer(_says.Last().PlayerNum);
 					else
@@ -200,6 +200,11 @@ namespace Subasta.DomainServices.Game.Models
 		public int OtherTeam
 		{
 			get { return TurnTeam == 1 ? 2 : 1; }
+		}
+
+		public int FirstPlayer
+		{
+			get { return _firstPlayer; }
 		}
 
 		public ISaysStatus Clone()

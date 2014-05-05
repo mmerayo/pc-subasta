@@ -2,4 +2,5 @@
 -Creado formulario ChangeList
 -Reducir Flickering->Implementación Double Buffering para pintado del tablero de juego.
 -Corregido bug: el usuario puede cantar una declaracion ya usada
+-Feedback de usuario del jugador que apuesta, el palo, jugador sale, y otros
 

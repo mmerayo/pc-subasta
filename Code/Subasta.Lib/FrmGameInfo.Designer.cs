@@ -42,11 +42,20 @@
 			this.grpSayOptions = new System.Windows.Forms.GroupBox();
 			this.btnSelect = new System.Windows.Forms.Button();
 			this.cmbSays = new System.Windows.Forms.ComboBox();
+			this.grpFirstPlayer = new System.Windows.Forms.GroupBox();
+			this.lblFirstPlayer = new System.Windows.Forms.Label();
+			this.grpPlayerBets = new System.Windows.Forms.GroupBox();
+			this.lblPlayerBets = new System.Windows.Forms.Label();
+			this.grpPuntos = new System.Windows.Forms.GroupBox();
+			this.lblPuntos = new System.Windows.Forms.Label();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
 			this.grpPuntos24.SuspendLayout();
 			this.grpSayOptions.SuspendLayout();
+			this.grpFirstPlayer.SuspendLayout();
+			this.grpPlayerBets.SuspendLayout();
+			this.grpPuntos.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// grpPlayerTurn
@@ -71,17 +80,17 @@
 			// 
 			// txtSays
 			// 
-			this.txtSays.Location = new System.Drawing.Point(12, 65);
+			this.txtSays.Location = new System.Drawing.Point(12, 145);
 			this.txtSays.Multiline = true;
 			this.txtSays.Name = "txtSays";
 			this.txtSays.ReadOnly = true;
-			this.txtSays.Size = new System.Drawing.Size(197, 240);
+			this.txtSays.Size = new System.Drawing.Size(197, 196);
 			this.txtSays.TabIndex = 1;
 			// 
 			// grpTrump
 			// 
 			this.grpTrump.Controls.Add(this.lblTrump);
-			this.grpTrump.Location = new System.Drawing.Point(12, 65);
+			this.grpTrump.Location = new System.Drawing.Point(12, 122);
 			this.grpTrump.Name = "grpTrump";
 			this.grpTrump.Size = new System.Drawing.Size(197, 51);
 			this.grpTrump.TabIndex = 1;
@@ -92,17 +101,17 @@
 			// lblTrump
 			// 
 			this.lblTrump.AutoSize = true;
-			this.lblTrump.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblTrump.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblTrump.Location = new System.Drawing.Point(6, 16);
 			this.lblTrump.Name = "lblTrump";
-			this.lblTrump.Size = new System.Drawing.Size(35, 13);
+			this.lblTrump.Size = new System.Drawing.Size(51, 20);
 			this.lblTrump.TabIndex = 0;
 			this.lblTrump.Text = "label1";
 			// 
 			// grpPtos13
 			// 
 			this.grpPtos13.Controls.Add(this.lblPuntos13);
-			this.grpPtos13.Location = new System.Drawing.Point(12, 122);
+			this.grpPtos13.Location = new System.Drawing.Point(14, 236);
 			this.grpPtos13.Name = "grpPtos13";
 			this.grpPtos13.Size = new System.Drawing.Size(197, 51);
 			this.grpPtos13.TabIndex = 2;
@@ -123,7 +132,7 @@
 			// grpPuntos24
 			// 
 			this.grpPuntos24.Controls.Add(this.lblPuntos24);
-			this.grpPuntos24.Location = new System.Drawing.Point(12, 179);
+			this.grpPuntos24.Location = new System.Drawing.Point(14, 293);
 			this.grpPuntos24.Name = "grpPuntos24";
 			this.grpPuntos24.Size = new System.Drawing.Size(197, 51);
 			this.grpPuntos24.TabIndex = 2;
@@ -144,7 +153,7 @@
 			// txtBazas
 			// 
 			this.txtBazas.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtBazas.Location = new System.Drawing.Point(12, 236);
+			this.txtBazas.Location = new System.Drawing.Point(12, 358);
 			this.txtBazas.Multiline = true;
 			this.txtBazas.Name = "txtBazas";
 			this.txtBazas.ReadOnly = true;
@@ -155,7 +164,7 @@
 			// txtMarques
 			// 
 			this.txtMarques.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtMarques.Location = new System.Drawing.Point(12, 236);
+			this.txtMarques.Location = new System.Drawing.Point(14, 358);
 			this.txtMarques.Multiline = true;
 			this.txtMarques.Name = "txtMarques";
 			this.txtMarques.ReadOnly = true;
@@ -169,7 +178,7 @@
 			// 
 			this.grpSayOptions.Controls.Add(this.btnSelect);
 			this.grpSayOptions.Controls.Add(this.cmbSays);
-			this.grpSayOptions.Location = new System.Drawing.Point(14, 417);
+			this.grpSayOptions.Location = new System.Drawing.Point(14, 539);
 			this.grpSayOptions.Name = "grpSayOptions";
 			this.grpSayOptions.Size = new System.Drawing.Size(195, 122);
 			this.grpSayOptions.TabIndex = 5;
@@ -196,12 +205,77 @@
 			this.cmbSays.Size = new System.Drawing.Size(181, 21);
 			this.cmbSays.TabIndex = 0;
 			// 
+			// grpFirstPlayer
+			// 
+			this.grpFirstPlayer.Controls.Add(this.lblFirstPlayer);
+			this.grpFirstPlayer.Location = new System.Drawing.Point(14, 65);
+			this.grpFirstPlayer.Name = "grpFirstPlayer";
+			this.grpFirstPlayer.Size = new System.Drawing.Size(195, 51);
+			this.grpFirstPlayer.TabIndex = 2;
+			this.grpFirstPlayer.TabStop = false;
+			this.grpFirstPlayer.Text = "Jugador sale";
+			// 
+			// lblFirstPlayer
+			// 
+			this.lblFirstPlayer.AutoSize = true;
+			this.lblFirstPlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblFirstPlayer.Location = new System.Drawing.Point(6, 16);
+			this.lblFirstPlayer.Name = "lblFirstPlayer";
+			this.lblFirstPlayer.Size = new System.Drawing.Size(51, 20);
+			this.lblFirstPlayer.TabIndex = 0;
+			this.lblFirstPlayer.Text = "label1";
+			// 
+			// grpPlayerBets
+			// 
+			this.grpPlayerBets.Controls.Add(this.lblPlayerBets);
+			this.grpPlayerBets.Location = new System.Drawing.Point(12, 179);
+			this.grpPlayerBets.Name = "grpPlayerBets";
+			this.grpPlayerBets.Size = new System.Drawing.Size(127, 51);
+			this.grpPlayerBets.TabIndex = 2;
+			this.grpPlayerBets.TabStop = false;
+			this.grpPlayerBets.Text = "Jugador apuesta";
+			this.grpPlayerBets.Visible = false;
+			// 
+			// lblPlayerBets
+			// 
+			this.lblPlayerBets.AutoSize = true;
+			this.lblPlayerBets.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblPlayerBets.Location = new System.Drawing.Point(6, 16);
+			this.lblPlayerBets.Name = "lblPlayerBets";
+			this.lblPlayerBets.Size = new System.Drawing.Size(51, 20);
+			this.lblPlayerBets.TabIndex = 0;
+			this.lblPlayerBets.Text = "label1";
+			// 
+			// grpPuntos
+			// 
+			this.grpPuntos.Controls.Add(this.lblPuntos);
+			this.grpPuntos.Location = new System.Drawing.Point(145, 179);
+			this.grpPuntos.Name = "grpPuntos";
+			this.grpPuntos.Size = new System.Drawing.Size(56, 51);
+			this.grpPuntos.TabIndex = 3;
+			this.grpPuntos.TabStop = false;
+			this.grpPuntos.Text = "Puntos";
+			this.grpPuntos.Visible = false;
+			// 
+			// lblPuntos
+			// 
+			this.lblPuntos.AutoSize = true;
+			this.lblPuntos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblPuntos.Location = new System.Drawing.Point(6, 16);
+			this.lblPuntos.Name = "lblPuntos";
+			this.lblPuntos.Size = new System.Drawing.Size(51, 20);
+			this.lblPuntos.TabIndex = 0;
+			this.lblPuntos.Text = "label1";
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(221, 518);
+			this.ClientSize = new System.Drawing.Size(221, 677);
 			this.ControlBox = false;
+			this.Controls.Add(this.grpPuntos);
+			this.Controls.Add(this.grpPlayerBets);
+			this.Controls.Add(this.grpFirstPlayer);
 			this.Controls.Add(this.grpSayOptions);
 			this.Controls.Add(this.txtMarques);
 			this.Controls.Add(this.txtBazas);
@@ -225,6 +299,12 @@
 			this.grpPuntos24.ResumeLayout(false);
 			this.grpPuntos24.PerformLayout();
 			this.grpSayOptions.ResumeLayout(false);
+			this.grpFirstPlayer.ResumeLayout(false);
+			this.grpFirstPlayer.PerformLayout();
+			this.grpPlayerBets.ResumeLayout(false);
+			this.grpPlayerBets.PerformLayout();
+			this.grpPuntos.ResumeLayout(false);
+			this.grpPuntos.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -246,5 +326,11 @@
 		private System.Windows.Forms.GroupBox grpSayOptions;
 		private System.Windows.Forms.Button btnSelect;
 		private System.Windows.Forms.ComboBox cmbSays;
+		private System.Windows.Forms.GroupBox grpFirstPlayer;
+		private System.Windows.Forms.Label lblFirstPlayer;
+		private System.Windows.Forms.GroupBox grpPlayerBets;
+		private System.Windows.Forms.Label lblPlayerBets;
+		private System.Windows.Forms.GroupBox grpPuntos;
+		private System.Windows.Forms.Label lblPuntos;
 		}
 	}
