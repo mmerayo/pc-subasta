@@ -54,7 +54,7 @@ namespace Subasta.Lib
 
 		Declaration? GameHandler_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Domain.Declaration[] availableDeclarations, IExplorationStatus status)
 		{
-			var declarables = source.GetUserDeclarables(status).ToArray();
+			var declarables = source.GetUserDeclarables(status).Where(availableDeclarations.Contains);
 			if (!declarables.Any())
 				return null;
 
