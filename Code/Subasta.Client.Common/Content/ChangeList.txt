@@ -1,3 +1,5 @@
 ﻿05/05/2014
 -Creado formulario ChangeList
--Reducir Flickering->Implementación Double Buffering para pintado del tablero de juego. 
+-Reducir Flickering->Implementación Double Buffering para pintado del tablero de juego.
+-Corregido bug: el usuario puede cantar una declaracion ya usada
+
