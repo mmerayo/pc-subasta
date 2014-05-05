@@ -23,7 +23,7 @@ namespace Subasta.Lib
 			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 
-			MessageBox.Show("Gracias por testear esta versión en estado de desarrollo(Alpha). Esta versión no es estable por lo que se espera que pueda haber errores, estos se notifican al desarrollador automáticamente. Las actualizaciones automaticas incluirán bug fixtures progresivamente","Subasta para PC",MessageBoxButtons.OK,MessageBoxIcon.Information);
+			MessageBox.Show("Gracias por testear esta versión en estado de desarrollo(Alpha). Esta versión no es estable por lo que se espera que pueda haber errores, estos se notifican al desarrollador automáticamente. Las actualizaciones automaticas incluirán bug fixtures progresivamente. La configuración mínima probada es 2GB RAM con CPU de 4 hilos, aún así funciona en máquinas inferiores, esto es debido a que la inteligencia artificial implementada requiere optimizaciones.","Subasta para PC",MessageBoxButtons.OK,MessageBoxIcon.Information);
 
 			//TODO: move to module
 			IoCRegistrator.Register(new List<Registry>
