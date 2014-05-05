@@ -5,14 +5,16 @@ using Subasta.Lib.Interaction;
 
 namespace Subasta.Lib.Infrastructure
 {
-	internal class RegisterIoc : Registry
+	internal class RegisterLibIoc : Registry
 	{
-		public RegisterIoc()
+		public RegisterLibIoc()
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
 			For<FrmGame>().Singleton().Use<FrmGame>();
 			For<FrmGameInfo>().Singleton().Use<FrmGameInfo>();
 			For<FrmGameSetInfo>().Singleton().Use<FrmGameSetInfo>();
+			For<FrmChangeList>().Use<FrmChangeList>();
+
 
 			For<ISaysExplorationListener>().Singleton().Use<NullExplorationListenerHandler>();
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();

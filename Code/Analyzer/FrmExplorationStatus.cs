@@ -22,7 +22,7 @@ namespace Analyzer
 		private DataTable _tableStatus;
 		private DataTable _tableSaysStatus;
 
-		public FrmExplorationStatus(IGameHandler GameHandler, IDeck deck,IFiguresCatalog figuresCatalog,IImagesLoader imagesLoader)
+		public FrmExplorationStatus(IGameHandler GameHandler, IDeck deck,IFiguresCatalog figuresCatalog,IResourceReadingUtils imagesLoader)
 		{
 
 			InitializeComponent();
