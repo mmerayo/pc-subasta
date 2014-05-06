@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Images;
+using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Lib.Interaction;
@@ -19,12 +20,13 @@ namespace Subasta.Lib
 		private readonly IUserInteractionManager _userInteractionManager;
 		private IResourceReadingUtils _imagesLoader;
 		private ICard _lastCardPlayed;
+		private int _lastPlayerPeta = int.MinValue;
 		private Size _sizePbs13 = new Size(50, 70);
 		private Size _sizePbs24 = new Size(70, 50);
 
 
 		public FrmGame(IGameSetHandler gameSetHandler, IResourceReadingUtils imagesLoader,
-		               IUserInteractionManager userInteractionManager)
+			IUserInteractionManager userInteractionManager)
 		{
 			_gameSetHandler = gameSetHandler;
 			_userInteractionManager = userInteractionManager;
@@ -53,9 +55,8 @@ namespace Subasta.Lib
 			pbPetar.SizeMode = PictureBoxSizeMode.StretchImage;
 			pbPetar.Visible = false;
 
-			this.lblInfo.Left = 0;
-			lblInfo.Top = this.Height - lblInfo.Height;
-			
+			lblInfo.Left = 0;
+			lblInfo.Top = Height - lblInfo.Height;
 		}
 
 		private void LoadImages(IResourceReadingUtils imagesLoader)
@@ -81,17 +82,14 @@ namespace Subasta.Lib
 			gameHandler.GameSaysStatusChanged += gameHandler_GameSaysStatusChanged;
 		}
 
-		void _gameSetHandler_GameStarted(IExplorationStatus status)
+		private void _gameSetHandler_GameStarted(IExplorationStatus status)
 		{
-			
 		}
 
-		private int _lastPlayerPeta = int.MinValue;
-
-		void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
+		private void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			Point location=new Point();
-			switch(player.PlayerNumber)
+			var location = new Point();
+			switch (player.PlayerNumber)
 			{
 				case 1:
 					location.X = pb1.Left + pb1.Width;
@@ -107,20 +105,19 @@ namespace Subasta.Lib
 					break;
 				case 4:
 					location.X = 0;
-					location.Y = pb4.Top+pb4.Height;
+					location.Y = pb4.Top + pb4.Height;
 					break;
 			}
-			
-			pbPetar.PerformSafely(x=>
-			                      {
-			                      	x.Location = location;
-			                      	x.Visible = true;
-									x.Update();
-			                      });
 
+			pbPetar.PerformSafely(x =>
+			{
+				x.Location = location;
+				x.Visible = true;
+				x.Update();
+			});
 		}
 
-		void gameHandler_DeclarationEmit(IPlayer player, Domain.Declaration declaration)
+		private void gameHandler_DeclarationEmit(IPlayer player, Declaration declaration)
 		{
 			PictureBox target = this.FindControls<PictureBox>(x => x.Name == "pb" + player.PlayerNumber).First();
 
@@ -140,8 +137,8 @@ namespace Subasta.Lib
 
 		private void ShowBalloon(PictureBox target, string text, TimeSpan showLenght)
 		{
-			this.PerformSafely(x=> balloonInfo.Show(text,(IWin32Window)target));
-			
+			this.PerformSafely(x => balloonInfo.Show(text, target));
+
 			Thread.Sleep(showLenght);
 			this.PerformSafely(x => balloonInfo.Hide(target));
 		}
@@ -174,15 +171,15 @@ namespace Subasta.Lib
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
-
 			ICard lastCardPlayed = status.LastCardPlayed;
-			if (lastCardPlayed != _lastCardPlayed) //TODO: THIS MIGHT BE ALREADY FIXED: due to defect  as the event is triggered twice
+			if (lastCardPlayed != _lastCardPlayed)
+				//TODO: THIS MIGHT BE ALREADY FIXED: due to defect  as the event is triggered twice
 			{
 				MoveCard(status, status.LastPlayerMoved, lastCardPlayed);
 				_lastCardPlayed = lastCardPlayed;
 				// WAIT TIME SO THE USER CAN SEE it
 				Thread.Sleep(TimeSpan.FromSeconds(1));
-				if(_lastPlayerPeta!=status.LastPlayerMoved)
+				if (_lastPlayerPeta != status.LastPlayerMoved)
 					pbPetar.PerformSafely(x => x.Visible = false);
 			}
 		}
@@ -258,14 +255,14 @@ namespace Subasta.Lib
 		private PictureBox CreatePictureBoxControl(Point location, Size size, ICard card, Image image)
 		{
 			var current = new PictureBox
-			              {
-			              	Location = location,
-			              	Size = size,
-			              	Name = card.ToShortString(),
-			              	Image = image,
-			              	SizeMode = PictureBoxSizeMode.StretchImage,
-			              	Tag = card
-			              };
+			{
+				Location = location,
+				Size = size,
+				Name = card.ToShortString(),
+				Image = image,
+				SizeMode = PictureBoxSizeMode.StretchImage,
+				Tag = card
+			};
 
 			this.PerformSafely(x => x.Controls.Add(current));
 
@@ -288,10 +285,10 @@ namespace Subasta.Lib
 			bool peta = e.Button == MouseButtons.Right;
 
 			_userInteractionManager.InputProvided(() =>
-			                                      {
-			                                      	EnableMoves(_gameSetHandler.GameHandler.Player1, false);
-			                                      	return new UserCardSelection((ICard) pictureBox.Tag, peta);
-			                                      });
+			{
+				EnableMoves(_gameSetHandler.GameHandler.Player1, false);
+				return new UserCardSelection((ICard) pictureBox.Tag, peta);
+			});
 		}
 
 
@@ -306,24 +303,27 @@ namespace Subasta.Lib
 
 		private void ClearAllPictureBoxControls()
 		{
-			var pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
+			PictureBox[] pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
 			foreach (PictureBox pb in pbs)
 			{
-				this.PerformSafely(x => {x.Controls.Remove(pb);
-				pb.Dispose();
+				this.PerformSafely(x =>
+				{
+					x.Controls.Remove(pb);
+					pb.Dispose();
 				});
 			}
 		}
 
 		private void RemovePictureBoxesByCard(ICard card)
 		{
-			var pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
-			foreach (Control pb in pbs)
+			PictureBox[] pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
+			foreach (PictureBox pb in pbs)
 			{
-				this.PerformSafely(x => {x.Controls.Remove(pb);
-				pb.Dispose();
+				this.PerformSafely(x =>
+				{
+					x.Controls.Remove(pb);
+					pb.Dispose();
 				});
-				
 			}
 		}
 
@@ -372,10 +372,10 @@ namespace Subasta.Lib
 
 				PictureBox pictureBox = this.FindControls<PictureBox>(x => x.Tag == card).First();
 				pictureBox.PerformSafely(x =>
-				                         {
-				                         	x.Location = location;
-				                         	x.BringToFront();
-				                         });
+				{
+					x.Location = location;
+					x.BringToFront();
+				});
 				index++;
 			}
 		}
@@ -430,8 +430,8 @@ namespace Subasta.Lib
 			}
 
 			PictureBox result = CreatePictureBoxControl(destination,
-			                                            playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card,
-			                                            image);
+				playerNumber == 2 || playerNumber == 4 ? _sizePbs24 : _sizePbs13, card,
+				image);
 
 			return result;
 		}
@@ -446,11 +446,11 @@ namespace Subasta.Lib
 			{
 				HookPlayerEventsToPictureBox(playerCard, false);
 				playerCard.PerformSafely(x =>
-				                         {
-				                         	x.Enabled = false;
-				                         	x.Top = playerCardsStartPaintingPoint.Y;
-				                         	x.Cursor = Cursors.WaitCursor;
-				                         });
+				{
+					x.Enabled = false;
+					x.Top = playerCardsStartPaintingPoint.Y;
+					x.Cursor = Cursors.WaitCursor;
+				});
 			}
 			if (enable && moves != null)
 			{
@@ -460,15 +460,15 @@ namespace Subasta.Lib
 					HookPlayerEventsToPictureBox(source, true);
 
 					source.PerformSafely(x =>
-					                     {
-					                     	x.Enabled = true;
-					                     	x.Top = playerCardsStartPaintingPoint.Y - 20;
-					                     	x.Cursor = Cursors.Hand;
-					                     });
+					{
+						x.Enabled = true;
+						x.Top = playerCardsStartPaintingPoint.Y - 20;
+						x.Cursor = Cursors.Hand;
+					});
 				}
 			}
 
-			lblInfo.PerformSafely(x=>x.Visible=enable);
+			lblInfo.PerformSafely(x => x.Visible = enable);
 		}
 
 		#region Nested type: UserCardSelection
