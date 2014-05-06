@@ -39,8 +39,8 @@ try{
 	Create-BuildDirectory($buildDirectoryExe)
 	Create-BuildDirectory($buildDirectoryInstaller)
 	
-	"Setting version"
-	$version = Get-Date -format 0.yyyy.MMdd.HHmm
+	"Setting version" 
+	$version = $args[0]
 	.\SetVersions.ps1  $version  
 	
 	"Creating module"
