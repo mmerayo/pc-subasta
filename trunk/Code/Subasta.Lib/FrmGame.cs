@@ -306,19 +306,21 @@ namespace Subasta.Lib
 
 		private void ClearAllPictureBoxControls()
 		{
-			PictureBox[] pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
+			var pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
 			foreach (PictureBox pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
+				pb.Dispose();
 			}
 		}
 
 		private void RemovePictureBoxesByCard(ICard card)
 		{
-			IEnumerable<Control> pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
+			var pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
 			foreach (Control pb in pbs)
 			{
 				this.PerformSafely(x => x.Controls.Remove(pb));
+				pb.Dispose();
 			}
 		}
 
