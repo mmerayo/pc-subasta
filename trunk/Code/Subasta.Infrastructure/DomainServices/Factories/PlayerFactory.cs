@@ -56,8 +56,8 @@ namespace Subasta.Infrastructure.DomainServices.Factories
 					throw new ArgumentOutOfRangeException("playerType");
 			}
 			result.Name = playerName;
-
-			result.Cards = playerCards.OrderBy(x => x.Suit.Value).ThenByDescending(x => x.Value).ThenByDescending(x => x.Number).ToArray();
+			
+			result.Cards = playerCards.OrderBy(x => x.Suit.Name).ThenByDescending(x => x.Value).ThenByDescending(x => x.Number).ToArray();
 			return result;
 		}
 	}
