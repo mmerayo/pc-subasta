@@ -215,11 +215,11 @@ namespace Subasta.DomainServices.Game.Models
 
 		public void Add(int playerNumber, IFigure figure)
 		{
-			_says.Add(new Say(playerNumber, figure, _says.Count > 0 ? _says.Max(x => x.Sequence) + 1 : 1));
-
+			var item = new Say(playerNumber, figure, _says.Count > 0 ? _says.Max(x => x.Sequence) + 1 : 1);
+			_says.Add(item);
 		}
 
-	    public ISayCard[] GetPlayerCards(int playerNum)
+		public ISayCard[] GetPlayerCards(int playerNum)
 	    {
 	        switch (playerNum)
 	        {

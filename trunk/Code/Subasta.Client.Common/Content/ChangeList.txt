@@ -4,3 +4,7 @@
 -Corregido bug: el usuario puede cantar una declaracion ya usada
 -Feedback de usuario del jugador que apuesta, el palo, jugador sale, y otros
 -Implementadas ligeras optimizaciones en la disposición de recursos 
+
+05/05/2014
+- Arreglado error cuando el usuario marca Una Mas, reinicia contador del marque
+- Punto de finalizacion de la IA como parte de las acciones de optimiozacion
