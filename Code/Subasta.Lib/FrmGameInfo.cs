@@ -15,7 +15,6 @@ namespace Subasta.Lib
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly IFiguresCatalog _figuresCatalog;
 		private readonly IUserInteractionManager _interactionManager;
-
 		public FrmGameInfo(IGameSetHandler gameSetHandler,
 		IFiguresCatalog figuresCatalog
 		, IUserInteractionManager interactionManager)
@@ -53,7 +52,9 @@ namespace Subasta.Lib
 			{
 				var selectedValue = (SayKind)cmbSays.SelectedValue;
 
-				var result = _figuresCatalog.GetFigureJustPoints(selectedValue != SayKind.UnaMas ? (int)selectedValue : 1);
+				var result = selectedValue != SayKind.UnaMas
+					? _figuresCatalog.GetFigureJustPoints((int) selectedValue)
+					: _figuresCatalog.Figures.First(x => x.Say == SayKind.Una);
 				EnableSayInteraction(false);
 				return result;
 			});
@@ -78,15 +79,21 @@ namespace Subasta.Lib
 			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
 
 			}
+
 		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
-			{
+		{
 			LoadSayKinds(saysStatus);
 			EnableSayInteraction(true);
 
 			var result = _interactionManager.WaitUserInput<IFigure>();
+			if (result.PointsBet == 1 && saysStatus.PointsBet >= 1)
+			{
+				//force using alternative, defect in algorithm
+				result.IsAvailable(saysStatus, saysStatus.PointsBet);
+			}
 
 			return result;
-			}
+		}
 
 		#endregion
 
