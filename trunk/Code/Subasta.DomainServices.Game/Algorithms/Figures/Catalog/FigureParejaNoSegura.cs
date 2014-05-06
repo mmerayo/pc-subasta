@@ -23,7 +23,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		protected override int PrimaryPointsBet
 		{
-			get { return 2; }
+			get { return 5; }
 		}
 
 		protected override IEnumerable<int[]> HavingCardNumberCombinations

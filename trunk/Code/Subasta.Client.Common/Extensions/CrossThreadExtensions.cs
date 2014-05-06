@@ -12,6 +12,7 @@ namespace Subasta.Client.Common.Extensions
 			if (target.InvokeRequired)
 			{
 				target.Invoke(action, target);
+				Application.DoEvents();
 			}
 			else
 			{

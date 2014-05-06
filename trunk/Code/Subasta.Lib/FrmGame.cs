@@ -82,8 +82,21 @@ namespace Subasta.Lib
 			gameHandler.GameSaysStatusChanged += gameHandler_GameSaysStatusChanged;
 		}
 
+
+
 		private void _gameSetHandler_GameStarted(IExplorationStatus status)
 		{
+			string format = string.Format("Triunfo {0}!!", status.Trump);
+			var pb = this.FindControls<PictureBox>(x => x.Name == "pb" + status.PlayerBets).Single();
+			bool wasVisible=true;
+			if(!pb.Visible)
+			{
+				wasVisible = false;
+				pb.PerformSafely(x=>x.Visible=true);
+			}
+			ShowBalloon(pb, format, TimeSpan.FromSeconds(2));
+			if(!wasVisible)
+				pb.PerformSafely(x => x.Visible = false);
 		}
 
 		private void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
