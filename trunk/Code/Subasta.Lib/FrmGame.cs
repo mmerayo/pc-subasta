@@ -309,8 +309,9 @@ namespace Subasta.Lib
 			var pbs = this.FindControls<PictureBox>(x => x.Tag != null && x.Tag is ICard).ToArray();
 			foreach (PictureBox pb in pbs)
 			{
-				this.PerformSafely(x => x.Controls.Remove(pb));
+				this.PerformSafely(x => {x.Controls.Remove(pb);
 				pb.Dispose();
+				});
 			}
 		}
 
@@ -319,8 +320,10 @@ namespace Subasta.Lib
 			var pbs = this.FindControls<PictureBox>(x => x.Tag == card).ToArray();
 			foreach (Control pb in pbs)
 			{
-				this.PerformSafely(x => x.Controls.Remove(pb));
+				this.PerformSafely(x => {x.Controls.Remove(pb);
 				pb.Dispose();
+				});
+				
 			}
 		}
 
