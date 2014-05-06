@@ -192,6 +192,10 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                                        			return;
 			                                        		}
 			                                        	}
+
+														//release the root branches as we just need the root info
+														root.Children.ForEach(x=>x.Dispose());
+														root.Children.Clear();
 														GC.Collect(1, GCCollectionMode.Optimized);
 			                                        }, _tokenSource.Token);
 		}
