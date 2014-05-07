@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICustomUserControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UcGameSets.cs">
       <SubType>UserControl</SubType>
@@ -54,10 +55,19 @@
     <Compile Include="UcGameSets.Designer.cs">
       <DependentUpon>UcGameSets.cs</DependentUpon>
     </Compile>
+    <Compile Include="UcTrumpSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcTrumpSelection.Designer.cs">
+      <DependentUpon>UcTrumpSelection.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UcGameSets.resx">
       <DependentUpon>UcGameSets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcTrumpSelection.resx">
+      <DependentUpon>UcTrumpSelection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +81,10 @@
     <ProjectReference Include="..\Subasta.Domain\Subasta.Domain.csproj">
       <Project>{520BE732-4321-4BC1-8182-FF44B5215C5C}</Project>
       <Name>Subasta.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subasta.Infrastructure\Subasta.Infrastructure.csproj">
+      <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
+      <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

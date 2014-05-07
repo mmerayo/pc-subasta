@@ -25,28 +25,24 @@ namespace Subasta.Lib
 			_interactionManager = interactionManager;
 
 			InitializeComponent();
-
-			grpTrumpOptions.Location = grpDeclarations.Location;
+			
 			//as copied from frmSays
 			_gameSetHandler.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
-			_gameSetHandler.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
 			_gameSetHandler.GameHandler.HumanPlayerDeclarationSelectionNeeded += GameHandler_HumanPlayerDeclarationSelectionNeeded;
 
-			
-			EnableTrumpInteraction(false);
 			EnableDeclarationsInteraction(false);
-			LoadSuits();
 
-			InjectUserControls();
+
+			InitializeCustomUserControls();
 
 		}
 
-		private void InjectUserControls()
+		private void InitializeCustomUserControls()
 		{
 			var userControls = this.FindControls<ICustomUserControl>();
 			foreach (var userControl in userControls)
 			{
-				userControl.Inject();
+				userControl.Initialize();
 			}
 		}
 
@@ -86,36 +82,15 @@ namespace Subasta.Lib
 
 		
 
-		private ISuit GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
-		{
-			EnableTrumpInteraction(true);
-			var result = _interactionManager.WaitUserInput<ISuit>();
-
-			return result;
-		}
+		
 
 		
 
-		private void LoadSuits()
-		{
-			var source = Suit.Suits.ToDictionary(value => value, value => value.Name);
-
-			cmbSuits.DataSource = new BindingSource(source, null);
-			cmbSuits.PerformSafely(x => x.ValueMember = "Key");
-			cmbSuits.PerformSafely(x => x.DisplayMember = "Value");
-		}
+		
 
 		
 
-		private void btnSelectTrump_Click(object sender, EventArgs e)
-		{
-			_interactionManager.InputProvided(() =>
-			{
-				var result = (ISuit)cmbSuits.SelectedValue;
-				EnableTrumpInteraction(false);
-				return result;
-			});
-		}
+		
 
 		private void btnDeclarations_Click(object sender, EventArgs e)
 		{
@@ -128,13 +103,7 @@ namespace Subasta.Lib
 			});
 		}
 
-		private void EnableTrumpInteraction(bool enable)
-		{
-			grpTrumpOptions.PerformSafely(x => x.Visible = enable);
-			grpTrumpOptions.PerformSafely(x => x.BringToFront());
-			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
-			cmbSuits.PerformSafely(x => x.Enabled = enable);
-		}
+		
 
 
 		private void EnableDeclarationsInteraction(bool enable)

@@ -31,19 +31,16 @@
 			this.grpDeclarations = new System.Windows.Forms.GroupBox();
 			this.btnDeclarations = new System.Windows.Forms.Button();
 			this.cmbDeclarations = new System.Windows.Forms.ComboBox();
-			this.grpTrumpOptions = new System.Windows.Forms.GroupBox();
-			this.btnSelectTrump = new System.Windows.Forms.Button();
-			this.cmbSuits = new System.Windows.Forms.ComboBox();
 			this.gameSets = new Subasta.Lib.UserControls.UcGameSets();
+			this.ucTrumpSelector = new Subasta.Lib.UserControls.UcTrumpSelection();
 			this.grpDeclarations.SuspendLayout();
-			this.grpTrumpOptions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// grpDeclarations
 			// 
 			this.grpDeclarations.Controls.Add(this.btnDeclarations);
 			this.grpDeclarations.Controls.Add(this.cmbDeclarations);
-			this.grpDeclarations.Location = new System.Drawing.Point(19, 528);
+			this.grpDeclarations.Location = new System.Drawing.Point(10, 405);
 			this.grpDeclarations.Name = "grpDeclarations";
 			this.grpDeclarations.Size = new System.Drawing.Size(192, 88);
 			this.grpDeclarations.TabIndex = 5;
@@ -69,37 +66,6 @@
 			this.cmbDeclarations.Size = new System.Drawing.Size(167, 21);
 			this.cmbDeclarations.TabIndex = 0;
 			// 
-			// grpTrumpOptions
-			// 
-			this.grpTrumpOptions.Controls.Add(this.btnSelectTrump);
-			this.grpTrumpOptions.Controls.Add(this.cmbSuits);
-			this.grpTrumpOptions.Location = new System.Drawing.Point(2, 401);
-			this.grpTrumpOptions.Name = "grpTrumpOptions";
-			this.grpTrumpOptions.Size = new System.Drawing.Size(206, 81);
-			this.grpTrumpOptions.TabIndex = 4;
-			this.grpTrumpOptions.TabStop = false;
-			this.grpTrumpOptions.Text = "Seleccion de triunfo";
-			this.grpTrumpOptions.Visible = false;
-			// 
-			// btnSelectTrump
-			// 
-			this.btnSelectTrump.Location = new System.Drawing.Point(41, 47);
-			this.btnSelectTrump.Name = "btnSelectTrump";
-			this.btnSelectTrump.Size = new System.Drawing.Size(115, 28);
-			this.btnSelectTrump.TabIndex = 1;
-			this.btnSelectTrump.Text = "Seleccionar";
-			this.btnSelectTrump.UseVisualStyleBackColor = true;
-			this.btnSelectTrump.Click += new System.EventHandler(this.btnSelectTrump_Click);
-			// 
-			// cmbSuits
-			// 
-			this.cmbSuits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbSuits.FormattingEnabled = true;
-			this.cmbSuits.Location = new System.Drawing.Point(41, 19);
-			this.cmbSuits.Name = "cmbSuits";
-			this.cmbSuits.Size = new System.Drawing.Size(115, 21);
-			this.cmbSuits.TabIndex = 0;
-			// 
 			// gameSets
 			// 
 			this.gameSets.Location = new System.Drawing.Point(2, 4);
@@ -107,34 +73,39 @@
 			this.gameSets.Size = new System.Drawing.Size(206, 395);
 			this.gameSets.TabIndex = 6;
 			// 
+			// ucTrumpSelector
+			// 
+			this.ucTrumpSelector.Location = new System.Drawing.Point(5, 405);
+			this.ucTrumpSelector.Name = "ucTrumpSelector";
+			this.ucTrumpSelector.Size = new System.Drawing.Size(206, 81);
+			this.ucTrumpSelector.TabIndex = 7;
+			// 
 			// FrmGameSetInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(214, 670);
 			this.ControlBox = false;
+			this.Controls.Add(this.ucTrumpSelector);
 			this.Controls.Add(this.gameSets);
 			this.Controls.Add(this.grpDeclarations);
-			this.Controls.Add(this.grpTrumpOptions);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGameSetInfo";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Partida";
 			this.grpDeclarations.ResumeLayout(false);
-			this.grpTrumpOptions.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox grpTrumpOptions;
-		private System.Windows.Forms.Button btnSelectTrump;
-		private System.Windows.Forms.ComboBox cmbSuits;
 		private System.Windows.Forms.GroupBox grpDeclarations;
 		private System.Windows.Forms.Button btnDeclarations;
 		private System.Windows.Forms.ComboBox cmbDeclarations;
 		private UserControls.UcGameSets gameSets;
+		private UserControls.UcTrumpSelection ucTrumpSelection1;
+		private UserControls.UcTrumpSelection ucTrumpSelector;
 	}
 }

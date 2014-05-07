@@ -111,7 +111,6 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NullExplorationListenerHandler.cs" />
-    <Compile Include="Interaction\IUserInteractionManager.cs" />
     <Compile Include="Interaction\UserInteractionManager.cs" />
     <Compile Include="LibStarter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

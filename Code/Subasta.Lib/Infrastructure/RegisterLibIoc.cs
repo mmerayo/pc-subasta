@@ -1,4 +1,5 @@
 ﻿using StructureMap.Configuration.DSL;
+using Subasta.Client.Common.Game;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
 using Subasta.Lib.Interaction;
