@@ -42,8 +42,8 @@
 			this.lblPlayerBets = new System.Windows.Forms.Label();
 			this.grpPuntos = new System.Windows.Forms.GroupBox();
 			this.lblPuntos = new System.Windows.Forms.Label();
-			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
 			this.ucTricks1 = new Subasta.Lib.UserControls.UcTricks();
+			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
@@ -198,13 +198,6 @@
 			this.lblPuntos.TabIndex = 0;
 			this.lblPuntos.Text = "label1";
 			// 
-			// ucSaySelector1
-			// 
-			this.ucSaySelector1.Location = new System.Drawing.Point(4, 179);
-			this.ucSaySelector1.Name = "ucSaySelector1";
-			this.ucSaySelector1.Size = new System.Drawing.Size(207, 447);
-			this.ucSaySelector1.TabIndex = 4;
-			// 
 			// ucTricks1
 			// 
 			this.ucTricks1.Location = new System.Drawing.Point(8, 350);
@@ -212,11 +205,18 @@
 			this.ucTricks1.Size = new System.Drawing.Size(197, 166);
 			this.ucTricks1.TabIndex = 5;
 			// 
+			// ucSaySelector1
+			// 
+			this.ucSaySelector1.Location = new System.Drawing.Point(4, 264);
+			this.ucSaySelector1.Name = "ucSaySelector1";
+			this.ucSaySelector1.Size = new System.Drawing.Size(207, 447);
+			this.ucSaySelector1.TabIndex = 4;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(221, 677);
+			this.ClientSize = new System.Drawing.Size(221, 742);
 			this.ControlBox = false;
 			this.Controls.Add(this.ucTricks1);
 			this.Controls.Add(this.grpPuntos);
