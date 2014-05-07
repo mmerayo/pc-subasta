@@ -30,29 +30,24 @@
 			{
 			this.grpPlayerTurn = new System.Windows.Forms.GroupBox();
 			this.lblTurn = new System.Windows.Forms.Label();
-			this.txtSays = new System.Windows.Forms.TextBox();
 			this.grpTrump = new System.Windows.Forms.GroupBox();
 			this.lblTrump = new System.Windows.Forms.Label();
 			this.grpPtos13 = new System.Windows.Forms.GroupBox();
 			this.lblPuntos13 = new System.Windows.Forms.Label();
 			this.grpPuntos24 = new System.Windows.Forms.GroupBox();
 			this.lblPuntos24 = new System.Windows.Forms.Label();
-			this.txtBazas = new System.Windows.Forms.TextBox();
-			this.txtMarques = new System.Windows.Forms.TextBox();
-			this.grpSayOptions = new System.Windows.Forms.GroupBox();
-			this.btnSelect = new System.Windows.Forms.Button();
-			this.cmbSays = new System.Windows.Forms.ComboBox();
 			this.grpFirstPlayer = new System.Windows.Forms.GroupBox();
 			this.lblFirstPlayer = new System.Windows.Forms.Label();
 			this.grpPlayerBets = new System.Windows.Forms.GroupBox();
 			this.lblPlayerBets = new System.Windows.Forms.Label();
 			this.grpPuntos = new System.Windows.Forms.GroupBox();
 			this.lblPuntos = new System.Windows.Forms.Label();
+			this.txtBazas = new System.Windows.Forms.TextBox();
+			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
 			this.grpPuntos24.SuspendLayout();
-			this.grpSayOptions.SuspendLayout();
 			this.grpFirstPlayer.SuspendLayout();
 			this.grpPlayerBets.SuspendLayout();
 			this.grpPuntos.SuspendLayout();
@@ -77,15 +72,6 @@
 			this.lblTurn.Size = new System.Drawing.Size(56, 20);
 			this.lblTurn.TabIndex = 0;
 			this.lblTurn.Text = "lblTurn";
-			// 
-			// txtSays
-			// 
-			this.txtSays.Location = new System.Drawing.Point(12, 145);
-			this.txtSays.Multiline = true;
-			this.txtSays.Name = "txtSays";
-			this.txtSays.ReadOnly = true;
-			this.txtSays.Size = new System.Drawing.Size(197, 196);
-			this.txtSays.TabIndex = 1;
 			// 
 			// grpTrump
 			// 
@@ -150,63 +136,9 @@
 			this.lblPuntos24.TabIndex = 0;
 			this.lblPuntos24.Text = "label1";
 			// 
-			// txtBazas
-			// 
-			this.txtBazas.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtBazas.Location = new System.Drawing.Point(12, 358);
-			this.txtBazas.Multiline = true;
-			this.txtBazas.Name = "txtBazas";
-			this.txtBazas.ReadOnly = true;
-			this.txtBazas.Size = new System.Drawing.Size(197, 175);
-			this.txtBazas.TabIndex = 3;
-			this.txtBazas.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
-			// 
-			// txtMarques
-			// 
-			this.txtMarques.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtMarques.Location = new System.Drawing.Point(14, 358);
-			this.txtMarques.Multiline = true;
-			this.txtMarques.Name = "txtMarques";
-			this.txtMarques.ReadOnly = true;
-			this.txtMarques.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtMarques.Size = new System.Drawing.Size(197, 175);
-			this.txtMarques.TabIndex = 4;
-			this.txtMarques.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n";
-			this.txtMarques.Visible = false;
-			// 
-			// grpSayOptions
-			// 
-			this.grpSayOptions.Controls.Add(this.btnSelect);
-			this.grpSayOptions.Controls.Add(this.cmbSays);
-			this.grpSayOptions.Location = new System.Drawing.Point(14, 539);
-			this.grpSayOptions.Name = "grpSayOptions";
-			this.grpSayOptions.Size = new System.Drawing.Size(195, 122);
-			this.grpSayOptions.TabIndex = 5;
-			this.grpSayOptions.TabStop = false;
-			this.grpSayOptions.Text = "Opciones de marque";
-			this.grpSayOptions.Visible = false;
-			// 
-			// btnSelect
-			// 
-			this.btnSelect.Location = new System.Drawing.Point(15, 65);
-			this.btnSelect.Name = "btnSelect";
-			this.btnSelect.Size = new System.Drawing.Size(161, 28);
-			this.btnSelect.TabIndex = 1;
-			this.btnSelect.Text = "Marca";
-			this.btnSelect.UseVisualStyleBackColor = true;
-			this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
-			// 
-			// cmbSays
-			// 
-			this.cmbSays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbSays.FormattingEnabled = true;
-			this.cmbSays.Location = new System.Drawing.Point(6, 19);
-			this.cmbSays.Name = "cmbSays";
-			this.cmbSays.Size = new System.Drawing.Size(181, 21);
-			this.cmbSays.TabIndex = 0;
-			// 
 			// grpFirstPlayer
 			// 
+			this.grpFirstPlayer.Controls.Add(this.txtBazas);
 			this.grpFirstPlayer.Controls.Add(this.lblFirstPlayer);
 			this.grpFirstPlayer.Location = new System.Drawing.Point(14, 65);
 			this.grpFirstPlayer.Name = "grpFirstPlayer";
@@ -267,22 +199,36 @@
 			this.lblPuntos.TabIndex = 0;
 			this.lblPuntos.Text = "label1";
 			// 
+			// txtBazas
+			// 
+			this.txtBazas.Location = new System.Drawing.Point(6, 9);
+			this.txtBazas.Multiline = true;
+			this.txtBazas.Name = "txtBazas";
+			this.txtBazas.ReadOnly = true;
+			this.txtBazas.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+			this.txtBazas.Size = new System.Drawing.Size(197, 150);
+			this.txtBazas.TabIndex = 4;
+			// 
+			// ucSaySelector1
+			// 
+			this.ucSaySelector1.Location = new System.Drawing.Point(4, 122);
+			this.ucSaySelector1.Name = "ucSaySelector1";
+			this.ucSaySelector1.Size = new System.Drawing.Size(205, 528);
+			this.ucSaySelector1.TabIndex = 4;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 677);
 			this.ControlBox = false;
+			this.Controls.Add(this.ucSaySelector1);
 			this.Controls.Add(this.grpPuntos);
 			this.Controls.Add(this.grpPlayerBets);
 			this.Controls.Add(this.grpFirstPlayer);
-			this.Controls.Add(this.grpSayOptions);
-			this.Controls.Add(this.txtMarques);
-			this.Controls.Add(this.txtBazas);
 			this.Controls.Add(this.grpPuntos24);
 			this.Controls.Add(this.grpPtos13);
 			this.Controls.Add(this.grpTrump);
-			this.Controls.Add(this.txtSays);
 			this.Controls.Add(this.grpPlayerTurn);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGameInfo";
@@ -298,7 +244,6 @@
 			this.grpPtos13.PerformLayout();
 			this.grpPuntos24.ResumeLayout(false);
 			this.grpPuntos24.PerformLayout();
-			this.grpSayOptions.ResumeLayout(false);
 			this.grpFirstPlayer.ResumeLayout(false);
 			this.grpFirstPlayer.PerformLayout();
 			this.grpPlayerBets.ResumeLayout(false);
@@ -306,7 +251,6 @@
 			this.grpPuntos.ResumeLayout(false);
 			this.grpPuntos.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 			}
 
@@ -314,23 +258,19 @@
 
 		private System.Windows.Forms.GroupBox grpPlayerTurn;
 		private System.Windows.Forms.Label lblTurn;
-		private System.Windows.Forms.TextBox txtSays;
 		private System.Windows.Forms.GroupBox grpTrump;
 		private System.Windows.Forms.Label lblTrump;
 		private System.Windows.Forms.GroupBox grpPtos13;
 		private System.Windows.Forms.Label lblPuntos13;
 		private System.Windows.Forms.GroupBox grpPuntos24;
 		private System.Windows.Forms.Label lblPuntos24;
-		private System.Windows.Forms.TextBox txtBazas;
-		private System.Windows.Forms.TextBox txtMarques;
-		private System.Windows.Forms.GroupBox grpSayOptions;
-		private System.Windows.Forms.Button btnSelect;
-		private System.Windows.Forms.ComboBox cmbSays;
 		private System.Windows.Forms.GroupBox grpFirstPlayer;
 		private System.Windows.Forms.Label lblFirstPlayer;
 		private System.Windows.Forms.GroupBox grpPlayerBets;
 		private System.Windows.Forms.Label lblPlayerBets;
 		private System.Windows.Forms.GroupBox grpPuntos;
 		private System.Windows.Forms.Label lblPuntos;
+		private System.Windows.Forms.TextBox txtBazas;
+		private UserControls.UcSaySelector ucSaySelector1;
 		}
 	}

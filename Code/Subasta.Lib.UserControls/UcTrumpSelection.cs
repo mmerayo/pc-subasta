@@ -61,6 +61,7 @@ namespace Subasta.Lib.UserControls
 			grpTrumpOptions.PerformSafely(x => x.BringToFront());
 			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
 			cmbSuits.PerformSafely(x => x.Enabled = enable);
+			this.PerformSafely(x=>x.Visible=enable);
 		}
 
 		private ISuit GameHandler_HumanPlayerTrumpNeeded(IHumanPlayer source)
