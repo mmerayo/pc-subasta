@@ -42,8 +42,7 @@ namespace Subasta.Lib
 		{
 			if (!status.IsCompleted)
 				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-			lblPuntos13.PerformSafely(x => x.Text = status.SumTotalTeam(1).ToString());
-			lblPuntos24.PerformSafely(x => x.Text = status.SumTotalTeam(2).ToString());
+		
 		}
 
 		private void _gameSetHandler_GameStarted(IExplorationStatus status)
@@ -71,7 +70,7 @@ namespace Subasta.Lib
 		{
 			this.PerformSafely(x =>
 			                   {
-							   grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible =  grpPlayerBets.Visible = grpPuntos.Visible = false;
+							   grpTrump.Visible =  grpPlayerBets.Visible = grpPuntos.Visible = false;
 							   lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
 			                   });
 		
@@ -83,9 +82,9 @@ namespace Subasta.Lib
 			
 			this.PerformSafely(x =>
 			                   {
-			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
+			                   	grpTrump.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
 								
-			                   	lblPuntos13.Text = lblPuntos24.Text = "0";
+			                   	
 			                   	lblTrump.Text = _gameSetHandler.GameHandler.Trump.Name;
 			                   	lblPlayerBets.Text = _gameSetHandler.GameHandler.GetPlayer(
 			                   		_gameSetHandler.GameHandler.Status.PlayerBets).

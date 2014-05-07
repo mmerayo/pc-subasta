@@ -53,7 +53,8 @@ namespace Subasta.Lib.UserControls
 
 		Declaration? GameHandler_HumanPlayerDeclarationSelectionNeeded(IHumanPlayer source, Domain.Declaration[] availableDeclarations, IExplorationStatus status)
 		{
-			var declarables = source.GetUserDeclarables(status).Where(availableDeclarations.Contains);
+			var userDeclarables = source.GetUserDeclarables(status);
+			var declarables = userDeclarables.Where(availableDeclarations.Contains);
 			if (!declarables.Any())
 				return null;
 
