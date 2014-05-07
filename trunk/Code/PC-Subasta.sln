@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Subasta.SetUp", "Subasta.SetUp\Subasta.SetUp.wixproj", "{E8197585-63E5-450A-B7E9-9E15CA063803}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.Lib.UserControls", "Subasta.Lib.UserControls\Subasta.Lib.UserControls.csproj", "{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +211,16 @@ Global
 		{E8197585-63E5-450A-B7E9-9E15CA063803}.Release|Mixed Platforms.Build.0 = Release|x86
 		{E8197585-63E5-450A-B7E9-9E15CA063803}.Release|x86.ActiveCfg = Release|x86
 		{E8197585-63E5-450A-B7E9-9E15CA063803}.Release|x86.Build.0 = Release|x86
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -227,6 +239,7 @@ Global
 		{72EC3AD0-925F-4D2C-B4DE-CBC33A4DEADD} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 		{15A540F6-650C-4168-AF98-B40DB3FE1E0C} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 		{50E5E0ED-4D6A-44D7-B0FC-008A65AB037D} = {940ECE13-3D1D-414F-8059-26376387CA6D}
+		{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8} = {940ECE13-3D1D-414F-8059-26376387CA6D}
 		{E8197585-63E5-450A-B7E9-9E15CA063803} = {70B04B5E-3AD9-438F-8457-44DC28CC4C45}
 	EndGlobalSection
 EndGlobal

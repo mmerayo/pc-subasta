@@ -25,7 +25,7 @@ namespace Subasta.Client.Common.Extensions
 
 	public static class ControlExtensions
 	{
-		 public static IEnumerable<TControl> FindControls<TControl>(this Control root, Func<Control, bool> isMatch)
+		public static IEnumerable<TControl> FindControls<TControl>(this Control root, Func<Control, bool> isMatch)
 		{
 			var matches = new List<Control>();
 
@@ -39,6 +39,11 @@ namespace Subasta.Client.Common.Extensions
 			          })(root);
 
 			return matches.Cast<TControl>();
+		}
+
+		public static IEnumerable<TControl> FindControls<TControl>(this Control root)
+		{
+			return root.FindControls<TControl>((c) => true);
 		}
 	}
 }
