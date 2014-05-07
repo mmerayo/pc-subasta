@@ -2,6 +2,7 @@
 -Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
 	implementacion final 
 -Optimizados tipos de datos para representar los calculos como primera aproximacion para aligerar el peso en memoria
+-Refactorizado el mecanismo de provisión de recursos multimedia
 
 06/05/2014
 - Arreglado error cuando el usuario marca Una Mas, reinicia contador del marque
