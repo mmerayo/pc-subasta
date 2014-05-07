@@ -12,11 +12,9 @@ namespace Subasta.Lib
 	{
 		public partial class FrmChangeList : Form
 		{
-			private readonly IResourceReadingUtils _resourceReadingUtils;
 
 			public FrmChangeList(IResourceReadingUtils resourceReadingUtils)
 			{
-				_resourceReadingUtils = resourceReadingUtils;
 				InitializeComponent();
 
 				this.txtChanges.Text = resourceReadingUtils.GetText("ChangeList.txt");

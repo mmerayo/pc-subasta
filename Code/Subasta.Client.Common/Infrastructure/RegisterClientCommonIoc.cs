@@ -20,6 +20,7 @@ namespace Subasta.Client.Common.Infrastructure
 			For<IStoredGameWritter>().Use<StoredGameWritter>();
 			For<IStoredGamesCommands>().Use<StoredGamesCommands>();
 			For<IResourceReadingUtils>().Singleton().Use<ResourceReadingUtils>();
+			For<IMediaProvider>().Singleton().Use<MediaProvider>();
 		}
 	}
 }

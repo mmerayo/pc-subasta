@@ -207,7 +207,7 @@
 			// 
 			// ucTricks1
 			// 
-			this.ucTricks1.Location = new System.Drawing.Point(0, 0);
+			this.ucTricks1.Location = new System.Drawing.Point(8, 350);
 			this.ucTricks1.Name = "ucTricks1";
 			this.ucTricks1.Size = new System.Drawing.Size(197, 166);
 			this.ucTricks1.TabIndex = 5;

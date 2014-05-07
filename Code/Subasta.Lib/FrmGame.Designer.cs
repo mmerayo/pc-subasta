@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 			{
 			this.components = new System.ComponentModel.Container();
-			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.pb2 = new System.Windows.Forms.PictureBox();
 			this.pb4 = new System.Windows.Forms.PictureBox();
 			this.pb3 = new System.Windows.Forms.PictureBox();
@@ -45,12 +44,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbPetar)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// imageList
-			// 
-			this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			this.imageList.ImageSize = new System.Drawing.Size(16, 16);
-			this.imageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// pb2
 			// 
@@ -177,7 +170,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.ImageList imageList;
 		private System.Windows.Forms.PictureBox pb2;
 		private System.Windows.Forms.PictureBox pb4;
 		private System.Windows.Forms.PictureBox pb3;
