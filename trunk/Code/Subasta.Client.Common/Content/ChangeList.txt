@@ -10,3 +10,8 @@
 - Punto de finalizacion de la IA como parte de las acciones de optimizacion
 - Arreglado error: el orden de las cartas en la mano cambia despues del primer movimiento
 - Optimizacion en disposicion de recursos de imagen
+
+07/05/2014
+-Iniciada la separacion de varios elementos de interfaz en controles individuales para iniciar su
+	implementacion final 
+
