@@ -32,15 +32,15 @@ namespace Subasta.Client.Common.Images
 				string cardResourceName = GetResourceName(GetCardFileName(card));
 				LoadSingleImage(imageListCards, card.ToShortString(), cardResourceName);
 			}
-			LoadSingleImage(imageListCards, "reverso",GetResourceName("reverso.jpg"));
+			
 
 			imageListCards.ImageSize = size;
 
 		}
 
-		private void LoadSingleImage(ImageList imageListCards, string imageId, string resourceName)
+		public void LoadSingleImage(ImageList imageListCards, string imageId, string resourceName)
 		{
-		Image image = GetImageFromResourceFullName(resourceName);
+			Image image = GetImageFromResourceFullName(resourceName);
 			imageListCards.Images.Add(imageId,
 										  image);
 		}

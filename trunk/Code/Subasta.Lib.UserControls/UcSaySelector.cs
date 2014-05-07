@@ -54,6 +54,7 @@ namespace Subasta.Lib.UserControls
 		{
 			this.PerformSafely(x =>
 			{
+				txtSays.Clear();
 				x.Visible = true;
 			});
 			

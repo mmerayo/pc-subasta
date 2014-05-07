@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.Windows.Forms;
-using Subasta.Domain.Deck;
 
 namespace Subasta.Client.Common.Images
 {
@@ -10,5 +9,6 @@ namespace Subasta.Client.Common.Images
 		Image GetImage(string fileName);
 		string GetResourceName(string fileName);
 		string GetText(string fileName);
+		void LoadSingleImage(ImageList imageListCards, string imageId, string resourceName);
 	}
 }

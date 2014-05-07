@@ -55,6 +55,8 @@
     <Compile Include="Game\GameSetHandler.cs" />
     <Compile Include="Game\GameSetHandlerDebug.cs" />
     <Compile Include="Game\NewGameConfiguration.cs" />
+    <Compile Include="Images\IMediaProvider.cs" />
+    <Compile Include="Images\MediaProvider.cs" />
     <Compile Include="Images\ResourceReadingUtils.cs" />
     <Compile Include="Images\IResourceReadingUtils.cs" />
     <Compile Include="Game\IUserInteractionManager.cs" />

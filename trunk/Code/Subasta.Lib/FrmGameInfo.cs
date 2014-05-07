@@ -24,7 +24,6 @@ namespace Subasta.Lib
 			_gameSetHandler.GameHandler.GameSaysStatusChanged += GameHandler_GameSaysStatusChanged;
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
-			ucTricks1.Location = ucSaySelector1.Location;
 
 			InitializeCustomUserControls();
 

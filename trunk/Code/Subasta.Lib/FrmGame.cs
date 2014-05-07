@@ -10,7 +10,6 @@ using Subasta.Client.Common.Images;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
-using Subasta.Lib.Interaction;
 
 namespace Subasta.Lib
 {
@@ -18,21 +17,21 @@ namespace Subasta.Lib
 	{
 		private readonly IGameSetHandler _gameSetHandler;
 		private readonly IUserInteractionManager _userInteractionManager;
-		private IResourceReadingUtils _imagesLoader;
+		private readonly IMediaProvider _mediaProvider;
+
 		private ICard _lastCardPlayed;
 		private int _lastPlayerPeta = int.MinValue;
 		private Size _sizePbs13 = new Size(50, 70);
 		private Size _sizePbs24 = new Size(70, 50);
 
 
-		public FrmGame(IGameSetHandler gameSetHandler, IResourceReadingUtils imagesLoader,
-			IUserInteractionManager userInteractionManager)
+		public FrmGame(IGameSetHandler gameSetHandler, 
+			IUserInteractionManager userInteractionManager,IMediaProvider mediaProvider)
 		{
 			_gameSetHandler = gameSetHandler;
 			_userInteractionManager = userInteractionManager;
+			_mediaProvider = mediaProvider;
 			InitializeComponent();
-
-			LoadImages(imagesLoader);
 
 			SuscribeToEvents();
 
@@ -47,24 +46,18 @@ namespace Subasta.Lib
 			pb2.Location = new Point(Width - pb2.Width, (Height/2) - pb2.Height/2);
 			pb4.Location = new Point(0, (Height/2) - pb4.Height/2);
 
-			Image image = _imagesLoader.GetImage("Player.png");
+			Image image = _mediaProvider.GetImage(GameMediaType.Player);
 			pb1.Image = pb2.Image = pb3.Image = pb4.Image = image;
 			pb1.SizeMode = pb2.SizeMode = pb3.SizeMode = pb4.SizeMode = PictureBoxSizeMode.StretchImage;
 
-			pbPetar.Image = _imagesLoader.GetImage("petar.jpg");
+			pbPetar.Image = _mediaProvider.GetImage(GameMediaType.Petar);
 			pbPetar.SizeMode = PictureBoxSizeMode.StretchImage;
 			pbPetar.Visible = false;
 
 			lblInfo.Left = 0;
 			lblInfo.Top = Height - lblInfo.Height;
 		}
-
-		private void LoadImages(IResourceReadingUtils imagesLoader)
-		{
-			_imagesLoader = imagesLoader;
-			_imagesLoader.LoadCardImages(imageList, new Size(50, 70));
-		}
-
+		
 		private void SuscribeToEvents()
 		{
 			IGameHandler gameHandler = _gameSetHandler.GameHandler;
@@ -203,7 +196,7 @@ namespace Subasta.Lib
 			Point startPoint = Point.Empty;
 
 			startPoint = GetPlayerCardsStartPaintingPoint(player, player.Cards.Length);
-			Image imgReverso = imageList.Images["reverso"];
+			Image imgReverso = _mediaProvider.GetImage(GameMediaType.Reverso);
 			var imgReversoV = (Image) imgReverso.Clone();
 			imgReversoV.RotateFlip(RotateFlipType.Rotate90FlipX);
 			for (int index = 0; index < player.Cards.Length; index++)
@@ -228,7 +221,7 @@ namespace Subasta.Lib
 				}
 
 				ICard card = player.Cards[index];
-				Image image = player.PlayerNumber == 1 ? (Image) imageList.Images[card.ToShortString()].Clone() : imgReverso;
+				Image image = player.PlayerNumber == 1 ? (Image) _mediaProvider.GetCard(card.ToShortString()): imgReverso;
 				PictureBox control = CreatePictureBoxControl(location, size, card, image);
 			}
 
@@ -428,7 +421,7 @@ namespace Subasta.Lib
 			}
 
 			//image
-			var image = (Image) imageList.Images[card.ToShortString()].Clone();
+			var image = _mediaProvider.GetCard(card.ToShortString());
 			switch (playerNumber)
 			{
 				case 2:
