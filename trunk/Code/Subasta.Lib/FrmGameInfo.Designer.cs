@@ -37,13 +37,13 @@
 			this.grpPuntos24 = new System.Windows.Forms.GroupBox();
 			this.lblPuntos24 = new System.Windows.Forms.Label();
 			this.grpFirstPlayer = new System.Windows.Forms.GroupBox();
-			this.txtBazas = new System.Windows.Forms.TextBox();
 			this.lblFirstPlayer = new System.Windows.Forms.Label();
 			this.grpPlayerBets = new System.Windows.Forms.GroupBox();
 			this.lblPlayerBets = new System.Windows.Forms.Label();
 			this.grpPuntos = new System.Windows.Forms.GroupBox();
 			this.lblPuntos = new System.Windows.Forms.Label();
 			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
+			this.ucTricks1 = new Subasta.Lib.UserControls.UcTricks();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
 			this.grpPtos13.SuspendLayout();
@@ -56,7 +56,7 @@
 			// grpPlayerTurn
 			// 
 			this.grpPlayerTurn.Controls.Add(this.lblTurn);
-			this.grpPlayerTurn.Location = new System.Drawing.Point(12, 12);
+			this.grpPlayerTurn.Location = new System.Drawing.Point(14, 12);
 			this.grpPlayerTurn.Name = "grpPlayerTurn";
 			this.grpPlayerTurn.Size = new System.Drawing.Size(197, 47);
 			this.grpPlayerTurn.TabIndex = 0;
@@ -138,7 +138,6 @@
 			// 
 			// grpFirstPlayer
 			// 
-			this.grpFirstPlayer.Controls.Add(this.txtBazas);
 			this.grpFirstPlayer.Controls.Add(this.lblFirstPlayer);
 			this.grpFirstPlayer.Location = new System.Drawing.Point(14, 65);
 			this.grpFirstPlayer.Name = "grpFirstPlayer";
@@ -146,16 +145,6 @@
 			this.grpFirstPlayer.TabIndex = 2;
 			this.grpFirstPlayer.TabStop = false;
 			this.grpFirstPlayer.Text = "Jugador sale";
-			// 
-			// txtBazas
-			// 
-			this.txtBazas.Location = new System.Drawing.Point(-2, -35);
-			this.txtBazas.Multiline = true;
-			this.txtBazas.Name = "txtBazas";
-			this.txtBazas.ReadOnly = true;
-			this.txtBazas.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-			this.txtBazas.Size = new System.Drawing.Size(197, 150);
-			this.txtBazas.TabIndex = 4;
 			// 
 			// lblFirstPlayer
 			// 
@@ -216,13 +205,20 @@
 			this.ucSaySelector1.Size = new System.Drawing.Size(207, 447);
 			this.ucSaySelector1.TabIndex = 4;
 			// 
+			// ucTricks1
+			// 
+			this.ucTricks1.Location = new System.Drawing.Point(0, 0);
+			this.ucTricks1.Name = "ucTricks1";
+			this.ucTricks1.Size = new System.Drawing.Size(197, 166);
+			this.ucTricks1.TabIndex = 5;
+			// 
 			// FrmGameInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(221, 677);
 			this.ControlBox = false;
-			this.Controls.Add(this.ucSaySelector1);
+			this.Controls.Add(this.ucTricks1);
 			this.Controls.Add(this.grpPuntos);
 			this.Controls.Add(this.grpPlayerBets);
 			this.Controls.Add(this.grpFirstPlayer);
@@ -230,6 +226,7 @@
 			this.Controls.Add(this.grpPtos13);
 			this.Controls.Add(this.grpTrump);
 			this.Controls.Add(this.grpPlayerTurn);
+			this.Controls.Add(this.ucSaySelector1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGameInfo";
 			this.ShowIcon = false;
@@ -270,7 +267,7 @@
 		private System.Windows.Forms.Label lblPlayerBets;
 		private System.Windows.Forms.GroupBox grpPuntos;
 		private System.Windows.Forms.Label lblPuntos;
-		private System.Windows.Forms.TextBox txtBazas;
 		private UserControls.UcSaySelector ucSaySelector1;
+		private UserControls.UcTricks ucTricks1;
 		}
 	}

@@ -24,10 +24,8 @@ namespace Subasta.Lib
 			_gameSetHandler.GameHandler.GameSaysStatusChanged += GameHandler_GameSaysStatusChanged;
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
-			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
-			
-			
-			
+			ucTricks1.Location = ucSaySelector1.Location;
+
 			InitializeCustomUserControls();
 
 		}
@@ -40,32 +38,6 @@ namespace Subasta.Lib
 				userControl.Initialize();
 			}
 		}
-		
-		void GameHandler_HandCompleted(IExplorationStatus status)
-		{
-			
-			string t1="---", t2="---";
-			if(status.LastCompletedHand.Declaration.HasValue)
-			{
-				var target = status.LastCompletedHand.Declaration.Value.ToString().SeparateCamelCase();
-				if(status.LastCompletedHand.TeamWinner==1)
-					t1 = target+"*";
-				else
-					t2 = "*"+target;
-			}
-
-			else
-			{
-			if (status.LastCompletedHand.TeamWinner == 1)
-				t1 = "*gana*";
-			else
-				t2 = "*gana*";
-			}
-
-			txtBazas.PerformSafely(x => x.Text += WriteBaza(t1,t2) );
-		}
-
-
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
@@ -100,7 +72,7 @@ namespace Subasta.Lib
 		{
 			this.PerformSafely(x =>
 			                   {
-							   grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = grpPlayerBets.Visible = grpPuntos.Visible = false;
+							   grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible =  grpPlayerBets.Visible = grpPuntos.Visible = false;
 							   lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
 			                   });
 		
@@ -112,8 +84,8 @@ namespace Subasta.Lib
 			
 			this.PerformSafely(x =>
 			                   {
-			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible = txtBazas.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
-								txtBazas.Text = WriteBaza("J1&3","J2&4");
+			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
+								
 			                   	lblPuntos13.Text = lblPuntos24.Text = "0";
 			                   	lblTrump.Text = _gameSetHandler.GameHandler.Trump.Name;
 			                   	lblPlayerBets.Text = _gameSetHandler.GameHandler.GetPlayer(
@@ -124,11 +96,6 @@ namespace Subasta.Lib
 			                   	lblTrump.Visible = true;
 			                   });
 
-		}
-
-		private static string WriteBaza(string infoT1, string infoT2)
-		{
-			return string.Format("{0} - {1}{2}", infoT1.PadLeft(10), infoT2.PadRight(10),Environment.NewLine);
 		}
 
 		private void FrmSay_Load(object sender, EventArgs e)
