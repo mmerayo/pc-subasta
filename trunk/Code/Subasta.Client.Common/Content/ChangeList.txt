@@ -1,9 +1,7 @@
-﻿05/05/2014
--Creado formulario ChangeList
--Reducir Flickering->Implementación Double Buffering para pintado del tablero de juego.
--Corregido bug: el usuario puede cantar una declaracion ya usada
--Feedback de usuario del jugador que apuesta, el palo, jugador sale, y otros
--Implementadas ligeras optimizaciones en la disposición de recursos 
+﻿07/05/2014
+-Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
+	implementacion final 
+-Optimizados tipos de datos para representar los calculos como primera aproximacion para aligerar el peso en memoria
 
 06/05/2014
 - Arreglado error cuando el usuario marca Una Mas, reinicia contador del marque
@@ -11,8 +9,13 @@
 - Arreglado error: el orden de las cartas en la mano cambia despues del primer movimiento
 - Optimizacion en disposicion de recursos de imagen
 
-07/05/2014
--Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
-	implementacion final 
--Optimizados tipos de datos para representar los calculos
+05/05/2014
+-Creado formulario ChangeList
+-Reducir Flickering->Implementación Double Buffering para pintado del tablero de juego.
+-Corregido bug: el usuario puede cantar una declaracion ya usada
+-Feedback de usuario del jugador que apuesta, el palo, jugador sale, y otros
+-Implementadas ligeras optimizaciones en la disposición de recursos 
+
+
+
 
