@@ -46,8 +46,11 @@ namespace Subasta.Lib
 			pb2.Location = new Point(Width - pb2.Width, (Height/2) - pb2.Height/2);
 			pb4.Location = new Point(0, (Height/2) - pb4.Height/2);
 
-			Image image = _mediaProvider.GetImage(GameMediaType.Player);
-			pb1.Image = pb2.Image = pb3.Image = pb4.Image = image;
+			pb1.Image = _mediaProvider.GetImage(GameMediaType.Jugador1);
+			pb2.Image = _mediaProvider.GetImage(GameMediaType.Jugador2);
+			pb3.Image = _mediaProvider.GetImage(GameMediaType.Jugador3);
+			pb4.Image = _mediaProvider.GetImage(GameMediaType.Jugador4);
+
 			pb1.SizeMode = pb2.SizeMode = pb3.SizeMode = pb4.SizeMode = PictureBoxSizeMode.StretchImage;
 
 			pbPetar.Image = _mediaProvider.GetImage(GameMediaType.Petar);

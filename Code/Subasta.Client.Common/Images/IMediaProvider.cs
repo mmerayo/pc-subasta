@@ -7,7 +7,10 @@ namespace Subasta.Client.Common.Images
 		Player,
 		Petar,
 		Reverso,
-		Card
+		Jugador1,
+		Jugador2,
+		Jugador3,
+		Jugador4,
 	}
 	
 	public interface IMediaProvider

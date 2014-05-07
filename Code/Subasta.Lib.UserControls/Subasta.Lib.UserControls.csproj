@@ -61,6 +61,12 @@
     <Compile Include="UcGameSets.Designer.cs">
       <DependentUpon>UcGameSets.cs</DependentUpon>
     </Compile>
+    <Compile Include="UcPlayerOverview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcPlayerOverview.Designer.cs">
+      <DependentUpon>UcPlayerOverview.cs</DependentUpon>
+    </Compile>
     <Compile Include="UcSaySelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UcGameSets.resx">
       <DependentUpon>UcGameSets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcPlayerOverview.resx">
+      <DependentUpon>UcPlayerOverview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UcSaySelector.resx">
       <DependentUpon>UcSaySelector.cs</DependentUpon>

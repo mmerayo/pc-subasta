@@ -39,7 +39,7 @@
 		// 
 		// txtBazas
 		// 
-		this.txtBazas.BackColor = System.Drawing.SystemColors.ActiveCaption;
+		this.txtBazas.BackColor = System.Drawing.Color.White;
 		this.txtBazas.Location = new System.Drawing.Point(0, 0);
 		this.txtBazas.Multiline = true;
 		this.txtBazas.Name = "txtBazas";
