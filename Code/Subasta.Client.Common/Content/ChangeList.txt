@@ -12,6 +12,6 @@
 - Optimizacion en disposicion de recursos de imagen
 
 07/05/2014
--Iniciada la separacion de varios elementos de interfaz en controles individuales para iniciar su
+-Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
 	implementacion final 
 
