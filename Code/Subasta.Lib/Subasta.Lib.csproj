@@ -183,6 +183,10 @@
       <Project>{9115547E-2CB4-457D-9D09-678EB35D9A93}</Project>
       <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Subasta.Lib.UserControls\Subasta.Lib.UserControls.csproj">
+      <Project>{3D8E0C11-F840-4B68-87BD-35C76EB2EBF8}</Project>
+      <Name>Subasta.Lib.UserControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
