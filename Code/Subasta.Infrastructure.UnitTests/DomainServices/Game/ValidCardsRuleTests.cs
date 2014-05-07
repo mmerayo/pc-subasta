@@ -113,7 +113,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 				var playerPlays = 1;
 				foreach (var existingCard in currentHandCards)
 				{
-					_hand.Add(playerPlays, existingCard);
+					_hand.Add((byte)playerPlays, existingCard);
 					SetNextPlayer(ref playerPlays);
 				}
 

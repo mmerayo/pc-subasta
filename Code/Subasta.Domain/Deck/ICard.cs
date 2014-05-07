@@ -3,8 +3,8 @@
 	public interface ICard
 	{
 		ISuit Suit { get; }
-		int Number { get; }
-		int Value { get; }
+		byte Number { get; }
+		byte Value { get; }
 	    string ToShortString();
 		bool IsAbsSmallerThan(ICard card);
 	}

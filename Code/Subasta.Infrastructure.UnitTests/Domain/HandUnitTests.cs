@@ -40,7 +40,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			int playerPlays = 1 + existingCards.Length;
 
 			if (playerPlays > 4) playerPlays = 1;
-			return _context.Sut.Add(playerPlays, newCard);
+			return _context.Sut.Add((byte)playerPlays, newCard);
 		}
 
 		public static IEnumerable Can_AddCard_TestCases()
@@ -255,7 +255,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			{
 				foreach (var existingCard in existingCards)
 				{
-					Sut.Add(playerPlays, existingCard);
+					Sut.Add((byte)playerPlays, existingCard);
 					SetNextPlayer(ref playerPlays);
 				}
 

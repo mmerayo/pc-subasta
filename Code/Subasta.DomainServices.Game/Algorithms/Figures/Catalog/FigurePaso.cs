@@ -25,12 +25,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 
-		protected override int PrimaryPointsBet
+		protected override byte PrimaryPointsBet
 		{
 			get { return 0; }
 		}
 
-		protected override int SecondaryPointsBet
+		protected override byte SecondaryPointsBet
 		{
 			get
 			{
@@ -58,7 +58,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return true; }
 		}
 
-		public override bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
+		public override bool IsAvailable(ISaysStatus saysStatus, byte normalizedTopPoints)
 		{
 			return !saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == SayKind.Paso);
 

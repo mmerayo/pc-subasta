@@ -14,7 +14,7 @@ namespace Subasta.Infrastructure.Domain
 			{
 				var cards = new ICard[40];
 				var idx = 0;
-				for (var number = 1; number <= 12; number++)
+				for (byte number = 1; number <= 12; number++)
 				{
 					foreach (var suit in Suit.Suits)
 					{

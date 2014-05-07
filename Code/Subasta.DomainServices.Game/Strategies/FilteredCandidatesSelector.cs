@@ -12,7 +12,7 @@ namespace Subasta.DomainServices.Game.Strategies
 		{
 		}
 
-		public override ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
+		public override ICard[] GetCandidates(IExplorationStatus currentStatus, byte playerPosition)
 		{
 			//TODO: Create filter for non consecutives
 			ICard[] validMoves = base.GetCandidates(currentStatus, playerPosition);

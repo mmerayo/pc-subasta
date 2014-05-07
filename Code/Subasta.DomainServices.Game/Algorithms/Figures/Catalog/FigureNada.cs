@@ -9,7 +9,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.Cuatro; }
 		}
 
-		public override bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
+		public override bool IsAvailable(ISaysStatus saysStatus, byte normalizedTopPoints)
 		{
 			return saysStatus.PointsBet < 4;
 		}

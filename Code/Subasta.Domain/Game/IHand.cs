@@ -6,21 +6,21 @@ namespace Subasta.Domain.Game
 {
     public interface IHand
 	{
-		/// <summary>
-		/// Adds a card
-		/// </summary>
-		/// <param name="playerPlays"></param>
-		/// <param name="candidate"></param>
-		/// <returns> the position of the card in the hand</returns>
-		int Add(int playerPlays, ICard candidate);
+	    /// <summary>
+	    /// Adds a card
+	    /// </summary>
+	    /// <param name="playerPlays"></param>
+	    /// <param name="candidate"></param>
+	    /// <returns> the position of the card in the hand</returns>
+	    byte Add(byte playerPlays, ICard candidate);
 		bool IsCompleted { get; }
-		int? PlayerWinner { get; }
-		int Points { get; }
+		byte? PlayerWinner { get; }
+		byte Points { get; }
 		bool IsStartedByTrump { get; }
 		ISuit StartedBySuit { get; }
 		ICard CardWinner { get; }
 		bool IsEmpty { get; }
-		int? TeamWinner { get; }
+		byte? TeamWinner { get; }
 		
 		/// <summary>
 		/// fallada
@@ -29,12 +29,12 @@ namespace Subasta.Domain.Game
 
 		ISuit Trump { get; }
 		Declaration? Declaration { get; }
-        int FirstPlayer { get; }
-		int LastPlayer { get; }
+		byte FirstPlayer { get; }
+		byte LastPlayer { get; }
 
-        int Sequence { get; }
-	    int DeclarationValue { get; }
-	    int LastPlayerPlayed { get; }
+		byte Sequence { get; }
+		byte DeclarationValue { get; }
+		byte LastPlayerPlayed { get; }
 	    ICard PlayerCard(int playerPosition);
 
 		IHand Clone();

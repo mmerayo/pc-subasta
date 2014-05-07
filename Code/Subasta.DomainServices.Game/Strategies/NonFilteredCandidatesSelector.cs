@@ -12,7 +12,7 @@ namespace Subasta.DomainServices.Game.Strategies
 			_validMoveRule = validMoveRule;
 		}
 
-		public virtual ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition)
+		public virtual ICard[] GetCandidates(IExplorationStatus currentStatus, byte playerPosition)
 		{
 			return _validMoveRule.GetValidMoves(currentStatus.PlayerCards(playerPosition), currentStatus.CurrentHand);
 		}

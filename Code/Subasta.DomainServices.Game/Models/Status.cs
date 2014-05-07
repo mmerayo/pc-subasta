@@ -16,7 +16,7 @@ namespace Subasta.DomainServices.Game.Models
 		private Guid _gameId;
 		private readonly ICardComparer _cardsComparer;
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
-		private int _turn = int.MinValue;
+		private byte? _turn = null;
 		private readonly ICard[][] _playerCards = new ICard[4][];
 		private List<IHand> _hands;
 		private bool _gameCompleted;
@@ -28,7 +28,7 @@ namespace Subasta.DomainServices.Game.Models
 			_cardsComparer = cardsComparer;
 			_declarationsChecker = declarationsChecker;
 			LogicalComplete = logicalComplete;
-			PlayerBets = int.MinValue;
+			PlayerBets = byte.MinValue;
 		}
 
 		private Status(ICardComparer cardsComparer, ISuit trump, IPlayerDeclarationsChecker declarationsChecker,bool logicalComplete=false)
@@ -64,9 +64,9 @@ namespace Subasta.DomainServices.Game.Models
 		public ISuit Trump { get; private set; }
 
 		//el jugador que la pone
-		public int PlayerBets { get; private set; }
+		public byte PlayerBets { get; private set; }
 
-		public int TeamBets
+		public byte TeamBets
 		{
 			get
 			{
@@ -76,14 +76,14 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public int TotalMoves
+		public byte TotalMoves
 		{
-			get { return ((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null); }
+			get { return (byte) (((Hands.Count - 1)*4) + CurrentHand.CardsByPlaySequence().Count(x=>x!=null)); }
 		}
 		//completes the game by logic even if not all the cards were played
 		public bool LogicalComplete { get; set; }
 
-		public int Turn
+		public byte Turn
 		{
 			set
 			{
@@ -92,9 +92,9 @@ namespace Subasta.DomainServices.Game.Models
 			}
 			get
 			{
-				if (_turn == int.MinValue)
+				if (!_turn.HasValue )
 					throw new InvalidOperationException("Turn has not been set");
-				return _turn;
+				return _turn.Value;
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public IEnumerable<Declaration> GetPlayerDeclarables(int playerNumber)
+		public IEnumerable<Declaration> GetPlayerDeclarables(byte playerNumber)
 		{
 			//	TODO: USE IPLAYER INSTEAD OF ARRAYS AND THE PLAYER TO KEEP DE INFO
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
@@ -163,7 +163,7 @@ namespace Subasta.DomainServices.Game.Models
 			if (TeamBets != last.TeamWinner)
 				return result;
 
-			var teamPlayers = new int[2];
+			var teamPlayers = new byte[2];
 			if (last.TeamWinner== 1)
 			{
 				teamPlayers[0] = 1;
@@ -200,7 +200,7 @@ namespace Subasta.DomainServices.Game.Models
 			get { return _gameId; }
 		}
 
-		public int PointsBet { get; private set; }
+		public byte PointsBet { get; private set; }
 		public bool IsCompleted
 		{
 			get
@@ -222,7 +222,7 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public int TurnTeam
+		public byte TurnTeam
 		{
 			get
 			{
@@ -232,7 +232,7 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public int TeamWinner
+		public byte TeamWinner
 		{
 			get
 			{
@@ -264,8 +264,8 @@ namespace Subasta.DomainServices.Game.Models
 					var other = PlayerBets + 1;
 					if (other > 4) other = 1;
 					// 130 + POTENTIAL DECLARATION POINTS TEAM BETS - BETPOINTS
-					int maxPotential = 130;
-					for (int i = 1; i <= 4; i++)
+					var maxPotential = 130;
+					for (byte i = 1; i <= 4; i++)
 						if (IsInTeamBets(i))
 						{
 							IEnumerable<Declaration> declarations = Enum.GetValues(typeof (Declaration)).Cast<Declaration>().Where(
@@ -281,12 +281,12 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		private int PlayerTeam(int playerNumber)
+		private byte PlayerTeam(int playerNumber)
 		{
-			return playerNumber == 1 || playerNumber == 3 ? 1 : 2;
+			return (byte)(playerNumber == 1 || playerNumber == 3 ? 1 : 2);
 		}
 
-		public bool IsInTeamBets(int playerPosition)
+		public bool IsInTeamBets(byte playerPosition)
 		{
 			if (PlayerBets == 1 || PlayerBets == 3)
 				return playerPosition == 1 || playerPosition == 3;
@@ -294,9 +294,9 @@ namespace Subasta.DomainServices.Game.Models
 		}
 
 		//TODO: move to its own resolver
-		public int PlayerMateOf(int playerWinner)
+		public byte PlayerMateOf(byte playerWinner)
 		{
-			int matePlayer;
+			byte matePlayer;
 			switch (playerWinner)
 			{
 				case 1:
@@ -324,12 +324,12 @@ namespace Subasta.DomainServices.Game.Models
 
 	
 
-		public int NormalizedPointsBet
+		public byte NormalizedPointsBet
 		{
-			get { return (int)Math.Truncate((double)(PointsBet/10)); }
+			get { return (byte)Math.Truncate((double)(PointsBet/10)); }
 		}
 
-		public int LastPlayerMoved
+		public byte LastPlayerMoved
 		{
 			get
 			{
@@ -367,7 +367,7 @@ namespace Subasta.DomainServices.Game.Models
 
 			if (_hands.Count == 10 || _playerCards.All(x => x.Length == 0))
 				return;
-			var item = new Hand(_cardsComparer, Trump,_hands.Count+1);
+			var item = new Hand(_cardsComparer, Trump,(byte)( _hands.Count+1));
 			_hands.Add(item);
 		}
 
@@ -383,13 +383,13 @@ namespace Subasta.DomainServices.Game.Models
 				throw new InvalidOperationException("Status is not completed");
 		}
 
-		public ICard[] PlayerCards(int playerPosition)
+		public ICard[] PlayerCards(byte playerPosition)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 			return _playerCards[playerPosition - 1];
 		}
 
-		public void SetCards(int playerPosition, ICard[] cards)
+		public void SetCards(byte playerPosition, ICard[] cards)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
@@ -408,27 +408,27 @@ namespace Subasta.DomainServices.Game.Models
 		/// </summary>
 		/// <param name="playerPosition"></param>
 		/// <returns></returns>
-		public int SumTotal(int playerPosition)
+		public byte SumTotal(byte playerPosition)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 
-			var result= Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
+			var result= (byte)Hands.Where(x => x.IsCompleted && x.PlayerWinner == playerPosition).Sum(x => x.Points);
 			if(Hands.Count>=10 && Hands[9].IsCompleted && Hands[9].PlayerWinner==playerPosition)
 				result += 10;
 			return result;
 		}
 
-		public int SumTotalTeam(int teamNumber)
+		public byte SumTotalTeam(byte teamNumber)
 		{
 			ThrowIfNotValidTeamNumber(teamNumber);
 
 			if (teamNumber == 1 || teamNumber == 3)
-				return SumTotal(1) + SumTotal(3);
-			return SumTotal(2) + SumTotal(4);
+				return (byte)(SumTotal(1) + SumTotal(3));
+			return (byte)(SumTotal(2) + SumTotal(4));
 		}
 
 
-		public void RemovePlayerCard(int playerPosition, ICard card)
+		public void RemovePlayerCard(byte playerPosition, ICard card)
 		{
 			var playerCards = PlayerCards(playerPosition).ToList();
 			playerCards.RemoveAt(playerCards.IndexOf(card));
@@ -448,7 +448,7 @@ namespace Subasta.DomainServices.Game.Models
 				throw new ArgumentOutOfRangeException("teamNumber");
 		}
 
-		public void SetPlayerBet(int playerPosition, int pointsBet)
+		public void SetPlayerBet(byte playerPosition, byte pointsBet)
 		{
 			ThrowIfNotValidPlayerPosition(playerPosition);
 			if(pointsBet<0) throw new ArgumentOutOfRangeException("pointsBet","Must be 0 or higher");

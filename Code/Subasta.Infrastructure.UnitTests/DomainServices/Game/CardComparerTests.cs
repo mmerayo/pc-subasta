@@ -24,7 +24,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 
 		public static ICard GetCard(string suit, int number)
 		{
-			return new Card(GetSuit(suit), number);
+			return new Card(GetSuit(suit), (byte)number);
 		}
 
 		[Test, TestCaseSource("CanGetBest_TestCases")]

@@ -5,9 +5,9 @@ namespace Subasta.DomainServices.Game.Strategies
 {
 	internal class CandidatePlayer:ICandidatePlayer
 	{
-		private int NextPlayer(int playerPosition)
+		private byte NextPlayer(byte playerPosition)
 		{
-			var result = playerPosition + 1;
+			var result = (byte)(playerPosition + 1);
 
 			if (result == 5)
 				result = 1;
@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.Game.Strategies
 			return result;
 		}
 
-		public IExplorationStatus PlayCandidate(IExplorationStatus currentStatus, int playerPosition, ICard candidate)
+		public IExplorationStatus PlayCandidate(IExplorationStatus currentStatus, byte playerPosition, ICard candidate)
 		{
 			IExplorationStatus result = currentStatus.Clone();
 

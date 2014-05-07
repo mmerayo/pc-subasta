@@ -5,7 +5,7 @@ namespace Subasta.Infrastructure.Domain
 {
 	public  class Card : ICard
 	{
-		internal Card(ISuit suit, int number)
+		internal Card(ISuit suit, byte number)
 		{
 			Suit = suit;
 			Number = number;
@@ -18,10 +18,10 @@ namespace Subasta.Infrastructure.Domain
 		public Card(string shortId)
 		{
 			Suit=Domain.Suit.FromId(shortId[0]);
-			Number = int.Parse(shortId.Substring(1));
+			Number = byte.Parse(shortId.Substring(1));
 		}
 
-		public Card(string suitName, int number)
+		public Card(string suitName, byte number)
 			: this(Domain.Suit.FromName(suitName), number)
 		{
 			if (number == 8 || number == 9)
@@ -29,9 +29,9 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 
-		private int GetValue(int number)
+		private byte GetValue(int number)
 		{
-			int result;
+			byte result;
 			switch (number)
 			{
 				case 1:
@@ -65,17 +65,17 @@ namespace Subasta.Infrastructure.Domain
 		}
 		
 		public ISuit Suit { get;  private set; }
-		public int Number { get; private set; }
-		private int _value=int.MinValue;
-		public int Value
+		public byte Number { get; private set; }
+		private byte? _value=null;
+		public byte Value
 		{
 			get
 			{
-				if(_value==int.MinValue)
+				if(!_value.HasValue)
 				{
 					_value = GetValue(Number);
 				}
-				return _value;
+				return _value.Value;
 			}
 		}
 

@@ -5,6 +5,6 @@ namespace Subasta.DomainServices.Game
 {
 	public interface ICandidatesSelector
 	{
-		ICard[] GetCandidates(IExplorationStatus currentStatus, int playerPosition);
+		ICard[] GetCandidates(IExplorationStatus currentStatus, byte playerPosition);
 	}
 }

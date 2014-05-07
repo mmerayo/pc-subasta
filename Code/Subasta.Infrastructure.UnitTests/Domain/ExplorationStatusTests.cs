@@ -321,7 +321,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 				_sut.SetCards(2, _p2);
 				_sut.SetCards(3, _p3);
 				_sut.SetCards(4, _p4);
-				_sut.SetPlayerBet(_playerBet, 70);
+				_sut.SetPlayerBet((byte)_playerBet, 70);
 				if (_hands != null)
 				{
 					for (int index = 0; index < _hands.Length; index++)
@@ -342,7 +342,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			{
 				var hand = Fixture.CreateAnonymous<Hand>();
 			   
-				for (int i = 1; i <= 4; i++)
+				for (byte i = 1; i <= 4; i++)
 					hand.Add(i, cards[i - 1]);
 				
 				if(declaration.HasValue)

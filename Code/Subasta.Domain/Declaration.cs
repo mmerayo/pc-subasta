@@ -3,7 +3,7 @@
 namespace Subasta.Domain
 {
 //sorted by value
-	public enum Declaration
+	public enum Declaration:byte
 	{
 		Reyes=1,
 		Caballos,
@@ -16,9 +16,9 @@ namespace Subasta.Domain
 
 	public static class DeclarationValues
 	{
-		public static int ValueOf(Declaration declaration)
+		public static byte ValueOf(Declaration declaration)
 		{
-			int result = 0;
+			byte result = 0;
 
 			switch (declaration)
 			{

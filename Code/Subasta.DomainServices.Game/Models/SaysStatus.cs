@@ -11,17 +11,17 @@ namespace Subasta.DomainServices.Game.Models
 	{
 		private class Say : ISay
 		{
-			public Say(int playerNum, IFigure kind,int sequence)
+			public Say(byte playerNum, IFigure kind,byte sequence)
 			{
 				Figure = kind;
 				Sequence = sequence;
 				PlayerNum = playerNum;
 			}
 
-			public int PlayerNum { get; private set; }
-			public int PlayerTeamNum { get { return PlayerNum%2 == 1 ? 1 : 2; }}
+			public byte PlayerNum { get; private set; }
+			public byte PlayerTeamNum { get { return (byte) (PlayerNum%2 == 1 ? 1 : 2); }}
 			public IFigure Figure { get; private set; }
-			public int Sequence { get; private set; }
+			public byte Sequence { get; private set; }
 
 			public override string ToString()
 			{
@@ -30,7 +30,7 @@ namespace Subasta.DomainServices.Game.Models
 		}
 
 		private readonly IExplorationStatus _status;
-		private readonly int _firstPlayer;
+		private readonly byte? _firstPlayer;
 		private readonly ISayCard[] _cardsP1;
 		private readonly ISayCard[] _cardsP2;
 		private readonly ISayCard[] _cardsP3;
@@ -38,7 +38,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		private readonly List<ISay>_says=new List<ISay>();
 
-		public SaysStatus(IExplorationStatus status, int firstPlayer)
+		public SaysStatus(IExplorationStatus status, byte firstPlayer)
 		{
 			_status = status;
 			_status.LogicalComplete = false;
@@ -67,33 +67,33 @@ namespace Subasta.DomainServices.Game.Models
 		}
 
 
-		public int Turn
+		public byte Turn
 		{
 			get
 			{
 				ThrowIfCompleted();
 
-				int result = int.MinValue;
+				byte? result = null;
 				do
 				{
 					if (_says.Count == 0)
 						result = FirstPlayer;
-					else if (result == int.MinValue)
+					else if (!result.HasValue)
 						result = NextPlayer(_says.Last().PlayerNum);
 					else
-						result = NextPlayer(result);
+						result = NextPlayer(result.Value);
 
-				} while (PlayerHasPassed(result));
-				return result;
+				} while (PlayerHasPassed(result.Value));
+				return result.Value;
 			}
 		}
 
-		private bool PlayerHasPassed(int playerNum)
+		private bool PlayerHasPassed(byte playerNum)
 		{
 			return _says.Any(x => x.Figure.Say==SayKind.Paso && x.PlayerNum == playerNum);
 		}
 
-		private int NextPlayer(int playerNum)
+		private byte NextPlayer(byte playerNum)
 		{
 			playerNum += 1;
 			if (playerNum > 4)
@@ -114,12 +114,12 @@ namespace Subasta.DomainServices.Game.Models
 		}
 
 
-		public int PlayerBets
+		public byte PlayerBets
 		{
 			get { return _says.Last(x=>x.Figure.Say != SayKind.Paso).PlayerNum; }
 		}
 
-		public int PointsBet
+		public byte PointsBet
 		{
 			get
 			{
@@ -150,30 +150,30 @@ namespace Subasta.DomainServices.Game.Models
 					IFigure figure = _says[idx].Figure;
 					result += figure.PointsBet;
 				}
-				return result;
+				return (byte) result;
 			}
 		}
 
-		public int TurnTeam
+		public byte TurnTeam
 		{
-			get { return Turn%2 == 1 ? 1 : 2; }
+			get { return (byte) (Turn%2 == 1 ? 1 : 2); }
 		}
 
-		public int TeamBets
+		public byte TeamBets
 		{
-			get { return PlayerBets%2 == 1 ? 1 : 2; }
+			get { return (byte) (PlayerBets%2 == 1 ? 1 : 2); }
 		}
 
-		public int Sequences
+		public byte Sequences
 		{
 			get
 			{
 				var lastOrDefault = Says.LastOrDefault();
-				return lastOrDefault != null ? lastOrDefault.Sequence : 1;
+				return (byte)(lastOrDefault != null ? lastOrDefault.Sequence : 1);
 			}
 		}
 
-		public int LastSayPlayer
+		public byte LastSayPlayer
 		{
 			get
 			{
@@ -197,14 +197,14 @@ namespace Subasta.DomainServices.Game.Models
 			}
 		}
 
-		public int OtherTeam
+		public byte OtherTeam
 		{
-			get { return TurnTeam == 1 ? 2 : 1; }
+			get { return (byte)(TurnTeam == 1 ? 2 : 1); }
 		}
 
-		public int FirstPlayer
+		public byte FirstPlayer
 		{
-			get { return _firstPlayer; }
+			get { return _firstPlayer.Value; }
 		}
 
 		public ISaysStatus Clone()
@@ -213,9 +213,10 @@ namespace Subasta.DomainServices.Game.Models
 			return this;
 		}
 
-		public void Add(int playerNumber, IFigure figure)
+		public void Add(byte playerNumber, IFigure figure)
 		{
-			var item = new Say(playerNumber, figure, _says.Count > 0 ? _says.Max(x => x.Sequence) + 1 : 1);
+			var sequence = (byte)(_says.Count > 0 ? _says.Max(x => x.Sequence) + 1 : 1);
+			var item = new Say(playerNumber, figure, sequence);
 			_says.Add(item);
 		}
 
