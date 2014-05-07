@@ -135,7 +135,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 				lock (_syncLock)
 					if (!_expanded)
 					{
-						ICard[] candidates = _candidatesSelector.GetCandidates(ExplorationStatus, ExplorationStatus.Turn);
+						var candidates = _candidatesSelector.GetCandidates(ExplorationStatus, ExplorationStatus.Turn);
 						if (candidates.Length == 0)
 							throw new ApplicationException("No candidates!!");
 						Children = new List<TreeNode>();
@@ -207,15 +207,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			}
 
 			List<TreeNode> orderByDescending = treeNodes.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints).ToList();
-			//const double tolerance = 0.0001;
-			//if (orderByDescending.Count > 1 &&
-			//    (Math.Abs(orderByDescending[0]._nodeInfos[nodeInfoIdx].Coeficient -
-			//              orderByDescending[1]._nodeInfos[nodeInfoIdx].Coeficient) < tolerance))
-			//    {
-			//    var a = new[] { orderByDescending[0], orderByDescending[1] };
-			//    return a.OrderByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints).First();
-			//    }
-
+		
 			return orderByDescending.First();
 		}
 

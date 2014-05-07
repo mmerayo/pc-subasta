@@ -37,12 +37,12 @@
 			this.grpPuntos24 = new System.Windows.Forms.GroupBox();
 			this.lblPuntos24 = new System.Windows.Forms.Label();
 			this.grpFirstPlayer = new System.Windows.Forms.GroupBox();
+			this.txtBazas = new System.Windows.Forms.TextBox();
 			this.lblFirstPlayer = new System.Windows.Forms.Label();
 			this.grpPlayerBets = new System.Windows.Forms.GroupBox();
 			this.lblPlayerBets = new System.Windows.Forms.Label();
 			this.grpPuntos = new System.Windows.Forms.GroupBox();
 			this.lblPuntos = new System.Windows.Forms.Label();
-			this.txtBazas = new System.Windows.Forms.TextBox();
 			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
 			this.grpPlayerTurn.SuspendLayout();
 			this.grpTrump.SuspendLayout();
@@ -147,6 +147,16 @@
 			this.grpFirstPlayer.TabStop = false;
 			this.grpFirstPlayer.Text = "Jugador sale";
 			// 
+			// txtBazas
+			// 
+			this.txtBazas.Location = new System.Drawing.Point(-2, -35);
+			this.txtBazas.Multiline = true;
+			this.txtBazas.Name = "txtBazas";
+			this.txtBazas.ReadOnly = true;
+			this.txtBazas.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+			this.txtBazas.Size = new System.Drawing.Size(197, 150);
+			this.txtBazas.TabIndex = 4;
+			// 
 			// lblFirstPlayer
 			// 
 			this.lblFirstPlayer.AutoSize = true;
@@ -199,21 +209,11 @@
 			this.lblPuntos.TabIndex = 0;
 			this.lblPuntos.Text = "label1";
 			// 
-			// txtBazas
-			// 
-			this.txtBazas.Location = new System.Drawing.Point(6, 9);
-			this.txtBazas.Multiline = true;
-			this.txtBazas.Name = "txtBazas";
-			this.txtBazas.ReadOnly = true;
-			this.txtBazas.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-			this.txtBazas.Size = new System.Drawing.Size(197, 150);
-			this.txtBazas.TabIndex = 4;
-			// 
 			// ucSaySelector1
 			// 
-			this.ucSaySelector1.Location = new System.Drawing.Point(4, 122);
+			this.ucSaySelector1.Location = new System.Drawing.Point(4, 179);
 			this.ucSaySelector1.Name = "ucSaySelector1";
-			this.ucSaySelector1.Size = new System.Drawing.Size(205, 528);
+			this.ucSaySelector1.Size = new System.Drawing.Size(207, 447);
 			this.ucSaySelector1.TabIndex = 4;
 			// 
 			// FrmGameInfo

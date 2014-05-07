@@ -44,30 +44,19 @@ namespace Subasta.Lib.UserControls
 
 		private void _gameSetHandler_GameSaysCompleted(ISaysStatus status)
 		{
-			txtSays.PerformSafely(x =>
-			{
-				x.Visible = false;
-				x.Clear();
-			});
 			this.PerformSafely(x =>
 			{
-				txtMarques.Visible = false;
+				x.Visible = false;
 			});
-
 		}
 
 		private void _gameSetHandler_GameSaysStarted(ISaysStatus status)
 		{
 			this.PerformSafely(x =>
 			{
-				txtMarques.Visible = true;
-			});
-			txtSays.PerformSafely(x =>
-			{
 				x.Visible = true;
-				x.Clear();
-
 			});
+			
 		}
 
 		private void PaintFigures(IFiguresCatalog figuresCatalog)
@@ -104,12 +93,10 @@ namespace Subasta.Lib.UserControls
 
 		private void EnableSayInteraction(bool enable)
 		{
-			grpSayOptions.PerformSafely(x => x.Visible = enable);
-
-			grpSayOptions.PerformSafely(x => x.BringToFront());
-			btnSelect.PerformSafely(x => x.Enabled = enable);
-			cmbSays.PerformSafely(x => x.Enabled = enable);
-			this.PerformSafely(x => x.Visible = enable);
+			this.PerformSafely(x =>
+			{	grpSayOptions.BringToFront();
+				btnSelect.Enabled= cmbSays.Enabled= enable;
+			});
 		}
 		private void btnSelect_Click(object sender, EventArgs e)
 		{
