@@ -18,9 +18,6 @@ namespace Subasta.Client.Common.Images
 
 			foreach (var value in Enum.GetValues(typeof(GameMediaType)).Cast<GameMediaType>())
 			{
-				if(value==GameMediaType.Card)
-					continue;
-
 				resourceReader.LoadSingleImage(_imageList, value.ToString(), resourceReader.GetResourceName(_fileNameMap[value]));
 			}
 		}
@@ -30,6 +27,10 @@ namespace Subasta.Client.Common.Images
 			_fileNameMap.Add(GameMediaType.Petar,"petar.jpg");
 			_fileNameMap.Add(GameMediaType.Reverso,"reverso.jpg");
 			_fileNameMap.Add(GameMediaType.Player, "player.png");
+			_fileNameMap.Add(GameMediaType.Jugador1, "jugador1.png");
+			_fileNameMap.Add(GameMediaType.Jugador2, "jugador2.png");
+			_fileNameMap.Add(GameMediaType.Jugador3, "jugador3.png");
+			_fileNameMap.Add(GameMediaType.Jugador4, "jugador4.png");
 		}
 
 		public Image GetImage(GameMediaType gameMediaType)

@@ -153,6 +153,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\ChangeList.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Images\Jugador1.png" />
+    <EmbeddedResource Include="Content\Images\Jugador2.png" />
+    <EmbeddedResource Include="Content\Images\Jugador3.png" />
+    <EmbeddedResource Include="Content\Images\Jugador4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
