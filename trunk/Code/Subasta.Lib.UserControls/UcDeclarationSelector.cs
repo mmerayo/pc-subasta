@@ -36,10 +36,12 @@ namespace Subasta.Lib.UserControls
 
 		private void EnableDeclarationsInteraction(bool enable)
 		{
+			this.PerformSafely(x => x.Visible = enable);
 			btnDeclarations.PerformSafely(x => x.Enabled = enable);
 			cmbDeclarations.PerformSafely(x => x.Enabled = enable);
 			grpDeclarations.PerformSafely(x => x.Visible = enable);
 			grpDeclarations.PerformSafely(x => x.BringToFront());
+			
 
 		}
 

@@ -7,21 +7,16 @@ using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Domain.Game;
 using Subasta.Lib.Interaction;
+using Subasta.Lib.UserControls;
 
 namespace Subasta.Lib
 {
 	public partial class FrmGameInfo : Form
 	{
 		private readonly IGameSetHandler _gameSetHandler;
-		private readonly IFiguresCatalog _figuresCatalog;
-		private readonly IUserInteractionManager _interactionManager;
-		public FrmGameInfo(IGameSetHandler gameSetHandler,
-		IFiguresCatalog figuresCatalog
-		, IUserInteractionManager interactionManager)
+		public FrmGameInfo(IGameSetHandler gameSetHandler)
 		{
 			_gameSetHandler = gameSetHandler;
-			_figuresCatalog = figuresCatalog;
-			_interactionManager = interactionManager;
 			InitializeComponent();
 
 			_gameSetHandler.GameSaysStarted += _gameSetHandler_GameSaysStarted;
@@ -30,89 +25,22 @@ namespace Subasta.Lib
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 			_gameSetHandler.GameHandler.HandCompleted += GameHandler_HandCompleted;
-			_gameSetHandler.GameHandler.HumanPlayerSayNeeded += GameHandler_HumanPlayerSayNeeded;
 			
-			grpSayOptions.BringToFront();
-			PaintFigures(figuresCatalog);
-			EnableSayInteraction(false);
+			
+			
+			InitializeCustomUserControls();
+
 		}
 
-		#region Says
-		private void EnableSayInteraction(bool enable)
-			{
-			grpSayOptions.PerformSafely(x => x.Visible = enable);
-
-			grpSayOptions.PerformSafely(x => x.BringToFront());
-			btnSelect.PerformSafely(x => x.Enabled = enable);
-			cmbSays.PerformSafely(x => x.Enabled = enable);
-			}
-		private void btnSelect_Click(object sender, EventArgs e)
-			{
-			_interactionManager.InputProvided(() =>
-			{
-				var selectedValue = (SayKind)cmbSays.SelectedValue;
-
-				var result = selectedValue != SayKind.UnaMas
-					? _figuresCatalog.GetFigureJustPoints((int) selectedValue)
-					: _figuresCatalog.Figures.First(x => x.Say == SayKind.Una);
-				EnableSayInteraction(false);
-				return result;
-			});
-			}
-		private IFigure GameHandler_HumanPlayerSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
-			{
-			return OnSayNeeded(source, saysStatus);
-			}
-		private void LoadSayKinds(ISaysStatus saysStatus)
-			{
-			IEnumerable<SayKind> sayKinds =
-				Enum.GetValues(typeof(SayKind))
-					.Cast<SayKind>()
-					.Where(
-						x =>
-						(int)x > saysStatus.PointsBet || x == SayKind.Paso ||
-						(saysStatus.PointsBet > 0 && saysStatus.PointsBet < 25 && x == SayKind.UnaMas));
-			var source = sayKinds.ToDictionary(value => value, value => value.ToString().SeparateCamelCase());
-
-			cmbSays.PerformSafely(x => cmbSays.DataSource = new BindingSource(source, null));
-			cmbSays.PerformSafely(x => cmbSays.ValueMember = "Key");
-			cmbSays.PerformSafely(x => cmbSays.DisplayMember = "Value");
-
-			}
-
-		private IFigure OnSayNeeded(IHumanPlayer source, ISaysStatus saysStatus)
+		private void InitializeCustomUserControls()
 		{
-			LoadSayKinds(saysStatus);
-			EnableSayInteraction(true);
-
-			var result = _interactionManager.WaitUserInput<IFigure>();
-			if (result.PointsBet == 1 && saysStatus.PointsBet >= 1)
+			var userControls = this.FindControls<ICustomUserControl>();
+			foreach (var userControl in userControls)
 			{
-				//force using alternative, defect in algorithm
-				result.IsAvailable(saysStatus, saysStatus.PointsBet);
+				userControl.Initialize();
 			}
-
-			return result;
 		}
-
-		#endregion
-
-		private void PaintFigures(IFiguresCatalog figuresCatalog)
-		{
-			figuresCatalog.Init();
-			var figures = figuresCatalog.Figures.Take(figuresCatalog.Figures.Count()-3);
-			string text = string.Empty;
-			int i = 1;
-			foreach (var figure in figures)
-			{
-				text += string.Format("{3}.{0}-{1}{2}", figure.Say.ToString().SeparateCamelCase(),
-				                      figure.GetType().Name.SeparateCamelCase().Replace("Figure ", string.Empty),
-				                      Environment.NewLine, i++);
-			}
-
-			txtMarques.Text = text;
-		}
-
+		
 		void GameHandler_HandCompleted(IExplorationStatus status)
 		{
 			
@@ -157,19 +85,10 @@ namespace Subasta.Lib
 		{
 			if (!status.IsCompleted)
 				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-			UpdateMarques(status);
-
-			Thread.Sleep(TimeSpan.FromSeconds(0.5));//TODO: TO CONFIGURATION source
+			
 		}
 
-		private void UpdateMarques(ISaysStatus status)
-		{
-			ISay last = status.Says.Last();
-			txtSays.PerformSafely(
-				x =>
-				x.Text +=
-				string.Format("Jugador {0}:{1}, Van:{3}{2}", last.PlayerNum, last.Figure.ToString().SeparateCamelCase(), Environment.NewLine,status.PointsBet));
-		}
+		
 
 		private void UpdateTurn(IPlayer player)
 		{
@@ -182,25 +101,15 @@ namespace Subasta.Lib
 			this.PerformSafely(x =>
 			                   {
 							   grpPuntos24.Visible = grpPtos13.Visible = grpTrump.Visible = txtBazas.Visible = grpPlayerBets.Visible = grpPuntos.Visible = false;
-			                   	txtMarques.Visible = true;
+							   lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
 			                   });
-			txtSays.PerformSafely(x =>
-			                      {
-			                      	x.Visible = true;
-			                      	x.Clear();
-			                      	lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
-
-			                      });
+		
 			UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
 		}
 
 		private void _gameSetHandler_GameSaysCompleted(ISaysStatus status)
 		{
-			txtSays.PerformSafely(x =>
-			                      {
-			                      	x.Visible = false;
-			                      	x.Clear();
-			                      });
+			
 			this.PerformSafely(x =>
 			                   {
 			                   	grpPtos13.Visible = grpPuntos24.Visible = grpTrump.Visible = txtBazas.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
@@ -213,7 +122,6 @@ namespace Subasta.Lib
 			                   	lblPuntos.Text = _gameSetHandler.GameHandler.Status.NormalizedPointsBet.ToString();
 
 			                   	lblTrump.Visible = true;
-			                   	txtMarques.Visible = false;
 			                   });
 
 		}
