@@ -12,8 +12,8 @@ namespace Subasta.Domain.Game
 		ICard[] Cards { get; set; }
 		PlayerType PlayerType { get; }
 		string Name { get; set; }
-		int TeamNumber { get; set; }
-		int PlayerNumber { get; set; }
+		byte TeamNumber { get; set; }
+		byte PlayerNumber { get; set; }
 		NodeResult ChooseMove(IExplorationStatus currentStatus,out bool peta);
 
 		Declaration? ChooseDeclaration(IExplorationStatus previousStatus);

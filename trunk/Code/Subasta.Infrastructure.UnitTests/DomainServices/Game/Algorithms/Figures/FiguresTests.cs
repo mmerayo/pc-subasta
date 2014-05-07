@@ -36,7 +36,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Algorithms.Figure
 			{
 				_context.WithPlayerHavingFigure(hasTheFigure);
 			}
-			bool result = _context.Sut.IsAvailable(_context.Status, topPointsLimit);
+			bool result = _context.Sut.IsAvailable(_context.Status,(byte) topPointsLimit);
 			_context.VerifyExpectations();
 
 			return result;

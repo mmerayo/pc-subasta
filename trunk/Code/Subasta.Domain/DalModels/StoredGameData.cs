@@ -2,7 +2,7 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.DalModels
 {
-	public enum PlayerType
+	public enum PlayerType:byte
 	{
 		Human=0,
 		Mcts

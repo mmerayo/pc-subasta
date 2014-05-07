@@ -6,13 +6,13 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 {
 	class FigureJustPoints:IFigure
 	{
-		private readonly int _points;
+		private readonly byte _points;
 		public FigureJustPoints(int points)
 		{
 			if(points<0 || points>250)
 				throw new ArgumentOutOfRangeException("points","[0-250]");
 
-			_points = (int) Math.Truncate((double) (points/10));
+			_points = (byte) Math.Truncate((double) (points/10));
 			
 		}
 
@@ -29,7 +29,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 
-		public int PointsBet { get { return _points; } }
+		public byte PointsBet { get { return _points; } }
 		public int AlternativePointsBet
 		{
 			get
@@ -46,7 +46,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		public bool HasAlternativeSay { get { return false; } }
 
-		public bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
+		public bool IsAvailable(ISaysStatus saysStatus, byte normalizedTopPoints)
 		{
 			return true;
 

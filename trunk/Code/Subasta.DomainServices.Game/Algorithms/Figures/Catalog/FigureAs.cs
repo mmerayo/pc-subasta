@@ -15,7 +15,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.UnaMas; }
 		}
 
-		protected override int SecondaryPointsBet
+		protected override byte SecondaryPointsBet
 		{
 			get { return 1; }
 		}
@@ -25,7 +25,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { return SayKind.Una; }
 		}
 
-		protected override int PrimaryPointsBet
+		protected override byte PrimaryPointsBet
 		{
 			get { return 1; }
 		}

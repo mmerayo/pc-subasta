@@ -22,7 +22,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			//TODO: CONFIGURABLE
 	
 			int minVisits = (saysStatus.Says.Count(x => x.PlayerNum == saysStatus.Turn) + 1)*3000;
-			int maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, 0.4);
+			var maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, (float)0.4);
 
 			IEnumerable<IFigure> candidates = GetCandidateFigures(saysStatus, maxCurrentExploration);
 			_saysSimulator.UpdateExplorationListeners();
@@ -86,9 +86,9 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			result.MarkFigures(saysStatus);
 		}
 
-		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, int topPoints)
+		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, byte topPoints)
 		{
-			var normalizedTopPoints = (int) Math.Truncate((double) (topPoints/10));
+			var normalizedTopPoints = (byte) Math.Truncate((double) (topPoints/10));
 			_figuresCatalog.Init();
 			IEnumerable<IFigure> figures = _figuresCatalog.Figures;
 			var candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
@@ -98,11 +98,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			    saysStatus.PointsBet + 1 <= normalizedTopPoints)
 			{
 				//if the other team wont reach the normalized top points block them by taking their bet otherwise use current max
-				int maxOtherTeam = _saysSimulator.GetMaxExplorationFor(saysStatus.OtherTeam, 0, 0.2)/10;
+				int maxOtherTeam = _saysSimulator.GetMaxExplorationFor(saysStatus.OtherTeam, 0, 0.2F)/10;
 				int points;
 				if (maxOtherTeam < normalizedTopPoints)
 				{
-					int maxConservative = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, 0, 0.5) / 10;
+					int maxConservative = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, 0, 0.5F) / 10;
 
 					if (saysStatus.PointsBet + 1 <= maxOtherTeam)
 					//chooses max between other and a more conservative max as It does not need to be pushed because the opponent cant reach

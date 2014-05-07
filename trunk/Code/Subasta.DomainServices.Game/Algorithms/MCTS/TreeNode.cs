@@ -14,21 +14,21 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 	{
 		private class TreeNodeInfo : ITreeNodeInfo
 		{
-			public double Coeficient
+			public float Coeficient
 			{
-				get { return (double)TotalValue/(double)NumberVisits; }
+				get { return (float)TotalValue/(float)NumberVisits; }
 			}
 
-			public double TotalValue { get; private set; }
-			public double AvgPoints { get; private set; }
+			public float TotalValue { get; private set; }
+			public float AvgPoints { get; private set; }
 			public int NumberVisits { get; private set; }
-			public double PercentageChancesOfMaking(int points)
+			public float PercentageChancesOfMaking(int points)
 			{
 				lock(this)
 				{
 					int sum = _ocurrences.Keys.Where(x => x >= points).Sum(key => _ocurrences[key]);
 
-					return ((double)sum/(double)NumberVisits);
+					return ((float)sum/(float)NumberVisits);
 				}
 			}
 
@@ -48,7 +48,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			private readonly Dictionary<int,int> _ocurrences=new Dictionary<int, int>();  
 			
-			public void RecordExploration(int points, double value)
+			public void RecordExploration(int points, float value)
 			{
 			lock (this)
 			{
@@ -175,7 +175,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			SimulateAndBackPropagate(2, newNode);
 		}
 			
-		private void SimulateAndBackPropagate(int teamNumber, TreeNode newNode)
+		private void SimulateAndBackPropagate(byte teamNumber, TreeNode newNode)
 		{
 			int points;
 			var simulationValue = GetSimulationValue(teamNumber, newNode, out points);
@@ -298,7 +298,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		//simulation
 		//returns 0(loss) or 1(win)
-		private double GetSimulationValue(int teamNumber, TreeNode node, out int points)
+		private float GetSimulationValue(byte teamNumber, TreeNode node, out int points)
 		{
 			var currentStatus = node.ExplorationStatus.Clone();
 
@@ -324,7 +324,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return result;
 		}
 
-		private void UpdateStatus(int teamNumber, double value, int points)
+		private void UpdateStatus(int teamNumber, float value, int points)
 		{
 			lock (_syncLock)
 			{

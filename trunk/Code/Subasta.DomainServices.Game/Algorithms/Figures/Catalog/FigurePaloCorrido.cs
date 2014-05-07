@@ -20,12 +20,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			get { throw new InvalidOperationException();}
 		}
 
-		protected override int SecondaryPointsBet
+		protected override byte SecondaryPointsBet
 		{
 			get { throw new InvalidOperationException(); }
 		}
 
-		protected override int PrimaryPointsBet
+		protected override byte PrimaryPointsBet
 		{
 			get { return 9; }
 		}

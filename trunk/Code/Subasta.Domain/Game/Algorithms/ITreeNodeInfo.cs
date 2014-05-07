@@ -2,13 +2,13 @@ namespace Subasta.Domain.Game.Algorithms
 {
 	public interface ITreeNodeInfo
 	{
-		double Coeficient { get; }
+		float Coeficient { get; }
 
-		double TotalValue { get; }
-		double AvgPoints { get; }
+		float TotalValue { get; }
+		float AvgPoints { get; }
 		int NumberVisits { get; }
 
-		double PercentageChancesOfMaking(int points);
+		float PercentageChancesOfMaking(int points);
 		int GetMaxPointsWithMinimumChances(double percentaje);
 	}
 }

@@ -24,12 +24,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 
-		protected override int PrimaryPointsBet
+		protected override byte PrimaryPointsBet
 		{
 			get { return 6; }
 		}
 
-		protected override int SecondaryPointsBet
+		protected override byte SecondaryPointsBet
 		{
 			get
 			{

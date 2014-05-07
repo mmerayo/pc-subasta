@@ -144,7 +144,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				_explorationStatus=_fixture.Freeze<IExplorationStatus>();
 				_explorationStatus.Stub(x => x.Clone()).Return(_explorationStatus);
 
-				_explorationStatus.Stub(x => x.PlayerCards(Arg<int>.Is.Anything)).Return(new[] {new Card("O1")});
+				_explorationStatus.Stub(x => x.PlayerCards(Arg<byte>.Is.Anything)).Return(new[] {new Card("O1")});
 			}
 
 			public SaysStatus Sut
@@ -158,7 +158,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models
 				foreach (var tuple in says)
 				{
 					tuple.Item2.IsAvailable(Sut, 25);
-					Sut.Add(tuple.Item1,tuple.Item2);
+					Sut.Add((byte)tuple.Item1,tuple.Item2);
 				}
 				return this;
 			}

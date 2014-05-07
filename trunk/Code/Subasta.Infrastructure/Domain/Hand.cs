@@ -12,24 +12,24 @@ namespace Subasta.Infrastructure.Domain
 	internal class Hand : IHand
 	{
 		private readonly ICard[] _hand = new ICard[4];
-		private int? _playerWinner = null;
+		private byte? _playerWinner = null;
 	    private readonly ICardComparer _cardsComparer;
+		private byte? _firstPlayer=null;
 
-		public Hand(ICardComparer cardsComparer, ISuit trump,int sequence)
+		public Hand(ICardComparer cardsComparer, ISuit trump,byte sequence)
 		{
-		    FirstPlayer = int.MinValue;
 		    if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
 			_cardsComparer = cardsComparer;
 			Trump = trump;
 		    Sequence = sequence;
 		}
 
-		public int Add(int playerPlays, ICard card)
+		public byte Add(byte playerPlays, ICard card)
 		{
 			ThrowIfNotValidPlayerPosition(playerPlays, "playerPlays");
 
-			if (FirstPlayer == int.MinValue)
-				FirstPlayer = playerPlays;
+			if (!_firstPlayer.HasValue)
+				_firstPlayer = playerPlays;
 
 			var index = playerPlays - 1;
 
@@ -48,7 +48,7 @@ namespace Subasta.Infrastructure.Domain
 			get { return _hand.All(x => x != null); }
 		}
 
-		public int? PlayerWinner
+		public byte? PlayerWinner
 		{
 			get
 			{
@@ -64,28 +64,28 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
-		public int? TeamWinner
+		public byte? TeamWinner
 		{
 			get
 			{
 				if (!PlayerWinner.HasValue) return null;
-				return PlayerWinner.Value == 1 || PlayerWinner.Value == 3 ? 1 : 2;
+				return (byte) (PlayerWinner.Value == 1 || PlayerWinner.Value == 3 ? 1 : 2);
 			}
 		}
 
-		public int Points
+		public byte Points
 		{
 			get
 			{
-				return _hand.Where(x => x != null).Sum(x => x.Value)+DeclarationValue;
+				return (byte)(_hand.Where(x => x != null).Sum(x => x.Value)+DeclarationValue);
 			}
 		}
 
-		public int DeclarationValue
+		public byte DeclarationValue
 		{
 			get
 			{
-				int result = 0;
+				byte result = 0;
 				if (Declaration.HasValue)
 					return DeclarationValues.ValueOf(Declaration.Value);
 
@@ -93,12 +93,12 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
-		public int LastPlayerPlayed
+		public byte LastPlayerPlayed
 		{
 			get
 			{
 				ThrowIfEmpty();
-				int currPlayer = FirstPlayer;
+				byte currPlayer = FirstPlayer;
 
 				do
 				{
@@ -143,7 +143,7 @@ namespace Subasta.Infrastructure.Domain
 
 		public bool IsEmpty
 		{
-			get { return FirstPlayer == int.MinValue; }
+			get { return !_firstPlayer.HasValue; }
 		}
 
 		
@@ -161,14 +161,14 @@ namespace Subasta.Infrastructure.Domain
 
 		public ISuit Trump { get; private set; }
 
-		public int LastPlayer
+		public byte LastPlayer
 		{
 			get
 			{
 				if (FirstPlayer == int.MinValue) throw new InvalidOperationException();
-				int firstPlayer = FirstPlayer;
+				var firstPlayer = FirstPlayer;
 
-				int current = firstPlayer;
+				var current = firstPlayer;
 				for (int i = 0; i < 3; i++)
 					current = NextPlayer(current);
 
@@ -177,13 +177,16 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
-		public int Sequence { get; private set; }
+		public byte Sequence { get; private set; }
 
 	    public Declaration? Declaration { get; private set; }
 
-	    public int FirstPlayer { get; private set; }
+		public byte FirstPlayer
+		{
+			get { return _firstPlayer.Value; }
+		}
 
-	    public ICard PlayerCard(int playerPosition)
+		public ICard PlayerCard(int playerPosition)
 		{
 			return _hand[playerPosition - 1];
 		}
@@ -193,7 +196,7 @@ namespace Subasta.Infrastructure.Domain
 			var result=new Hand(_cardsComparer,Trump,Sequence)
 				{
 					_playerWinner=this._playerWinner,
-					FirstPlayer = this.FirstPlayer,
+					_firstPlayer = this._firstPlayer,
 					Declaration = this.Declaration
 				};
 			Array.Copy(_hand,result._hand,4);
@@ -209,7 +212,7 @@ namespace Subasta.Infrastructure.Domain
 		public IEnumerable<ICard> CardsByPlaySequence()
 		{
 			var result = new ICard[4];
-			if(FirstPlayer==int.MinValue)
+			if(!_firstPlayer.HasValue)
 				return result;
 			int currentIndex = FirstPlayer - 1;
 			for (int resultIndex = 0; resultIndex < 4; resultIndex++)
@@ -235,11 +238,11 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 
-		private int GetWinner()
+		private byte GetWinner()
 		{
 			var currentWin = GetCurrentCardWinner();
 
-			return Array.IndexOf(_hand, currentWin) + 1;
+			return (byte)(Array.IndexOf(_hand, currentWin) + 1);
 		}
 
 		private ICard GetCurrentCardWinner()
@@ -263,14 +266,14 @@ namespace Subasta.Infrastructure.Domain
 		}
 
 
-		private static int NextPlayer(int currentPlayer)
+		private static byte NextPlayer(byte currentPlayer)
 		{
 			if (++currentPlayer > 4)
 				currentPlayer = 1;
 			return currentPlayer;
 		}
 
-		private int PreviousPlayer(int currentPlayer)
+		private byte PreviousPlayer(byte currentPlayer)
 		{
 			if (--currentPlayer < 1)
 				currentPlayer = 4;

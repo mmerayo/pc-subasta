@@ -122,7 +122,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			return _roots.Single(x => x.ExplorationStatus.Trump == suit);
 		}
 
-		public int GetMaxExplorationFor(int teamNumber, int minNumberExplorations, double maxRiskPercentage)
+		public byte GetMaxExplorationFor(byte teamNumber, int minNumberExplorations, float maxRiskPercentage)
 		{
 			if (minNumberExplorations > MaxNumberExplorations)
 				minNumberExplorations = MaxNumberExplorations;
@@ -138,7 +138,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			//gets the max points in all suits while the percentage of success is higher than the specified
 			IEnumerable<int> candidates =
 				_roots.Select(x => x.GetNodeInfo(teamNumber).GetMaxPointsWithMinimumChances(maxRiskPercentage));
-			return candidates.Max();
+			return (byte) candidates.Max();
 
 			//return
 			//    (int)

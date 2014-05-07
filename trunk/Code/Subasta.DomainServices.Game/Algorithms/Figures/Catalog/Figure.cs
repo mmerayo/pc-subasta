@@ -22,7 +22,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 			}
 		}
 
-		public int PointsBet
+		public byte PointsBet
 		{
 			get
 			{
@@ -35,8 +35,8 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 		protected abstract SayKind PrimarySay { get; }
 
 		protected abstract SayKind SecondarySay { get; }
-		protected abstract int SecondaryPointsBet { get; }
-		protected abstract int PrimaryPointsBet { get; }
+		protected abstract byte SecondaryPointsBet { get; }
+		protected abstract byte PrimaryPointsBet { get; }
 		private readonly List<ISayCard> _potentiallyMarkedCards = new List<ISayCard>();
 
 		protected void BookCard(ISayCard card)
@@ -77,7 +77,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		public bool UsingAlternative { get; private set; }
 
-		public virtual bool IsAvailable(ISaysStatus saysStatus, int normalizedTopPoints)
+		public virtual bool IsAvailable(ISaysStatus saysStatus, byte normalizedTopPoints)
 		{
 			bool alreadyUsed = saysStatus.Says.Any(x => x.PlayerNum == saysStatus.Turn && x.Figure.Say == Say);
 			if (!HasAlternativeSay && alreadyUsed)

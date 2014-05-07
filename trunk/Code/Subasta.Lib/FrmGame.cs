@@ -363,7 +363,7 @@ namespace Subasta.Lib
 		private void CompactPlayerCards(IExplorationStatus status, int playerNumber)
 		{
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(playerNumber);
-			ICard[] playerCards = status.PlayerCards(playerNumber);
+			ICard[] playerCards = status.PlayerCards((byte)playerNumber);
 			Point startPoint = GetPlayerCardsStartPaintingPoint(player, playerCards.Count());
 			int index = 0;
 			foreach (ICard card in playerCards)

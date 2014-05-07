@@ -202,7 +202,7 @@ namespace Analyzer
 
 		private void PaintCards(IExplorationStatus status)
 		{
-			for (int i = 1; i <= 4; i++)
+			for (byte i = 1; i <= 4; i++)
 			{
 				int indexCard = 0;
 				foreach (var playerCard in status.PlayerCards(i))

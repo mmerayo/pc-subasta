@@ -12,7 +12,7 @@ namespace Subasta.Infrastructure.DomainServices.Factories
 {
 	class PlayerFactory:IPlayerFactory
 	{
-		public IPlayer CreatePlayer(int playerNumber, StoredGameData source)
+		public IPlayer CreatePlayer(byte playerNumber, StoredGameData source)
 		{
 			IPlayer result;
 

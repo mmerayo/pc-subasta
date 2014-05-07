@@ -10,8 +10,8 @@ namespace Subasta.DomainServices.Game.Players
 		public ICard[] Cards { get; set; }
 		public abstract PlayerType PlayerType { get; }
 		public string Name { get; set; }
-		public int TeamNumber { get; set; }
-		public int PlayerNumber { get; set; }
+		public byte TeamNumber { get; set; }
+		public byte PlayerNumber { get; set; }
 		public abstract NodeResult ChooseMove(IExplorationStatus currentStatus, out bool peta);
 		public abstract Declaration? ChooseDeclaration(IExplorationStatus previousStatus);
 	    public virtual void Reset(){}

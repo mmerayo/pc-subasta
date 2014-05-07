@@ -12,7 +12,7 @@ namespace Subasta.Domain.Game
 
 		public int Points2And4 { get; set; }
 
-		private int GetPoints(int playerNum1, int playerNum2)
+		private int GetPoints(byte playerNum1, byte playerNum2)
 		{
 			int result = Status.SumTotal(playerNum1) + Status.SumTotal(playerNum2);
 			if (Status.IsCompleted &&
@@ -24,7 +24,7 @@ namespace Subasta.Domain.Game
 		}
 
 
-		public ICard CardAtMove(int playerPosition, int moveNumber)
+		public ICard CardAtMove(byte playerPosition, byte moveNumber)
 		{
 			return Status.Hands[moveNumber - 1].PlayerCard(playerPosition);
 		}

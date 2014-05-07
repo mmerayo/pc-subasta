@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
@@ -23,8 +20,8 @@ namespace Subasta.DomainServices.Game.Players
 		private ISaysStatus _saysStatus;
 
 		public Game(ICardComparer cardComparer,
-		            IPlayerDeclarationsChecker declarationsChecker,
-		            ISimulator aiSimulator, ISaysSimulator saysSimulator)
+			IPlayerDeclarationsChecker declarationsChecker,
+			ISimulator aiSimulator, ISaysSimulator saysSimulator)
 		{
 			AiSimulator = aiSimulator;
 			_cardComparer = cardComparer;
@@ -93,7 +90,6 @@ namespace Subasta.DomainServices.Game.Players
 			if (_saysStatus.PointsBet == 0)
 				return; //TODO: DONE
 			RunGame(root);
-			
 		}
 
 		#endregion
@@ -120,14 +116,14 @@ namespace Subasta.DomainServices.Game.Players
 			status.SetCards(3, Player3.Cards);
 			status.SetCards(4, Player4.Cards);
 			//status.SetPlayerBet(TeamBets, PointsBet);
-			status.Turn = FirstPlayer;
+			status.Turn = (byte) FirstPlayer;
 
 			return status;
 		}
 
 		private ISaysStatus GetInitialSaysStatus()
 		{
-			return new SaysStatus(Status.Clone(), FirstPlayer);
+			return new SaysStatus(Status.Clone(), (byte)FirstPlayer);
 		}
 
 		private TreeNode RunSays()
@@ -140,11 +136,11 @@ namespace Subasta.DomainServices.Game.Players
 				OnSaysStatusChanged();
 			}
 
-			int playerBets = _saysStatus.PlayerBets;
-			ISuit chooseTrump = _players[playerBets - 1].ChooseTrump(_saysStatus);
-			int pointsBet = _saysStatus.PointsBet*10;
+			var playerBets = _saysStatus.PlayerBets;
+			var chooseTrump = _players[playerBets - 1].ChooseTrump(_saysStatus);
+			var pointsBet = _saysStatus.PointsBet*10;
 
-			Status.SetPlayerBet(playerBets, pointsBet);
+			Status.SetPlayerBet(playerBets, (byte)pointsBet);
 			Status.SetTrump(chooseTrump);
 
 			var result = (TreeNode) _saysRunner.GetRoot(chooseTrump);
@@ -206,7 +202,7 @@ namespace Subasta.DomainServices.Game.Players
 				if (_players.Any(
 					x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value))
 				{
-					var calculatedDeclarationByMachine = Status.LastCompletedHand.Declaration;
+					Declaration? calculatedDeclarationByMachine = Status.LastCompletedHand.Declaration;
 					Status.LastCompletedHand.SetDeclaration(null);
 					OnGameStatusChanged();
 					//always the first
@@ -216,20 +212,20 @@ namespace Subasta.DomainServices.Game.Players
 
 					//Add the hand to chose a declaration
 					ICard lastCardMoved = result.Status.LastCompletedHand.CardsByPlaySequence().Last();
-					
+
 					//TODO: this is redundant
 					previousStatus.CurrentHand.Add(previousStatus.Turn, lastCardMoved);
-					previousStatus.RemovePlayerCard(result.Status.LastPlayerMoved,lastCardMoved);
-					
+					previousStatus.RemovePlayerCard(result.Status.LastPlayerMoved, lastCardMoved);
+
 					Declaration? declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 
 
 					//AS-IS NOW: The human player must select a declaration
 					//if the user didnt select any then the machine selects while is on its hand
 					if (!declarationChosenByHuman.HasValue &&
-						calculatedDeclarationByMachine.HasValue)
+					    calculatedDeclarationByMachine.HasValue)
 					{
-						int playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
+						byte playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
 						if (Status.GetPlayerDeclarables(playerMateOf).Contains(calculatedDeclarationByMachine.Value))
 						{
 							declarationChosenByHuman = calculatedDeclarationByMachine;
@@ -247,23 +243,21 @@ namespace Subasta.DomainServices.Game.Players
 
 				OnHandCompleted(Status);
 			}
-
 		}
 
-		
 
 		private void OnHandCompleted(IExplorationStatus status)
 		{
 			Declaration? declaration = status.LastCompletedHand.Declaration;
-			if(declaration.HasValue)
-			foreach (var player in _players)
-			{
-				if(_declarationsChecker.HasDeclarable(declaration.Value, status.Trump, player.Cards))
+			if (declaration.HasValue)
+				foreach (IPlayer player in _players)
 				{
-					OnPlayerDeclarationEmitted(player,declaration.Value);
-					break;
+					if (_declarationsChecker.HasDeclarable(declaration.Value, status.Trump, player.Cards))
+					{
+						OnPlayerDeclarationEmitted(player, declaration.Value);
+						break;
+					}
 				}
-			}
 
 			if (HandCompleted != null)
 				HandCompleted(status);
@@ -312,11 +306,11 @@ namespace Subasta.DomainServices.Game.Players
 			if (GameSaysStatusChanged != null)
 				GameSaysStatusChanged(_saysStatus);
 		}
-		private void OnPlayerDeclarationEmitted(IPlayer player, Declaration declaration)
-			{
-			if (PlayerDeclarationEmitted != null)
-				PlayerDeclarationEmitted(player,declaration);
-			}
 
+		private void OnPlayerDeclarationEmitted(IPlayer player, Declaration declaration)
+		{
+			if (PlayerDeclarationEmitted != null)
+				PlayerDeclarationEmitted(player, declaration);
+		}
 	}
 }

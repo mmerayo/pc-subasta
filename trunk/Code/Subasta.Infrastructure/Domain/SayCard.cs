@@ -4,7 +4,7 @@ namespace Subasta.Infrastructure.Domain
 {
     class SayCard : Card,ISayCard
     {
-        internal SayCard(ISuit suit, int number) : base(suit, number)
+        internal SayCard(ISuit suit, byte number) : base(suit, number)
         {
         }
 
@@ -12,7 +12,7 @@ namespace Subasta.Infrastructure.Domain
         {
         }
 
-        public SayCard(string suitName, int number) : base(suitName, number)
+        public SayCard(string suitName, byte number) : base(suitName, number)
         {
         }
 

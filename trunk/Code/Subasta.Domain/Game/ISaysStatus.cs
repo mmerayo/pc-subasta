@@ -12,20 +12,20 @@ namespace Subasta.Domain.Game
 	public interface ISaysStatus
 	{
 		bool IsCompleted { get; }
-		int Turn { get; }
-		int PlayerBets { get; }
-		int PointsBet { get; }
-	    int TurnTeam { get; }
+		byte Turn { get; }
+		byte PlayerBets { get; }
+		byte PointsBet { get; }
+		byte TurnTeam { get; }
 		List<ISay> Says { get; }
-		int TeamBets { get; }
-		int Sequences { get; }
-		int LastSayPlayer { get; }
+		byte TeamBets { get; }
+		byte Sequences { get; }
+		byte LastSayPlayer { get; }
 		bool IsEmpty { get; }
 		IExplorationStatus OriginalStatus { get; }
-		int OtherTeam { get; }
-		int FirstPlayer { get; }
+		byte OtherTeam { get; }
+		byte FirstPlayer { get; }
 		ISaysStatus Clone();
-		void Add(int playerNumber, IFigure figure);
+		void Add(byte playerNumber, IFigure figure);
 	    ISayCard[] GetPlayerCards(int playerNum);
 
 		IExplorationStatus ExplorationStatusForOros();
@@ -36,13 +36,13 @@ namespace Subasta.Domain.Game
 
 	public interface ISay
 	{
-		int PlayerNum { get; }
+		byte PlayerNum { get; }
 		IFigure Figure { get; }
-		int Sequence { get; }
-		int PlayerTeamNum { get; }
+		byte Sequence { get; }
+		byte PlayerTeamNum { get; }
 	}
 
-	public enum SayKind
+	public enum SayKind:byte
 	{
 		Paso=0,
 		Una=1,

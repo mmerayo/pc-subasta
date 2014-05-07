@@ -16,12 +16,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures.Catalog
 
 		protected override SayKind SecondarySay { get { return SayKind.UnaMas; } }
 
-		protected override int SecondaryPointsBet
+		protected override byte SecondaryPointsBet
 		{
 			get { return 1; }
 		}
 
-		protected override int PrimaryPointsBet
+		protected override byte PrimaryPointsBet
 		{
 			get { return 5; }
 		}

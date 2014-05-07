@@ -9,50 +9,50 @@ namespace Subasta.Domain.Game
 	{
 		IExplorationStatus Clone();
 		ISuit Trump { get; }
-		int PlayerBets { get; }
-		int Turn { get; set; }
+		byte PlayerBets { get; }
+		byte Turn { get; set; }
 		IHand CurrentHand { get; }
 		ReadOnlyCollection<IHand> Hands { get; }
 		Declaration[] Declarables { get; }
 		IHand LastCompletedHand { get; }
 		Guid GameId { get; }
-		int PointsBet { get; }
+		byte PointsBet { get; }
 		bool IsCompleted { get; }
 		IHand FirstDeclarableHand { get; }
-		int TurnTeam { get; }
-		int TeamWinner { get; }
-		int TeamBets { get; }
-	    int TotalMoves { get; }
+		byte TurnTeam { get; }
+		byte TeamWinner { get; }
+		byte TeamBets { get; }
+		byte TotalMoves { get; }
 		bool LogicalComplete { get; set; }
-		int NormalizedPointsBet { get; }
-		int LastPlayerMoved { get; }
+		byte NormalizedPointsBet { get; }
+		byte LastPlayerMoved { get; }
 		ICard LastCardPlayed { get; }
 		bool IsEmpty { get; }
 		void AddNewHand();
-		ICard[] PlayerCards(int playerPosition);
-		void SetCards(int playerPosition, ICard[] cards);
+		ICard[] PlayerCards(byte playerPosition);
+		void SetCards(byte playerPosition, ICard[] cards);
 
 		/// <summary>
 		/// Sum by player
 		/// </summary>
 		/// <param name="playerPosition"></param>
 		/// <returns></returns>
-		int SumTotal(int playerPosition);
+		byte SumTotal(byte playerPosition);
 
-		void SetPlayerBet(int playerPosition, int pointsBet);
+		void SetPlayerBet(byte playerPosition, byte pointsBet);
 		void AddHand(IHand hand);
 		void SetTrump(ISuit trump);
-		int SumTotalTeam(int teamNumber);
+		byte SumTotalTeam(byte teamNumber);
 
 		/// <summary>
 		/// Removes the player card from the status, it was played //TODO:Encapsulate
 		/// </summary>
 		/// <param name="playerPosition"></param>
 		/// <param name="card"></param>
-		void RemovePlayerCard(int playerPosition, ICard card);
-		bool IsInTeamBets(int playerPosition);
-		int PlayerMateOf(int playerWinner);
+		void RemovePlayerCard(byte playerPosition, ICard card);
+		bool IsInTeamBets(byte playerPosition);
+		byte PlayerMateOf(byte playerWinner);
 		ICard[] GetCardsNotYetPlayed();
-		IEnumerable<Declaration> GetPlayerDeclarables(int playerNumber);
+		IEnumerable<Declaration> GetPlayerDeclarables(byte playerNumber);
 	}
 }
