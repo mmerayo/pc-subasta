@@ -28,43 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.grpDeclarations = new System.Windows.Forms.GroupBox();
-			this.btnDeclarations = new System.Windows.Forms.Button();
-			this.cmbDeclarations = new System.Windows.Forms.ComboBox();
 			this.gameSets = new Subasta.Lib.UserControls.UcGameSets();
 			this.ucTrumpSelector = new Subasta.Lib.UserControls.UcTrumpSelection();
-			this.grpDeclarations.SuspendLayout();
+			this.ucDeclarationSelector1 = new Subasta.Lib.UserControls.UcDeclarationSelector();
 			this.SuspendLayout();
-			// 
-			// grpDeclarations
-			// 
-			this.grpDeclarations.Controls.Add(this.btnDeclarations);
-			this.grpDeclarations.Controls.Add(this.cmbDeclarations);
-			this.grpDeclarations.Location = new System.Drawing.Point(10, 405);
-			this.grpDeclarations.Name = "grpDeclarations";
-			this.grpDeclarations.Size = new System.Drawing.Size(192, 88);
-			this.grpDeclarations.TabIndex = 5;
-			this.grpDeclarations.TabStop = false;
-			this.grpDeclarations.Text = "Cantar";
-			// 
-			// btnDeclarations
-			// 
-			this.btnDeclarations.Location = new System.Drawing.Point(12, 46);
-			this.btnDeclarations.Name = "btnDeclarations";
-			this.btnDeclarations.Size = new System.Drawing.Size(161, 28);
-			this.btnDeclarations.TabIndex = 1;
-			this.btnDeclarations.Text = "Canta";
-			this.btnDeclarations.UseVisualStyleBackColor = true;
-			this.btnDeclarations.Click += new System.EventHandler(this.btnDeclarations_Click);
-			// 
-			// cmbDeclarations
-			// 
-			this.cmbDeclarations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbDeclarations.FormattingEnabled = true;
-			this.cmbDeclarations.Location = new System.Drawing.Point(6, 19);
-			this.cmbDeclarations.Name = "cmbDeclarations";
-			this.cmbDeclarations.Size = new System.Drawing.Size(167, 21);
-			this.cmbDeclarations.TabIndex = 0;
 			// 
 			// gameSets
 			// 
@@ -80,32 +47,36 @@
 			this.ucTrumpSelector.Size = new System.Drawing.Size(206, 81);
 			this.ucTrumpSelector.TabIndex = 7;
 			// 
+			// ucDeclarationSelector1
+			// 
+			this.ucDeclarationSelector1.Location = new System.Drawing.Point(5, 405);
+			this.ucDeclarationSelector1.Name = "ucDeclarationSelector1";
+			this.ucDeclarationSelector1.Size = new System.Drawing.Size(192, 88);
+			this.ucDeclarationSelector1.TabIndex = 8;
+			// 
 			// FrmGameSetInfo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(214, 670);
 			this.ControlBox = false;
+			this.Controls.Add(this.ucDeclarationSelector1);
 			this.Controls.Add(this.ucTrumpSelector);
 			this.Controls.Add(this.gameSets);
-			this.Controls.Add(this.grpDeclarations);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "FrmGameSetInfo";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Partida";
-			this.grpDeclarations.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox grpDeclarations;
-		private System.Windows.Forms.Button btnDeclarations;
-		private System.Windows.Forms.ComboBox cmbDeclarations;
 		private UserControls.UcGameSets gameSets;
 		private UserControls.UcTrumpSelection ucTrumpSelection1;
 		private UserControls.UcTrumpSelection ucTrumpSelector;
+		private UserControls.UcDeclarationSelector ucDeclarationSelector1;
 	}
 }
