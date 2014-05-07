@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Subasta.Client.Common.Game;
 using Subasta.DomainServices;
 
 namespace Subasta.Lib.Interaction

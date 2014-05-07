@@ -9,11 +9,6 @@ using Subasta.Domain.Game;
 
 namespace Subasta.Lib.UserControls
 {
-	public interface ICustomUserControl
-	{
-		void Inject();
-	}
-
 	public partial class UcGameSets : UserControl, ICustomUserControl
 	{
 		private IGameSetHandler _gameSetHandler;
@@ -24,7 +19,7 @@ namespace Subasta.Lib.UserControls
 
 		}
 
-		public void Inject()
+		public void Initialize()
 		{
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
 
