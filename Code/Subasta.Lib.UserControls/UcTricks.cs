@@ -23,7 +23,14 @@ namespace Subasta.Lib.UserControls
 			gameHandler.HandCompleted += GameHandler_HandCompleted;
 			gameHandler.GameSaysStarted += gameHandler_GameSaysStarted;
 			gameHandler.GameStarted += gameHandler_GameStarted;
+			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 		}
+		private void GameHandler_GameStatusChanged(IExplorationStatus status)
+			{
+			
+			lblPuntos13.PerformSafely(x => x.Text = status.SumTotalTeam(1).ToString());
+			lblPuntos24.PerformSafely(x => x.Text = status.SumTotalTeam(2).ToString());
+			}
 
 		private void gameHandler_GameStarted(IExplorationStatus status)
 		{
@@ -36,7 +43,11 @@ namespace Subasta.Lib.UserControls
 
 		private void gameHandler_GameSaysStarted(ISaysStatus status)
 		{
-			this.PerformSafely(x => x.Visible = false);
+			this.PerformSafely(x =>
+			                   {
+			                   	x.Visible = false;
+								lblPuntos13.Text = lblPuntos24.Text = "0";
+			                   });
 		}
 
 		private void GameHandler_HandCompleted(IExplorationStatus status)
