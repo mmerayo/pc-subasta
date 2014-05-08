@@ -73,6 +73,12 @@
     <Compile Include="UcSaySelector.Designer.cs">
       <DependentUpon>UcSaySelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="UcTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcTable.Designer.cs">
+      <DependentUpon>UcTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="UcTricks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UcSaySelector.resx">
       <DependentUpon>UcSaySelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcTable.resx">
+      <DependentUpon>UcTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UcTricks.resx">
       <DependentUpon>UcTricks.cs</DependentUpon>

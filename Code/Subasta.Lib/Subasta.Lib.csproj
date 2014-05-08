@@ -96,6 +96,12 @@
     <Compile Include="FrmGameInfo.Designer.cs">
       <DependentUpon>FrmGameInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmGameScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGameScreen.Designer.cs">
+      <DependentUpon>FrmGameScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmGameSetInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGame.resx">
       <DependentUpon>FrmGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGameScreen.resx">
+      <DependentUpon>FrmGameScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGameSetInfo.resx">
       <DependentUpon>FrmGameSetInfo.cs</DependentUpon>
