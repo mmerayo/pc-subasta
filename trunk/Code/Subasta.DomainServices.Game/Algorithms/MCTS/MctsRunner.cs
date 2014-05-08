@@ -72,7 +72,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		catch (NullReferenceException)
 			                              		{
-			                              			return;
+			                              			//log
+			                              		}
+			                              		catch
+			                              		{
+			                              			//log
 			                              		}
 			                              	}
 			                              	GC.Collect(1, GCCollectionMode.Optimized);
