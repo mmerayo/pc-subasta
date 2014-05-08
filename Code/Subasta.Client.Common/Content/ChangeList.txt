@@ -3,6 +3,7 @@
 	implementacion final 
 -Optimizados tipos de datos para representar los calculos como primera aproximacion para aligerar el peso en memoria
 -Refactorizado el mecanismo de provisión de recursos multimedia
+-Implementaciones relacionadas con la estabilidad
 
 06/05/2014
 - Arreglado error cuando el usuario marca Una Mas, reinicia contador del marque

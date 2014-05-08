@@ -13,17 +13,9 @@ namespace Subasta.Lib
 {
 	public partial class FrmGameInfo : Form
 	{
-		private readonly IGameSetHandler _gameSetHandler;
-		public FrmGameInfo(IGameSetHandler gameSetHandler)
+		public FrmGameInfo()
 		{
-			_gameSetHandler = gameSetHandler;
 			InitializeComponent();
-
-			_gameSetHandler.GameSaysStarted += _gameSetHandler_GameSaysStarted;
-			_gameSetHandler.GameSaysCompleted += _gameSetHandler_GameSaysCompleted;
-			_gameSetHandler.GameHandler.GameSaysStatusChanged += GameHandler_GameSaysStatusChanged;
-			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
-			_gameSetHandler.GameHandler.GameStatusChanged += GameHandler_GameStatusChanged;
 
 			InitializeCustomUserControls();
 
@@ -38,66 +30,5 @@ namespace Subasta.Lib
 			}
 		}
 
-		private void GameHandler_GameStatusChanged(IExplorationStatus status)
-		{
-			if (!status.IsCompleted)
-				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-		
-		}
-
-		private void _gameSetHandler_GameStarted(IExplorationStatus status)
-		{
-			UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-		}
-
-
-		private void GameHandler_GameSaysStatusChanged(ISaysStatus status)
-		{
-			if (!status.IsCompleted)
-				UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-			
-		}
-
-		
-
-		private void UpdateTurn(IPlayer player)
-		{
-			//if (!status.IsCompleted)
-			lblTurn.PerformSafely(x => x.Text = player.Name);
-		}
-
-		private void _gameSetHandler_GameSaysStarted(ISaysStatus status)
-		{
-			this.PerformSafely(x =>
-			                   {
-							   grpTrump.Visible =  grpPlayerBets.Visible = grpPuntos.Visible = false;
-							   lblFirstPlayer.Text = _gameSetHandler.GameHandler.GetPlayer(status.FirstPlayer).Name;
-			                   });
-		
-			UpdateTurn(_gameSetHandler.GameHandler.GetPlayer(status.Turn));
-		}
-
-		private void _gameSetHandler_GameSaysCompleted(ISaysStatus status)
-		{
-			
-			this.PerformSafely(x =>
-			                   {
-			                   	grpTrump.Visible =  grpPlayerBets.Visible=grpPuntos.Visible= true;
-								
-			                   	
-			                   	lblTrump.Text = _gameSetHandler.GameHandler.Trump.Name;
-			                   	lblPlayerBets.Text = _gameSetHandler.GameHandler.GetPlayer(
-			                   		_gameSetHandler.GameHandler.Status.PlayerBets).
-			                   		Name;
-			                   	lblPuntos.Text = _gameSetHandler.GameHandler.Status.NormalizedPointsBet.ToString();
-
-			                   	lblTrump.Visible = true;
-			                   });
-
-		}
-
-		private void FrmSay_Load(object sender, EventArgs e)
-		{
-		}
 	}
 }

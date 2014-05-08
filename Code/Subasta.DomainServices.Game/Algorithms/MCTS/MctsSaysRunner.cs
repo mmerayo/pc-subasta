@@ -189,8 +189,12 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                                        		}
 			                                        		catch (NullReferenceException)
 			                                        		{
-			                                        			return;
+			                                        			//log
 			                                        		}
+															catch
+															{
+																//log
+															}
 			                                        	}
 
 														//release the root branches as we just need the root info

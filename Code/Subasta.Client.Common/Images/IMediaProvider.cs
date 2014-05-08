@@ -1,4 +1,5 @@
 using System.Drawing;
+using Subasta.Domain.Deck;
 
 namespace Subasta.Client.Common.Images
 {
@@ -11,11 +12,14 @@ namespace Subasta.Client.Common.Images
 		Jugador2,
 		Jugador3,
 		Jugador4,
+		Turno,
+		FirstPlayer
 	}
 	
 	public interface IMediaProvider
 	{
 		Image GetImage(GameMediaType image);
 		Image GetCard(string cardShortId);
+		Image GetCard(ISuit suit, int i);
 	}
 }
