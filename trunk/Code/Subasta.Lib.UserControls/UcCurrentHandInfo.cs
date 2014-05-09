@@ -37,6 +37,10 @@ namespace Subasta.Lib.UserControls
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
 			_userInteraction = ObjectFactory.GetInstance<IUserInteractionManager>();
 			_mediaProvider = ObjectFactory.GetInstance<IMediaProvider>();
+
+		
+
+
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameCompleted += new StatusChangedHandler(_gameSetHandler_GameCompleted);
 			_gameSetHandler.GameHandler.GameStatusChanged += new StatusChangedHandler(GameHandler_GameStatusChanged);
@@ -50,11 +54,14 @@ namespace Subasta.Lib.UserControls
 			var player = _gameSetHandler.GameHandler.GetPlayer(status.LastCompletedHand.PlayerWinner.Value);
 			PictureBox target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbWinnerPrefix) && x.Tag ==player ).Single();
 			target.PerformSafely(x=>x.Image = _mediaProvider.GetImage(GameMediaType.Winner));
+			_userInteraction.WaitUserInput<int>();
 		}
 
 		void GameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			var target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).Single();
+			string nameTarget = string.Format("{0}{1}", PbPetaPrefix, (status.CurrentHand.CardsByPlaySequence().Count(y => y != null) ));
+
+			var target = this.FindControl<PictureBox>(nameTarget);
 			target.PerformSafely(x=>x.Image=_mediaProvider.GetImage(GameMediaType.Petar));
 		}
 
@@ -64,29 +71,30 @@ namespace Subasta.Lib.UserControls
 			for (int index = 0; index < cardsByPlaySequence.Length; index++)
 			{
 				var card = cardsByPlaySequence[index];
-
-				var target = this.FindControl<PictureBox>(PbCardPrefix + (index + 1));
-				if (target.Image == null)
+				if (card != null)
 				{
-					target.PerformSafely(x=>x.Image = _mediaProvider.GetCard(card.ToShortString()));
+					var target = this.FindControl<PictureBox>(PbCardPrefix + (index + 1));
+					if (target.Image == null)
+					{
+						target.PerformSafely(x => x.Image = _mediaProvider.GetCard(card.ToShortString()));
+					}
 				}
+			}
+			if (status.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 1)
+			{
+				this.PerformSafely(x=>PaintPlayersInOrder(status));
 			}
 		}
 
 		void _gameSetHandler_GameCompleted(Domain.Game.IExplorationStatus status)
 		{
-			_userInteraction.WaitUserInput<int>();
-			
 			this.PerformSafely(x => x.Visible = false);
 		}
 
 		void _gameSetHandler_GameStarted(Domain.Game.IExplorationStatus status)
 		{
-
-			en el hand started
 			this.PerformSafely(x =>
 			{
-				PaintPlayersInOrder(status);
 				x.Visible = true;
 			});
 		}
@@ -115,20 +123,7 @@ namespace Subasta.Lib.UserControls
 				}
 				currentPlayer = _gameSetHandler.GameHandler.GetPlayer(currentPlayer.NextNumber());
 			}
-			
-			
 		}
-
-
-		//private TControl ActivateIconClass<TControl>(IPlayer player, string pbPrefixName) where TControl : Control
-		//{
-		//    var pbs = ClearAllIconClass<TControl>(pbPrefixName);
-
-		//    var actual = pbs.Single(x => x.Name.EndsWith(player.PlayerNumber.ToString()));
-		//    actual.PerformSafely(x => x.Visible = true);
-
-		//    return actual;
-		//}
 
 		private void ClearAll()
 		{
