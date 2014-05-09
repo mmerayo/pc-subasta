@@ -103,6 +103,7 @@
 			this.Name = "FrmGameScreen";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "FrmGameScreen";
 			this.ResumeLayout(false);
 

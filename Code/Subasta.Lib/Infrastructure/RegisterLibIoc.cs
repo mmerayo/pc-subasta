@@ -11,9 +11,7 @@ namespace Subasta.Lib.Infrastructure
 		public RegisterLibIoc()
 		{
 			For<FrmMain>().Singleton().Use<FrmMain>();
-			For<FrmGame>().Singleton().Use<FrmGame>();
-			For<FrmGameInfo>().Singleton().Use<FrmGameInfo>();
-			For<FrmGameSetInfo>().Singleton().Use<FrmGameSetInfo>();
+			For<FrmGameScreen>().Singleton().Use<FrmGameScreen>();
 			For<FrmChangeList>().Use<FrmChangeList>();
 
 
