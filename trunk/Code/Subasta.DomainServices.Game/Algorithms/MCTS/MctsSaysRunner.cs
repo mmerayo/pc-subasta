@@ -175,6 +175,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private void StartExploration(int[] rootIdxs, CancellationToken ct)
 		{
+			CompactMemory();
 			var t = Task.Factory.StartNew(() =>
 			                              {
 											var roots=new List<TreeNode>(rootIdxs.Length);
@@ -205,6 +206,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		catch (InsufficientMemoryException ex)
 			                              		{
+													GC.Collect(3,GCCollectionMode.Forced);
 			                              			Logger.Error("StartExploration", ex);
 			                              		}
 			                              		catch (NullReferenceException ex)
@@ -226,6 +228,20 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              	GC.Collect(1, GCCollectionMode.Optimized);
 			                              }, _tokenSource.Token).LogTaskException(Logger);
 			_tasks.Add(t);
+		}
+
+		private static void CompactMemory()
+		{
+			GC.Collect(3, GCCollectionMode.Forced);
+			try
+			{
+				using (var mfp = new MemoryFailPoint(1536)) ;
+			}
+			catch (InsufficientMemoryException ex)
+			{
+				GC.Collect(3, GCCollectionMode.Forced);
+				Logger.Error("Start", ex);
+			}
 		}
 
 

@@ -84,7 +84,7 @@
 		// 
 		// ucTrumpSelector
 		// 
-		this.ucTrumpSelector.Location = new System.Drawing.Point(937, 576);
+		this.ucTrumpSelector.Location = new System.Drawing.Point(1, 401);
 		this.ucTrumpSelector.Name = "ucTrumpSelector";
 		this.ucTrumpSelector.Size = new System.Drawing.Size(206, 81);
 		this.ucTrumpSelector.TabIndex = 10;
@@ -101,13 +101,13 @@
 		this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 		this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 		this.ClientSize = new System.Drawing.Size(1155, 720);
+		this.Controls.Add(this.ucTrumpSelector);
 		this.Controls.Add(this.ucCurrentHandInfo);
 		this.Controls.Add(this.ucPlayerOverview1);
 		this.Controls.Add(this.ucTricks1);
 		this.Controls.Add(this.ucSaySelector1);
 		this.Controls.Add(this.ucTable1);
 		this.Controls.Add(this.ucDeclarationSelector1);
-		this.Controls.Add(this.ucTrumpSelector);
 		this.Controls.Add(this.gameSets);
 		this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 		this.Name = "FrmGameScreen";

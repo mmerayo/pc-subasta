@@ -50,7 +50,7 @@ namespace Subasta.Lib
 		{
 			string text =
 				string.Format(
-					"Versión en estado de desarrollo(Alpha).{0}- Esta versión no es estable por lo que se espera que pueda haber errores o rendimiento bajos.{0}- El juego busca actualizaciones al arrancar con conexion a internet.{0}- Las actualizaciones automaticas incluirán bug fixtures progresivamente.{0}- Errores y/o sugerencias: miguelmerayo@hotmail.com",
+					"Versión en estado de desarrollo(Alpha).{0}- Esta versión no es estable por lo que se espera que pueda haber errores o rendimiento bajos.{0}- El juego busca actualizaciones al arrancar con conexion a internet.{0}- Las actualizaciones automaticas incluirán bug fixtures progresivamente.{0}- Errores y/o sugerencias: miguelmerayo@hotmail.com{0}-ESTE JUEGO ES GRATUITO MOTIVADO COMO EJERCICIO DE INTELIGENCIA ARTIFICIAL",
 					Environment.NewLine);
 			MessageBox.Show(text, "Subasta para PC", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}

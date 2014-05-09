@@ -42,6 +42,7 @@ namespace Subasta.Lib.UserControls
 			_gameSetHandler.GameSaysCompleted += _gameSetHandler_GameSaysCompleted;
 		}
 
+
 		private void _gameSetHandler_GameSaysCompleted(ISaysStatus status)
 		{
 			this.PerformSafely(x =>
