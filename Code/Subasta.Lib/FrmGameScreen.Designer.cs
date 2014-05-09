@@ -35,6 +35,7 @@
 			this.ucPlayerOverview1 = new Subasta.Lib.UserControls.UcPlayerOverview();
 			this.ucTricks1 = new Subasta.Lib.UserControls.UcTricks();
 			this.ucSaySelector1 = new Subasta.Lib.UserControls.UcSaySelector();
+			this.ucCurrentHandInfo = new Subasta.Lib.UserControls.UcCurrentHandInfo();
 			this.SuspendLayout();
 			// 
 			// ucDeclarationSelector1
@@ -87,11 +88,20 @@
 			this.ucSaySelector1.Size = new System.Drawing.Size(207, 447);
 			this.ucSaySelector1.TabIndex = 13;
 			// 
+			// ucCurrentHandInfo
+			// 
+			this.ucCurrentHandInfo.Location = new System.Drawing.Point(34, 496);
+			this.ucCurrentHandInfo.Name = "ucCurrentHandInfo";
+			this.ucCurrentHandInfo.Size = new System.Drawing.Size(113, 160);
+			this.ucCurrentHandInfo.TabIndex = 16;
+			this.ucCurrentHandInfo.Visible = false;
+			// 
 			// FrmGameScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1155, 720);
+			this.Controls.Add(this.ucCurrentHandInfo);
 			this.Controls.Add(this.ucPlayerOverview1);
 			this.Controls.Add(this.ucTricks1);
 			this.Controls.Add(this.ucSaySelector1);
@@ -118,5 +128,6 @@
 		private UserControls.UcPlayerOverview ucPlayerOverview1;
 		private UserControls.UcTricks ucTricks1;
 		private UserControls.UcSaySelector ucSaySelector1;
+		private UserControls.UcCurrentHandInfo ucCurrentHandInfo;
 	}
 }

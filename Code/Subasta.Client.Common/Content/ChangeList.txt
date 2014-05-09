@@ -2,7 +2,7 @@
 -Implementado mecanismo de captura de errores necesario para evolucionar en reportes durante las fases de preproduccion
 -Terminada la separacion de elementos visuales para posibilitar completar la implementacion del look&feel.
 -Iniciada la optimizacion de los tiempos de marque y recursos necesarios para ello.
-
+-Creado control feedback de la mano actual
 07/05/2014
 -Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
 	implementacion final 

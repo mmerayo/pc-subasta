@@ -17,5 +17,11 @@ namespace Subasta.DomainServices.Game.Players
 	    public virtual void Reset(){}
 		public abstract IFigure ChooseSay(ISaysStatus saysStatus);
 		public abstract ISuit ChooseTrump(ISaysStatus saysStatus);
+		public int NextNumber()
+		{
+			if (PlayerNumber == 4)
+				return 1;
+			return PlayerNumber + 1;
+		}
 	}
 }
