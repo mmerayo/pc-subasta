@@ -5,6 +5,7 @@
 -Creado control feedback de la mano actual
 -Optimización de los tiempos de marque
 -Implementado adaptador de carga al numero de CPU core threads 
+- YA EMPIEZA A TOMAR FORMA LA VERSIÓN BETA
 
 07/05/2014
 -Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
