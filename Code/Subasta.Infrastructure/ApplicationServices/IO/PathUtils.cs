@@ -5,7 +5,7 @@ using Subasta.ApplicationServices.IO;
 
 namespace Subasta.Infrastructure.ApplicationServices.IO
 {
-	class PathUtils:IPathHelper
+	public class PathUtils:IPathHelper
 	{
 		private string _applicationFolderPath;
 

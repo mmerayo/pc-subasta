@@ -105,6 +105,7 @@
     <Compile Include="Infrastructure\NullExplorationListenerHandler.cs" />
     <Compile Include="Interaction\UserInteractionManager.cs" />
     <Compile Include="LibStarter.cs" />
+    <Compile Include="LogConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmChangeList.resx">
       <DependentUpon>FrmChangeList.cs</DependentUpon>
