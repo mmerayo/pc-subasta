@@ -47,10 +47,7 @@
 			this.pbWinner1 = new System.Windows.Forms.PictureBox();
 			this.btnContinue = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-			this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-			this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+		
 			((System.ComponentModel.ISupportInitialize)(this.pbPlayer1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbCard1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbPeta1)).BeginInit();
@@ -256,46 +253,7 @@
 			this.toolTip.SetToolTip(this.btnContinue, "Click para continuar");
 			this.btnContinue.UseVisualStyleBackColor = true;
 			this.btnContinue.Click += new System.EventHandler(this.btnContinue_Click);
-			// 
-			// shapeContainer1
-			// 
-			this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-			this.shapeContainer1.Name = "shapeContainer1";
-			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape3,
-            this.lineShape2,
-            this.lineShape1});
-			this.shapeContainer1.Size = new System.Drawing.Size(113, 160);
-			this.shapeContainer1.TabIndex = 27;
-			this.shapeContainer1.TabStop = false;
-			// 
-			// lineShape1
-			// 
-			this.lineShape1.BorderColor = System.Drawing.SystemColors.ControlDark;
-			this.lineShape1.Name = "lineShape1";
-			this.lineShape1.X1 = 27;
-			this.lineShape1.X2 = 27;
-			this.lineShape1.Y1 = 1;
-			this.lineShape1.Y2 = 128;
-			// 
-			// lineShape2
-			// 
-			this.lineShape2.BorderColor = System.Drawing.SystemColors.ControlDark;
-			this.lineShape2.Name = "lineShape2";
-			this.lineShape2.X1 = 55;
-			this.lineShape2.X2 = 55;
-			this.lineShape2.Y1 = 1;
-			this.lineShape2.Y2 = 128;
-			// 
-			// lineShape3
-			// 
-			this.lineShape3.BorderColor = System.Drawing.SystemColors.ControlDark;
-			this.lineShape3.Name = "lineShape3";
-			this.lineShape3.X1 = 84;
-			this.lineShape3.X2 = 84;
-			this.lineShape3.Y1 = 0;
-			this.lineShape3.Y2 = 127;
+			
 			// 
 			// UcCurrentHandInfo
 			// 
@@ -318,7 +276,6 @@
 			this.Controls.Add(this.pbPeta1);
 			this.Controls.Add(this.pbCard1);
 			this.Controls.Add(this.pbPlayer1);
-			this.Controls.Add(this.shapeContainer1);
 			this.Name = "UcCurrentHandInfo";
 			this.Size = new System.Drawing.Size(113, 160);
 			((System.ComponentModel.ISupportInitialize)(this.pbPlayer1)).EndInit();
@@ -361,9 +318,6 @@
 		private System.Windows.Forms.PictureBox pbWinner1;
 		private System.Windows.Forms.Button btnContinue;
 		private System.Windows.Forms.ToolTip toolTip;
-		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+	
 	}
 }
