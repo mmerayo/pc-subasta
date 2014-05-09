@@ -1,4 +1,8 @@
-﻿07/05/2014
+﻿09/05/2014
+-Implementado mecanismo de captura de errores necesario para evolucionar en reportes durante las fases de preproduccion
+-Terminada la separacion de elementos visuales para posibilitar completar la implementacion del look&feel
+
+07/05/2014
 -Separacion de varios elementos de interfaz de usuario en controles individuales para iniciar su
 	implementacion final 
 -Optimizados tipos de datos para representar los calculos como primera aproximacion para aligerar el peso en memoria
