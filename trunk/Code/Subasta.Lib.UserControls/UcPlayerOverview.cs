@@ -12,9 +12,9 @@ namespace Subasta.Lib.UserControls
 {
 	public partial class UcPlayerOverview : UserControl, ICustomUserControl
 	{
-		private const string PbTurnoPrefixName = "pbTurno";
+		private const string PbTurnPrefixName = "pbTurno";
 		private const string PbFirstPlayerPrefixName = "pbFirstPlayer";
-		private const string PbTriunfoPrefixName = "pbTrump";
+		private const string PbTrumpPrefixName = "pbTrump";
 		private const string LblBetPrefixName = "lblBet";
 
 
@@ -31,7 +31,7 @@ namespace Subasta.Lib.UserControls
 
 		private void SetToolTips()
 		{
-			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTriunfoPrefixName)))
+			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTrumpPrefixName)))
 			{
 				toolTip.SetToolTip(pb,"El triunfo puesto por el jugador");
 			}
@@ -41,7 +41,7 @@ namespace Subasta.Lib.UserControls
 				toolTip.SetToolTip(pb, "El jugador sale en esta mano");
 			}
 
-			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTurnoPrefixName)))
+			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTurnPrefixName)))
 			{
 				toolTip.SetToolTip(pb, "Es el turno de este jugador");
 			}
@@ -64,6 +64,13 @@ namespace Subasta.Lib.UserControls
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameSaysStarted += _gameSetHandler_GameSaysStarted;
 			_gameSetHandler.GameSaysCompleted += _gameSetHandler_GameSaysCompleted;
+			_gameSetHandler.GameHandler.GameCompleted += new StatusChangedHandler(GameHandler_GameCompleted);
+		}
+
+		void GameHandler_GameCompleted(IExplorationStatus status)
+		{
+			DeactivateAllIconClass<Label>(LblBetPrefixName);
+			DeactivateAllIconClass<PictureBox>(PbTrumpPrefixName);
 		}
 
 		private void _gameSetHandler_GameSaysCompleted(ISaysStatus status)
@@ -104,12 +111,12 @@ namespace Subasta.Lib.UserControls
 		private void UpdateTurn(IPlayer player)
 		{
 
-			ActivateIconClass<PictureBox>(player, PbTurnoPrefixName);
+			ActivateIconClass<PictureBox>(player, PbTurnPrefixName);
 		}
 
 		private void UpdateTrump(ISuit trump, IPlayer playerBets)
 		{
-			var target = ActivateIconClass<PictureBox>(playerBets, PbTriunfoPrefixName);
+			var target = ActivateIconClass<PictureBox>(playerBets, PbTrumpPrefixName);
 			target.Image = _mediaProvider.GetCard(trump, 1);
 		}
 
@@ -122,17 +129,23 @@ namespace Subasta.Lib.UserControls
 
 		private TControl ActivateIconClass<TControl>(IPlayer player, string pbPrefixName) where TControl:Control
 		{
-			var pbs = this.FindControls<TControl>(x => x.Name.StartsWith(pbPrefixName));
-
-			foreach (var pb in pbs)
-			{
-				pb.PerformSafely(x=>x.Visible = false);
-			}
+			var pbs = DeactivateAllIconClass<TControl>(pbPrefixName);
 
 			var actual = pbs.Single(x => x.Name.EndsWith(player.PlayerNumber.ToString()));
 			actual.PerformSafely(x => x.Visible = true);
 
 			return actual;
+		}
+
+		private IEnumerable<TControl> DeactivateAllIconClass<TControl>(string pbPrefixName) where TControl : Control
+		{
+			var pbs = this.FindControls<TControl>(x => x.Name.StartsWith(pbPrefixName));
+
+			foreach (var pb in pbs)
+			{
+				pb.PerformSafely(x => x.Visible = false);
+			}
+			return pbs;
 		}
 
 		private void PaintPlayers()
@@ -142,7 +155,7 @@ namespace Subasta.Lib.UserControls
 			pb3.Image = _mediaProvider.GetImage(GameMediaType.Jugador3);
 			pb4.Image = _mediaProvider.GetImage(GameMediaType.Jugador4);
 
-			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTurnoPrefixName)))
+			foreach (var pb in this.FindControls<PictureBox>(x => x.Name.StartsWith(PbTurnPrefixName)))
 			{
 				pb.Image = _mediaProvider.GetImage(GameMediaType.Turno);
 			}
