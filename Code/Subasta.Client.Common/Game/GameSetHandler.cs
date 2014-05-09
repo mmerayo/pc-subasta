@@ -83,7 +83,7 @@ namespace Subasta.Client.Common.Game
 			try
 			{
 
-
+				//TODO: might not be needed, this decouples the ui thread from the logic
 				_startTask = Task.Factory.StartNew(() =>
 				{
 					try

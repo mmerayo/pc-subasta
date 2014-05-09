@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using log4net;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
@@ -84,12 +85,21 @@ namespace Subasta.DomainServices.Game.Players
 			ResetEvents();
 		}
 
+		private static readonly ILog Logger = LogManager.GetLogger(typeof (Game));
 		public void StartGame()
 		{
-			TreeNode root = RunSays();
-			if (_saysStatus.PointsBet == 0)
-				return; //TODO: DONE
-			RunGame(root);
+			try
+			{
+				TreeNode root = RunSays();
+				if (_saysStatus.PointsBet == 0)
+					return; //TODO: DONE
+				RunGame(root);
+			}
+			catch (Exception ex)
+			{
+				Logger.Fatal("StartGame",ex);
+				throw;
+			}
 		}
 
 		#endregion
