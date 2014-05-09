@@ -18,6 +18,7 @@ namespace Subasta.Lib
 				InitializeComponent();
 
 				this.txtChanges.Text = resourceReadingUtils.GetText("ChangeList.txt");
+				txtChanges.Select(0,0);
 			}
 		}
 	}

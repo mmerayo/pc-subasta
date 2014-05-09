@@ -28,25 +28,25 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tabs = new System.Windows.Forms.TabControl();
-			this.SuspendLayout();
-			// 
-			// tabs
-			// 
-			this.tabs.Location = new System.Drawing.Point(0, 0);
-			this.tabs.Name = "tabs";
-			this.tabs.SelectedIndex = 0;
-			this.tabs.Size = new System.Drawing.Size(206, 395);
-			this.tabs.TabIndex = 7;
-			// 
-			// UcGameSets
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tabs);
-			this.Name = "UcGameSets";
-			this.Size = new System.Drawing.Size(206, 395);
-			this.ResumeLayout(false);
+		this.tabs = new System.Windows.Forms.TabControl();
+		this.SuspendLayout();
+		// 
+		// tabs
+		// 
+		this.tabs.Location = new System.Drawing.Point(0, 0);
+		this.tabs.Name = "tabs";
+		this.tabs.SelectedIndex = 0;
+		this.tabs.Size = new System.Drawing.Size(206, 395);
+		this.tabs.TabIndex = 7;
+		// 
+		// UcGameSets
+		// 
+		this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+		this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+		this.Controls.Add(this.tabs);
+		this.Name = "UcGameSets";
+		this.Size = new System.Drawing.Size(206, 260);
+		this.ResumeLayout(false);
 
 		}
 

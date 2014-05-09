@@ -1,3 +1,4 @@
+using System;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -10,7 +11,7 @@ namespace Subasta.DomainServices.Game
 		ISuit ChooseTrump(int teamNumber);
 		object GetRoot(ISuit chooseTrump); //TODO: TYPE
 
-		byte GetMaxExplorationFor(byte teamNumber, int minNumberExplorations, float maxRiskPercentage);
+		byte GetMaxExplorationFor(byte teamNumber, int minNumberExplorations, float maxRiskPercentage, TimeSpan timeLimit);
 		void UpdateExplorationListeners();
 	}
 }
