@@ -20,5 +20,6 @@ namespace Subasta.Domain.Game
 	    void Reset();
 		IFigure ChooseSay(ISaysStatus saysStatus);
 		ISuit ChooseTrump(ISaysStatus saysStatus);
+		int NextNumber();
 	}
 }

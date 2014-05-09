@@ -45,5 +45,10 @@ namespace Subasta.Client.Common.Extensions
 		{
 			return root.FindControls<TControl>((c) => true);
 		}
+
+		public static TControl FindControl<TControl>(this Control root, string name)
+		{
+			return root.FindControls<TControl>((c) => c.Name==name).SingleOrDefault();
+		}
 	}
 }

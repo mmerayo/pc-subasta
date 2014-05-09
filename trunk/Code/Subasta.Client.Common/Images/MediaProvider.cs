@@ -37,6 +37,7 @@ namespace Subasta.Client.Common.Images
 			_fileNameMap.Add(GameMediaType.Jugador4, "jugador4.png");
 			_fileNameMap.Add(GameMediaType.Turno, "turno.jpg");
 			_fileNameMap.Add(GameMediaType.FirstPlayer, "FirstPlayer.jpg");
+			_fileNameMap.Add(GameMediaType.Winner, "Winner.jpg");
 		}
 
 		public Image GetImage(GameMediaType gameMediaType)
