@@ -19,10 +19,12 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		public IFigure GetFigure(ISaysStatus saysStatus)
 		{
-			//TODO: CONFIGURABLE
+			//TODO: CONFIGURABLE The players must exist in the configuration and we take the params from there
 	
 			int minVisits = (saysStatus.Says.Count(x => x.PlayerNum == saysStatus.Turn) + 1)*3000;
-			var maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, (float)0.4);
+			float maxRiskPercentage = 0.7F;
+			TimeSpan fromSeconds = TimeSpan.FromSeconds(5);
+			var maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, maxRiskPercentage, fromSeconds);
 
 			IEnumerable<IFigure> candidates = GetCandidateFigures(saysStatus, maxCurrentExploration);
 			_saysSimulator.UpdateExplorationListeners();
@@ -98,11 +100,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			    saysStatus.PointsBet + 1 <= normalizedTopPoints)
 			{
 				//if the other team wont reach the normalized top points block them by taking their bet otherwise use current max
-				int maxOtherTeam = _saysSimulator.GetMaxExplorationFor(saysStatus.OtherTeam, 0, 0.2F)/10;
+				int maxOtherTeam = _saysSimulator.GetMaxExplorationFor(saysStatus.OtherTeam, 0, 0.4F, TimeSpan.Zero)/10;
 				int points;
 				if (maxOtherTeam < normalizedTopPoints)
 				{
-					int maxConservative = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, 0, 0.5F) / 10;
+					int maxConservative = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, 0, 0.6F, TimeSpan.Zero) / 10;
 
 					if (saysStatus.PointsBet + 1 <= maxOtherTeam)
 					//chooses max between other and a more conservative max as It does not need to be pushed because the opponent cant reach
