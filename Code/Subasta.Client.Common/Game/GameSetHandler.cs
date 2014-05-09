@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
+using Subasta.ApplicationServices.Extensions;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
@@ -13,6 +15,8 @@ namespace Subasta.Client.Common.Game
 {
 	internal class GameSetHandler : IGameSetHandler
 	{
+
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(GameSetHandler));
 		//TODO: configurable
 		private const int GameSetTargetPoints = 100;
 		private readonly IGameHandler _gameHandler;
@@ -93,10 +97,11 @@ namespace Subasta.Client.Common.Game
 					{
 						_startWaitHandle.Set();
 					}
-				}, tokenSource.Token);
+				}, tokenSource.Token).LogTaskException(Logger);
 			}
 			catch (Exception ex)
 			{
+				Logger.Error("Start",ex);
 				tokenSource.Cancel(true);
 				throw;
 			}

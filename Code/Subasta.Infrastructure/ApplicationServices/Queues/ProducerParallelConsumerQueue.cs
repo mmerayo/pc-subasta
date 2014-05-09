@@ -9,6 +9,8 @@ namespace Subasta.Infrastructure.ApplicationServices.Queues
 {
 	public abstract class ProducerParallelConsumerQueue<TQueueItem> : IProducerConsumerQueue<TQueueItem>
 	{
+		
+		
 		private readonly int _initialWorkerCount;
 		private int MaxThreadsNum { get; set; }
 		private int QueueSizeToCreateNewThread { get; set; }
