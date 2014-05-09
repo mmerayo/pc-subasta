@@ -88,15 +88,8 @@ namespace Subasta.Lib.UserControls
 		{
 			string format = string.Format("Triunfo {0}!!", status.Trump);
 			var pb = this.FindControls<PictureBox>(x => x.Name == "pb" + status.PlayerBets).Single();
-			bool wasVisible = true;
-			if (!pb.Visible)
-			{
-				wasVisible = false;
-				pb.PerformSafely(x => x.Visible = true);
-			}
+			
 			ShowBalloon(pb, format, TimeSpan.FromSeconds(2));
-			if (!wasVisible)
-				pb.PerformSafely(x => x.Visible = false);
 		}
 
 		private void gameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
@@ -158,11 +151,7 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_TurnChanged(int turn)
 		{
-			foreach (PictureBox pb in this.FindControls<PictureBox>(x => x.Name.StartsWith("pb")))
-			{
-				pb.PerformSafely(x => x.Visible = false);
-			}
-			this.FindControls<PictureBox>(x => x.Name == "pb" + turn).First().PerformSafely(x => x.Visible = true);
+			
 		}
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)

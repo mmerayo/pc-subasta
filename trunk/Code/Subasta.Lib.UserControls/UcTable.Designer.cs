@@ -85,7 +85,6 @@
 			this.pb2.Size = new System.Drawing.Size(40, 40);
 			this.pb2.TabIndex = 8;
 			this.pb2.TabStop = false;
-			this.pb2.Visible = false;
 			// 
 			// balloonInfo
 			// 
@@ -115,7 +114,6 @@
 			this.pb1.Size = new System.Drawing.Size(40, 40);
 			this.pb1.TabIndex = 11;
 			this.pb1.TabStop = false;
-			this.pb1.Visible = false;
 			// 
 			// pb3
 			// 
@@ -125,7 +123,6 @@
 			this.pb3.Size = new System.Drawing.Size(40, 40);
 			this.pb3.TabIndex = 10;
 			this.pb3.TabStop = false;
-			this.pb3.Visible = false;
 			// 
 			// pb4
 			// 
@@ -135,7 +132,6 @@
 			this.pb4.Size = new System.Drawing.Size(40, 40);
 			this.pb4.TabIndex = 9;
 			this.pb4.TabStop = false;
-			this.pb4.Visible = false;
 			// 
 			// UcTable
 			// 
