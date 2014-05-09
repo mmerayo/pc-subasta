@@ -88,29 +88,11 @@
     <Compile Include="FrmChangeList.Designer.cs">
       <DependentUpon>FrmChangeList.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmGame.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmGame.Designer.cs">
-      <DependentUpon>FrmGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmGameInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmGameInfo.Designer.cs">
-      <DependentUpon>FrmGameInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmGameScreen.Designer.cs">
       <DependentUpon>FrmGameScreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmGameSetInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmGameSetInfo.Designer.cs">
-      <DependentUpon>FrmGameSetInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ApplicationEventsExecutorExecutor.cs" />
     <Compile Include="Infrastructure\RegisterLibIoc.cs" />
@@ -127,20 +109,11 @@
     <EmbeddedResource Include="FrmChangeList.resx">
       <DependentUpon>FrmChangeList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmGame.resx">
-      <DependentUpon>FrmGame.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmGameScreen.resx">
       <DependentUpon>FrmGameScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmGameSetInfo.resx">
-      <DependentUpon>FrmGameSetInfo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmGameInfo.resx">
-      <DependentUpon>FrmGameInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
