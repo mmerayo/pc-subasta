@@ -4,7 +4,9 @@ using System.Linq;
 using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using StructureMap;
+using Subasta.ApplicationServices.Extensions;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Domain.Game.Analysis;
@@ -14,6 +16,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	internal class MctsSaysRunner : IMctsSaysRunner, IDisposable
 	{
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(MctsSaysRunner));
 		private const int ROOT_OROS = 0;
 		private const int ROOT_COPAS = 1;
 		private const int ROOT_ESPADAS = 2;
@@ -81,8 +84,9 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 					{
 						task.Wait(TimeSpan.FromSeconds(20));
 					}
-					catch
+					catch(Exception ex)
 					{
+						Logger.Error("Reset", ex);
 					}
 				}
 
@@ -183,17 +187,17 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                                        				root.Select((++count%2) + 1);
 			                                        			}
 			                                        		}
-			                                        		catch (InsufficientMemoryException)
-			                                        		{
-			                                        			//log
-			                                        		}
-			                                        		catch (NullReferenceException)
-			                                        		{
-			                                        			//log
-			                                        		}
-															catch
+															catch (InsufficientMemoryException ex)
 															{
-																//log
+																Logger.Error("StartExploration", ex);
+															}
+															catch (NullReferenceException ex)
+															{
+																Logger.Error("StartExploration", ex);
+															}
+															catch (Exception ex)
+															{
+																Logger.Error("StartExploration", ex);
 															}
 			                                        	}
 
@@ -201,7 +205,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 														root.Children.ForEach(x=>x.Dispose());
 														root.Children.Clear();
 														GC.Collect(1, GCCollectionMode.Optimized);
-			                                        }, _tokenSource.Token);
+			                                        }, _tokenSource.Token).LogTaskException(Logger);
 		}
 
 

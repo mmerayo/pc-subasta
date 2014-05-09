@@ -15,6 +15,7 @@ namespace Analyzer
 {
 	internal partial class FrmExplorationStatus : Form
 	{
+
 		private PictureBox[][] _pbCards = new PictureBox[4][];
 
 		private readonly IGameHandler _GameHandler;
@@ -69,7 +70,7 @@ namespace Analyzer
 				{
 					result = Suit.FromId(stringResult[0]);
 				}
-				catch
+				catch(Exception ex)
 				{
 					result = null;
 				}

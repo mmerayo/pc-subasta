@@ -4,7 +4,9 @@ using System.Linq;
 using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using StructureMap;
+using Subasta.ApplicationServices.Extensions;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Domain.Game.Algorithms;
@@ -13,6 +15,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 {
 	class MctsRunner : IMctsRunner,IDisposable
 	{
+		private static readonly ILog Logger = LogManager.GetLogger(typeof (MctsRunner));
+
 		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private TreeNode _root;
 		private const int MaxNumberExplorations = 240000; //to preserve memory
@@ -66,21 +70,21 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              				}
 			                              			}
 			                              		}
-			                              		catch (InsufficientMemoryException)
+			                              		catch (InsufficientMemoryException ex)
 			                              		{
-			                              			//log
+			                              			Logger.Error("Start",ex);
 			                              		}
-			                              		catch (NullReferenceException)
+			                              		catch (NullReferenceException ex)
 			                              		{
-			                              			//log
+													Logger.Error("Start", ex);
 			                              		}
-			                              		catch
+			                              		catch(Exception ex)
 			                              		{
-			                              			//log
+													Logger.Error("Start", ex);
 			                              		}
 			                              	}
 			                              	GC.Collect(1, GCCollectionMode.Optimized);
-			                              }, _tokenSource.Token);
+			                              }, _tokenSource.Token).LogTaskException(Logger);
 
 		}
 

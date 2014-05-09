@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 
 namespace Subasta.ApplicationServices.Extensions
 {
 	public static class TaskExceptionsLogger
 	{
-		//public static Task LogTaskException(this Task theTask, ILog theLogger, string logPrefix = "")
-		//{
-		//    return theTask.LogTaskException(theLogger.Error);
-		//}
-
-		public static Task LogTaskException(this Task theTask, string logPrefix = "")
+		public static Task LogTaskException(this Task theTask, ILog theLogger, string logPrefix = "")
 		{
-			return theTask.LogTaskException(Console.WriteLine);
+		    return theTask.LogTaskException(theLogger.Error);
 		}
+
 
 		public static Task LogTaskException(this Task theTask, Action<string> logExecutor, string logPrefix = "")
 		{
