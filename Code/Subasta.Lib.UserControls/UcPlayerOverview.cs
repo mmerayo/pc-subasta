@@ -64,7 +64,7 @@ namespace Subasta.Lib.UserControls
 			_gameSetHandler.GameStarted += _gameSetHandler_GameStarted;
 			_gameSetHandler.GameSaysStarted += _gameSetHandler_GameSaysStarted;
 			_gameSetHandler.GameSaysCompleted += _gameSetHandler_GameSaysCompleted;
-			_gameSetHandler.GameHandler.GameCompleted += new StatusChangedHandler(GameHandler_GameCompleted);
+			_gameSetHandler.GameCompleted += GameHandler_GameCompleted;
 		}
 
 		void GameHandler_GameCompleted(IExplorationStatus status)

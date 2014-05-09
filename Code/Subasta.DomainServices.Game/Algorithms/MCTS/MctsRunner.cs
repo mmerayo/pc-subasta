@@ -19,7 +19,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 		private readonly IApplicationEventsExecutor _eventsExecutor;
 		private TreeNode _root;
-		private const int MaxNumberExplorations = 240000; //to preserve memory
+		private const int MaxNumberExplorations = 120000; //to preserve memory
 		private readonly object _rootLocker=new object();
 		private CancellationTokenSource _tokenSource ;
 		private Task _task;
@@ -45,6 +45,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			{
 				_root = (TreeNode) root;
 			}
+			CompactMemory();
+
 			_tokenSource = new CancellationTokenSource();
 			_task = Task.Factory.StartNew(() =>
 			                              {
@@ -59,7 +61,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		try
 			                              		{
-			                              			using (var mfp = new MemoryFailPoint(4))
+			                              			using (var mfp = new MemoryFailPoint(1))
 			                              			{
 			                              				lock (_rootLocker)
 			                              				{
@@ -72,6 +74,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		catch (InsufficientMemoryException ex)
 			                              		{
+													GC.Collect(3, GCCollectionMode.Forced);
 			                              			Logger.Error("Start",ex);
 			                              		}
 			                              		catch (NullReferenceException ex)
@@ -86,6 +89,20 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              	GC.Collect(1, GCCollectionMode.Optimized);
 			                              }, _tokenSource.Token).LogTaskException(Logger);
 
+		}
+
+		private static void CompactMemory()
+		{
+			GC.Collect(3, GCCollectionMode.Forced);
+			try
+			{
+				using (var mfp = new MemoryFailPoint(1536)) ;
+			}
+			catch (InsufficientMemoryException ex)
+			{
+				GC.Collect(3, GCCollectionMode.Forced);
+				Logger.Error("Start", ex);
+			}
 		}
 
 		public void Reset()
