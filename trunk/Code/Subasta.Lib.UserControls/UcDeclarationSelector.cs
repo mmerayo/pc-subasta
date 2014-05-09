@@ -78,6 +78,7 @@ namespace Subasta.Lib.UserControls
 
 		private void btnDeclarations_Click(object sender, EventArgs e)
 		{
+		meter logs en todas las interacciones de usuarios
 			_interactionManager.InputProvided(() =>
 			{
 				var selectedValue = (string)cmbDeclarations.SelectedValue;

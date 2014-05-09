@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using log4net;
 using Subasta.ApplicationServices.IO;
 using Subasta.Client.Common.Game;
 
@@ -10,6 +11,7 @@ namespace Subasta.Lib
 {
 	public partial class FrmMain : Form
 	{
+		private static readonly ILog Logger = LogManager.GetLogger(typeof (FrmMain));
 		private readonly FrmChangeList _frmChangeList;
 		private readonly IPathHelper _pathHelper;
 		private readonly IGameSetHandler _gameSetHandler;
@@ -51,7 +53,7 @@ namespace Subasta.Lib
 			}
 			catch (Exception ex)
 			{
-				//TODO: SEND ERROR
+				Logger.Error("StartSet",ex);//TODO: request send email with error on close/start, then remove to not to request redundantly
 			}
 		}
 
