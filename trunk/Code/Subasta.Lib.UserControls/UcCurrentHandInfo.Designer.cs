@@ -68,9 +68,9 @@
 		// pbPlayer1
 		// 
 		this.pbPlayer1.BackColor = System.Drawing.Color.Transparent;
-		this.pbPlayer1.Location = new System.Drawing.Point(3, 74);
+		this.pbPlayer1.Location = new System.Drawing.Point(3, 86);
 		this.pbPlayer1.Name = "pbPlayer1";
-		this.pbPlayer1.Size = new System.Drawing.Size(25, 30);
+		this.pbPlayer1.Size = new System.Drawing.Size(30, 37);
 		this.pbPlayer1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPlayer1.TabIndex = 10;
 		this.pbPlayer1.TabStop = false;
@@ -81,7 +81,7 @@
 		this.pbCard1.BackColor = System.Drawing.Color.Transparent;
 		this.pbCard1.Location = new System.Drawing.Point(3, 42);
 		this.pbCard1.Name = "pbCard1";
-		this.pbCard1.Size = new System.Drawing.Size(25, 30);
+		this.pbCard1.Size = new System.Drawing.Size(30, 37);
 		this.pbCard1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbCard1.TabIndex = 11;
 		this.pbCard1.TabStop = false;
@@ -90,9 +90,9 @@
 		// pbPeta1
 		// 
 		this.pbPeta1.BackColor = System.Drawing.Color.Transparent;
-		this.pbPeta1.Location = new System.Drawing.Point(3, 106);
+		this.pbPeta1.Location = new System.Drawing.Point(3, 129);
 		this.pbPeta1.Name = "pbPeta1";
-		this.pbPeta1.Size = new System.Drawing.Size(25, 30);
+		this.pbPeta1.Size = new System.Drawing.Size(30, 37);
 		this.pbPeta1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPeta1.TabIndex = 12;
 		this.pbPeta1.TabStop = false;
@@ -101,9 +101,9 @@
 		// pbPeta2
 		// 
 		this.pbPeta2.BackColor = System.Drawing.Color.Transparent;
-		this.pbPeta2.Location = new System.Drawing.Point(44, 106);
+		this.pbPeta2.Location = new System.Drawing.Point(44, 129);
 		this.pbPeta2.Name = "pbPeta2";
-		this.pbPeta2.Size = new System.Drawing.Size(25, 30);
+		this.pbPeta2.Size = new System.Drawing.Size(30, 37);
 		this.pbPeta2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPeta2.TabIndex = 15;
 		this.pbPeta2.TabStop = false;
@@ -114,7 +114,7 @@
 		this.pbCard2.BackColor = System.Drawing.Color.Transparent;
 		this.pbCard2.Location = new System.Drawing.Point(44, 42);
 		this.pbCard2.Name = "pbCard2";
-		this.pbCard2.Size = new System.Drawing.Size(25, 30);
+		this.pbCard2.Size = new System.Drawing.Size(30, 37);
 		this.pbCard2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbCard2.TabIndex = 14;
 		this.pbCard2.TabStop = false;
@@ -123,9 +123,9 @@
 		// pbPlayer2
 		// 
 		this.pbPlayer2.BackColor = System.Drawing.Color.Transparent;
-		this.pbPlayer2.Location = new System.Drawing.Point(44, 74);
+		this.pbPlayer2.Location = new System.Drawing.Point(44, 86);
 		this.pbPlayer2.Name = "pbPlayer2";
-		this.pbPlayer2.Size = new System.Drawing.Size(25, 30);
+		this.pbPlayer2.Size = new System.Drawing.Size(30, 37);
 		this.pbPlayer2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPlayer2.TabIndex = 13;
 		this.pbPlayer2.TabStop = false;
@@ -134,9 +134,9 @@
 		// pbPeta3
 		// 
 		this.pbPeta3.BackColor = System.Drawing.Color.Transparent;
-		this.pbPeta3.Location = new System.Drawing.Point(84, 106);
+		this.pbPeta3.Location = new System.Drawing.Point(84, 129);
 		this.pbPeta3.Name = "pbPeta3";
-		this.pbPeta3.Size = new System.Drawing.Size(25, 30);
+		this.pbPeta3.Size = new System.Drawing.Size(30, 37);
 		this.pbPeta3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPeta3.TabIndex = 18;
 		this.pbPeta3.TabStop = false;
@@ -147,7 +147,7 @@
 		this.pbCard3.BackColor = System.Drawing.Color.Transparent;
 		this.pbCard3.Location = new System.Drawing.Point(84, 42);
 		this.pbCard3.Name = "pbCard3";
-		this.pbCard3.Size = new System.Drawing.Size(25, 30);
+		this.pbCard3.Size = new System.Drawing.Size(30, 37);
 		this.pbCard3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbCard3.TabIndex = 17;
 		this.pbCard3.TabStop = false;
@@ -156,9 +156,9 @@
 		// pbPlayer3
 		// 
 		this.pbPlayer3.BackColor = System.Drawing.Color.Transparent;
-		this.pbPlayer3.Location = new System.Drawing.Point(84, 74);
+		this.pbPlayer3.Location = new System.Drawing.Point(84, 86);
 		this.pbPlayer3.Name = "pbPlayer3";
-		this.pbPlayer3.Size = new System.Drawing.Size(25, 30);
+		this.pbPlayer3.Size = new System.Drawing.Size(30, 37);
 		this.pbPlayer3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPlayer3.TabIndex = 16;
 		this.pbPlayer3.TabStop = false;
@@ -167,9 +167,9 @@
 		// pbPeta4
 		// 
 		this.pbPeta4.BackColor = System.Drawing.Color.Transparent;
-		this.pbPeta4.Location = new System.Drawing.Point(122, 106);
+		this.pbPeta4.Location = new System.Drawing.Point(122, 129);
 		this.pbPeta4.Name = "pbPeta4";
-		this.pbPeta4.Size = new System.Drawing.Size(25, 30);
+		this.pbPeta4.Size = new System.Drawing.Size(30, 37);
 		this.pbPeta4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPeta4.TabIndex = 21;
 		this.pbPeta4.TabStop = false;
@@ -180,7 +180,7 @@
 		this.pbCard4.BackColor = System.Drawing.Color.Transparent;
 		this.pbCard4.Location = new System.Drawing.Point(122, 42);
 		this.pbCard4.Name = "pbCard4";
-		this.pbCard4.Size = new System.Drawing.Size(25, 30);
+		this.pbCard4.Size = new System.Drawing.Size(30, 37);
 		this.pbCard4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbCard4.TabIndex = 20;
 		this.pbCard4.TabStop = false;
@@ -189,9 +189,9 @@
 		// pbPlayer4
 		// 
 		this.pbPlayer4.BackColor = System.Drawing.Color.Transparent;
-		this.pbPlayer4.Location = new System.Drawing.Point(122, 74);
+		this.pbPlayer4.Location = new System.Drawing.Point(122, 86);
 		this.pbPlayer4.Name = "pbPlayer4";
-		this.pbPlayer4.Size = new System.Drawing.Size(25, 30);
+		this.pbPlayer4.Size = new System.Drawing.Size(30, 37);
 		this.pbPlayer4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbPlayer4.TabIndex = 19;
 		this.pbPlayer4.TabStop = false;
@@ -200,9 +200,9 @@
 		// pbWinner4
 		// 
 		this.pbWinner4.BackColor = System.Drawing.Color.Transparent;
-		this.pbWinner4.Location = new System.Drawing.Point(122, 138);
+		this.pbWinner4.Location = new System.Drawing.Point(122, 172);
 		this.pbWinner4.Name = "pbWinner4";
-		this.pbWinner4.Size = new System.Drawing.Size(25, 30);
+		this.pbWinner4.Size = new System.Drawing.Size(30, 37);
 		this.pbWinner4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbWinner4.TabIndex = 25;
 		this.pbWinner4.TabStop = false;
@@ -211,9 +211,9 @@
 		// pbWinner3
 		// 
 		this.pbWinner3.BackColor = System.Drawing.Color.Transparent;
-		this.pbWinner3.Location = new System.Drawing.Point(84, 138);
+		this.pbWinner3.Location = new System.Drawing.Point(84, 172);
 		this.pbWinner3.Name = "pbWinner3";
-		this.pbWinner3.Size = new System.Drawing.Size(25, 30);
+		this.pbWinner3.Size = new System.Drawing.Size(30, 37);
 		this.pbWinner3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbWinner3.TabIndex = 24;
 		this.pbWinner3.TabStop = false;
@@ -222,9 +222,9 @@
 		// pbWinner2
 		// 
 		this.pbWinner2.BackColor = System.Drawing.Color.Transparent;
-		this.pbWinner2.Location = new System.Drawing.Point(44, 138);
+		this.pbWinner2.Location = new System.Drawing.Point(44, 172);
 		this.pbWinner2.Name = "pbWinner2";
-		this.pbWinner2.Size = new System.Drawing.Size(25, 30);
+		this.pbWinner2.Size = new System.Drawing.Size(30, 37);
 		this.pbWinner2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbWinner2.TabIndex = 23;
 		this.pbWinner2.TabStop = false;
@@ -233,9 +233,9 @@
 		// pbWinner1
 		// 
 		this.pbWinner1.BackColor = System.Drawing.Color.Transparent;
-		this.pbWinner1.Location = new System.Drawing.Point(3, 138);
+		this.pbWinner1.Location = new System.Drawing.Point(3, 172);
 		this.pbWinner1.Name = "pbWinner1";
-		this.pbWinner1.Size = new System.Drawing.Size(25, 30);
+		this.pbWinner1.Size = new System.Drawing.Size(30, 37);
 		this.pbWinner1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbWinner1.TabIndex = 22;
 		this.pbWinner1.TabStop = false;
@@ -273,7 +273,7 @@
 		this.Controls.Add(this.pbCard1);
 		this.Controls.Add(this.pbPlayer1);
 		this.Name = "UcCurrentHandInfo";
-		this.Size = new System.Drawing.Size(147, 200);
+		this.Size = new System.Drawing.Size(158, 226);
 		((System.ComponentModel.ISupportInitialize)(this.pbPlayer1)).EndInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbCard1)).EndInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbPeta1)).EndInit();

@@ -42,7 +42,7 @@
 		// 
 		this.ucCurrentHandInfo.Location = new System.Drawing.Point(952, 299);
 		this.ucCurrentHandInfo.Name = "ucCurrentHandInfo";
-		this.ucCurrentHandInfo.Size = new System.Drawing.Size(176, 203);
+		this.ucCurrentHandInfo.Size = new System.Drawing.Size(191, 221);
 		this.ucCurrentHandInfo.TabIndex = 16;
 		this.ucCurrentHandInfo.Visible = false;
 		// 
