@@ -28,58 +28,98 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.grpTrumpOptions = new System.Windows.Forms.GroupBox();
-			this.btnSelectTrump = new System.Windows.Forms.Button();
-			this.cmbSuits = new System.Windows.Forms.ComboBox();
-			this.grpTrumpOptions.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// grpTrumpOptions
-			// 
-			this.grpTrumpOptions.Controls.Add(this.btnSelectTrump);
-			this.grpTrumpOptions.Controls.Add(this.cmbSuits);
-			this.grpTrumpOptions.Location = new System.Drawing.Point(0, 0);
-			this.grpTrumpOptions.Name = "grpTrumpOptions";
-			this.grpTrumpOptions.Size = new System.Drawing.Size(206, 81);
-			this.grpTrumpOptions.TabIndex = 5;
-			this.grpTrumpOptions.TabStop = false;
-			this.grpTrumpOptions.Text = "Seleccion de triunfo";
-			// 
-			// btnSelectTrump
-			// 
-			this.btnSelectTrump.Location = new System.Drawing.Point(41, 47);
-			this.btnSelectTrump.Name = "btnSelectTrump";
-			this.btnSelectTrump.Size = new System.Drawing.Size(115, 28);
-			this.btnSelectTrump.TabIndex = 1;
-			this.btnSelectTrump.Text = "Seleccionar";
-			this.btnSelectTrump.UseVisualStyleBackColor = true;
-			this.btnSelectTrump.Click += new System.EventHandler(this.btnSelectTrump_Click);
-			// 
-			// cmbSuits
-			// 
-			this.cmbSuits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbSuits.FormattingEnabled = true;
-			this.cmbSuits.Location = new System.Drawing.Point(41, 19);
-			this.cmbSuits.Name = "cmbSuits";
-			this.cmbSuits.Size = new System.Drawing.Size(115, 21);
-			this.cmbSuits.TabIndex = 0;
-			// 
-			// UcTrumpSelection
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.grpTrumpOptions);
-			this.Name = "UcTrumpSelection";
-			this.Size = new System.Drawing.Size(206, 81);
-			this.grpTrumpOptions.ResumeLayout(false);
-			this.ResumeLayout(false);
+		this.label1 = new System.Windows.Forms.Label();
+		this.pbOros = new System.Windows.Forms.PictureBox();
+		this.pbCopas = new System.Windows.Forms.PictureBox();
+		this.pbEspadas = new System.Windows.Forms.PictureBox();
+		this.pbBastos = new System.Windows.Forms.PictureBox();
+		((System.ComponentModel.ISupportInitialize)(this.pbOros)).BeginInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbCopas)).BeginInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbEspadas)).BeginInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbBastos)).BeginInit();
+		this.SuspendLayout();
+		// 
+		// label1
+		// 
+		this.label1.AutoSize = true;
+		this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		this.label1.Location = new System.Drawing.Point(14, 4);
+		this.label1.Name = "label1";
+		this.label1.Size = new System.Drawing.Size(144, 18);
+		this.label1.TabIndex = 0;
+		this.label1.Text = "Seleccione triunfo";
+		// 
+		// pbOros
+		// 
+		this.pbOros.Cursor = System.Windows.Forms.Cursors.Hand;
+		this.pbOros.Location = new System.Drawing.Point(4, 26);
+		this.pbOros.Name = "pbOros";
+		this.pbOros.Size = new System.Drawing.Size(38, 49);
+		this.pbOros.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+		this.pbOros.TabIndex = 1;
+		this.pbOros.TabStop = false;
+		this.pbOros.Click += new System.EventHandler(this.pb_Click);
+		// 
+		// pbCopas
+		// 
+		this.pbCopas.Cursor = System.Windows.Forms.Cursors.Hand;
+		this.pbCopas.Location = new System.Drawing.Point(48, 26);
+		this.pbCopas.Name = "pbCopas";
+		this.pbCopas.Size = new System.Drawing.Size(38, 49);
+		this.pbCopas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+		this.pbCopas.TabIndex = 2;
+		this.pbCopas.TabStop = false;
+		this.pbCopas.Click += new System.EventHandler(this.pb_Click);
+		// 
+		// pbEspadas
+		// 
+		this.pbEspadas.Cursor = System.Windows.Forms.Cursors.Hand;
+		this.pbEspadas.Location = new System.Drawing.Point(92, 25);
+		this.pbEspadas.Name = "pbEspadas";
+		this.pbEspadas.Size = new System.Drawing.Size(38, 49);
+		this.pbEspadas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+		this.pbEspadas.TabIndex = 3;
+		this.pbEspadas.TabStop = false;
+		this.pbEspadas.Click += new System.EventHandler(this.pb_Click);
+		// 
+		// pbBastos
+		// 
+		this.pbBastos.Cursor = System.Windows.Forms.Cursors.Hand;
+		this.pbBastos.Location = new System.Drawing.Point(136, 26);
+		this.pbBastos.Name = "pbBastos";
+		this.pbBastos.Size = new System.Drawing.Size(38, 49);
+		this.pbBastos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+		this.pbBastos.TabIndex = 4;
+		this.pbBastos.TabStop = false;
+		this.pbBastos.Click += new System.EventHandler(this.pb_Click);
+		// 
+		// UcTrumpSelection
+		// 
+		this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+		this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+		this.Controls.Add(this.pbBastos);
+		this.Controls.Add(this.pbEspadas);
+		this.Controls.Add(this.pbCopas);
+		this.Controls.Add(this.pbOros);
+		this.Controls.Add(this.label1);
+		this.Name = "UcTrumpSelection";
+		this.Size = new System.Drawing.Size(191, 89);
+		((System.ComponentModel.ISupportInitialize)(this.pbOros)).EndInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbCopas)).EndInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbEspadas)).EndInit();
+		((System.ComponentModel.ISupportInitialize)(this.pbBastos)).EndInit();
+		this.ResumeLayout(false);
+		this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox grpTrumpOptions;
-		private System.Windows.Forms.Button btnSelectTrump;
-		private System.Windows.Forms.ComboBox cmbSuits;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pbOros;
+		private System.Windows.Forms.PictureBox pbCopas;
+		private System.Windows.Forms.PictureBox pbEspadas;
+		private System.Windows.Forms.PictureBox pbBastos;
+
 	}
 }
