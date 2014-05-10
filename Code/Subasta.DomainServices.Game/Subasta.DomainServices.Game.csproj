@@ -64,6 +64,8 @@
     <Compile Include="Algorithms\Figures\Catalog\FigurePaso.cs" />
     <Compile Include="Algorithms\Figures\Catalog\FigureTreses.cs" />
     <Compile Include="Algorithms\Figures\FiguresSolver.cs" />
+    <Compile Include="Algorithms\MCTS\Diagnostics\IMctsDiagnostics.cs" />
+    <Compile Include="Algorithms\MCTS\Diagnostics\MctsDiagnostics.cs" />
     <Compile Include="Algorithms\MCTS\IMctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\MctsSaysRunner.cs" />
     <Compile Include="Algorithms\MCTS\TreeNode.cs" />
@@ -107,9 +109,7 @@
       <Name>Subasta.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,6 +3,7 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms.Figures;
 using Subasta.DomainServices.Game.Algorithms.Figures.Catalog;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
+using Subasta.DomainServices.Game.Algorithms.MCTS.Diagnostics;
 using Subasta.DomainServices.Game.Players;
 using Subasta.DomainServices.Game.Strategies;
 using Subasta.DomainServices.Game.Utils;
@@ -25,6 +26,8 @@ namespace Subasta.DomainServices.Game
 			For<IMctsRunner>().Singleton().Use<MctsRunner>();
 			For<IMctsSaysRunner>().Singleton().Use<MctsSaysRunner>();
 			For<ISimulator>().Use(x => x.GetInstance<IMctsRunner>());
+			For<IMctsDiagnostics>().Use<MctsDiagnostics>();
+
 
 			For<IFiguresSolver>().Use<FiguresSolver>();
 			For<IFigure>().Use<FigurePaso>();
@@ -44,6 +47,7 @@ namespace Subasta.DomainServices.Game
 			For<IGame>().Use<Players.Game>();
 			For<IMctsPlayer>().Use<MctsPlayer>();
 			For<IHumanPlayer>().Use<HumanPlayer>();
+
 		}
 	}
 }
