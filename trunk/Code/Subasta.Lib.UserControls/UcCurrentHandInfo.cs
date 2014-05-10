@@ -49,6 +49,8 @@ namespace Subasta.Lib.UserControls
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(status.LastCompletedHand.PlayerWinner.Value);
 			PictureBox target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbWinnerPrefix) && x.Tag == player).Single();
 			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Winner));
+			//due to known defect in the algorithm
+			PaintCard(status.LastCardPlayed,4);
 			Thread.Sleep(TimeSpan.FromSeconds(1.5));
 			ClearAll();
 		}
@@ -63,23 +65,29 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
-			IHand refHand = status.CurrentHand.IsEmpty?status.LastCompletedHand:status.CurrentHand;
+			IHand refHand = status.CurrentHand;
 			ICard[] cardsByPlaySequence = refHand.CardsByPlaySequence().ToArray();
 			for (int index = 0; index < cardsByPlaySequence.Length; index++)
 			{
 				ICard card = cardsByPlaySequence[index];
 				if (card != null)
 				{
-					var target = this.FindControl<PictureBox>(PbCardPrefix + (index + 1));
-					if (target.Image == null)
-					{
-						target.PerformSafely(x => x.Image = _mediaProvider.GetCard(card.ToShortString()));
-					}
+					int i = (index + 1);
+					PaintCard(card, i);
 				}
 			}
 			if (status.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 1)
 			{
 				this.PerformSafely(x => PaintPlayersInOrder(status));
+			}
+		}
+
+		private void PaintCard(ICard card, int pbNumber)
+		{
+			var target = this.FindControl<PictureBox>(PbCardPrefix + pbNumber);
+			if (target.Image == null)
+			{
+				target.PerformSafely(x => x.Image = _mediaProvider.GetCard(card.ToShortString()));
 			}
 		}
 

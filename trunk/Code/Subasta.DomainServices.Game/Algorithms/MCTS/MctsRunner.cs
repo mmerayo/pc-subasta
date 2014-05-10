@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
+using Subasta.DomainServices.Game.Algorithms.MCTS.Diagnostics;
 using log4net;
 using StructureMap;
 using Subasta.ApplicationServices.Extensions;
@@ -18,18 +19,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 		private static readonly ILog Logger = LogManager.GetLogger(typeof (MctsRunner));
 
 		private readonly IApplicationEventsExecutor _eventsExecutor;
+		private readonly IMctsDiagnostics _diagnostics;
 		private TreeNode _root;
 		private const int MaxNumberExplorations = 120000; //to preserve memory
 		private readonly object _rootLocker=new object();
 		private CancellationTokenSource _tokenSource ;
 		private Task _task;
 
-		public MctsRunner(IApplicationEventsExecutor eventsExecutor)
+		public MctsRunner(IApplicationEventsExecutor eventsExecutor,IMctsDiagnostics diagnostics)
 		{
 			_eventsExecutor = eventsExecutor;
-			
+			_diagnostics = diagnostics;
 		}
-		
+
 		public void Start(IExplorationStatus status, object root=null)
 		{
 			Reset();
@@ -174,7 +176,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			    }
 			}
 		    TreeNode bestChild = current.SelectBestMove(turnTeam);
-			
+			_diagnostics.NodeStatus(current, bestChild, currentStatus.Turn);
+
 			var result = new NodeResult(bestChild.ExplorationStatus);
 			return result;
 		}
