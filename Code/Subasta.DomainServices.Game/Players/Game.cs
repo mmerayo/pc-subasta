@@ -283,7 +283,8 @@ namespace Subasta.DomainServices.Game.Players
 			if (declaration.HasValue)
 				foreach (IPlayer player in _players)
 				{
-					if (_declarationsChecker.HasDeclarable(declaration.Value, status.Trump, player.Cards))
+					if (status.TeamBets==player.TeamNumber 
+						&& _declarationsChecker.HasDeclarable(declaration.Value, status.Trump, player.Cards))
 					{
 						OnPlayerDeclarationEmitted(player, declaration.Value);
 						break;
