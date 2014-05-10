@@ -188,7 +188,7 @@
 		// pb3
 		// 
 		this.pb3.BackColor = System.Drawing.Color.Transparent;
-		this.pb3.Location = new System.Drawing.Point(107, 3);
+		this.pb3.Location = new System.Drawing.Point(39, 3);
 		this.pb3.Name = "pb3";
 		this.pb3.Size = new System.Drawing.Size(30, 30);
 		this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -199,7 +199,7 @@
 		// pb2
 		// 
 		this.pb2.BackColor = System.Drawing.Color.Transparent;
-		this.pb2.Location = new System.Drawing.Point(39, 3);
+		this.pb2.Location = new System.Drawing.Point(107, 3);
 		this.pb2.Name = "pb2";
 		this.pb2.Size = new System.Drawing.Size(30, 30);
 		this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
