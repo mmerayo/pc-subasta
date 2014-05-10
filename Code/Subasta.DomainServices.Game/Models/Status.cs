@@ -152,8 +152,12 @@ namespace Subasta.DomainServices.Game.Models
 			//	TODO: USE IPLAYER INSTEAD OF ARRAYS AND THE PLAYER TO KEEP DE INFO
 			var declarables = Enum.GetValues(typeof (Declaration)).Cast<Declaration>();
 
-			return declarables.Where(
-				x => _declarationsChecker.HasDeclarable(x, Trump, _playerCards[playerNumber - 1]));
+			IEnumerable<Declaration> playerDeclarables = declarables.Where(x => _declarationsChecker.HasDeclarable(x, Trump, _playerCards[playerNumber - 1]));
+
+			IEnumerable<Declaration?> declaredAlready = Hands.Where(x=>x.Declaration!=null).Select(x=>x.Declaration);
+
+			return playerDeclarables.Where(x => !declaredAlready.Contains(x));
+
 		}
 
 		private List<Declaration> GetDeclarationCandidates()

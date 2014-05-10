@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using log4net;
 using Subasta.Domain;
@@ -229,30 +230,50 @@ namespace Subasta.DomainServices.Game.Players
 
 					Declaration? declarationChosenByHuman = player.ChooseDeclaration(previousStatus);
 
-
+					//TODO: REFACTOR THE WHOLE FUCKING METHOD
 					//AS-IS NOW: The human player must select a declaration
 					//if the user didnt select any then the machine selects while is on its hand
-					if (!declarationChosenByHuman.HasValue &&
-					    calculatedDeclarationByMachine.HasValue)
+					if (!declarationChosenByHuman.HasValue)
 					{
-						byte playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
-						if (Status.GetPlayerDeclarables(playerMateOf).Contains(calculatedDeclarationByMachine.Value))
+						if (calculatedDeclarationByMachine.HasValue)
 						{
-							declarationChosenByHuman = calculatedDeclarationByMachine;
+							byte playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
+							if (Status.GetPlayerDeclarables(playerMateOf).Contains(calculatedDeclarationByMachine.Value))
+							{
+								declarationChosenByHuman = calculatedDeclarationByMachine;
+							}
+							else
+							{
+								//choose the first
+								declarationChosenByHuman = TryGetMateDeclaration(player);
+							}
 						}
 						else
 						{
-							//choose the first
-							declarationChosenByHuman =
-								Status.GetPlayerDeclarables(playerMateOf).OrderBy(x => x).FirstOrDefault();
+							declarationChosenByHuman = TryGetMateDeclaration(player);
 						}
 					}
+
 					Status.LastCompletedHand.SetDeclaration(declarationChosenByHuman);
 				}
 
 
 				OnHandCompleted(Status);
 			}
+		}
+
+		private Declaration? TryGetMateDeclaration(IPlayer player)
+		{
+			byte playerMateOf = Status.PlayerMateOf(player.PlayerNumber);
+			//TODO: this should not be random
+			var playerDeclarables = Status.GetPlayerDeclarables(playerMateOf).ToArray();
+			if (playerDeclarables.Length > 0)
+			{
+				int idx = new Random((int) DateTime.Now.Ticks).Next(0, playerDeclarables.Count());
+				return playerDeclarables[idx];
+			}
+			
+			return null;
 		}
 
 
