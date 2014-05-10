@@ -40,6 +40,7 @@
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
+    <Reference Include="Subasta.Lib.UserControls, Version=0.5000.1000.1019, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -101,6 +102,12 @@
     <Compile Include="UcTrumpSelection.Designer.cs">
       <DependentUpon>UcTrumpSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="UcUserInteractionContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcUserInteractionContainer.Designer.cs">
+      <DependentUpon>UcUserInteractionContainer.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UcCurrentHandInfo.resx">
@@ -126,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UcTrumpSelection.resx">
       <DependentUpon>UcTrumpSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcUserInteractionContainer.resx">
+      <DependentUpon>UcUserInteractionContainer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

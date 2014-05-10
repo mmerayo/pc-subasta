@@ -63,20 +63,19 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		try
 			                              		{
-			                              			using (var mfp = new MemoryFailPoint(1))
-			                              			{
-			                              				lock (_rootLocker)
+													//using (var mfp = new MemoryFailPoint(1))
+													//{
+													    lock (_rootLocker)
 			                              				{
 			                              					if (_root == null)
 			                              						return;
 			                              					_root.Select((++count%2) + 1);
 
 			                              				}
-			                              			}
+			                              			//}
 			                              		}
 			                              		catch (InsufficientMemoryException ex)
 			                              		{
-													GC.Collect(3, GCCollectionMode.Forced);
 			                              			Logger.Error("Start",ex);
 			                              		}
 			                              		catch (NullReferenceException ex)
@@ -85,6 +84,8 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		catch(Exception ex)
 			                              		{
+													GC.Collect(3, GCCollectionMode.Forced);
+
 													Logger.Error("Start", ex);
 			                              		}
 			                              	}

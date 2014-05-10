@@ -33,10 +33,10 @@
 		// 
 		// tabs
 		// 
-		this.tabs.Location = new System.Drawing.Point(0, 0);
+		this.tabs.Location = new System.Drawing.Point(3, 3);
 		this.tabs.Name = "tabs";
 		this.tabs.SelectedIndex = 0;
-		this.tabs.Size = new System.Drawing.Size(206, 395);
+		this.tabs.Size = new System.Drawing.Size(190, 248);
 		this.tabs.TabIndex = 7;
 		// 
 		// UcGameSets
@@ -45,7 +45,7 @@
 		this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 		this.Controls.Add(this.tabs);
 		this.Name = "UcGameSets";
-		this.Size = new System.Drawing.Size(206, 260);
+		this.Size = new System.Drawing.Size(209, 263);
 		this.ResumeLayout(false);
 
 		}
