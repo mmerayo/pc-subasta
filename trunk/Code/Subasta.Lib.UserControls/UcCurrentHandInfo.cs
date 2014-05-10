@@ -55,8 +55,7 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			string nameTarget = string.Format("{0}{1}", PbPetaPrefix,
-			                                  (status.CurrentHand.CardsByPlaySequence().Count(y => y != null)));
+			string nameTarget = string.Format("{0}{1}", PbPetaPrefix,status.LastPlayerMoved);
 
 			var target = this.FindControl<PictureBox>(nameTarget);
 			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));
@@ -64,7 +63,8 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
 		{
-			ICard[] cardsByPlaySequence = status.CurrentHand.CardsByPlaySequence().ToArray();
+			IHand refHand = status.CurrentHand.IsEmpty?status.LastCompletedHand:status.CurrentHand;
+			ICard[] cardsByPlaySequence = refHand.CardsByPlaySequence().ToArray();
 			for (int index = 0; index < cardsByPlaySequence.Length; index++)
 			{
 				ICard card = cardsByPlaySequence[index];

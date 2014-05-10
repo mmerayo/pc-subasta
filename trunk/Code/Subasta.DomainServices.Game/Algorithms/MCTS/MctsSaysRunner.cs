@@ -195,7 +195,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			                              		try
 			                              		{
-			                              			using (var mfp = new MemoryFailPoint(4))
+			                              			using (var mfp = new MemoryFailPoint(1))
 			                              			{
 			                              				if (_roots == null)
 			                              					return;
