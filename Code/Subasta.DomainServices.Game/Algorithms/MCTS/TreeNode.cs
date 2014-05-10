@@ -208,7 +208,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			List<TreeNode> orderByDescending =
 				treeNodes.OrderByDescending(x=>x._nodeInfos[nodeInfoIdx].Coeficient)
-				.ThenByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints)
+				//.ThenByDescending(x => x._nodeInfos[nodeInfoIdx].AvgPoints)
 				.ThenBy(x => x.CardPlayed.Value)
 				.ThenBy(x=>x.CardPlayed.Number)
 				.ToList();

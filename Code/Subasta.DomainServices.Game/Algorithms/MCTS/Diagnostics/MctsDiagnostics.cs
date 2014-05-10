@@ -61,7 +61,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS.Diagnostics
 			                            "AvgPoints".PadRight(15), "NumberVisits".PadRight(15)));
 			//same order applies in selection
 			var childInOrder = parentNode.Children.OrderByDescending(x => x.GetNodeInfo(teamNumber).Coeficient)
-				.ThenByDescending(x => x.GetNodeInfo(teamNumber).AvgPoints)
+				//.ThenByDescending(x => x.GetNodeInfo(teamNumber).AvgPoints)
 				.ThenBy(x => x.CardPlayed.Value)
 				.ThenBy(x => x.CardPlayed.Number);
 
