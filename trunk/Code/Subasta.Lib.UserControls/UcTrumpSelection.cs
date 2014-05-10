@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
+using Subasta.Client.Common.Images;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.Infrastructure.Domain;
@@ -19,7 +20,8 @@ namespace Subasta.Lib.UserControls
 	{
 		private IUserInteractionManager _interactionManager;
 		private IGameSetHandler _gameSetHandler;
-		
+		private IMediaProvider _mediaProvider;
+
 		public UcTrumpSelection()
 		{
 			InitializeComponent();
@@ -28,39 +30,34 @@ namespace Subasta.Lib.UserControls
 
 		public void Initialize()
 		{
-			LoadSuits();
 			EnableTrumpInteraction(false);
 			_interactionManager = ObjectFactory.GetInstance<IUserInteractionManager>();
+			_mediaProvider = ObjectFactory.GetInstance<IMediaProvider>();
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
+			LoadSuits();
+
 			_gameSetHandler.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
 
 		}
 
 		private void LoadSuits()
 		{
-			var source = Suit.Suits.ToDictionary(value => value, value => value.Name);
-
-			cmbSuits.DataSource = new BindingSource(source, null);
-			cmbSuits.PerformSafely(x => x.ValueMember = "Key");
-			cmbSuits.PerformSafely(x => x.DisplayMember = "Value");
+			LoadSuit(pbOros, 'O');
+			LoadSuit(pbCopas, 'C');
+			LoadSuit(pbEspadas, 'E');
+			LoadSuit(pbBastos, 'B');	
 		}
 
-		private void btnSelectTrump_Click(object sender, EventArgs e)
+		private void LoadSuit(PictureBox pictureBox, char suitId)
 		{
-			_interactionManager.InputProvided(() =>
-			{
-				var result = (ISuit)cmbSuits.SelectedValue;
-				EnableTrumpInteraction(false);
-				return result;
-			});
+			ISuit suit = Suit.FromId(suitId);
+			pictureBox.Image = _mediaProvider.GetCard(suit, 1);
+			pictureBox.Tag = suit;
 		}
+
 
 		private void EnableTrumpInteraction(bool enable)
 		{
-			grpTrumpOptions.PerformSafely(x => x.Visible = enable);
-			grpTrumpOptions.PerformSafely(x => x.BringToFront());
-			btnSelectTrump.PerformSafely(x => x.Enabled = enable);
-			cmbSuits.PerformSafely(x => x.Enabled = enable);
 			this.PerformSafely(x=>x.Visible=enable);
 		}
 
@@ -70,6 +67,16 @@ namespace Subasta.Lib.UserControls
 			var result = _interactionManager.WaitUserInput<ISuit>();
 
 			return result;
+		}
+
+		private void pb_Click(object sender, EventArgs e)
+		{
+			_interactionManager.InputProvided(() =>
+			                                  {
+			                                  	var result = ((PictureBox)sender).Tag;
+			                                  	EnableTrumpInteraction(false);
+			                                  	return result;
+			                                  });
 		}
 	}
 }
