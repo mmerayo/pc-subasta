@@ -157,10 +157,11 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			if(current.Children.Count!=1)
 
 			{
-			    ITreeNodeInfo treeNodeInfo = _root.GetNodeInfo(turnTeam);
+			    ITreeNodeInfo treeNodeInfo = current.GetNodeInfo(turnTeam);
+
 			    int previousVisits = int.MinValue;
 			    int repetitions = 0;
-			    while (treeNodeInfo.NumberVisits < 30000*currentStatus.TotalMoves)
+			    while (treeNodeInfo.NumberVisits < 30000)
 			    {
 			        if (previousVisits == treeNodeInfo.NumberVisits)
 			            repetitions++;
