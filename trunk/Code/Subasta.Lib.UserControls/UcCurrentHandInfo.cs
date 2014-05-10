@@ -44,20 +44,22 @@ namespace Subasta.Lib.UserControls
 
 		#endregion
 
+	
+
 		private void GameHandler_HandCompleted(IExplorationStatus status)
 		{
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(status.LastCompletedHand.PlayerWinner.Value);
 			PictureBox target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbWinnerPrefix) && x.Tag == player).Single();
 			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Winner));
 			//due to known defect in the algorithm
-			PaintCard(status.LastCardPlayed,4);
+			PaintCard(status.LastCardPlayed, 4);
 			Thread.Sleep(TimeSpan.FromSeconds(1.5));
 			ClearAll();
 		}
 
 		private void GameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			string nameTarget = string.Format("{0}{1}", PbPetaPrefix,status.LastPlayerMoved);
+			string nameTarget = string.Format("{0}{1}", PbPetaPrefix, status.LastPlayerMoved);
 
 			var target = this.FindControl<PictureBox>(nameTarget);
 			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));

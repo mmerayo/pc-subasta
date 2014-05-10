@@ -28,11 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+		this.components = new System.ComponentModel.Container();
 		this.label1 = new System.Windows.Forms.Label();
 		this.pbOros = new System.Windows.Forms.PictureBox();
 		this.pbCopas = new System.Windows.Forms.PictureBox();
 		this.pbEspadas = new System.Windows.Forms.PictureBox();
 		this.pbBastos = new System.Windows.Forms.PictureBox();
+		this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 		((System.ComponentModel.ISupportInitialize)(this.pbOros)).BeginInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbCopas)).BeginInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbEspadas)).BeginInit();
@@ -58,6 +60,7 @@
 		this.pbOros.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbOros.TabIndex = 1;
 		this.pbOros.TabStop = false;
+		this.toolTip1.SetToolTip(this.pbOros, "Selecciona el palo en la imagen como triunfo");
 		this.pbOros.Click += new System.EventHandler(this.pb_Click);
 		// 
 		// pbCopas
@@ -69,6 +72,7 @@
 		this.pbCopas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbCopas.TabIndex = 2;
 		this.pbCopas.TabStop = false;
+		this.toolTip1.SetToolTip(this.pbCopas, "Selecciona el palo en la imagen como triunfo");
 		this.pbCopas.Click += new System.EventHandler(this.pb_Click);
 		// 
 		// pbEspadas
@@ -80,6 +84,7 @@
 		this.pbEspadas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbEspadas.TabIndex = 3;
 		this.pbEspadas.TabStop = false;
+		this.toolTip1.SetToolTip(this.pbEspadas, "Selecciona el palo en la imagen como triunfo");
 		this.pbEspadas.Click += new System.EventHandler(this.pb_Click);
 		// 
 		// pbBastos
@@ -91,6 +96,7 @@
 		this.pbBastos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 		this.pbBastos.TabIndex = 4;
 		this.pbBastos.TabStop = false;
+		this.toolTip1.SetToolTip(this.pbBastos, "Selecciona el palo en la imagen como triunfo");
 		this.pbBastos.Click += new System.EventHandler(this.pb_Click);
 		// 
 		// UcTrumpSelection
@@ -120,6 +126,7 @@
 		private System.Windows.Forms.PictureBox pbCopas;
 		private System.Windows.Forms.PictureBox pbEspadas;
 		private System.Windows.Forms.PictureBox pbBastos;
+		private System.Windows.Forms.ToolTip toolTip1;
 
 	}
 }

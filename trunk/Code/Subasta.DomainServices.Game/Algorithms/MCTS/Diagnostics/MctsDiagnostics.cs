@@ -62,6 +62,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS.Diagnostics
 			//same order applies in selection
 			var childInOrder = parentNode.Children.OrderByDescending(x => x.GetNodeInfo(teamNumber).Coeficient)
 				//.ThenByDescending(x => x.GetNodeInfo(teamNumber).AvgPoints)
+				.ThenBy(x => x.ExplorationStatus.Trump == x.CardPlayed.Suit)//false first
 				.ThenBy(x => x.CardPlayed.Value)
 				.ThenBy(x => x.CardPlayed.Number);
 

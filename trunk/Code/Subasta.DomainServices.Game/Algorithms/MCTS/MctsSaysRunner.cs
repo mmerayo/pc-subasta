@@ -195,14 +195,14 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 
 			                              		try
 			                              		{
-			                              			using (var mfp = new MemoryFailPoint(1))
-			                              			{
+													//using (var mfp = new MemoryFailPoint(1))
+													//{
 			                              				if (_roots == null)
 			                              					return;
 			                              				//Debug.WriteLine("rootIdx: {0} - Visits: team1: {1}, team2: {2}",rootIdx,root.GetNodeInfo(1).NumberVisits,root.GetNodeInfo(2).NumberVisits);
 
 														roots.ForEach(x => x.Select((++count % 2) + 1));
-			                              			}
+			                              			//}
 			                              		}
 			                              		catch (InsufficientMemoryException ex)
 			                              		{
@@ -215,6 +215,7 @@ namespace Subasta.DomainServices.Game.Algorithms.MCTS
 			                              		}
 			                              		catch (Exception ex)
 			                              		{
+													GC.Collect(3, GCCollectionMode.Forced);
 			                              			Logger.Error("StartExploration", ex);
 			                              		}
 			                              	}
