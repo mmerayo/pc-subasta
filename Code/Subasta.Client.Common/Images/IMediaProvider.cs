@@ -14,7 +14,8 @@ namespace Subasta.Client.Common.Images
 		Jugador4,
 		Turno,
 		FirstPlayer,
-		Winner
+		Winner,
+		CanteRealizado
 	}
 	
 	public interface IMediaProvider

@@ -2,6 +2,7 @@
 -Arreglado bug por el cual se hacía la picha un lío caundo había varios cantes disponibles 
 y la primera baza la hacía el usuario
 -Mejorado el algoritmo de IA despues del marque
+-Mejorada interacción relativa a bazas
 
 09/05/2014
 -Implementado mecanismo de captura de errores necesario para reportes durante las fases de preproduccion
