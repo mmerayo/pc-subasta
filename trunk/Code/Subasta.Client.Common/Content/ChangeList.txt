@@ -1,6 +1,7 @@
 ﻿11/05/2014
 -Arreglado bug: el jugador que peta es mostrado correctamente en el indicador de la mano actual
 -añadido mecanismo para reproducir sonidos, e implementados primeros
+-Arreglado bug: IA player marca que falla solo si tiene triunfo
 
 10/05/2014
 -Arreglado bug por el cual se hacía la picha un lío caundo había varios cantes disponibles 
