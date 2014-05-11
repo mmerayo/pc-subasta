@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
-using Subasta.Client.Common.Images;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 

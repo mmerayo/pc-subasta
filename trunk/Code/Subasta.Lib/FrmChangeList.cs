@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Subasta.Client.Common.Images;
+using Subasta.Client.Common.Media;
 
 namespace Subasta.Lib
 	{

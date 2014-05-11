@@ -273,7 +273,7 @@
 		this.Controls.Add(this.pbCard1);
 		this.Controls.Add(this.pbPlayer1);
 		this.Name = "UcCurrentHandInfo";
-		this.Size = new System.Drawing.Size(158, 226);
+		this.Size = new System.Drawing.Size(162, 221);
 		((System.ComponentModel.ISupportInitialize)(this.pbPlayer1)).EndInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbCard1)).EndInit();
 		((System.ComponentModel.ISupportInitialize)(this.pbPeta1)).EndInit();

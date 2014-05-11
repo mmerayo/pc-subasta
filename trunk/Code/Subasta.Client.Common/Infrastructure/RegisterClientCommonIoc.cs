@@ -1,6 +1,6 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.Client.Common.Game;
-using Subasta.Client.Common.Images;
+using Subasta.Client.Common.Media;
 using Subasta.Client.Common.Storage;
 using Subasta.DomainServices.Dal;
 

@@ -113,7 +113,7 @@
 			this.pbTurno1.BackColor = System.Drawing.Color.Transparent;
 			this.pbTurno1.Location = new System.Drawing.Point(49, 3);
 			this.pbTurno1.Name = "pbTurno1";
-			this.pbTurno1.Size = new System.Drawing.Size(29, 29);
+			this.pbTurno1.Size = new System.Drawing.Size(40, 40);
 			this.pbTurno1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTurno1.TabIndex = 8;
 			this.pbTurno1.TabStop = false;
@@ -122,9 +122,9 @@
 			// pbFirstPlayer1
 			// 
 			this.pbFirstPlayer1.BackColor = System.Drawing.Color.Transparent;
-			this.pbFirstPlayer1.Location = new System.Drawing.Point(84, 3);
+			this.pbFirstPlayer1.Location = new System.Drawing.Point(95, 3);
 			this.pbFirstPlayer1.Name = "pbFirstPlayer1";
-			this.pbFirstPlayer1.Size = new System.Drawing.Size(29, 29);
+			this.pbFirstPlayer1.Size = new System.Drawing.Size(40, 40);
 			this.pbFirstPlayer1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbFirstPlayer1.TabIndex = 9;
 			this.pbFirstPlayer1.TabStop = false;
@@ -133,9 +133,9 @@
 			// pbTrump1
 			// 
 			this.pbTrump1.BackColor = System.Drawing.Color.Transparent;
-			this.pbTrump1.Location = new System.Drawing.Point(119, 3);
+			this.pbTrump1.Location = new System.Drawing.Point(141, 3);
 			this.pbTrump1.Name = "pbTrump1";
-			this.pbTrump1.Size = new System.Drawing.Size(29, 29);
+			this.pbTrump1.Size = new System.Drawing.Size(40, 40);
 			this.pbTrump1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTrump1.TabIndex = 10;
 			this.pbTrump1.TabStop = false;
@@ -146,7 +146,7 @@
 			this.pbTurno2.BackColor = System.Drawing.Color.Transparent;
 			this.pbTurno2.Location = new System.Drawing.Point(49, 49);
 			this.pbTurno2.Name = "pbTurno2";
-			this.pbTurno2.Size = new System.Drawing.Size(29, 29);
+			this.pbTurno2.Size = new System.Drawing.Size(40, 40);
 			this.pbTurno2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTurno2.TabIndex = 12;
 			this.pbTurno2.TabStop = false;
@@ -157,7 +157,7 @@
 			this.pbTurno3.BackColor = System.Drawing.Color.Transparent;
 			this.pbTurno3.Location = new System.Drawing.Point(49, 95);
 			this.pbTurno3.Name = "pbTurno3";
-			this.pbTurno3.Size = new System.Drawing.Size(29, 29);
+			this.pbTurno3.Size = new System.Drawing.Size(40, 40);
 			this.pbTurno3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTurno3.TabIndex = 13;
 			this.pbTurno3.TabStop = false;
@@ -168,7 +168,7 @@
 			this.pbTurno4.BackColor = System.Drawing.Color.Transparent;
 			this.pbTurno4.Location = new System.Drawing.Point(49, 141);
 			this.pbTurno4.Name = "pbTurno4";
-			this.pbTurno4.Size = new System.Drawing.Size(29, 29);
+			this.pbTurno4.Size = new System.Drawing.Size(40, 40);
 			this.pbTurno4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTurno4.TabIndex = 14;
 			this.pbTurno4.TabStop = false;
@@ -177,9 +177,9 @@
 			// pbFirstPlayer2
 			// 
 			this.pbFirstPlayer2.BackColor = System.Drawing.Color.Transparent;
-			this.pbFirstPlayer2.Location = new System.Drawing.Point(84, 49);
+			this.pbFirstPlayer2.Location = new System.Drawing.Point(95, 49);
 			this.pbFirstPlayer2.Name = "pbFirstPlayer2";
-			this.pbFirstPlayer2.Size = new System.Drawing.Size(29, 29);
+			this.pbFirstPlayer2.Size = new System.Drawing.Size(40, 40);
 			this.pbFirstPlayer2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbFirstPlayer2.TabIndex = 15;
 			this.pbFirstPlayer2.TabStop = false;
@@ -188,9 +188,9 @@
 			// pbFirstPlayer3
 			// 
 			this.pbFirstPlayer3.BackColor = System.Drawing.Color.Transparent;
-			this.pbFirstPlayer3.Location = new System.Drawing.Point(84, 95);
+			this.pbFirstPlayer3.Location = new System.Drawing.Point(95, 95);
 			this.pbFirstPlayer3.Name = "pbFirstPlayer3";
-			this.pbFirstPlayer3.Size = new System.Drawing.Size(29, 29);
+			this.pbFirstPlayer3.Size = new System.Drawing.Size(40, 40);
 			this.pbFirstPlayer3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbFirstPlayer3.TabIndex = 16;
 			this.pbFirstPlayer3.TabStop = false;
@@ -199,9 +199,9 @@
 			// pbFirstPlayer4
 			// 
 			this.pbFirstPlayer4.BackColor = System.Drawing.Color.Transparent;
-			this.pbFirstPlayer4.Location = new System.Drawing.Point(84, 141);
+			this.pbFirstPlayer4.Location = new System.Drawing.Point(95, 141);
 			this.pbFirstPlayer4.Name = "pbFirstPlayer4";
-			this.pbFirstPlayer4.Size = new System.Drawing.Size(29, 29);
+			this.pbFirstPlayer4.Size = new System.Drawing.Size(40, 40);
 			this.pbFirstPlayer4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbFirstPlayer4.TabIndex = 17;
 			this.pbFirstPlayer4.TabStop = false;
@@ -210,9 +210,9 @@
 			// pbTrump2
 			// 
 			this.pbTrump2.BackColor = System.Drawing.Color.Transparent;
-			this.pbTrump2.Location = new System.Drawing.Point(119, 49);
+			this.pbTrump2.Location = new System.Drawing.Point(141, 49);
 			this.pbTrump2.Name = "pbTrump2";
-			this.pbTrump2.Size = new System.Drawing.Size(29, 29);
+			this.pbTrump2.Size = new System.Drawing.Size(40, 40);
 			this.pbTrump2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTrump2.TabIndex = 18;
 			this.pbTrump2.TabStop = false;
@@ -221,9 +221,9 @@
 			// pbTrump3
 			// 
 			this.pbTrump3.BackColor = System.Drawing.Color.Transparent;
-			this.pbTrump3.Location = new System.Drawing.Point(119, 95);
+			this.pbTrump3.Location = new System.Drawing.Point(141, 95);
 			this.pbTrump3.Name = "pbTrump3";
-			this.pbTrump3.Size = new System.Drawing.Size(29, 29);
+			this.pbTrump3.Size = new System.Drawing.Size(40, 40);
 			this.pbTrump3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTrump3.TabIndex = 19;
 			this.pbTrump3.TabStop = false;
@@ -232,9 +232,9 @@
 			// pbTrump4
 			// 
 			this.pbTrump4.BackColor = System.Drawing.Color.Transparent;
-			this.pbTrump4.Location = new System.Drawing.Point(119, 141);
+			this.pbTrump4.Location = new System.Drawing.Point(141, 141);
 			this.pbTrump4.Name = "pbTrump4";
-			this.pbTrump4.Size = new System.Drawing.Size(29, 29);
+			this.pbTrump4.Size = new System.Drawing.Size(40, 40);
 			this.pbTrump4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pbTrump4.TabIndex = 20;
 			this.pbTrump4.TabStop = false;
@@ -244,7 +244,7 @@
 			// 
 			this.lblBet1.AutoSize = true;
 			this.lblBet1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblBet1.Location = new System.Drawing.Point(154, 3);
+			this.lblBet1.Location = new System.Drawing.Point(187, 13);
 			this.lblBet1.Name = "lblBet1";
 			this.lblBet1.Size = new System.Drawing.Size(57, 20);
 			this.lblBet1.TabIndex = 21;
@@ -255,7 +255,7 @@
 			// 
 			this.lblBet2.AutoSize = true;
 			this.lblBet2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblBet2.Location = new System.Drawing.Point(154, 49);
+			this.lblBet2.Location = new System.Drawing.Point(187, 59);
 			this.lblBet2.Name = "lblBet2";
 			this.lblBet2.Size = new System.Drawing.Size(57, 20);
 			this.lblBet2.TabIndex = 22;
@@ -266,7 +266,7 @@
 			// 
 			this.lblBet3.AutoSize = true;
 			this.lblBet3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblBet3.Location = new System.Drawing.Point(154, 95);
+			this.lblBet3.Location = new System.Drawing.Point(187, 105);
 			this.lblBet3.Name = "lblBet3";
 			this.lblBet3.Size = new System.Drawing.Size(57, 20);
 			this.lblBet3.TabIndex = 23;
@@ -277,7 +277,7 @@
 			// 
 			this.lblBet4.AutoSize = true;
 			this.lblBet4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblBet4.Location = new System.Drawing.Point(154, 141);
+			this.lblBet4.Location = new System.Drawing.Point(187, 151);
 			this.lblBet4.Name = "lblBet4";
 			this.lblBet4.Size = new System.Drawing.Size(57, 20);
 			this.lblBet4.TabIndex = 24;
@@ -309,7 +309,7 @@
 			this.Controls.Add(this.pb2);
 			this.Controls.Add(this.pb1);
 			this.Name = "UcPlayerOverview";
-			this.Size = new System.Drawing.Size(206, 187);
+			this.Size = new System.Drawing.Size(236, 187);
 			((System.ComponentModel.ISupportInitialize)(this.pb1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pb3)).EndInit();

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using Subasta.Domain.Deck;
 
-namespace Subasta.Client.Common.Images
+namespace Subasta.Client.Common.Media
 {
 	internal class ResourceReadingUtils : IResourceReadingUtils
 	{
@@ -48,11 +45,16 @@ namespace Subasta.Client.Common.Images
 		private Image GetImageFromResourceFullName(string resourceName)
 		{
 			Image image;
-			using (var manifestResourceStream = GetType().Assembly.GetManifestResourceStream(resourceName))
+			using (var manifestResourceStream = GetResourceStream(resourceName))
 			{
 				image = Image.FromStream(manifestResourceStream);
 			}
 			return image;
+		}
+
+		public Stream GetResourceStream(string resourceName)
+		{
+			return GetType().Assembly.GetManifestResourceStream(resourceName);
 		}
 
 

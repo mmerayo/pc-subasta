@@ -1,8 +1,10 @@
 ﻿using StructureMap.Configuration.DSL;
 using Subasta.Client.Common.Game;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.Game.Analysis;
 using Subasta.DomainServices;
 using Subasta.Lib.Interaction;
+using Subasta.Lib.Media;
 
 namespace Subasta.Lib.Infrastructure
 {
@@ -19,6 +21,7 @@ namespace Subasta.Lib.Infrastructure
 			For<IApplicationEventsExecutor>().Use<ApplicationEventsExecutorExecutor>();
 
 			For<IUserInteractionManager>().Singleton().Use<UserInteractionManager>();
+			For<ISoundPlayer>().Singleton().Use<SoundPlayer>();
 		}
 	}
 }
