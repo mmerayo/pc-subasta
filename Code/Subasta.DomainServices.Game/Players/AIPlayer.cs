@@ -35,7 +35,8 @@ namespace Subasta.DomainServices.Game.Players
 				.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).FirstOrDefault();
 			if (highestPlayerCard == null)
 				{
-				if (!currentCard.Suit.Equals(currentStatus.Trump))
+				if (!currentCard.Suit.Equals(currentStatus.Trump) 
+					&& currentStatus.PlayerCards(PlayerNumber).Any(x => x.Suit.Equals(currentStatus.Trump) ))
 					//marca que falla la siguiente
 					return true;
 				
