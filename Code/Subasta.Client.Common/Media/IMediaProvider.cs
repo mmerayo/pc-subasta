@@ -1,7 +1,8 @@
 using System.Drawing;
+using System.IO;
 using Subasta.Domain.Deck;
 
-namespace Subasta.Client.Common.Images
+namespace Subasta.Client.Common.Media
 {
 	public enum GameMediaType
 	{
@@ -23,5 +24,6 @@ namespace Subasta.Client.Common.Images
 		Image GetImage(GameMediaType image);
 		Image GetCard(string cardShortId);
 		Image GetCard(ISuit suit, int i);
+		Stream GetSoundStream(GameSoundType soundType);
 	}
 }

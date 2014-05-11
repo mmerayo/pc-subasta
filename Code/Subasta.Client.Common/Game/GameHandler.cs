@@ -1,4 +1,5 @@
 ﻿using System;
+using Subasta.Client.Common.Media;
 using Subasta.Domain;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
@@ -11,6 +12,7 @@ namespace Subasta.Client.Common.Game
 	{
 		private readonly IGame _game;
 		private readonly IPlayerFactory _playerFactory;
+		private readonly ISoundPlayer _soundPlayer;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private int _firstPlayer = 1;
 
@@ -35,11 +37,11 @@ namespace Subasta.Client.Common.Game
 		public event GamePlayerPetaHandler GamePlayerPeta;
 		private ISaysStatus _saysStatus;
 
-		public GameHandler(IGame game, IPlayerFactory playerFactory)
+		public GameHandler(IGame game, IPlayerFactory playerFactory,ISoundPlayer soundPlayer)
 		{
 			_game = game;
 			_playerFactory = playerFactory;
-
+			_soundPlayer = soundPlayer;
 		}
 		
 		public IPlayer Player1 //I PLAYER TO BE KEPT IN DOMAIN and holds the style
@@ -319,6 +321,7 @@ namespace Subasta.Client.Common.Game
 		{
 			if(GamePlayerPeta!=null)
 				GamePlayerPeta(player, status);
+			_soundPlayer.PlayAsync(GameSoundType.PetarMesa);
 		}
 	}
 }

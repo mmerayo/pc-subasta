@@ -1,7 +1,8 @@
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
-namespace Subasta.Client.Common.Images
+namespace Subasta.Client.Common.Media
 {
 	public interface IResourceReadingUtils
 	{
@@ -10,5 +11,6 @@ namespace Subasta.Client.Common.Images
 		string GetResourceName(string fileName);
 		string GetText(string fileName);
 		void LoadSingleImage(ImageList imageListCards, string imageId, string resourceName);
+		Stream GetResourceStream(string resourceName);
 	}
 }

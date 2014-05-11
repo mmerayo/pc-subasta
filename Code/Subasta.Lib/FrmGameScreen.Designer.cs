@@ -40,7 +40,7 @@
 		// 
 		this.ucCurrentHandInfo1.Location = new System.Drawing.Point(941, 247);
 		this.ucCurrentHandInfo1.Name = "ucCurrentHandInfo1";
-		this.ucCurrentHandInfo1.Size = new System.Drawing.Size(204, 257);
+		this.ucCurrentHandInfo1.Size = new System.Drawing.Size(214, 257);
 		this.ucCurrentHandInfo1.TabIndex = 17;
 		this.ucCurrentHandInfo1.Visible = false;
 		// 
@@ -55,7 +55,7 @@
 		// 
 		this.ucPlayerOverview1.Location = new System.Drawing.Point(939, 0);
 		this.ucPlayerOverview1.Name = "ucPlayerOverview1";
-		this.ucPlayerOverview1.Size = new System.Drawing.Size(206, 246);
+		this.ucPlayerOverview1.Size = new System.Drawing.Size(216, 246);
 		this.ucPlayerOverview1.TabIndex = 15;
 		// 
 		// ucTricks1

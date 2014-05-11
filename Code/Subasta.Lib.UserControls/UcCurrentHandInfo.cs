@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
-using Subasta.Client.Common.Images;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -59,7 +59,7 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			string nameTarget = string.Format("{0}{1}", PbPetaPrefix, status.LastPlayerMoved);
+			string nameTarget = string.Format("{0}{1}", PbPetaPrefix, status.CurrentHand.CardsByPlaySequence().Count(x=>x!=null));
 
 			var target = this.FindControl<PictureBox>(nameTarget);
 			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));
