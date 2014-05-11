@@ -7,7 +7,11 @@ namespace Subasta.Client.Common.Media
 {
 	public enum GameSoundType
 	{
-		PetarMesa
+		PetarMesa,
+		CardPlayed,
+		Shuffle,
+		TurnChanged,
+		DeclarationEmit
 	}
 	
 	public interface ISoundPlayer

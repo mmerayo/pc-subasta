@@ -65,7 +65,6 @@
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresSolverTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FiguresTests.cs" />
     <Compile Include="DomainServices\Game\Algorithms\Figures\FigureTresesTests.cs" />
-    <Compile Include="DomainServices\Game\GameGeneratorTests.cs" />
     <Compile Include="DomainServices\Game\GameExplorerIntegrationTests.cs" />
     <Compile Include="DomainServices\Game\CardComparerTests.cs" />
     <Compile Include="DomainServices\Game\Models\SaysStatusTests.cs" />

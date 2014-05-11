@@ -18,6 +18,7 @@ namespace Subasta.Lib.UserControls
 		private const string PbPetaPrefix = "pbPeta";
 		private const string PbPlayerPrefix = "pbPlayer";
 		private const string PbWinnerPrefix = "pbWinner";
+		private IHand _currentHand;
 
 		private IGameSetHandler _gameSetHandler;
 		private IMediaProvider _mediaProvider;
@@ -44,8 +45,6 @@ namespace Subasta.Lib.UserControls
 
 		#endregion
 
-	
-
 		private void GameHandler_HandCompleted(IExplorationStatus status)
 		{
 			IPlayer player = _gameSetHandler.GameHandler.GetPlayer(status.LastCompletedHand.PlayerWinner.Value);
@@ -59,10 +58,21 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GamePlayerPeta(IPlayer player, IExplorationStatus status)
 		{
-			string nameTarget = string.Format("{0}{1}", PbPetaPrefix, status.CurrentHand.CardsByPlaySequence().Count(x=>x!=null));
-
-			var target = this.FindControl<PictureBox>(nameTarget);
-			target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));
+			try
+			{
+				PictureBox target;
+				target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).SingleOrDefault();
+				if (target == null)
+				{
+					PaintPlayersInOrder(player);
+					target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).Single();
+				}
+				target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
 		}
 
 		private void GameHandler_GameStatusChanged(IExplorationStatus status)
@@ -78,9 +88,12 @@ namespace Subasta.Lib.UserControls
 					PaintCard(card, i);
 				}
 			}
-			if (status.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 1)
+
+
+			if (_currentHand != status.CurrentHand && !status.CurrentHand.IsEmpty)
 			{
-				this.PerformSafely(x => PaintPlayersInOrder(status));
+				_currentHand = status.CurrentHand;
+				this.PerformSafely(x => PaintPlayersInOrder(_gameSetHandler.GameHandler.GetPlayer(_currentHand.FirstPlayer)));
 			}
 		}
 
@@ -103,9 +116,9 @@ namespace Subasta.Lib.UserControls
 			this.PerformSafely(x => { x.Visible = true; });
 		}
 
-		private void PaintPlayersInOrder(IExplorationStatus status)
+		private void PaintPlayersInOrder(IPlayer firstPlayer)
 		{
-			IPlayer currentPlayer = _gameSetHandler.GameHandler.GetPlayer(status.CurrentHand.FirstPlayer);
+			IPlayer currentPlayer = firstPlayer;
 
 			var images = new[]
 			             {

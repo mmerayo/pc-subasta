@@ -53,7 +53,7 @@
     <Compile Include="Game\ICandidatePlayer.cs" />
     <Compile Include="Game\ICandidatesSelector.cs" />
     <Compile Include="Game\ICardComparer.cs" />
-    <Compile Include="Game\IDeckSuffler.cs" />
+    <Compile Include="Game\IDeckShuffler.cs" />
     <Compile Include="Game\INonFilteredCandidatesSelector.cs" />
     <Compile Include="Game\ISaysSimulator.cs" />
     <Compile Include="Game\ISimulator.cs" />

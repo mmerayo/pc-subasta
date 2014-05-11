@@ -12,6 +12,7 @@ using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
 using Subasta.Client.Common.Media;
 using Subasta.Domain;
+using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 
@@ -26,6 +27,7 @@ namespace Subasta.Lib.UserControls
 		private int _lastPlayerPeta = int.MinValue;
 		private Size _sizePbs13 = new Size(50, 70);
 		private Size _sizePbs24 = new Size(70, 50);
+		private ISoundPlayer _soundPlayer;
 
 		public UcTable()
 		{
@@ -37,6 +39,7 @@ namespace Subasta.Lib.UserControls
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
 			_userInteractionManager= ObjectFactory.GetInstance<IUserInteractionManager>();
 			_mediaProvider = ObjectFactory.GetInstance<IMediaProvider>();
+			_soundPlayer = ObjectFactory.GetInstance<ISoundPlayer>();
 
 			SuscribeToEvents();
 			ConfigureControlsAndLocations();
@@ -128,6 +131,7 @@ namespace Subasta.Lib.UserControls
 			PictureBox target = this.FindControls<PictureBox>(x => x.Name == "pb" + player.PlayerNumber).First();
 
 			string text = declaration.ToString().SeparateCamelCase() + "!!";
+			_soundPlayer.PlayAsync(GameSoundType.DeclarationEmit);
 			ShowBalloon(target, text, TimeSpan.FromSeconds(2));
 		}
 
@@ -151,7 +155,8 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_TurnChanged(int turn)
 		{
-			
+			if(_gameSetHandler.GameHandler.GetPlayer(turn).PlayerType==PlayerType.Human)
+				_soundPlayer.PlayAsync(GameSoundType.TurnChanged);
 		}
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
@@ -178,6 +183,9 @@ namespace Subasta.Lib.UserControls
 			//TODO: THIS MIGHT BE ALREADY FIXED: due to defect  as the event is triggered twice
 			{
 				MoveCard(status, status.LastPlayerMoved, lastCardPlayed);
+
+
+				_soundPlayer.PlayAsync(GameSoundType.CardPlayed);
 				_lastCardPlayed = lastCardPlayed;
 				// WAIT TIME SO THE USER CAN SEE it
 				Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -347,6 +355,29 @@ namespace Subasta.Lib.UserControls
 			CompactPlayerCards(status, playerNumber);
 
 			PictureBox pbCard = PaintCardPlayed(playerNumber, card);
+
+			PaintPlayerComment(status, playerNumber, card);
+		}
+
+		private void PaintPlayerComment(IExplorationStatus status, int playerNumber, ICard card)
+		{
+			
+			//arrastre
+
+			//fallo
+
+			//marco
+
+			//fallo y marco
+
+			//achique
+
+			//subo
+
+			//asisto
+
+
+			//si condicion, localizar el pb del jugador e invocar show ballon
 		}
 
 		private void CompactPlayerCards(IExplorationStatus status, int playerNumber)

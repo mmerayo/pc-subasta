@@ -5,11 +5,11 @@ using Subasta.Domain.Deck;
 
 namespace Subasta.DomainServices.Game.Strategies
 {
-	internal class DeckSuffler:IDeckSuffler
+	internal class DeckShuffler:IDeckShuffler
 	{
 		private static Random _rnd = new Random((int)DateTime.UtcNow.Ticks);
 
-		public IDeck Suffle(IDeck deck)
+		public IDeck Shuffle(IDeck deck)
 		{
 			var cards = deck.Cards.Cards;
 
@@ -18,14 +18,14 @@ namespace Subasta.DomainServices.Game.Strategies
 				var idx = GetRandomIndex(deck);
 				var lenght = GetRandomLength(cards.Count - idx - 1);
 
-				DoSuffle(idx, lenght, cards);
+				DoShuffle(idx, lenght, cards);
 			}
 			return deck;
 		}
 
-		private static void DoSuffle(int idx,int lenght, List<ICard> cards)
+		private static void DoShuffle(int idx,int lenght, List<ICard> cards)
 		{
-			Debug.WriteLine("Dosuffle - idx:{0}, lenght:{1}", idx, lenght);
+			Debug.WriteLine("DoShuffle - idx:{0}, lenght:{1}", idx, lenght);
 			var toMove = cards.GetRange(idx, lenght);
 			cards.RemoveRange(idx, lenght);
 			cards.AddRange(toMove);

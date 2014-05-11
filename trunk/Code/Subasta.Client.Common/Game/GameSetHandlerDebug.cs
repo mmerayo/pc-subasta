@@ -1,5 +1,6 @@
 using System.IO;
 using Subasta.ApplicationServices.IO;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.Deck;
 using Subasta.DomainServices.Dal;
 using Subasta.DomainServices.Game;
@@ -16,11 +17,11 @@ namespace Subasta.Client.Common.Game
 
 		public GameSetHandlerDebug(IGameHandler gameHandler, 
 		                           IDeck deck,
-		                           IDeckSuffler suffler,
+		                           IDeckShuffler shuffler,
 		                           IStoredGameWritter storedGameWritter,
 		                           IPathHelper pathHelper,
-		                           IStoredGamesCommands storedGamesCommands)
-			: base(gameHandler, deck, suffler, storedGameWritter)
+		                           IStoredGamesCommands storedGamesCommands, ISoundPlayer soundPlayer)
+			: base(gameHandler, deck, shuffler, storedGameWritter,soundPlayer)
 		{
 			_pathHelper = pathHelper;
 			_storedGamesCommands = storedGamesCommands;

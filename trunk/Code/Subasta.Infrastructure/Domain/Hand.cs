@@ -109,7 +109,11 @@ namespace Subasta.Infrastructure.Domain
 			}
 		}
 
-		
+		public byte NumberCardsPlayed
+		{
+			get { return (byte)CardsByPlaySequence().Count(x => x != null); }
+		}
+
 
 		public bool IsStartedByTrump
 		{
