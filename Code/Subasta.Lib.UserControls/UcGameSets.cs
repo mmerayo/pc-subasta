@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -92,9 +93,9 @@ namespace Subasta.Lib.UserControls
 			TextBox txtBox = GetCurrentTextBoxTarget();
 			txtBox.PerformSafely(x =>
 			{
-				x.Text += Environment.NewLine;
 				x.Text += string.Format("{0}|{1}|{2}", infoT1.PadLeft(8, ' '),
 										infoCenter.PadLeft(5, ' '), infoT2.PadRight(8, ' '));
+				x.Text += Environment.NewLine;
 			});
 		}
 
@@ -103,7 +104,20 @@ namespace Subasta.Lib.UserControls
 			//remove previous line
 			TextBox txtBox = GetCurrentTextBoxTarget();
 			txtBox.PerformSafely(
-				x => x.Text = txtBox.Text.Remove(txtBox.Text.LastIndexOf(Environment.NewLine)));
+				x =>
+				{
+					string[] lines = txtBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+					IEnumerable<string> enumerable = lines.Take(lines.Count()-1);
+					string txt = string.Empty;
+					foreach (var line in enumerable)
+					{
+						txt += line + Environment.NewLine;
+					}
+
+
+					x.Text = txt;
+				});
 
 			string center = " " + status.NormalizedPointsBet.ToString() + " ";
 			string left, right;

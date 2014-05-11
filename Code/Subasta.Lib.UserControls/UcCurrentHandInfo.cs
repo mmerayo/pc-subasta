@@ -60,13 +60,11 @@ namespace Subasta.Lib.UserControls
 		{
 			try
 			{
+
+				PaintPlayersInOrder(status);
 				PictureBox target;
-				target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).SingleOrDefault();
-				if (target == null)
-				{
-					PaintPlayersInOrder(player);
-					target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).Single();
-				}
+				target = this.FindControls<PictureBox>(x => x.Name.StartsWith(PbPetaPrefix) && x.Tag == player).Single();
+
 				target.PerformSafely(x => x.Image = _mediaProvider.GetImage(GameMediaType.Petar));
 			}
 			catch (Exception ex)
@@ -89,12 +87,8 @@ namespace Subasta.Lib.UserControls
 				}
 			}
 
+			PaintPlayersInOrder(status);
 
-			if (_currentHand != status.CurrentHand && !status.CurrentHand.IsEmpty)
-			{
-				_currentHand = status.CurrentHand;
-				this.PerformSafely(x => PaintPlayersInOrder(_gameSetHandler.GameHandler.GetPlayer(_currentHand.FirstPlayer)));
-			}
 		}
 
 		private void PaintCard(ICard card, int pbNumber)
@@ -116,29 +110,40 @@ namespace Subasta.Lib.UserControls
 			this.PerformSafely(x => { x.Visible = true; });
 		}
 
-		private void PaintPlayersInOrder(IPlayer firstPlayer)
+		private void PaintPlayersInOrder(IExplorationStatus status)
 		{
-			IPlayer currentPlayer = firstPlayer;
-
-			var images = new[]
-			             {
-			             	_mediaProvider.GetImage(GameMediaType.Jugador1),
-			             	_mediaProvider.GetImage(GameMediaType.Jugador2),
-			             	_mediaProvider.GetImage(GameMediaType.Jugador3),
-			             	_mediaProvider.GetImage(GameMediaType.Jugador4)
-			             };
-
-			for (int i = 1; i <= 4; i++)
+			try
 			{
-				var target = this.FindControl<PictureBox>(PbPlayerPrefix + i);
-				target.Image = images[currentPlayer.PlayerNumber - 1];
-
-				IEnumerable<PictureBox> targets = this.FindControls<PictureBox>(x => x.Name.EndsWith(i.ToString()));
-				foreach (PictureBox pictureBox in targets)
+				if (_currentHand != status.CurrentHand && !status.CurrentHand.IsEmpty)
 				{
-					pictureBox.Tag = currentPlayer;
+					_currentHand = status.CurrentHand;
+					IPlayer currentPlayer = _gameSetHandler.GameHandler.GetPlayer(_currentHand.FirstPlayer);
+
+					var images = new[]
+					             {
+					             	_mediaProvider.GetImage(GameMediaType.Jugador1),
+					             	_mediaProvider.GetImage(GameMediaType.Jugador2),
+					             	_mediaProvider.GetImage(GameMediaType.Jugador3),
+					             	_mediaProvider.GetImage(GameMediaType.Jugador4)
+					             };
+
+					for (int i = 1; i <= 4; i++)
+					{
+						var target = this.FindControl<PictureBox>(PbPlayerPrefix + i);
+						target.Image = images[currentPlayer.PlayerNumber - 1];
+
+						IEnumerable<PictureBox> targets = this.FindControls<PictureBox>(x => x.Name.EndsWith(i.ToString()));
+						foreach (PictureBox pictureBox in targets)
+						{
+							pictureBox.Tag = currentPlayer;
+						}
+						currentPlayer = _gameSetHandler.GameHandler.GetPlayer(currentPlayer.NextNumber());
+					}
 				}
-				currentPlayer = _gameSetHandler.GameHandler.GetPlayer(currentPlayer.NextNumber());
+			}
+			catch (Exception ex)
+			{
+				throw;
 			}
 		}
 
