@@ -2,8 +2,8 @@
 
 namespace Subasta.DomainServices.Game
 {
-	public interface IDeckSuffler
+	public interface IDeckShuffler
 	{
-		IDeck Suffle(IDeck cardsSource);
+		IDeck Shuffle(IDeck cardsSource);
 	}
 }

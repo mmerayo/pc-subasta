@@ -35,7 +35,8 @@ namespace Subasta.Domain.Game
 		byte Sequence { get; }
 		byte DeclarationValue { get; }
 		byte LastPlayerPlayed { get; }
-	    ICard PlayerCard(int playerPosition);
+    	byte NumberCardsPlayed { get; }
+    	ICard PlayerCard(int playerPosition);
 
 		IHand Clone();
 		void SetDeclaration(Declaration? declaration);

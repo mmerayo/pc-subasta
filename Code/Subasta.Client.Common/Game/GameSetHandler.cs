@@ -3,44 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using log4net;
 using Subasta.ApplicationServices.Extensions;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Dal;
 using Subasta.DomainServices.Game;
+using log4net;
 
 namespace Subasta.Client.Common.Game
 {
 	internal class GameSetHandler : IGameSetHandler
 	{
-
-		private static readonly ILog Logger = LogManager.GetLogger(typeof(GameSetHandler));
 		//TODO: configurable
 		private const int GameSetTargetPoints = 100;
-		private readonly IGameHandler _gameHandler;
-		private IDeck _deck;
-		private readonly IDeckSuffler _suffler;
-		private readonly IStoredGameWritter _storedGameWritter;
-		
-		private readonly List<List<IExplorationStatus>> _sets = new List<List<IExplorationStatus>>();
-
+		private static readonly ILog Logger = LogManager.GetLogger(typeof (GameSetHandler));
 		private readonly int[] _currentPoints = new int[2] {0, 0};
-		
-		public GameSetHandler(IGameHandler gameHandler,IDeck deck,
-		IDeckSuffler suffler,IStoredGameWritter storedGameWritter)
+		private readonly IGameHandler _gameHandler;
+		private readonly List<List<IExplorationStatus>> _sets = new List<List<IExplorationStatus>>();
+		private readonly IDeckShuffler _shuffler;
+		private readonly ISoundPlayer _soundPlayer;
+		private readonly ManualResetEvent _startWaitHandle = new ManualResetEvent(true);
+		private readonly IStoredGameWritter _storedGameWritter;
+		private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
+		private IDeck _deck;
+
+		public GameSetHandler(IGameHandler gameHandler, IDeck deck,
+		                      IDeckShuffler Shuffler, IStoredGameWritter storedGameWritter, ISoundPlayer soundPlayer)
 		{
 			_gameHandler = gameHandler;
 			_deck = deck;
-			_suffler = suffler;
+			_shuffler = Shuffler;
 			_storedGameWritter = storedGameWritter;
-			
+			_soundPlayer = soundPlayer;
+
 			SubscribeToGameEvents();
 			PlayerDealerNumber = new Random((int) DateTime.UtcNow.Ticks).Next(1, 4);
 			Reset();
 		}
 
+		#region IGameSetHandler Members
 
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
@@ -55,7 +58,11 @@ namespace Subasta.Client.Common.Game
 		}
 
 		public int PlayerDealerNumber { get; private set; }
-		public int FirstPlayer { get { return NextPlayer(PlayerDealerNumber); }}
+
+		public int FirstPlayer
+		{
+			get { return NextPlayer(PlayerDealerNumber); }
+		}
 
 		public IGameHandler GameHandler
 		{
@@ -67,45 +74,40 @@ namespace Subasta.Client.Common.Game
 			get { return _sets; }
 		}
 
-		private int NextPlayer(int playerNumber)
-		{
-			if(++playerNumber>4)
-				playerNumber = 1;
-			return playerNumber;
-		}
-
-		readonly ManualResetEvent _startWaitHandle = new ManualResetEvent(true);
-		private Task _startTask;
-		CancellationTokenSource tokenSource = new CancellationTokenSource();
-
 		public void Start()
 		{
 			try
 			{
-
-				//TODO: might not be needed, this decouples the ui thread from the logic
-				_startTask = Task.Factory.StartNew(() =>
-				{
-					try
-					{
-						if (!_startWaitHandle.WaitOne())
-							throw new Exception();
-						Reset();
-						OnGameSetStarted();
-					}
-					finally
-					{
-						_startWaitHandle.Set();
-					}
-				}, tokenSource.Token).LogTaskException(Logger);
+				Task.Factory.StartNew(() =>
+				                      {
+				                      	try
+				                      	{
+				                      		if (!_startWaitHandle.WaitOne())
+				                      			throw new Exception();
+				                      		Reset();
+				                      		OnGameSetStarted();
+				                      	}
+				                      	finally
+				                      	{
+				                      		_startWaitHandle.Set();
+				                      	}
+				                      }, tokenSource.Token).LogTaskException(Logger);
 			}
 			catch (Exception ex)
 			{
-				Logger.Error("Start",ex);
+				Logger.Error("Start", ex);
 				tokenSource.Cancel(true);
 				throw;
 			}
+		}
 
+		#endregion
+
+		private int NextPlayer(int playerNumber)
+		{
+			if (++playerNumber > 4)
+				playerNumber = 1;
+			return playerNumber;
 		}
 
 		private void Reset()
@@ -117,15 +119,12 @@ namespace Subasta.Client.Common.Game
 		{
 			//add set to record
 			Sets.Add(new List<IExplorationStatus>());
-			
+
 			if (GameSetStarted != null)
 				GameSetStarted(this);
-			
-			ConfigureNewGame();
-			
-		}
 
-		
+			ConfigureNewGame();
+		}
 
 
 		private void SubscribeToGameEvents()
@@ -135,7 +134,6 @@ namespace Subasta.Client.Common.Game
 
 			GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 			GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
-
 		}
 
 		private void GameHandler_GameSaysStarted(ISaysStatus status)
@@ -150,13 +148,13 @@ namespace Subasta.Client.Common.Game
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
 		{
-			if(Sets.Any())
+			if (Sets.Any())
 				Sets.Last().Add(status);
 			UpdatePoints(status);
 			OnGameCompleted(status);
 
 			//records the status in the current set
-			
+
 
 			if (_currentPoints.Any(x => x >= GameSetTargetPoints))
 			{
@@ -166,7 +164,6 @@ namespace Subasta.Client.Common.Game
 			{
 				ConfigureNewGame();
 			}
-
 		}
 
 		private void UpdatePoints(IExplorationStatus status)
@@ -176,12 +173,12 @@ namespace Subasta.Client.Common.Game
 
 		protected virtual void ConfigureNewGame()
 		{
-			
 			PlayerDealerNumber = NextPlayer(PlayerDealerNumber);
-			_deck = _suffler.Suffle(_deck);
+			_soundPlayer.Play(GameSoundType.Shuffle);
+			_deck = _shuffler.Shuffle(_deck);
 
-			var currentPlayer = FirstPlayer;
-			var currentIdx = 0;
+			int currentPlayer = FirstPlayer;
+			int currentIdx = 0;
 			var cards = new ICard[4][];
 
 			for (int i = 0; i < 4; i++)
@@ -224,18 +221,17 @@ namespace Subasta.Client.Common.Game
 		private StoredGameData GetStoredGameObject(IExplorationStatus status)
 		{
 			return new StoredGameData
-			             {
-			             	FirstPlayer = status.Turn,
-			             	Player1Cards = status.PlayerCards(1),
-			             	Player1Type = _gameHandler.GetPlayer(1).PlayerType,
-			             	Player2Cards = status.PlayerCards(2),
-			             	Player2Type = _gameHandler.GetPlayer(2).PlayerType,
-			             	Player3Cards = status.PlayerCards(3),
-			             	Player3Type = _gameHandler.GetPlayer(3).PlayerType,
-			             	Player4Cards = status.PlayerCards(4),
-			             	Player4Type = _gameHandler.GetPlayer(4).PlayerType
-			             };
-
+			       {
+			       	FirstPlayer = status.Turn,
+			       	Player1Cards = status.PlayerCards(1),
+			       	Player1Type = _gameHandler.GetPlayer(1).PlayerType,
+			       	Player2Cards = status.PlayerCards(2),
+			       	Player2Type = _gameHandler.GetPlayer(2).PlayerType,
+			       	Player3Cards = status.PlayerCards(3),
+			       	Player3Type = _gameHandler.GetPlayer(3).PlayerType,
+			       	Player4Cards = status.PlayerCards(4),
+			       	Player4Type = _gameHandler.GetPlayer(4).PlayerType
+			       };
 		}
 
 		private void OnGameSetCompleted()
@@ -261,8 +257,5 @@ namespace Subasta.Client.Common.Game
 			if (GameCompleted != null)
 				GameCompleted(status);
 		}
-
-
-
 	}
 }

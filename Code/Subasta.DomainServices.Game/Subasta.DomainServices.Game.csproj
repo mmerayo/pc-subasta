@@ -79,7 +79,7 @@
     <Compile Include="Players\Player.cs" />
     <Compile Include="Strategies\CandidatePlayer.cs" />
     <Compile Include="Utils\CardComparer.cs" />
-    <Compile Include="Strategies\DeckSuffler.cs" />
+    <Compile Include="Strategies\DeckShuffler.cs" />
     <Compile Include="Strategies\FilteredCandidatesSelector.cs" />
     <Compile Include="Strategies\NonFilteredCandidatesSelector.cs" />
     <Compile Include="Strategies\PlayerDeclarationsChecker.cs" />
