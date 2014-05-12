@@ -6,7 +6,6 @@ namespace Subasta.Client.Common.Media
 {
 	public enum GameMediaType
 	{
-		Player,
 		Petar,
 		Reverso,
 		Jugador1,

@@ -91,7 +91,7 @@ namespace Subasta.Client.Common.Media
 
 		private string GetCardFileName(ICard card)
 		{
-			return string.Format("{0}_{1}s.jpg",  card.Suit.Name.ToLower(), card.Number);
+			return string.Format("{0}_{1}s.png",  card.Suit.Name.ToLower(), card.Number);
 		}
 
 

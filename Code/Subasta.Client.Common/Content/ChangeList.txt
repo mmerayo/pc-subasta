@@ -1,6 +1,7 @@
 ﻿12/05/2014
 -Arreglado bug
 
+
 11/05/2014
 -Arreglado bug: el jugador que peta es mostrado correctamente en el indicador de la mano actual
 -añadido mecanismo para reproducir sonidos, e implementados primeros
