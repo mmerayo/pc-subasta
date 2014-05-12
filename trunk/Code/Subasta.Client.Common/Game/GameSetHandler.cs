@@ -130,23 +130,13 @@ namespace Subasta.Client.Common.Game
 		private void SubscribeToGameEvents()
 		{
 			GameHandler.GameStarted += GameHandler_GameStarted;
-			GameHandler.GameCompleted += GameHandler_GameCompleted;
+			GameHandler.GameEnded += GameHandler_GameEnded;
 
 			GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 			GameHandler.GameSaysStarted += GameHandler_GameSaysStarted;
 		}
 
-		private void GameHandler_GameSaysStarted(ISaysStatus status)
-		{
-			OnGameSaysStarted(status);
-		}
-
-		private void GameHandler_GameSaysCompleted(ISaysStatus status)
-		{
-			OnGameSaysCompleted(status);
-		}
-
-		private void GameHandler_GameCompleted(IExplorationStatus status)
+		private void GameHandler_GameEnded(IExplorationStatus status)
 		{
 			if (Sets.Any())
 				Sets.Last().Add(status);
@@ -165,6 +155,17 @@ namespace Subasta.Client.Common.Game
 				ConfigureNewGame();
 			}
 		}
+
+		private void GameHandler_GameSaysStarted(ISaysStatus status)
+		{
+			OnGameSaysStarted(status);
+		}
+
+		private void GameHandler_GameSaysCompleted(ISaysStatus status)
+		{
+			OnGameSaysCompleted(status);
+		}
+
 
 		private void UpdatePoints(IExplorationStatus status)
 		{

@@ -161,7 +161,7 @@ namespace Subasta.Lib.UserControls
 
 		private void GameHandler_GameCompleted(IExplorationStatus status)
 		{
-			Thread.Sleep(TimeSpan.FromSeconds(5));
+			Thread.Sleep(TimeSpan.FromSeconds(3));
 		}
 
 		private void GameHandler_HandCompleted(IExplorationStatus status)

@@ -47,9 +47,10 @@ namespace Subasta.DomainServices.Game.Players
 		public event GameStatusChangedHandler GameStatusChanged;
 		public event GameStatusChangedHandler GameStarted;
 		public event GameStatusChangedHandler GameCompleted;
+		public event GameEndHandler GameEnded;
 		public event GameStatusChangedHandler HandCompleted;
 		public event GamePlayerPetaHandler GamePlayerPeta;
-		public event GamePlayerDeclaration PlayerDeclarationEmitted;
+		public event GamePlayerDeclarationHandler PlayerDeclarationEmitted;
 		public event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		public event GameSaysStatusChangedHandler GameSaysStarted;
 		public event GameSaysStatusChangedHandler GameSaysCompleted;
@@ -194,6 +195,9 @@ namespace Subasta.DomainServices.Game.Players
 			ReComposeDeck();
 
 			OnGameCompleted();
+
+			OnGameEnded();
+
 		}
 
 		private void ReComposeDeck()
@@ -342,6 +346,12 @@ namespace Subasta.DomainServices.Game.Players
 		{
 			if (GameCompleted != null)
 				GameCompleted(Status);
+		}
+
+		private void OnGameEnded()
+		{
+			if (GameEnded != null)
+				GameEnded(Status);
 		}
 
 		private void OnSaysStart()

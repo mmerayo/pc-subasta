@@ -10,7 +10,9 @@ namespace Subasta.Domain.Game
 	public delegate void GameSaysStatusChangedHandler(ISaysStatus status);
 
 	public delegate void GamePlayerPetaHandler(IPlayer player, IExplorationStatus status);
-	public delegate void GamePlayerDeclaration(IPlayer player, Declaration declaration);
+	public delegate void GamePlayerDeclarationHandler(IPlayer player, Declaration declaration);
+
+	public delegate void GameEndHandler(IExplorationStatus status);
 
 	public interface IGame
 	{
@@ -23,14 +25,19 @@ namespace Subasta.Domain.Game
 		event GameStatusChangedHandler GameStatusChanged;
 		event GameStatusChangedHandler GameStarted;
 		event GameStatusChangedHandler GameCompleted;
+		event GameEndHandler GameEnded;
+		
+		
 		event GameStatusChangedHandler HandCompleted;
 		event GamePlayerPetaHandler GamePlayerPeta;
-		event GamePlayerDeclaration PlayerDeclarationEmitted;
+		event GamePlayerDeclarationHandler PlayerDeclarationEmitted;
 
 
 		event GameSaysStatusChangedHandler GameSaysStatusChanged;
 		event GameSaysStatusChangedHandler GameSaysStarted;
 		event GameSaysStatusChangedHandler GameSaysCompleted;
+
+
 
 		void StartGame();
 		void SetGameInfo(IPlayer p1, IPlayer p2, IPlayer p3, IPlayer p4, int firstPlayer);
