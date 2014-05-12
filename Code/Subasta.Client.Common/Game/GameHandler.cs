@@ -25,16 +25,20 @@ namespace Subasta.Client.Common.Game
 
 		public event StatusChangedHandler GameStarted;
 		public event StatusChangedHandler GameCompleted;
+		public event GameEndHandler GameEnded;
+		
 		public event StatusChangedHandler HandCompleted;
 		public event TurnChangedHandler TurnChanged;
 
-		public event GamePlayerDeclaration DeclarationEmit;
+		public event GamePlayerDeclarationHandler DeclarationEmit;
 
 		public event MoveSelectionNeeded HumanPlayerMoveSelectionNeeded;
 		public event DeclarationSelectionNeeded HumanPlayerDeclarationSelectionNeeded;
 		public event SayNeededEvent HumanPlayerSayNeeded;
 		public event TrumpNeededEvent HumanPlayerTrumpNeeded;
 		public event GamePlayerPetaHandler GamePlayerPeta;
+
+
 		private ISaysStatus _saysStatus;
 
 		public GameHandler(IGame game, IPlayerFactory playerFactory,ISoundPlayer soundPlayer)
@@ -90,6 +94,8 @@ namespace Subasta.Client.Common.Game
 			_game.GameStatusChanged -= _game_GameStatusChanged;
 			_game.GameStarted -= _game_GameStarted;
 			_game.GameCompleted -= _game_GameCompleted;
+			_game.GameEnded -= _game_GameEnded;
+
 			_game.HandCompleted -= _game_HandCompleted;
 
 			_game.GameSaysStatusChanged -= _game_GameSaysStatusChanged;
@@ -102,6 +108,8 @@ namespace Subasta.Client.Common.Game
 			_game.GameStatusChanged += _game_GameStatusChanged;
 			_game.GameStarted += _game_GameStarted;
 			_game.GameCompleted += _game_GameCompleted;
+			_game.GameEnded+=_game_GameEnded;
+
 			_game.HandCompleted += _game_HandCompleted;
 
 			_game.GameSaysStatusChanged += _game_GameSaysStatusChanged;
@@ -110,6 +118,17 @@ namespace Subasta.Client.Common.Game
 
 			_game.PlayerDeclarationEmitted += _game_PlayerDeclarationEmitted;
 			_game.GamePlayerPeta += _game_GamePlayerPeta;
+		}
+
+		void _game_GameEnded(IExplorationStatus status)
+		{
+			OnGameEnded(status);
+		}
+
+		private void OnGameEnded(IExplorationStatus status)
+		{
+			if(GameEnded!=null)
+				GameEnded(status);
 		}
 
 		void _game_GamePlayerPeta(IPlayer player, IExplorationStatus status)

@@ -22,7 +22,7 @@ namespace Subasta.Client.Common.Game
 		void Start();
 		void Load(StoredGameData storedGame);
 		void ConfigureNewGame(NewGameConfiguration gameConfiguration);
-		event GamePlayerDeclaration DeclarationEmit;
+		event GamePlayerDeclarationHandler DeclarationEmit;
 
 		event StatusChangedHandler GameStarted;
 		event StatusChangedHandler GameCompleted;
@@ -40,5 +40,6 @@ namespace Subasta.Client.Common.Game
 		event StatusChangedHandler HandCompleted;
 		event TurnChangedHandler TurnChanged;
 
+		event GameEndHandler GameEnded;
 	}
 }
