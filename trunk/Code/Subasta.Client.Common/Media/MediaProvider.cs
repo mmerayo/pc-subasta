@@ -35,17 +35,16 @@ namespace Subasta.Client.Common.Media
 
 		private void InitializeMap()
 		{
-			_imageFileMap.Add(GameMediaType.Petar, "petar.jpg");
-			_imageFileMap.Add(GameMediaType.Reverso, "reverso.jpg");
-			_imageFileMap.Add(GameMediaType.Player, "player.png");
+			_imageFileMap.Add(GameMediaType.Petar, "petar.png");
+			_imageFileMap.Add(GameMediaType.Reverso, "reverso.png");
 			_imageFileMap.Add(GameMediaType.Jugador1, "jugador1.png");
 			_imageFileMap.Add(GameMediaType.Jugador2, "jugador2.png");
 			_imageFileMap.Add(GameMediaType.Jugador3, "jugador3.png");
 			_imageFileMap.Add(GameMediaType.Jugador4, "jugador4.png");
-			_imageFileMap.Add(GameMediaType.Turno, "turno.jpg");
-			_imageFileMap.Add(GameMediaType.FirstPlayer, "FirstPlayer.jpg");
-			_imageFileMap.Add(GameMediaType.Winner, "Winner.jpg");
-			_imageFileMap.Add(GameMediaType.CanteRealizado, "CanteRealizado.jpg");
+			_imageFileMap.Add(GameMediaType.Turno, "turno.png");
+			_imageFileMap.Add(GameMediaType.FirstPlayer, "FirstPlayer.png");
+			_imageFileMap.Add(GameMediaType.Winner, "Winner.png");
+			_imageFileMap.Add(GameMediaType.CanteRealizado, "CanteRealizado.png");
 
 			_soundFileMap.Add(GameSoundType.PetarMesa,"petar.mp3");
 			_soundFileMap.Add(GameSoundType.CardPlayed,"placeCard.mp3");
