@@ -210,8 +210,12 @@ namespace Subasta.DomainServices.Game.Players
 			//the current hand winner has a human in the team
 			if (previousStatus.CurrentHand.CardsByPlaySequence().Count(x => x != null) == 3)
 			{
-				if (_players.Any(
-					x => x.PlayerType == PlayerType.Human && x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value))
+				if (_players.Any( 
+					x => x.TeamNumber==result.Status.TeamBets && //el equipo la pone
+					 x.PlayerType == PlayerType.Human && 
+					 x.TeamNumber == result.Status.LastCompletedHand.TeamWinner.Value)
+					
+					)
 				{
 					Declaration? calculatedDeclarationByMachine = Status.LastCompletedHand.Declaration;
 					Status.LastCompletedHand.SetDeclaration(null);

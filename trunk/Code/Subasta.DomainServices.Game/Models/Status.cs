@@ -51,7 +51,7 @@ namespace Subasta.DomainServices.Game.Models
 			if (_hands != null)
 			{
 				target._hands = new List<IHand>();
-				_hands.ForEach(x => target._hands.Add(x.Clone()));
+				_hands.ForEach(x => target._hands.Add(x.Clone(target)));
 			}
 			target._gameId = GameId;
 			target._gameCompleted = false;
@@ -371,7 +371,7 @@ namespace Subasta.DomainServices.Game.Models
 
 			if (_hands.Count == 10 || _playerCards.All(x => x.Length == 0))
 				return;
-			var item = new Hand(_cardsComparer, Trump,(byte)( _hands.Count+1));
+			var item = new Hand(_cardsComparer, Trump,(byte)( _hands.Count+1),this);
 			_hands.Add(item);
 		}
 

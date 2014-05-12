@@ -14,12 +14,14 @@ namespace Subasta.Infrastructure.Domain
 		private readonly ICard[] _hand = new ICard[4];
 		private byte? _playerWinner = null;
 	    private readonly ICardComparer _cardsComparer;
+		private readonly IExplorationStatus _containerExplorationStatus;
 		private byte? _firstPlayer=null;
 
-		public Hand(ICardComparer cardsComparer, ISuit trump,byte sequence)
+		public Hand(ICardComparer cardsComparer, ISuit trump,byte sequence,IExplorationStatus containerExplorationStatus)
 		{
 		    if (cardsComparer == null) throw new ArgumentNullException("cardsComparer");
 			_cardsComparer = cardsComparer;
+			_containerExplorationStatus = containerExplorationStatus;
 			Trump = trump;
 		    Sequence = sequence;
 		}
@@ -195,9 +197,10 @@ namespace Subasta.Infrastructure.Domain
 			return _hand[playerPosition - 1];
 		}
 
-		public IHand Clone()
+		public IHand Clone(IExplorationStatus container)
 		{
-			var result=new Hand(_cardsComparer,Trump,Sequence)
+			if (container == null) throw new ArgumentNullException("container");
+			var result=new Hand(_cardsComparer,Trump,Sequence,container)
 				{
 					_playerWinner=this._playerWinner,
 					_firstPlayer = this._firstPlayer,
@@ -209,6 +212,17 @@ namespace Subasta.Infrastructure.Domain
 
 		public void SetDeclaration(Declaration? declaration)
 		{
+			//Check if the declaration is valid
+			if (declaration.HasValue)
+			{
+				var candidates= _containerExplorationStatus.GetPlayerDeclarables(_containerExplorationStatus.TeamBets).ToList();
+				candidates.AddRange(_containerExplorationStatus.GetPlayerDeclarables(
+					_containerExplorationStatus.PlayerMateOf(_containerExplorationStatus.TeamBets)));
+
+				if(!candidates.Contains(declaration.Value))
+					throw new InvalidOperationException("Invalid declaration");
+			}
+
 			ThrowIfNotcompleted();
 			Declaration = declaration;
 		}
