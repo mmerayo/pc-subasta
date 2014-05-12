@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using log4net;
 using Subasta.Domain;
@@ -8,6 +9,7 @@ using Subasta.Domain.Deck;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms.MCTS;
 using Subasta.DomainServices.Game.Models;
+using Subasta.Infrastructure.Domain;
 
 namespace Subasta.DomainServices.Game.Players
 {
@@ -19,16 +21,18 @@ namespace Subasta.DomainServices.Game.Players
 		private readonly IPlayerDeclarationsChecker _declarationsChecker;
 		private readonly IPlayer[] _players = new IPlayer[4];
 		private readonly ISaysSimulator _saysRunner;
+		private readonly IDeck _deck;
 		private ISaysStatus _saysStatus;
 
 		public Game(ICardComparer cardComparer,
 			IPlayerDeclarationsChecker declarationsChecker,
-			ISimulator aiSimulator, ISaysSimulator saysSimulator)
+			ISimulator aiSimulator, ISaysSimulator saysSimulator,IDeck deck)
 		{
 			AiSimulator = aiSimulator;
 			_cardComparer = cardComparer;
 			_declarationsChecker = declarationsChecker;
 			_saysRunner = saysSimulator;
+			_deck = deck;
 		}
 
 		public ISimulator AiSimulator { get; set; }
@@ -187,7 +191,23 @@ namespace Subasta.DomainServices.Game.Players
 				OnGameStatusChanged();
 			}
 			AiSimulator.Reset();
+			ReComposeDeck();
+
 			OnGameCompleted();
+		}
+
+		private void ReComposeDeck()
+		{
+			var cards = new Pack();
+			foreach (var hand in Status.Hands)
+			{
+				cards.AddRange(hand.CardsByPlaySequence().Where(x=>x!=null));
+			}
+
+			cards.AddRange(Status.GetCardsNotYetPlayed());
+			Debug.Assert(cards.Cards.Count(x => x != null) == 40);
+			Debug.Assert(cards.Cards.Distinct().Count(x => x != null) == 40);
+			_deck.SetCards(cards);
 		}
 
 		private void NextMove()

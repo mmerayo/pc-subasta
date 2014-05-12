@@ -1,6 +1,6 @@
 ﻿12/05/2014
 -Arreglado bug
-
+-labaraja se recompone tras cada manao a partir de las bazas, como en caso real.
 
 11/05/2014
 -Arreglado bug: el jugador que peta es mostrado correctamente en el indicador de la mano actual
