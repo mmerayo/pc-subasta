@@ -38,7 +38,7 @@ namespace Subasta.Domain.Game
     	byte NumberCardsPlayed { get; }
     	ICard PlayerCard(int playerPosition);
 
-		IHand Clone();
+		IHand Clone(IExplorationStatus container);
 		void SetDeclaration(Declaration? declaration);
 	    IEnumerable<ICard> CardsByPlaySequence();
 	}
