@@ -1,4 +1,7 @@
-﻿12/05/2014
+﻿13/05/2014
+-Arreglado bug:scrollbar in gameset 
+
+12/05/2014
 -Arreglado bug
 -labaraja se recompone tras cada manao a partir de las bazas, como en caso real.
 

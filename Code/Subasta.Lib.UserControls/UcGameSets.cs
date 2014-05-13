@@ -81,7 +81,7 @@ namespace Subasta.Lib.UserControls
 				Multiline = true,
 				Name = "txtGameSetStatus" + newTab.TabIndex,
 				ReadOnly = true,
-				ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
+				ScrollBars = System.Windows.Forms.ScrollBars.Both,
 				Size = new System.Drawing.Size(191, 360),
 
 			};
@@ -96,6 +96,12 @@ namespace Subasta.Lib.UserControls
 				x.Text += string.Format("{0}|{1}|{2}", infoT1.PadLeft(8, ' '),
 										infoCenter.PadLeft(5, ' '), infoT2.PadRight(8, ' '));
 				x.Text += Environment.NewLine;
+
+				int position = x.Text.Length-1;
+
+				x.SelectionStart = position;
+
+				x.ScrollToCaret();
 			});
 		}
 
