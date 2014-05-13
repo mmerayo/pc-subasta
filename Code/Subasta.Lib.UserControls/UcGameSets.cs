@@ -81,9 +81,8 @@ namespace Subasta.Lib.UserControls
 				Multiline = true,
 				Name = "txtGameSetStatus" + newTab.TabIndex,
 				ReadOnly = true,
-				ScrollBars = System.Windows.Forms.ScrollBars.Both,
-				Size = new System.Drawing.Size(191, 360),
-
+				ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
+				Size = new System.Drawing.Size(170, 215),
 			};
 			newTab.PerformSafely(x => x.Controls.Add(newTxt));
 		}
