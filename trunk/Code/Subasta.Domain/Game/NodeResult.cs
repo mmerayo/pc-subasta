@@ -26,7 +26,7 @@ namespace Subasta.Domain.Game
 
 		public ICard CardAtMove(byte playerPosition, byte moveNumber)
 		{
-			return Status.Hands[moveNumber - 1].PlayerCard(playerPosition);
+			return Status.Hands[moveNumber - 1].PlayerCardResolve(playerPosition);
 		}
 
 		public NodeResult(IExplorationStatus status)

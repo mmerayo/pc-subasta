@@ -93,14 +93,8 @@ namespace Subasta.Lib.UserControls
 			txtBox.PerformSafely(x =>
 			{
 				x.Text += string.Format("{0}|{1}|{2}", infoT1.PadLeft(8, ' '),
-										infoCenter.PadLeft(5, ' '), infoT2.PadRight(8, ' '));
+										infoCenter.PadLeft(5, ' '), infoT2.PadRight(5, ' '));
 				x.Text += Environment.NewLine;
-
-				int position = x.Text.Length-1;
-
-				x.SelectionStart = position;
-
-				x.ScrollToCaret();
 			});
 		}
 
