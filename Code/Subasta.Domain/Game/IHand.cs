@@ -36,10 +36,12 @@ namespace Subasta.Domain.Game
 		byte DeclarationValue { get; }
 		byte LastPlayerPlayed { get; }
     	byte NumberCardsPlayed { get; }
-    	ICard PlayerCard(int playerPosition);
+    	ICard PlayerCardResolve(int playerPosition);
+		byte PlayerCardResolve(ICard card);
 
 		IHand Clone(IExplorationStatus container);
 		void SetDeclaration(Declaration? declaration);
 	    IEnumerable<ICard> CardsByPlaySequence();
 	}
+	
 }

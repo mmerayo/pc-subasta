@@ -141,9 +141,16 @@ namespace Subasta.Lib.UserControls
 
 		private string GetBazaTip(IHand lastCompletedHand)
 		{
-			ICard[] array = lastCompletedHand.CardsByPlaySequence().ToArray();
-			string result = string.Format("{0}{4}{1}{4}{2}{4}{3}{4}{5}", array[0], array[1], array[2],
-				array[3], Environment.NewLine, lastCompletedHand.Declaration.HasValue?lastCompletedHand.Declaration.ToString().SeparateCamelCase():string.Empty);
+			var array = lastCompletedHand.CardsByPlaySequence().ToArray();
+			IGameHandler gameHandler = _gameSetHandler.GameHandler;
+			string result = string.Format("{6}-{0}{4}{7}-{1}{4}{8}-{2}{4}{9}-{3}{4}{5}", array[0], array[1], array[2],
+				array[3], Environment.NewLine,
+				 lastCompletedHand.Declaration.HasValue?lastCompletedHand.Declaration.ToString().SeparateCamelCase():string.Empty,
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[0])),
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[1])),
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[2])),
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[3]))
+				 );
 		    return result;
 		}
 

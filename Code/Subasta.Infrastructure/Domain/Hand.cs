@@ -106,7 +106,7 @@ namespace Subasta.Infrastructure.Domain
 				{
 
 					currPlayer = NextPlayer(currPlayer);
-				} while (PlayerCard(currPlayer) != null && currPlayer != FirstPlayer);
+				} while (PlayerCardResolve(currPlayer) != null && currPlayer != FirstPlayer);
 				return PreviousPlayer(currPlayer);
 			}
 		}
@@ -192,9 +192,14 @@ namespace Subasta.Infrastructure.Domain
 			get { return _firstPlayer.Value; }
 		}
 
-		public ICard PlayerCard(int playerPosition)
+		public ICard PlayerCardResolve(int playerPosition)
 		{
 			return _hand[playerPosition - 1];
+		}
+
+		public byte PlayerCardResolve(ICard card)
+		{
+			return (byte)(_hand.ToList().IndexOf(card)+1);
 		}
 
 		public IHand Clone(IExplorationStatus container)

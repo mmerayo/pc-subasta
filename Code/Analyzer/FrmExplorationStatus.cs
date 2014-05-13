@@ -261,7 +261,7 @@ namespace Analyzer
 			ICard playerCard;
 			for (int i = 1; i <= 4; i++)
 			{
-				playerCard = currentHand.PlayerCard(i);
+				playerCard = currentHand.PlayerCardResolve(i);
 				if (playerCard != null)
 					dataRow["Player" + i] = playerCard.ToShortString();
 			}
