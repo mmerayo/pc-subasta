@@ -84,7 +84,7 @@ namespace Subasta.Lib
 			{
 				exeConfig.AppSettings.Settings[versionKeyName].Value = currentVersion;
 				exeConfig.Save(ConfigurationSaveMode.Modified);
-				_frmChangeList.ShowDialog(this);
+				//_frmChangeList.ShowDialog(this);
 			}
 		}
 	}

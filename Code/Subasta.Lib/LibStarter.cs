@@ -31,7 +31,7 @@ namespace Subasta.Lib
 			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 
-			ShowStartupMessage();
+			//ShowStartupMessage();
 
 			LogConfigurator.ConfigureLogging();
 
