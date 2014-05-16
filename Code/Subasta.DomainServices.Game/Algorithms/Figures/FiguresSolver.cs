@@ -53,10 +53,17 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 				result = GiveInformation(candidates);
 				MarkSelected(candidates, saysStatus, result);
 			}
+			else if (NormalizedPoints(topPoints) <= saysStatus.PointsBet)
+			{
+				result = candidates.Any(x => x.GetType() == typeof(FigureNada))
+					? candidates.Single(x => x.GetType() == typeof(FigureNada))
+					: candidates.Single(x => x.GetType() == typeof(FigurePaso));
+			}
+
 			else
 			{
 				//mate passed
-				result=new FigureJustPoints(topPoints);
+				result = new FigureJustPoints(topPoints);
 			}
 			
 
@@ -90,7 +97,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 
 		private IEnumerable<IFigure> GetCandidateFigures(ISaysStatus saysStatus, byte topPoints)
 		{
-			var normalizedTopPoints = (byte) Math.Truncate((double) (topPoints/10));
+			var normalizedTopPoints = NormalizedPoints(topPoints);
 			_figuresCatalog.Init();
 			IEnumerable<IFigure> figures = _figuresCatalog.Figures;
 			var candidateFigures = figures.Where(x => x.IsAvailable(saysStatus, normalizedTopPoints)).ToList();
@@ -128,6 +135,11 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			}
 
 			return candidateFigures;
+		}
+
+		private static byte NormalizedPoints(int topPoints)
+		{
+			return (byte) Math.Truncate((double) (topPoints/10));
 		}
 	}
 }
