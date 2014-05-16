@@ -8,6 +8,7 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.Game.Algorithms.Figures.Catalog;
 using Subasta.DomainServices.Game.Models;
 using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.UnitTests.Tools;
 using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game.Models

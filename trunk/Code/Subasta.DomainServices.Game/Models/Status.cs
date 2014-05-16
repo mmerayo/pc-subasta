@@ -352,7 +352,7 @@ namespace Subasta.DomainServices.Game.Models
 
 		public bool IsEmpty
 		{
-			get { return Hands.Count == 0 || Hands[0].IsEmpty; }
+			get { return Hands.Count == 0 || (Hands.Count == 1 && Hands[0].IsEmpty); }
 		}
 
 		public ICard LastCardPlayed
@@ -464,6 +464,8 @@ namespace Subasta.DomainServices.Game.Models
 		public void AddHand(IHand hand)
 		{
 			EnsureHands();
+			if(_hands.Any(x=>x.Sequence==hand.Sequence)) 
+				throw new InvalidOperationException();
 			_hands.Add(hand);
 		}
 

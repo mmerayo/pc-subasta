@@ -6,6 +6,7 @@ using Subasta.Domain.Game;
 using Subasta.DomainServices.Game;
 using Subasta.DomainServices.Game.Utils;
 using Subasta.Infrastructure.Domain;
+using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 {
@@ -76,7 +77,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 
 		private class TestContext
 		{
-			private readonly Fixture _fixture;
+			private readonly IFixture _fixture;
 			private ValidCardsRule _sut;
 			private ISuit _trump;
 			private ICard[] _playerCards;
@@ -84,7 +85,7 @@ namespace Subasta.Infrastructure.UnitTests.DomainServices.Game
 
 			public TestContext()
 			{
-				_fixture=new Fixture();
+				_fixture=new Fixture().Customize(new SubastaAutoFixtureCustomizations());
 				
 			}
 
