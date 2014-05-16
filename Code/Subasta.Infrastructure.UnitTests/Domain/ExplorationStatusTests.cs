@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
@@ -260,15 +261,23 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 			private int _playerBet;
 			private ICard[][] _hands;
 			private Declaration?[] _orderedDeclarations;
+			private ICardComparer _cardComparer;
+			private IPlayerDeclarationsChecker _playerDeclarationsChecker;
+			private ISuit _trump;
 
 			public TestContext()
 			{
+				Fixture.Register<ICardComparer>(() => Fixture.CreateAnonymous<CardComparer>());
+				Fixture.Register<IPlayerDeclarationsChecker>(() => Fixture.CreateAnonymous<PlayerDeclarationsChecker>());
 
+				_cardComparer=Fixture.Freeze<ICardComparer>();
+				_playerDeclarationsChecker = Fixture.Freeze<IPlayerDeclarationsChecker>();
 			}
 
 			public TestContext WithTrump(string trump)
 			{
 				Fixture.Register<ISuit>(() => Suit.FromName(trump));
+				_trump = Fixture.Freeze<ISuit>();
 
 				return this;
 			}
@@ -313,8 +322,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			private Status CreateSut()
 			{
-				Fixture.Register<ICardComparer>(() => Fixture.CreateAnonymous<CardComparer>());
-				Fixture.Register<IPlayerDeclarationsChecker>(()=>Fixture.CreateAnonymous<PlayerDeclarationsChecker>());
+				
 
 				_sut = Fixture.CreateAnonymous<Status>();
 				_sut.SetCards(1, _p1);
@@ -329,24 +337,35 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 						var handArray = _hands[index];
 						if (handArray == null)
 							continue;
-
-						var hand = CreateHand(handArray,_orderedDeclarations[index]);
-						_sut.AddHand(hand);
+						var sequence = index+1;
+						if (_sut.Hands.Any(x => x.Sequence == sequence))
+						{
+							AssignCardsToHand(handArray, _orderedDeclarations[index],_sut.Hands.Single(x=>x.Sequence==sequence));
+						}
+						else
+						{
+							var hand = CreateHand(index + 1, handArray, _orderedDeclarations[index]);
+							_sut.AddHand(hand);
+						}
 					}
 				}
 
 				return _sut;
 			}
 
-			private Hand CreateHand(ICard[] cards, Declaration? declaration)
+			private IHand CreateHand(int sequence, ICard[] cards, Declaration? declaration)
 			{
-				var hand = Fixture.CreateAnonymous<Hand>();
-			   
+				var hand = new Hand(_cardComparer, _trump, (byte) sequence, _sut);
+				return AssignCardsToHand(cards, declaration, hand);
+			}
+
+			private static IHand AssignCardsToHand(ICard[] cards, Declaration? declaration, IHand hand)
+			{
 				for (byte i = 1; i <= 4; i++)
 					hand.Add(i, cards[i - 1]);
-				
-				if(declaration.HasValue)
-					hand.SetDeclaration (declaration);
+
+				if (declaration.HasValue)
+					hand.SetDeclaration(declaration);
 				return hand;
 			}
 		}

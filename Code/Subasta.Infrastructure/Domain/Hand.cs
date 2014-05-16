@@ -221,8 +221,9 @@ namespace Subasta.Infrastructure.Domain
 			if (declaration.HasValue)
 			{
 				var candidates= _containerExplorationStatus.GetPlayerDeclarables(_containerExplorationStatus.TeamBets).ToList();
-				candidates.AddRange(_containerExplorationStatus.GetPlayerDeclarables(
-					_containerExplorationStatus.PlayerMateOf(_containerExplorationStatus.TeamBets)));
+				byte playerMateOf = _containerExplorationStatus.PlayerMateOf(_containerExplorationStatus.TeamBets);
+				IEnumerable<Declaration> playerDeclarables = _containerExplorationStatus.GetPlayerDeclarables(playerMateOf);
+				candidates.AddRange(playerDeclarables);
 
 				if(!candidates.Contains(declaration.Value))
 					throw new InvalidOperationException("Invalid declaration");

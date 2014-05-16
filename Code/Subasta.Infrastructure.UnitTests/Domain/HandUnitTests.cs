@@ -4,13 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Rhino.Mocks;
 using Subasta.Domain;
 using Subasta.Domain.Deck;
+using Subasta.Domain.Game;
 using Subasta.DomainServices;
 using Subasta.DomainServices.Game;
 using Subasta.DomainServices.Game.Utils;
 using Subasta.Infrastructure.Domain;
 using Subasta.Infrastructure.DomainServices;
+using Subasta.Infrastructure.UnitTests.Tools;
+using Subasta.Infrastructure.UnitTests.Tools.Autofixture;
 
 namespace Subasta.Infrastructure.UnitTests.Domain
 {
@@ -58,7 +62,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 		public Declaration? Can_AddDeclaration(ICard[] existingCards, Declaration declaration)
 		{
 
-			_context.WithTrump(Oros).WithExistingCards(existingCards, 1);
+			_context.WithTrump(Oros).WithExistingCards(existingCards, 1).WithDeclarables(new[]{declaration});
 
 			_context.Sut.SetDeclaration(declaration);
 
@@ -194,6 +198,7 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 				.WithTrump(Oros)
 				.WithExistingCards(cards, 1)
 				.WithDeclaration(declaration);
+			
 			return _context.Sut.Points;
 		}
 
@@ -236,19 +241,22 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 		private class TestContext
 		{
-			private readonly Fixture _fixture;
+			
+			private readonly IFixture _fixture;
 			private Hand _sut;
 			private ISuit _Trump=null;
-			
+			private IExplorationStatus _container;
 
 			public TestContext()
 			{
-				_fixture = new Fixture();
+				_fixture = new Fixture().Customize(new SubastaAutoFixtureCustomizations());
+				_container = _fixture.Freeze<IExplorationStatus>();
+				
 			}
 
 			public Hand Sut
 			{
-				get { return _sut??(_sut=_fixture.CreateAnonymous<Hand>()); }
+				get { return _sut??(_sut=_fixture.Create<Hand>()); }
 			}
 
 			public TestContext WithExistingCards(IEnumerable<ICard> existingCards, int playerPlays)
@@ -279,9 +287,25 @@ namespace Subasta.Infrastructure.UnitTests.Domain
 
 			public TestContext WithDeclaration(Declaration? declaration)
 			{
-				if(declaration.HasValue)
+				var playerBets = _container.PlayerBets;
+				if (declaration.HasValue)
+				{
+					_container.Expect(x => x.GetPlayerDeclarables(playerBets)).Return(new[]{declaration.Value}).OverridePrevious();
 					Sut.SetDeclaration(declaration.Value);
+				}
 				return this;
+			}
+
+			public TestContext WithDeclarables(IEnumerable<Declaration> declarations)
+			{
+				var playerBets = _container.PlayerBets;
+				_container.Expect(x => x.GetPlayerDeclarables(playerBets)).Return(declarations).OverridePrevious();
+				return this;
+			}
+
+			public TestContext WithDeclarables(Declaration declaration)
+			{
+				return WithDeclarables(new[] {declaration});
 			}
 		}
 	}

@@ -16,7 +16,8 @@ namespace Subasta.Infrastructure.UnitTests.Tools.Autofixture
 			fixture.Customize(new AutoRhinoMockCustomization());
 			fixture.Customize<Status>(c => c.OmitAutoProperties());
 			
-			//fixture.Customizations.Add(new StatusSpecimenBuilder());
+			fixture.Customizations.Add(new StatusSpecimenBuilder());
+			fixture.Customizations.Add(new SaysStatusSpecimenBuilder());
 		}
 	}
 }
