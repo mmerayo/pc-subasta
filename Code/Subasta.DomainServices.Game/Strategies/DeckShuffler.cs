@@ -7,19 +7,25 @@ namespace Subasta.DomainServices.Game.Strategies
 {
 	internal class DeckShuffler:IDeckShuffler
 	{
-		private static Random _rnd = new Random((int)DateTime.UtcNow.Ticks);
+		private static readonly Random Rnd = new Random((int)DateTime.UtcNow.Ticks);
+		private int _times = FirstTimeTimes;
+		private const int FirstTimeTimes = 5;
 
 		public IDeck Shuffle(IDeck deck)
 		{
 			var cards = deck.Cards.Cards;
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < _times; i++)
 			{
 				var idx = GetRandomIndex(deck);
 				var lenght = GetRandomLength(cards.Count - idx - 1);
 
 				DoShuffle(idx, lenght, cards);
 			}
+
+			if (_times == FirstTimeTimes)
+				_times = 3;
+
 			return deck;
 		}
 
@@ -33,12 +39,12 @@ namespace Subasta.DomainServices.Game.Strategies
 
 		private static int GetRandomLength(int maxLenght)
 		{
-			return _rnd.Next(1, maxLenght);
+			return Rnd.Next(1, maxLenght);
 		}
 
 		private static int GetRandomIndex(IDeck deck)
 		{
-			return _rnd.Next(0, deck.Cards.Cards.Count - 2);
+			return Rnd.Next(0, deck.Cards.Cards.Count - 2);
 		}
 	}
 }

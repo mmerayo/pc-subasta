@@ -17,7 +17,7 @@ namespace Subasta.DomainServices.Game
 			For<ICardComparer>().Use<CardComparer>();
 			For<IPlayerDeclarationsChecker>().Use<PlayerDeclarationsChecker>();
 			For<IValidCardsRule>().Use<ValidCardsRule>();
-			For<IDeckShuffler>().Use<DeckShuffler>();
+			For<IDeckShuffler>().Singleton().Use<DeckShuffler>();
 			For<ICandidatesSelector>().Use<FilteredCandidatesSelector>();
 			For<INonFilteredCandidatesSelector>().Use<NonFilteredCandidatesSelector>();
 			For<ICandidatePlayer>().Use<CandidatePlayer>();
