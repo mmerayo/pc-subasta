@@ -146,10 +146,10 @@ namespace Subasta.Lib.UserControls
 			string result = string.Format("{6}-{0}{4}{7}-{1}{4}{8}-{2}{4}{9}-{3}{4}{5}", array[0], array[1], array[2],
 				array[3], Environment.NewLine,
 				 lastCompletedHand.Declaration.HasValue?lastCompletedHand.Declaration.ToString().SeparateCamelCase():string.Empty,
-				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[0])),
-				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[1])),
-				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[2])),
-				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[3]))
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[0])).Name,
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[1])).Name,
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[2])).Name,
+				 gameHandler.GetPlayer(lastCompletedHand.PlayerCardResolve(array[3])).Name
 				 );
 		    return result;
 		}
