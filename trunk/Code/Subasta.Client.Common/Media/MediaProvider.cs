@@ -51,6 +51,14 @@ namespace Subasta.Client.Common.Media
 			_soundFileMap.Add(GameSoundType.Shuffle, "Shuffle.mp3");
 			_soundFileMap.Add(GameSoundType.TurnChanged,"beep.mp3");
 			_soundFileMap.Add(GameSoundType.DeclarationEmit, "prize.mp3");
+			_soundFileMap.Add(GameSoundType.Selection, "Selection.mp3");
+			
+			_soundFileMap.Add(GameSoundType.Voice1, "Voice1.mp3");
+			_soundFileMap.Add(GameSoundType.Voice2, "Voice2.mp3");
+			_soundFileMap.Add(GameSoundType.Voice3, "Voice3.mp3");
+			_soundFileMap.Add(GameSoundType.Voice4, "Voice4.mp3");
+			_soundFileMap.Add(GameSoundType.Voice5, "Voice5.mp3");
+			_soundFileMap.Add(GameSoundType.Voice6, "Voice6.mp3");
 		}
 
 		public Image GetImage(GameMediaType gameMediaType)

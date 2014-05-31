@@ -147,6 +147,7 @@ namespace Subasta.Lib.UserControls
 
 		private void ShowBalloon(PictureBox target, string text, TimeSpan showLenght)
 		{
+			_soundPlayer.PlayRandomVoice();
 			this.PerformSafely(x => balloonInfo.Show(text, target));
 
 			Thread.Sleep(showLenght);

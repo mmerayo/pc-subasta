@@ -63,7 +63,26 @@ namespace Subasta.Lib.Media
 
 		public void PlayAsync(GameSoundType soundType)
 		{
-			Task.Factory.StartNew(() => Play(soundType)).LogTaskException(Logger);
+			try
+			{
+				//Play(soundType);
+				Task.Factory.StartNew(() => Play(soundType)).LogTaskException(Logger);
+			}catch(Exception ex)
+			{
+				Logger.WarnFormat("PlayAsyc - {0}",ex);
+			}
+		}
+
+		private int _lastVoice = 1;
+
+		public void PlayRandomVoice()
+		{
+			var gameSoundType = (GameSoundType)Enum.Parse(typeof (GameSoundType), "Voice" + _lastVoice++);
+
+			PlayAsync(gameSoundType);
+
+			if(_lastVoice>6) _lastVoice = 1;
+
 		}
 	}
 

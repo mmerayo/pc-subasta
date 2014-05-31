@@ -30,6 +30,7 @@ namespace Subasta.DomainServices.Game.Players
 
 		private bool ResolvePete(ICard currentCard, IExplorationStatus currentStatus)
 		{
+			if(currentStatus.Hands.Count==10) return false;
 			//get highest
 			var highestPlayerCard = currentStatus.PlayerCards(PlayerNumber).Where(x => x.Suit.Equals(currentCard.Suit))
 				.OrderByDescending(x => x.Value).ThenByDescending(x => x.Number).FirstOrDefault();

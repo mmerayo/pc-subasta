@@ -11,13 +11,21 @@ namespace Subasta.Client.Common.Media
 		CardPlayed,
 		Shuffle,
 		TurnChanged,
-		DeclarationEmit
+		DeclarationEmit,
+		Selection,
+		Voice1,
+		Voice2,
+		Voice3,
+		Voice4,
+		Voice5,
+		Voice6
 	}
 	
 	public interface ISoundPlayer
 	{
-		void Play(GameSoundType petarMesa);
+		void Play(GameSoundType soundType);
 		void PlayAsync(GameSoundType soundType);
+		void PlayRandomVoice();
 	}
 
 

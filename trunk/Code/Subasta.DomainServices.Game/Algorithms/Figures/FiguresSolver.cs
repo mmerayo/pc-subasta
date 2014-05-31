@@ -22,7 +22,7 @@ namespace Subasta.DomainServices.Game.Algorithms.Figures
 			//TODO: CONFIGURABLE The players must exist in the configuration and we take the params from there
 	
 			int minVisits = (saysStatus.Says.Count(x => x.PlayerNum == saysStatus.Turn) + 1)*3000;
-			float maxRiskPercentage = 0.7F;
+			const float maxRiskPercentage = 0.65F;
 			TimeSpan fromSeconds = TimeSpan.FromSeconds(5);
 			var maxCurrentExploration = _saysSimulator.GetMaxExplorationFor(saysStatus.TurnTeam, minVisits, maxRiskPercentage, fromSeconds);
 
