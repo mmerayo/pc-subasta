@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
+using Subasta.Client.Common.Media;
 using Subasta.Domain.Game;
 
 namespace Subasta.Lib.UserControls
@@ -19,6 +20,7 @@ namespace Subasta.Lib.UserControls
 		private IUserInteractionManager _interactionManager;
 		private IGameSetHandler _gameSetHandler;
 		private IFiguresCatalog _figuresCatalog;
+		private ISoundPlayer _soundPlayer;
 
 		public UcSaySelector()
 		{
@@ -32,6 +34,7 @@ namespace Subasta.Lib.UserControls
 			_interactionManager = ObjectFactory.GetInstance<IUserInteractionManager>();
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
 			_figuresCatalog= ObjectFactory.GetInstance<IFiguresCatalog>();
+			_soundPlayer=ObjectFactory.GetInstance<ISoundPlayer>();
 
 			EnableSayInteraction(false);
 			PaintFigures(_figuresCatalog);
@@ -102,6 +105,8 @@ namespace Subasta.Lib.UserControls
 		}
 		private void btnSelect_Click(object sender, EventArgs e)
 		{
+		_soundPlayer.PlayAsync(GameSoundType.Selection);
+			
 			_interactionManager.InputProvided(() =>
 			{
 				var selectedValue = (SayKind)cmbSays.SelectedValue;
@@ -110,6 +115,7 @@ namespace Subasta.Lib.UserControls
 					? _figuresCatalog.GetFigureJustPoints((int)selectedValue)
 					: _figuresCatalog.Figures.First(x => x.Say == SayKind.Una);
 				EnableSayInteraction(false);
+
 				return result;
 			});
 		}

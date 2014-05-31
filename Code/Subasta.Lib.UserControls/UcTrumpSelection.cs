@@ -21,6 +21,7 @@ namespace Subasta.Lib.UserControls
 		private IUserInteractionManager _interactionManager;
 		private IGameSetHandler _gameSetHandler;
 		private IMediaProvider _mediaProvider;
+		private ISoundPlayer _soundPlayer	;
 
 		public UcTrumpSelection()
 		{
@@ -34,6 +35,8 @@ namespace Subasta.Lib.UserControls
 			_interactionManager = ObjectFactory.GetInstance<IUserInteractionManager>();
 			_mediaProvider = ObjectFactory.GetInstance<IMediaProvider>();
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
+			_soundPlayer=ObjectFactory.GetInstance<ISoundPlayer>();
+
 			LoadSuits();
 
 			_gameSetHandler.GameHandler.HumanPlayerTrumpNeeded += GameHandler_HumanPlayerTrumpNeeded;
@@ -71,8 +74,10 @@ namespace Subasta.Lib.UserControls
 
 		private void pb_Click(object sender, EventArgs e)
 		{
+			_soundPlayer.PlayAsync(GameSoundType.Selection);
 			_interactionManager.InputProvided(() =>
 			                                  {
+												
 			                                  	var result = ((PictureBox)sender).Tag;
 			                                  	EnableTrumpInteraction(false);
 			                                  	return result;

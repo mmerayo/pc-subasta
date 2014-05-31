@@ -24,7 +24,7 @@ namespace Subasta.DomainServices.Game.Strategies
 			}
 
 			if (_times == FirstTimeTimes)
-				_times = 3;
+				_times = 2;
 
 			return deck;
 		}

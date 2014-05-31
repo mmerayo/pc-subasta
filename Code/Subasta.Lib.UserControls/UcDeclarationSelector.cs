@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using StructureMap;
 using Subasta.Client.Common.Extensions;
 using Subasta.Client.Common.Game;
+using Subasta.Client.Common.Media;
 using Subasta.Domain;
 using Subasta.Domain.Game;
 
@@ -18,6 +19,7 @@ namespace Subasta.Lib.UserControls
 	{
 		private IUserInteractionManager _interactionManager;
 		private IGameSetHandler _gameSetHandler;
+		private ISoundPlayer _soundPlayer	;
 
 		public UcDeclarationSelector()
 		{
@@ -28,6 +30,8 @@ namespace Subasta.Lib.UserControls
 		{
 			_interactionManager = ObjectFactory.GetInstance<IUserInteractionManager>();
 			_gameSetHandler = ObjectFactory.GetInstance<IGameSetHandler>();
+			_soundPlayer=ObjectFactory.GetInstance<ISoundPlayer>();
+
 			_gameSetHandler.GameHandler.GameSaysCompleted += GameHandler_GameSaysCompleted;
 			_gameSetHandler.GameHandler.HumanPlayerDeclarationSelectionNeeded += GameHandler_HumanPlayerDeclarationSelectionNeeded;
 
@@ -78,6 +82,8 @@ namespace Subasta.Lib.UserControls
 
 		private void btnDeclarations_Click(object sender, EventArgs e)
 		{
+			_soundPlayer.PlayAsync(GameSoundType.Selection);
+
 			_interactionManager.InputProvided(() =>
 			{
 				var selectedValue = (string)cmbDeclarations.SelectedValue;

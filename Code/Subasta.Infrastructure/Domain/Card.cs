@@ -86,6 +86,8 @@ namespace Subasta.Infrastructure.Domain
 
 		public bool IsAbsSmallerThan(ICard card)
 		{
+			if(Equals(card))
+				return false;
 			return Value < card.Value || (Value == card.Value && Number < card.Value);
 		}
 
