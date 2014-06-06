@@ -113,7 +113,7 @@ namespace Subasta.Lib.UserControls
 
 				var result = selectedValue != SayKind.UnaMas
 					? _figuresCatalog.GetFigureJustPoints((int)selectedValue)
-					: _figuresCatalog.Figures.First(x => x.Say == SayKind.Una);
+					: _figuresCatalog.Figures.First(x => x.Say == SayKind.Una || x.Say==SayKind.UnaMas);
 				EnableSayInteraction(false);
 
 				return result;
