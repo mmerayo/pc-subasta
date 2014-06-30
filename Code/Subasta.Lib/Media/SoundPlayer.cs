@@ -77,11 +77,12 @@ namespace Subasta.Lib.Media
 
 		public void PlayRandomVoice()
 		{
-			var gameSoundType = (GameSoundType)Enum.Parse(typeof (GameSoundType), "Voice" + _lastVoice++);
+			//NOTHING
+			//var gameSoundType = (GameSoundType)Enum.Parse(typeof (GameSoundType), "Voice" + _lastVoice++);
 
-			PlayAsync(gameSoundType);
+			//PlayAsync(gameSoundType);
 
-			if(_lastVoice>6) _lastVoice = 1;
+			//if(_lastVoice>6) _lastVoice = 1;
 
 		}
 	}
