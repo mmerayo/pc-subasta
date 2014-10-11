@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Subasta.ApplicationServices.Events;
 using Subasta.ApplicationServices.Extensions;
 using Subasta.Client.Common.Media;
 using Subasta.Domain.DalModels;
 using Subasta.Domain.Deck;
+using Subasta.Domain.Events;
 using Subasta.Domain.Game;
 using Subasta.DomainServices.Dal;
 using Subasta.DomainServices.Game;
@@ -27,16 +29,22 @@ namespace Subasta.Client.Common.Game
 		private readonly ManualResetEvent _startWaitHandle = new ManualResetEvent(true);
 		private readonly IStoredGameWritter _storedGameWritter;
 		private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+		private readonly IEventPublisher _eventPublisher;
+
 		private IDeck _deck;
 
 		public GameSetHandler(IGameHandler gameHandler, IDeck deck,
-		                      IDeckShuffler Shuffler, IStoredGameWritter storedGameWritter, ISoundPlayer soundPlayer)
+		                      IDeckShuffler Shuffler,
+							  IStoredGameWritter storedGameWritter,
+							  ISoundPlayer soundPlayer, IEventPublisher eventPublisher)
 		{
 			_gameHandler = gameHandler;
 			_deck = deck;
 			_shuffler = Shuffler;
 			_storedGameWritter = storedGameWritter;
 			_soundPlayer = soundPlayer;
+			_eventPublisher = eventPublisher;
 
 			SubscribeToGameEvents();
 			PlayerDealerNumber = new Random((int) DateTime.UtcNow.Ticks).Next(1, 4);
@@ -115,16 +123,6 @@ namespace Subasta.Client.Common.Game
 			_currentPoints[0] = _currentPoints[1] = 0;
 		}
 
-		private void OnGameSetStarted()
-		{
-			//add set to record
-			Sets.Add(new List<IExplorationStatus>());
-
-			if (GameSetStarted != null)
-				GameSetStarted(this);
-
-			ConfigureNewGame();
-		}
 
 
 		private void SubscribeToGameEvents()
@@ -213,7 +211,10 @@ namespace Subasta.Client.Common.Game
 
 		private void OnGameStarted(IExplorationStatus status)
 		{
-			_storedGameWritter.Write(GetStoredGameObject(status));
+			var storedGameObject = GetStoredGameObject(status);
+			_eventPublisher.Publish(GameStartedEvent.From(storedGameObject));
+
+			_storedGameWritter.Write(storedGameObject);
 
 			if (GameStarted != null)
 				GameStarted(status);
@@ -223,6 +224,7 @@ namespace Subasta.Client.Common.Game
 		{
 			return new StoredGameData
 			       {
+				    GameId=status.GameId,
 			       	FirstPlayer = status.Turn,
 			       	Player1Cards = status.PlayerCards(1),
 			       	Player1Type = _gameHandler.GetPlayer(1).PlayerType,
@@ -235,8 +237,21 @@ namespace Subasta.Client.Common.Game
 			       };
 		}
 
+		private void OnGameSetStarted()
+		{
+		_eventPublisher.Publish(GameSetStartedEvent.Create());
+			//add set to record
+			Sets.Add(new List<IExplorationStatus>());
+
+			if (GameSetStarted != null)
+				GameSetStarted(this);
+
+			ConfigureNewGame();
+		}
+
 		private void OnGameSetCompleted()
 		{
+			_eventPublisher.Publish(GameSetCompletedEvent.Create());
 			if (GameSetCompleted != null)
 				GameSetCompleted(this);
 		}
@@ -249,14 +264,17 @@ namespace Subasta.Client.Common.Game
 
 		private void OnGameSaysStarted(ISaysStatus status)
 		{
+
 			if (GameSaysStarted != null)
 				GameSaysStarted(status);
 		}
 
 		private void OnGameCompleted(IExplorationStatus status)
 		{
+			_eventPublisher.Publish(GameCompletedEvent.From(status));
 			if (GameCompleted != null)
 				GameCompleted(status);
 		}
+		
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using Subasta.Domain.Deck;
 
 namespace Subasta.Domain.DalModels
@@ -7,6 +8,7 @@ namespace Subasta.Domain.DalModels
 		Human=0,
 		Mcts
 	}
+	[Serializable]
 	public class StoredGameData
 	{
 		public ICard[] Player1Cards { get; set; }
@@ -24,5 +26,6 @@ namespace Subasta.Domain.DalModels
 
 		public int FirstPlayer { get; set; }
 
+		public Guid GameId { get; set; }
 	}
 }

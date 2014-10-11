@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\ApplicationServicesRegistry.cs" />
+    <Compile Include="ApplicationServices\Events\EmailEventsPublisher.cs" />
+    <Compile Include="ApplicationServices\Events\NullEventsPublisher.cs" />
     <Compile Include="ApplicationServices\IO\PathUtils.cs" />
     <Compile Include="ApplicationServices\Queues\ProducerParallelConsumerQueue.cs" />
     <Compile Include="ApplicationServices\Queues\ProducerSequentialConsumerQueue.cs" />
