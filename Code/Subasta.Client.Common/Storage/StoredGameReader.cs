@@ -41,7 +41,7 @@ namespace Subasta.Client.Common.Storage
 		{
 			var result = new StoredGameData();
 			var deserialized = JsonConvert.DeserializeObject<dynamic>(data);
-
+			result.GameId = deserialized.GameId;
 			result.Player1Cards = ((string) deserialized.Player1Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 			result.Player2Cards = ((string) deserialized.Player2Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();
 			result.Player3Cards = ((string) deserialized.Player3Cards).Split(' ').ToArray().Select(x => new Card(x)).ToArray();

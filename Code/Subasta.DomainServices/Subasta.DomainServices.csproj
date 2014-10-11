@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Dal\IStoredGameReader.cs" />
     <Compile Include="Dal\IStoredGamesCommands.cs" />
+    <Compile Include="Dal\IStoredGameWritter.cs" />
     <Compile Include="Factories\IPlayerFactory.cs" />
     <Compile Include="Game\ICandidatePlayer.cs" />
     <Compile Include="Game\ICandidatesSelector.cs" />

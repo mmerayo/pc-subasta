@@ -1,4 +1,5 @@
 using System.IO;
+using Subasta.ApplicationServices.Events;
 using Subasta.ApplicationServices.IO;
 using Subasta.Client.Common.Media;
 using Subasta.Domain.Deck;
@@ -20,8 +21,8 @@ namespace Subasta.Client.Common.Game
 		                           IDeckShuffler shuffler,
 		                           IStoredGameWritter storedGameWritter,
 		                           IPathHelper pathHelper,
-		                           IStoredGamesCommands storedGamesCommands, ISoundPlayer soundPlayer)
-			: base(gameHandler, deck, shuffler, storedGameWritter,soundPlayer)
+		                           IStoredGamesCommands storedGamesCommands, ISoundPlayer soundPlayer, IEventPublisher eventPublisher)
+			: base(gameHandler, deck, shuffler, storedGameWritter,soundPlayer,eventPublisher)
 		{
 			_pathHelper = pathHelper;
 			_storedGamesCommands = storedGamesCommands;

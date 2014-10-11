@@ -2,8 +2,8 @@ using Subasta.Domain.DalModels;
 
 namespace Subasta.DomainServices.Dal
 {
-	public interface IStoredGameReader
+	public interface IStoredGameWritter
 	{
-		StoredGameData LoadFromFile(string file);
+		void Write(StoredGameData source);
 	}
 }

@@ -10,7 +10,7 @@ namespace Subasta.Client.Common.Storage
 {
 	internal class StoredGameWritter:IStoredGameWritter
 	{
-		private IPathHelper _pathHelper;
+		private readonly IPathHelper _pathHelper;
 
 		public StoredGameWritter(IPathHelper pathHelper)
 		{
@@ -40,6 +40,7 @@ namespace Subasta.Client.Common.Storage
 		{
 			dynamic target = new
 			{
+				GameId = source.GameId,
 				FirstPlayer = source.FirstPlayer,
 				Player1Cards = string.Join(" ", source.Player1Cards.Select(x => x.ToShortString())),
 				Player1Type = source.Player1Type.ToString(),

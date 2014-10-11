@@ -53,6 +53,14 @@
     <Compile Include="Deck\ISayCard.cs" />
     <Compile Include="Deck\ISuit.cs" />
     <Compile Include="Declaration.cs" />
+    <Compile Include="Events\ApplicationEvent.cs" />
+    <Compile Include="Events\ApplicationExitedEvent.cs" />
+    <Compile Include="Events\ApplicationStartedEvent.cs" />
+    <Compile Include="Events\GameCompletedEvent.cs" />
+    <Compile Include="Events\GameSetCompletedEvent.cs" />
+    <Compile Include="Events\GameSetStartedEvent.cs" />
+    <Compile Include="Events\GameStartedEvent.cs" />
+    <Compile Include="Events\IAppEvent.cs" />
     <Compile Include="Game\Analysis\ISaysExplorationListener.cs" />
     <Compile Include="Game\IExplorationStatus.cs" />
     <Compile Include="Game\IFigure.cs" />

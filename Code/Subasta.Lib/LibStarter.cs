@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Subasta.ApplicationServices.Events;
+using Subasta.Domain.Events;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
@@ -20,6 +22,8 @@ namespace Subasta.Lib
 {
 	public static class LibStarter
 	{
+
+		private static IEventPublisher _eventPublisher;
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -41,7 +45,18 @@ namespace Subasta.Lib
 				new RegisterClientCommonIoc(),
 				new RegisterLibIoc()
 			});
+
+			_eventPublisher = ObjectFactory.GetInstance<IEventPublisher>();
+			_eventPublisher.Publish(ApplicationStartedEvent.Create());
+
+			Application.ApplicationExit += Application_ApplicationExit;
+
 			Application.Run(ObjectFactory.GetInstance<FrmMain>());
+		}
+
+		static void Application_ApplicationExit(object sender, EventArgs e)
+		{
+			 _eventPublisher.PublishSync(ApplicationExitedEvent.Create());
 		}
 
 
