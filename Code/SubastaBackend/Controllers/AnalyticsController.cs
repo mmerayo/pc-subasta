@@ -10,6 +10,11 @@ namespace SubastaBackend.Controllers
 {
     public class AnalyticsController : ApiController
     {
+        public HttpResponseMessage Get()
+        {
+            return new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        }
+
         public HttpResponseMessage Post()
         {
             HttpResponseMessage result = null;
