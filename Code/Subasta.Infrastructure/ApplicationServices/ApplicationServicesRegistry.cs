@@ -12,7 +12,7 @@ namespace Subasta.Infrastructure.ApplicationServices
 		{
 			For<IPathHelper>().Use<PathUtils>();
 #if DEBUG
-			For<IEventPublisher>().Singleton().Use<NullEventsPublisher>();
+			For<IEventPublisher>().Singleton().Use<ServiceEventsPublisher>();
 #else
 			For<IEventPublisher>().Singleton().Use<EmailEventsPublisher>();
 #endif

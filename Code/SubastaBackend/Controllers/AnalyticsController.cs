@@ -20,7 +20,7 @@ namespace SubastaBackend.Controllers
                 foreach (string file in httpRequest.Files)
                 {
                     var postedFile = httpRequest.Files[file];
-                    var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                    var filePath = HttpContext.Current.Server.MapPath("~/analytics/" + postedFile.FileName);
                     postedFile.SaveAs(filePath);
 
                     docfiles.Add(filePath);
