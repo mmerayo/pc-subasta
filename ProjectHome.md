@@ -1,0 +1,1 @@
+La subasta, documentación proximamente. El juego se puede descargar en el area de descargas(downloads)
