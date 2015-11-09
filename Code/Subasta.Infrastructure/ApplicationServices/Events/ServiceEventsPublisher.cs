@@ -83,7 +83,9 @@ namespace Subasta.Infrastructure.ApplicationServices.Events
                 requestContent.Add(fileContent, "text", Path.GetFileName(fileName));
 		        try
 		        {
-                    var result= client.PostAsync("http://localhost/subastabackend/api/analytics/post", requestContent).Result;
+		            //string url = "http://localhost/subastabackend/api/analytics/post";
+                    string url = "http://basic2012r2.cloudapp.net//api/analytics/post";
+		            var result= client.PostAsync(url, requestContent).Result;
 		        }
 		        catch (Exception ex)
 		        {
